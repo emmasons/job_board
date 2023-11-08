@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Page = (props: Props) => {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -24,4 +24,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;
