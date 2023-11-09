@@ -82,8 +82,39 @@ export const options = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role;
+        // store the user id from MongoDB to session
+        const sessionUser = await db.user.findUnique({
+          where: { email: session.user.email },
+        });
+        session.user.id = sessionUser?.id;
+      }
       return session;
+    },
+    async signIn({ account, profile, user, credentials }) {
+      try {
+        // check if user already exists
+        const userExists = await db.user.findUnique({
+          where: { email: profile.email },
+        });
+
+        // if not, create a new document and save user in MongoDB
+        if (!userExists) {
+          await db.user.create({
+            data: {
+              email: profile.email,
+              name: profile.name.replace(" ", "").toLowerCase(),
+              image: profile.picture,
+            },
+          });
+        }
+
+        return true;
+      } catch (error) {
+        console.log("Error checking if user exists: ", error.message);
+        return false;
+      }
     },
   },
 };

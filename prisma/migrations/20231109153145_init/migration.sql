@@ -7,7 +7,7 @@ CREATE TABLE "users" (
     "image" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "password" TEXT NOT NULL,
+    "password" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
