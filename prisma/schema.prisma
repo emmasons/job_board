@@ -10,15 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Profile {
+  id          String    @id @default(cuid())
+  firstName   String?
+  lastName    String?
+  phoneNumber String?
+  dateOfBirth DateTime?
+  oldEmail    String?
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id            String    @id @default(uuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
+  isVerified    Boolean   @default(false)
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   password      String?
+  profile       Profile?
 
   @@map("users")
 }

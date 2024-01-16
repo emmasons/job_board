@@ -2,15 +2,40 @@ import GitHubProvider, { GithubProfile } from "next-auth/providers/github";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-
+import { JWT } from "next-auth/jwt";
+import { Account, Profile, Session } from "next-auth";
 import { env } from "@/lib/env";
 import { db } from "@/lib/db";
+import { User } from "@prisma/client";
+import { AdapterUser } from "next-auth/adapters";
+import { User as NextAuthUser } from "next-auth";
+
+interface CustomSessionCallbackData {
+  session: Session;
+  token: JWT;
+}
+
+type CustomJwtCallbackData = {
+  token: JWT;
+  user: Session["user"] | null;
+};
+
+type CustomNextAuthUser = NextAuthUser & {
+  isVerified: boolean;
+};
+
+type CustomGoogleProfile = GoogleProfile & {
+  emailVerified: Date | null;
+};
+
+type CustomGithubProfile = GithubProfile & {
+  emailVerified: Date | null;
+};
 
 export const options = {
   providers: [
     GitHubProvider({
-      profile(profile: GithubProfile) {
-        console.log("Github Profile", profile);
+      profile(profile: CustomGithubProfile) {
         let userRole = "Github User";
         if (profile?.email == env.ADMIN_EMAIL) {
           userRole = "admin";
@@ -18,20 +43,22 @@ export const options = {
         return {
           ...profile,
           role: userRole,
+          isVerified: true,
+          id: profile.id.toString(),
         };
       },
       clientId: env.GITHUB_ID,
       clientSecret: env.GITHUB_SECRET,
     }),
     GoogleProvider({
-      profile(profile: GoogleProfile) {
-        console.log("Google Profile", profile);
+      profile(profile: CustomGoogleProfile) {
         let userRole = "Google User";
 
         return {
           ...profile,
           role: userRole,
           id: profile.sub,
+          isVerified: true,
         };
       },
       clientId: env.GOOGLE_CLIENT_ID,
@@ -53,20 +80,24 @@ export const options = {
       },
       async authorize(credentials) {
         try {
+          if (!credentials) {
+            return null;
+          }
           const foundUser = await db.user.findUnique({
             where: { email: credentials?.email },
           });
 
           if (foundUser) {
-            const match = await bcrypt.compare(
-              credentials.password,
-              foundUser.password,
-            );
+            if (foundUser.password !== null) {
+              const match = await bcrypt.compare(
+                credentials.password,
+                foundUser.password,
+              );
 
-            if (match) {
-              delete foundUser.password;
-              foundUser["role"] = "Unverified Email";
-              return foundUser;
+              if (match) {
+                const { password, ...userWithoutPassword } = foundUser;
+                return userWithoutPassword;
+              }
             }
           }
         } catch (error) {
@@ -77,43 +108,34 @@ export const options = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.role = user.role;
+    async jwt({ token, user }: CustomJwtCallbackData) {
+      if (user) token.isVerified = user.isVerified;
       return token;
     },
-    async session({ session, token }) {
+    async session({ session }: CustomSessionCallbackData) {
       if (session?.user) {
-        session.user.role = token.role;
         // store the user id from MongoDB to session
         const sessionUser = await db.user.findUnique({
-          where: { email: session.user.email },
+          where: { email: session.user.email as string },
+          include: { profile: true },
         });
-        session.user.id = sessionUser?.id;
+        session.user.id = sessionUser?.id as string;
+        session.user.firstName = sessionUser?.profile?.firstName as string;
+        session.user.lastName = sessionUser?.profile?.lastName as string;
       }
       return session;
     },
-    async signIn({ account, profile, user, credentials }) {
-      try {
-        // check if user already exists
-        const userExists = await db.user.findUnique({
-          where: { email: user.email },
-        });
-
-        // if not, create a new document and save user in MongoDB
-        if (!userExists) {
-          await db.user.create({
-            data: {
-              email: user.email,
-              name: user.name.replace(" ", "").toLowerCase(),
-              image: user.picture,
-            },
-          });
-        }
-
+    signIn: async (params: {
+      user: AdapterUser | CustomNextAuthUser;
+      account: Account | null;
+      profile?: Profile;
+      email?: { verificationRequest?: boolean };
+      credentials?: Record<string, any>;
+    }): Promise<string | true> => {
+      if (params.user.isVerified) {
         return true;
-      } catch (error) {
-        console.log("Error checking if user exists: ", error.message);
-        return false;
+      } else {
+        return `/auth/unverified-email?u=${params.user.id}`;
       }
     },
   },
