@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   try {
     const { name, email, password } = await req.json();
 
@@ -32,8 +32,7 @@ export async function POST(req) {
       },
     });
     return NextResponse.json({ message: "User Created." }, { status: 201 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: "Error", error }, { status: 500 });
+  } catch (error: Error | any) {
+    return NextResponse.json({ message: error.toString() }, { status: 500 });
   }
 }
