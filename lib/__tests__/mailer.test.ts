@@ -1,9 +1,9 @@
 import nodemailer from "nodemailer";
-import { db } from "../db";
-import { env } from "../env";
+import { db } from "@/lib/db";
+import { env } from "@/lib/env";
 import { sendEmail } from "../mailer";
 import { User } from "@prisma/client";
-import { EMAILTYPES } from "../../constants";
+import { EMAILTYPES } from "@/constants";
 
 let user: User;
 jest.mock("nodemailer");

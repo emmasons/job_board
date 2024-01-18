@@ -4,4 +4,8 @@ module.exports = {
   setupFiles: ["dotenv/config"],
   preset: "ts-jest",
   testEnvironment: "node",
+  moduleNameMapper: {
+    "@/lib/(.*)": "<rootDir>/lib/$1",
+    "@/constants": "<rootDir>/constants/index",
+  },
 };

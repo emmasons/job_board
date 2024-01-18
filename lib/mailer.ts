@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { db } from "./db";
 import bcrypt from "bcrypt";
 import { env } from "./env";
-import { EMAILTYPES } from "../constants";
+import { EMAILTYPES } from "@/constants";
 
 interface Props {
   toEmail: string;
