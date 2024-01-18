@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { db } from "./db";
 import bcrypt from "bcrypt";
 import { env } from "./env";
-import { EMAILTYPES } from "@/constants";
+import { EMAILTYPES } from "../constants";
 
 interface Props {
   toEmail: string;
@@ -71,8 +71,6 @@ export const sendEmail = async ({
     const mailResponse = await transporter.sendMail(mailOptions);
     return mailResponse;
   } catch (error) {
-    throw new Error(error);
+    throw new Error(String(error));
   }
 };
-
-// "test": "DOTENV_CONFIG_PATH=.env.test jest",
