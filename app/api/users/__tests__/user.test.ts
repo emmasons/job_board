@@ -1,7 +1,7 @@
 import { POST } from "../route";
 import { db } from "@/lib/db";
-import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { User } from "./common";
 
 jest.mock("@/lib/db", () => ({
   db: {
@@ -15,12 +15,6 @@ jest.mock("@/lib/db", () => ({
 jest.mock("bcrypt", () => ({
   hash: jest.fn(),
 }));
-
-const User: User = {
-  name: "John Doe",
-  email: "LZdUe@example.com",
-  password: "password123",
-};
 
 describe("POST", () => {
   beforeEach(() => {
@@ -87,6 +81,8 @@ describe("POST", () => {
     });
   });
 
+  //TODO: Fix this
+
   test("should return 500 if an error occurs", async () => {
     const req: any = {
       json: jest.fn().mockRejectedValue(new Error("Database error")),
@@ -111,7 +107,6 @@ describe("POST", () => {
 
     const response = await POST(req);
     const responseBody = await response.json();
-    console.debug(responseBody);
     expect(response.status).toBe(500);
     expect(responseBody).toEqual({
       message: "Error: Hashing error",
