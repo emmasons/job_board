@@ -139,4 +139,7 @@ export const options = {
       }
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+  },
 };
