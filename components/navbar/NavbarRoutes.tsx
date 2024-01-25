@@ -1,0 +1,82 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Session } from "next-auth";
+import { Logo } from "./Logo";
+
+import UserMenuButton from "./UserMenuButton";
+
+interface Props {
+  user: Session["user"] | undefined;
+}
+
+export default function NavbarRoutes({ user }: Props) {
+  const pathname = usePathname();
+  const userId = user?.id;
+
+  const isTeacherPage = pathname?.includes("/instructor");
+  const isAdminPage = pathname?.includes("/admin");
+  const isBrowsePage = pathname === "/browse";
+  const isDashboard = pathname?.includes("/dashboard");
+
+  return (
+    <>
+      {!isDashboard && (
+        <div className="hidden flex-1 md:block">
+          <div className="flex w-full justify-between gap-x-2 align-middle">
+            <Link href="/">
+              <Logo />
+            </Link>
+
+            <ul className="flex items-center">
+              <li className="mr-4">
+                <Link href="#">
+                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
+                    Browse
+                  </p>
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+
+      <div className="ml-auto flex items-center gap-x-2">
+        {user?.role === "INSTRUCTOR" && isTeacherPage ? (
+          <Link href="/dashboard">
+            <Button size="sm" variant="ghost">
+              <LogOut className="mr-2 h-4 w-4" />
+              Exit
+            </Button>
+          </Link>
+        ) : user?.role === "INSTRUCTOR" ? (
+          <Link href="/dashboard/instructor/courses">
+            <Button size="sm" variant="outline" className="h-auto py-2">
+              Teacher mode
+            </Button>
+          </Link>
+        ) : null}
+
+        {user?.role === "ADMIN" && isAdminPage ? (
+          <Link href="/dashboard">
+            <Button size="sm" variant="ghost">
+              <LogOut className="mr-2 h-4 w-4" />
+              Exit
+            </Button>
+          </Link>
+        ) : user?.role === "ADMIN" ? (
+          <Link href="/dashboard/admin/users">
+            <Button size="sm" variant="outline" className="h-auto py-2">
+              Admin mode
+            </Button>
+          </Link>
+        ) : null}
+
+        <UserMenuButton user={user} />
+      </div>
+    </>
+  );
+}

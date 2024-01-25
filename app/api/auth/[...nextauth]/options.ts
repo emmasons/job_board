@@ -6,7 +6,7 @@ import { JWT } from "next-auth/jwt";
 import { Account, Profile, Session } from "next-auth";
 import { env } from "@/lib/env";
 import { db } from "@/lib/db";
-import { User } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { AdapterUser } from "next-auth/adapters";
 import { User as NextAuthUser } from "next-auth";
 
@@ -31,14 +31,15 @@ type CustomGoogleProfile = GoogleProfile & {
 type CustomGithubProfile = GithubProfile & {
   emailVerified: Date | null;
 };
+let userRole: Role;
 
 export const options = {
   providers: [
     GitHubProvider({
       profile(profile: CustomGithubProfile) {
-        let userRole = "Github User";
+        userRole = Role.USER;
         if (profile?.email == env.ADMIN_EMAIL) {
-          userRole = "admin";
+          userRole = Role.ADMIN;
         }
         return {
           ...profile,
@@ -52,7 +53,7 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile: CustomGoogleProfile) {
-        let userRole = "Google User";
+        userRole = Role.USER;
 
         return {
           ...profile,
@@ -95,6 +96,17 @@ export const options = {
               );
 
               if (match) {
+                if (
+                  foundUser.email === env.ADMIN_EMAIL &&
+                  foundUser.role !== "ADMIN"
+                ) {
+                  const updatedUser = await db.user.update({
+                    where: { id: foundUser.id },
+                    data: { role: "ADMIN" },
+                  });
+                  const { password, ...userWithoutPassword } = updatedUser;
+                  return userWithoutPassword;
+                }
                 const { password, ...userWithoutPassword } = foundUser;
                 return userWithoutPassword;
               }

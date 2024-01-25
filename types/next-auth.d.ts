@@ -12,6 +12,7 @@ declare module "next-auth" {
       isVerified: boolean;
       firstName?: string;
       lastName?: string;
+      role: string;
     } & DefaultSession["user"];
   }
   interface User extends DefaultUser {
