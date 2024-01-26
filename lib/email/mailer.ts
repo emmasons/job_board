@@ -1,14 +1,15 @@
 import nodemailer from "nodemailer";
-import { db } from "./db";
+import { db } from "../db";
 import bcrypt from "bcrypt";
-import { env } from "./env";
+import { env } from "../env";
 import { EMAILTYPES } from "@/constants";
+import { mail } from "./email";
 
 interface Props {
   toEmail: string;
   subject?: string;
   message?: string;
-  emailType?: EMAILTYPES;
+  emailType: EMAILTYPES;
   extraArgs?: {
     userId?: string;
   };
@@ -51,25 +52,29 @@ export const sendEmail = async ({
       },
     });
 
-    const emailVerificationMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}">here<a/>&nbsp;to verifiy your email. Or copy and paste the email below to your browser <br>${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}</a></p>`;
-    const resetPasswordMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/reset-password?email=${toEmail}">here<a/>&nbsp;to reset your password. Or copy and paste the email below to your browser <br>${env.BASE_DOMAIN}/auth/reset-password?email=${toEmail}</a></p>`;
-    const mailOptions = {
-      from: env.DEFAULT_FROM_EMAIL,
-      to: toEmail,
+    const emailVerifyLink = `${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}`;
+    const passwordResetLink = `${env.BASE_DOMAIN}/auth/reset-password?email=${toEmail}`;
+
+    const formProps = {
       subject:
         emailType == EMAILTYPES.EMAILVERIFICATION
           ? "Email Verification"
-          : subject,
-      html:
-        emailType == EMAILTYPES.EMAILVERIFICATION
-          ? emailVerificationMessage
           : emailType == EMAILTYPES.RESETPASSWORD
-          ? resetPasswordMessage
-          : message,
+          ? "Password Reset"
+          : subject || "",
+      to_email: toEmail,
+      extraArgs:
+        emailType == EMAILTYPES.EMAILVERIFICATION
+          ? { email_verify_link: emailVerifyLink }
+          : emailType == EMAILTYPES.RESETPASSWORD
+          ? { password_reset_link: passwordResetLink }
+          : undefined,
+      emailType: emailType,
     };
 
-    const mailResponse = await transporter.sendMail(mailOptions);
-    return mailResponse;
+    const response = await mail(formProps);
+
+    return response;
   } catch (error) {
     throw new Error(String(error));
   }

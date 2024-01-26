@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { sendEmail } from "@/lib/mailer";
+import { sendEmail } from "@/lib/email/mailer";
 import { EMAILTYPES } from "@/constants";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -25,13 +25,21 @@ export async function POST(req: NextRequest) {
     const extraArgs = {
       userId: userId,
     };
-    await sendEmail({
-      toEmail,
-      emailType,
-      extraArgs,
+
+    const emailVerificationResponse = await sendEmail({
+      toEmail: toEmail,
+      emailType: emailType,
+      extraArgs: extraArgs,
     });
 
-    return NextResponse.json({ message: "Success." }, { status: 200 });
+    if (emailVerificationResponse === 200) {
+      return NextResponse.json({ message: "Success." }, { status: 201 });
+    }
+
+    return NextResponse.json(
+      { message: "Sending email failed." },
+      { status: 500 },
+    );
   } catch (error) {
     console.log("RESEND_VERIFICATION_EMAIL", "500");
     return NextResponse.json({ message: "Error", error }, { status: 500 });

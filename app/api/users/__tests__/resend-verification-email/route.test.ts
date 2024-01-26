@@ -1,6 +1,6 @@
 import { POST } from "../../resend-verification-email/route";
 import { db } from "@/lib/db";
-import { sendEmail } from "@/lib/mailer";
+import { sendEmail } from "@/lib/email/mailer";
 import { EMAILTYPES } from "@/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "../common";
