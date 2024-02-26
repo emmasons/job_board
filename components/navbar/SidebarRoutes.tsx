@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  BarChart,
-  Compass,
-  Layout,
-  List,
-  FolderCheck,
-  Settings2,
-  FileStack,
-  Library,
-  Users2,
-} from "lucide-react";
+import { BarChart, Layout, Settings2, Users2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { SidebarItem } from "./SidebarItem";
 
@@ -18,40 +8,20 @@ const guestRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/dashboard",
-  },
-  {
-    icon: Compass,
-    label: "Courses",
-    href: "/dashboard/student/courses",
-  },
-  {
-    icon: FileStack,
-    label: "My Quizzes",
-    href: "#",
+    href: "/profile/dashboard",
   },
   {
     icon: Settings2,
     label: "Profile Settings",
-    href: "/dashboard/profile",
+    href: "/profile/settings",
   },
 ];
 
-const instructorRoutes = [
-  {
-    icon: List,
-    label: "Courses",
-    href: "/dashboard/instructor/courses",
-  },
+const staffRoutes = [
   {
     icon: BarChart,
     label: "Analytics",
     href: "/dashboard/instructor/analytics",
-  },
-  {
-    icon: FolderCheck,
-    label: "Quizzes",
-    href: "/dashboard/instructor/quizzes",
   },
 ];
 
@@ -60,11 +30,6 @@ const adminRoutes = [
     icon: Users2,
     label: "Users",
     href: "/dashboard/admin/users",
-  },
-  {
-    icon: Library,
-    label: "Courses",
-    href: "/dashboard/admin/courses",
   },
 ];
 
@@ -75,10 +40,10 @@ export default function SidebarRoutes() {
   const isAdminPage = pathname?.includes("/admin");
 
   const routes = isInstructorPage
-    ? instructorRoutes
+    ? staffRoutes
     : isAdminPage
-      ? adminRoutes
-      : guestRoutes;
+    ? adminRoutes
+    : guestRoutes;
 
   return (
     <div className="flex w-full flex-col">

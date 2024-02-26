@@ -6,8 +6,8 @@ const Navbar = async () => {
   const user = await getCurrentSessionUser();
 
   return (
-    <header className="h-16 bg-zinc-100 text-zinc-900 shadow-md">
-      <nav className="flex h-full w-full items-center justify-between px-10 py-4">
+    <header className="flex h-full items-center border-b bg-white p-6 shadow-sm">
+      <nav className="flex h-full w-full items-center justify-between p-6">
         <MobileSidebar />
         <NavbarRoutes user={user} />
       </nav>
