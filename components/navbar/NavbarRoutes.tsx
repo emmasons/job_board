@@ -23,25 +23,24 @@ export default function NavbarRoutes({ user }: Props) {
 
   return (
     <>
-      {!isDashboard && (
-        <div className="hidden flex-1 md:block">
-          <div className="flex w-full justify-between gap-x-2 align-middle">
-            <Link href="/">
-              <Logo />
-            </Link>
-
+      <div className="hidden flex-1 md:block">
+        <div className="flex w-full justify-between gap-x-2 align-middle">
+          <Link href="/">
+            <Logo />
+          </Link>
+          {!isDashboard && (
             <ul className="flex items-center">
               <li className="mr-4">
                 <Link href="#">
-                  <p className="cursor-pointer text-blue-500 hover:text-blue-800">
-                    Browse
+                  <p className="after:bg-pes-red hover:text-pes-red relative block w-fit cursor-pointer after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:transition after:duration-300 after:content-[''] after:hover:scale-x-100">
+                    Action
                   </p>
                 </Link>
               </li>
             </ul>
-          </div>
+          )}
         </div>
-      )}
+      </div>
 
       <div className="ml-auto flex items-center gap-x-2">
         {user?.role === Role.STAFF && isStaffPage ? (
