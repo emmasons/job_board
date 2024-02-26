@@ -1,16 +1,24 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { Role } from "@prisma/client";
 
 export default withAuth(
   function middleware(req) {
-    console.log(req.nextUrl.pathname);
-    console.log(req.nextauth?.token?.role);
-
     if (
-      req.nextUrl.pathname.startsWith("/admin") &&
-      req.nextauth?.token?.role !== "admin"
+      req.nextUrl.pathname.includes("/admin") &&
+      !(req.nextauth?.token?.role === Role.ADMIN)
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
+    }
+    if (
+      req.nextUrl.pathname.includes("/staff") &&
+      !(req.nextauth?.token?.role === Role.STAFF)
+    ) {
+      return NextResponse.rewrite(new URL("/denied", req.url));
+    }
+    if (!req.nextauth?.token?.isVerified) {
+      console.log(req.nextauth?.token?.isVerified);
+      return NextResponse.rewrite(new URL("/auth/unverified-email", req.url));
     }
   },
   {
@@ -21,5 +29,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin"],
+  matcher: ["/admin", "/profile/:path*"],
 };

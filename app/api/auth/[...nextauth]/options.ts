@@ -17,7 +17,9 @@ interface CustomSessionCallbackData {
 
 type CustomJwtCallbackData = {
   token: JWT;
-  user: Session["user"] | null;
+  user: Session["user"];
+  account: Account | null;
+  profile?: (Profile & { picture?: string }) | undefined;
 };
 
 type CustomNextAuthUser = NextAuthUser & {
@@ -120,11 +122,14 @@ export const options = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: CustomJwtCallbackData) {
+    async jwt({ token, user, profile, account }: CustomJwtCallbackData) {
       if (user) token.isVerified = user.isVerified;
+      if (profile && account?.provider === "google")
+        token.image = profile?.picture;
       return token;
     },
-    async session({ session }: CustomSessionCallbackData) {
+    async session({ session, token }: CustomSessionCallbackData) {
+      session.user.image = token.image;
       if (session?.user) {
         // store the user id from MongoDB to session
         const sessionUser = await db.user.findUnique({

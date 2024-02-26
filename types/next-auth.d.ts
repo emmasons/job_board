@@ -1,4 +1,4 @@
-import { Profile } from "@prisma/client";
+import { Profile, Role } from "@prisma/client";
 import { DefaultSession, User as NextAuthUser } from "next-auth";
 import { DefaultUser } from "next-auth";
 
@@ -12,14 +12,14 @@ declare module "next-auth" {
       isVerified: boolean;
       firstName?: string;
       lastName?: string;
-      role: string;
+      role: Role;
     } & DefaultSession["user"];
   }
   interface User extends DefaultUser {
     isVerified: boolean;
     emailVerified: Date | null;
+    role: Role;
   }
-  interface AdapterUser 
 }
 
 declare module "next-auth/jwt" {
@@ -27,5 +27,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     /** OpenID ID Token */
     isVerified: boolean;
+    image?: string;
+    role: Role;
   }
 }
