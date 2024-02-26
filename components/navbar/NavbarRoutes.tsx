@@ -8,6 +8,7 @@ import { Session } from "next-auth";
 import { Logo } from "./Logo";
 
 import UserMenuButton from "./UserMenuButton";
+import { Role } from "@prisma/client";
 
 interface Props {
   user: Session["user"] | undefined;
@@ -15,12 +16,10 @@ interface Props {
 
 export default function NavbarRoutes({ user }: Props) {
   const pathname = usePathname();
-  const userId = user?.id;
 
-  const isTeacherPage = pathname?.includes("/instructor");
+  const isStaffPage = pathname?.includes("/staff");
   const isAdminPage = pathname?.includes("/admin");
-  const isBrowsePage = pathname === "/browse";
-  const isDashboard = pathname?.includes("/dashboard");
+  const isDashboard = pathname?.includes("/profile/dashboard");
 
   return (
     <>
@@ -45,29 +44,29 @@ export default function NavbarRoutes({ user }: Props) {
       )}
 
       <div className="ml-auto flex items-center gap-x-2">
-        {user?.role === "INSTRUCTOR" && isTeacherPage ? (
-          <Link href="/dashboard">
+        {user?.role === Role.STAFF && isStaffPage ? (
+          <Link href="/profile/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
               Exit
             </Button>
           </Link>
-        ) : user?.role === "INSTRUCTOR" ? (
-          <Link href="/dashboard/instructor/courses">
+        ) : user?.role === Role.STAFF ? (
+          <Link href="/dashboard/staff/courses">
             <Button size="sm" variant="outline" className="h-auto py-2">
               Teacher mode
             </Button>
           </Link>
         ) : null}
 
-        {user?.role === "ADMIN" && isAdminPage ? (
-          <Link href="/dashboard">
+        {user?.role === Role.ADMIN && isAdminPage ? (
+          <Link href="/profile/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
               Exit
             </Button>
           </Link>
-        ) : user?.role === "ADMIN" ? (
+        ) : user?.role === Role.ADMIN ? (
           <Link href="/dashboard/admin/users">
             <Button size="sm" variant="outline" className="h-auto py-2">
               Admin mode

@@ -41,7 +41,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="mb-2 py-2">
-              <Link href="/dashboard/profile" className="hover:cursor-pointer">
+              <Link href="/profile/dashboard/" className="hover:cursor-pointer">
                 Profile
               </Link>
             </DropdownMenuItem>
