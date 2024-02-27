@@ -9,7 +9,7 @@ type Props = {
 const page = async (props: Props) => {
   const user = await getCurrentSessionUser();
   if (user) {
-    return redirect("/profile/dashboard");
+    return redirect("/profile/settings/");
   }
   return (
     <Login

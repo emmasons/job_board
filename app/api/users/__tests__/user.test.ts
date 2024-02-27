@@ -67,7 +67,7 @@ describe("POST", () => {
     const responseBody = await response.json();
 
     expect(response.status).toBe(201);
-    expect(responseBody).toEqual({ message: "User Created." });
+    expect(responseBody).toEqual({ message: "Account created successfuly." });
     expect(db.user.findUnique).toHaveBeenCalledWith({
       where: { email: User.email },
     });

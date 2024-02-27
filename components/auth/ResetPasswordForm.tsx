@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useState, useRef } from "react";
 
 type FormProps = {
   email: string;
@@ -50,6 +51,13 @@ const ResetPasswordForm = ({ email }: FormProps) => {
   });
 
   const { isSubmitting, isValid, errors } = form.formState;
+  const [isPasswordOneHidden, setIsPasswordOneHidden] = useState(true);
+  const [isPasswordTwoHidden, setIsPasswordTwoHidden] = useState(true);
+
+  const toggleIsPasswordOneHidden = () =>
+    setIsPasswordOneHidden((current) => !current);
+  const toggleIsPasswordTwoHidden = () =>
+    setIsPasswordTwoHidden((current) => !current);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { password, confirmPassword } = values;
@@ -76,7 +84,7 @@ const ResetPasswordForm = ({ email }: FormProps) => {
             description: response.message,
           });
         } else {
-          router.push("/auth/signin");
+          router.push("/profile/settings/");
         }
       } catch (error) {
         console.log(error, errors);
@@ -97,7 +105,23 @@ const ResetPasswordForm = ({ email }: FormProps) => {
               <FormItem>
                 <FormLabel className="text-secondary">Password</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      type={isPasswordOneHidden ? "password" : "text"}
+                    />
+                    {isPasswordOneHidden ? (
+                      <EyeOff
+                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={toggleIsPasswordOneHidden}
+                      />
+                    ) : (
+                      <Eye
+                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={toggleIsPasswordOneHidden}
+                      />
+                    )}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,18 +136,29 @@ const ResetPasswordForm = ({ email }: FormProps) => {
                   Confirm Password
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
+                  <div className="relative">
+                    <Input
+                      {...field}
+                      type={isPasswordTwoHidden ? "password" : "text"}
+                    />
+                    {isPasswordTwoHidden ? (
+                      <EyeOff
+                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={toggleIsPasswordTwoHidden}
+                      />
+                    ) : (
+                      <Eye
+                        className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={toggleIsPasswordTwoHidden}
+                      />
+                    )}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            disabled={!isValid || isSubmitting}
-            variant="secondary"
-            className="bg-[#041631] text-white"
-          >
+          <Button type="submit" disabled={isSubmitting} variant="secondary">
             {isSubmitting ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

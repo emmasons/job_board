@@ -45,8 +45,8 @@ const ResendEmail = ({ toEmail }: Props) => {
   }
   return (
     <Button
-      variant="default"
-      className="text-secondary"
+      variant="secondary"
+      className="hover:text-zinc-700"
       onClick={() => handleResendVerificationEmail()}
     >
       {isLoading ? (

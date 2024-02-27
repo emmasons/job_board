@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
-import { sendEmail } from "@/lib/email/mailer";
-import { EMAILTYPES } from "@/constants";
+import { env } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
+import { sendEmail } from "@/lib/emailjs";
 
 export async function POST(req: NextRequest) {
   const toEmail = req.nextUrl.searchParams.get("toEmail");
@@ -20,28 +20,20 @@ export async function POST(req: NextRequest) {
   }
   try {
     const toEmail = user.email;
-    const emailType = EMAILTYPES.RESETPASSWORD;
-    const userId = user.id;
-    const extraArgs = {
-      userId: userId,
-    };
+    const subject = "Password Reset Request";
+    const resetPasswordMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/reset-password?email=${toEmail}">here<a/>&nbsp;to reset your password. Or copy and paste the email below to your browser <br>${env.BASE_DOMAIN}/auth/reset-password?email=${toEmail}</a></p>`;
 
-    const emailVerificationResponse = await sendEmail({
-      toEmail: toEmail,
-      emailType: emailType,
-      extraArgs: extraArgs,
+    const response = await sendEmail({
+      to_email: toEmail,
+      subject,
+      message: resetPasswordMessage,
     });
-
-    if (emailVerificationResponse === 200) {
-      return NextResponse.json({ message: "Success." }, { status: 201 });
+    if (response.status === 200) {
+      return NextResponse.json({ message: "Success." }, { status: 200 });
     }
-
-    return NextResponse.json(
-      { message: "Sending email failed." },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: "Error." }, { status: 500 });
   } catch (error) {
-    console.log("RESEND_VERIFICATION_EMAIL", "500");
+    console.log("RESET_PASSWORD_LINK_EMAIL", "500");
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
 }

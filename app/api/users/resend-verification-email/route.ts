@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
-import { sendEmail } from "@/lib/email/mailer";
-import { EMAILTYPES } from "@/constants";
+import bcrypt from "bcrypt";
+import { sendEmail } from "@/lib/emailjs";
+import { env } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,7 +13,6 @@ export async function POST(req: NextRequest) {
     );
   }
   const user = await db.user.findUnique({ where: { email: toEmail } });
-
   if (!user) {
     return NextResponse.json(
       { message: "No account was found with that email" },
@@ -21,21 +21,28 @@ export async function POST(req: NextRequest) {
   }
   try {
     const toEmail = user.email;
-    const emailType = EMAILTYPES.EMAILVERIFICATION;
-    const userId = user.id;
-    const extraArgs = {
-      userId: userId,
-    };
-    await sendEmail({
-      toEmail,
-      emailType,
-      extraArgs,
+    const hashedToken = await bcrypt.hash(user.id.toString(), 10);
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        verifyToken: hashedToken,
+        verifyTokenExpiry: new Date(Date.now() + 3600000),
+      },
     });
-
-    return NextResponse.json({ message: "Success." }, { status: 200 });
-  } catch (error: Error | any) {
-    console.log("RESEND_VERIFICATION_EMAIL", error, "500");
-    // return NextResponse.json({ message: "Error", error }, { status: 500 });
-    return NextResponse.json({ message: error.toString() }, { status: 500 });
+    const emailVerificationMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}">here<a/>&nbsp;to verifiy your email. Or copy and paste the email below to your browser <br>${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}</a></p>`;
+    const subject = "Verify your email";
+    const response = await sendEmail({
+      to_email: toEmail,
+      subject,
+      message: emailVerificationMessage,
+    });
+    if (response.status === 200) {
+      return NextResponse.json({ message: "Success." }, { status: 200 });
+    } else {
+      return NextResponse.json({ message: "Error." }, { status: 500 });
+    }
+  } catch (error) {
+    console.log("RESEND_VERIFICATION_EMAIL!", error, "500");
+    return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
 }

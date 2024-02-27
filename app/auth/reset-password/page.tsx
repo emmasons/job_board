@@ -9,8 +9,8 @@ const page = async (props: Props) => {
     return notFound();
   }
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+    <div className="flex h-full w-full flex-col justify-center">
+      <div className="gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <ResetPasswordForm email={props.searchParams.email} />
       </div>
     </div>
