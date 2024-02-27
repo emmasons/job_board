@@ -16,7 +16,7 @@ const UserComponent = ({ user }: Props) => {
       </div>
       <div className="space-y-2 md:w-1/2">
         <div className="rounded-md bg-slate-100 p-4">
-          {user.profile.firstName}&nbsp;{user.profile.lastName}
+          {user.profile?.firstName}&nbsp;{user.profile?.lastName}
         </div>
         <div className="rounded-md bg-slate-100 p-4">{user.email}</div>
       </div>

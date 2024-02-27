@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Combobox from "@/components/ui/combobox";
+import { Combobox } from "@/components/ui/combobox";
 import { Role } from "@prisma/client";
 
 interface UserTypeFormProps {
@@ -29,7 +29,7 @@ const formSchema = z.object({
   role: z.string(),
 });
 
-const roleList = [];
+const roleList: { label: string; value: any }[] = [];
 
 for (const key in Role) {
   if (isNaN(Number(key))) {

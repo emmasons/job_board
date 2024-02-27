@@ -29,7 +29,7 @@ const adminRoutes = [
   {
     icon: Users2,
     label: "Users",
-    href: "/dashboard/admin/users",
+    href: "/profile/dashboard/admin/users",
   },
 ];
 
