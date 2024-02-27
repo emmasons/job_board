@@ -4,10 +4,10 @@ import Navbar from "@/components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: {
-    default: "Next Auth Template",
-    template: `%s | Next Auth Template`,
+    default: "Infinite Talent Limited Job Board",
+    template: `%s | Infinite Talent Limited Job Board`,
   },
-  description: "Next Auth Template.",
+  description: "Infinite Talent Limited Job Board.",
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
