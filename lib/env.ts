@@ -1,20 +1,28 @@
 import zod from "zod";
 
 const envSchema = zod.object({
-  ADMIN_EMAIL: zod.string().min(1),
-  GITHUB_ID: zod.string().min(1),
-  GITHUB_SECRET: zod.string().min(1),
-  GOOGLE_CLIENT_ID: zod.string().min(1),
-  GOOGLE_CLIENT_SECRET: zod.string().min(1),
-  BASE_DOMAIN: zod.string().min(1),
-  SERVICE_ID: zod.string().min(1),
-  DEFAULT_TEMPLATE_ID: zod.string().min(1),
-  PUBLIC_KEY: zod.string().min(1),
-  PRIVATE_KEY: zod.string().min(1),
+  ADMIN_EMAIL: zod.string().min(1, "Please provide ADMIN_EMAIL"),
+  GITHUB_ID: zod.string().min(1, "Please provide GITHUB_ID"),
+  GITHUB_SECRET: zod.string().min(1, "Please provide GITHUB_SECRET"),
+  GOOGLE_CLIENT_ID: zod.string().min(1, "Please provide GOOGLE_CLIENT_ID"),
+  GOOGLE_CLIENT_SECRET: zod
+    .string()
+    .min(1, "Please provide GOOGLE_CLIENT_SECRET"),
+  BASE_DOMAIN: zod.string().min(1, "Please provide BASE_DOMAIN"),
+  SERVICE_ID: zod.string().min(1, "Please provide SERVICE_ID"),
+  DEFAULT_TEMPLATE_ID: zod
+    .string()
+    .min(1, "Please provide DEFAULT_TEMPLATE_ID"),
+  PUBLIC_KEY: zod.string().min(1, "Please provide PUBLIC_KEY"),
+  PRIVATE_KEY: zod.string().min(1, "Please provide PRIVATE_KEY"),
   GS_BUCKET_URL: zod.string().min(1, "Please provide GS_BUCKET_URL"),
   GS_CREDENTIALS: zod.string().min(1, "Please provide GS_CREDENTIALS"),
   GS_BUCKET_NAME: zod.string().min(1, "Please provide GS_BUCKET_NAME"),
   GS_LOCATION: zod.string().min(1, "Please provide GS_LOCATION"),
+  NODE_ENV: zod
+    .string()
+    .min(1, "Please provide NODE_ENV")
+    .default("development"),
 });
 
 export const env = envSchema.parse(process.env);
