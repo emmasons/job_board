@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { DataTable } from "@/components/dashboard/admin/users/DataTable";
 import { columns } from "@/components/dashboard/admin/users/Columns";
-import { getLoggedInUser } from "@/lib/auth/utils";
+import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 const page = async () => {
-  const user = await getLoggedInUser();
+  const user = await getCurrentSessionUser();
   const userId = user?.id;
 
   if (!userId || !(user.role === Role.ADMIN)) {

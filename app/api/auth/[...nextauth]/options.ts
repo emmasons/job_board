@@ -128,13 +128,17 @@ export const options = {
   ],
   callbacks: {
     async jwt({ token, user, profile, account }: CustomJwtCallbackData) {
-      if (user) token.isVerified = user.isVerified;
+      if (user) {
+        (token.isVerified = user.isVerified),
+          (token.registeredUser = user.registeredUser);
+      }
       if (profile && account?.provider === "google")
         token.image = profile?.picture;
       return token;
     },
     async session({ session, token }: CustomSessionCallbackData) {
       session.user.image = token.image;
+      session.user.registeredUser = token.registeredUser;
       if (session?.user) {
         // store the user id from MongoDB to session
         const sessionUser = await db.user.findUnique({

@@ -17,6 +17,10 @@ const envSchema = zod.object({
   PUBLIC_KEY: zod.string().min(1),
   DEFAULT_FROM_NAME: zod.string().min(1),
   PRIVATE_KEY: zod.string().min(1),
+  GS_BUCKET_URL: zod.string().min(1, "Please provide GS_BUCKET_URL"),
+  GS_CREDENTIALS: zod.string().min(1, "Please provide GS_CREDENTIALS"),
+  GS_BUCKET_NAME: zod.string().min(1, "Please provide GS_BUCKET_NAME"),
+  GS_LOCATION: zod.string().min(1, "Please provide GS_LOCATION"),
 });
 
 export const env = envSchema.parse(process.env);

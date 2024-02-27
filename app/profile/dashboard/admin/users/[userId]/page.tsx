@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { getLoggedInUser } from "@/lib/auth/utils";
+import { getCurrentSessionUser } from "@/lib/auth";
 import React from "react";
 import UserComponent from "@/components/dashboard/admin/users/userId/User";
 import { Role } from "@prisma/client";
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const page = async ({ params }: Props) => {
-  const user = await getLoggedInUser();
+  const user = await getCurrentSessionUser();
   const userId = user?.id;
 
   if (!userId || !(user.role === Role.ADMIN)) {
