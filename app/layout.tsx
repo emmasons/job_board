@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next Auth Templete",
+  title: "Infinite Talent Job Board",
   description:
     "A comprehensive authentication and role based authentication template.",
 };

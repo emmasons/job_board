@@ -1,1 +1,1 @@
-## Next Auth Starter Pack
+## Infinite Talent Job Board
