@@ -20,6 +20,12 @@ export default withAuth(
       console.log(req.nextauth?.token?.isVerified);
       return NextResponse.rewrite(new URL("/auth/unverified-email", req.url));
     }
+    if (
+      req.nextUrl.pathname.startsWith("/profile") &&
+      !req.nextauth?.token?.registeredUser
+    ) {
+      return NextResponse.rewrite(new URL("/denied", req.url));
+    }
   },
   {
     callbacks: {

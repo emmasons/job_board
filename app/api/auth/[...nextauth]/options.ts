@@ -48,6 +48,7 @@ export const options = {
           role: userRole,
           isVerified: true,
           id: profile.id.toString(),
+          registeredUser: false,
         };
       },
       clientId: env.GITHUB_ID,
@@ -62,6 +63,7 @@ export const options = {
           role: userRole,
           id: profile.sub,
           isVerified: true,
+          registeredUser: false,
         };
       },
       clientId: env.GOOGLE_CLIENT_ID,
@@ -107,10 +109,13 @@ export const options = {
                     data: { role: "ADMIN" },
                   });
                   const { password, ...userWithoutPassword } = updatedUser;
-                  return userWithoutPassword;
+                  return { ...userWithoutPassword, registeredUser: true };
                 }
                 const { password, ...userWithoutPassword } = foundUser;
-                return userWithoutPassword;
+                return {
+                  ...userWithoutPassword,
+                  registeredUser: true,
+                };
               }
             }
           }

@@ -12,11 +12,13 @@ declare module "next-auth" {
       isVerified: boolean;
       firstName?: string;
       lastName?: string;
+      registeredUser: boolean;
       role: Role;
     } & DefaultSession["user"];
   }
   interface User extends DefaultUser {
     isVerified: boolean;
+    registeredUser: boolean;
     emailVerified: Date | null;
     role: Role;
   }
@@ -27,6 +29,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     /** OpenID ID Token */
     isVerified: boolean;
+    registeredUser: boolean;
     image?: string;
     role: Role;
   }
