@@ -28,10 +28,10 @@ commands:
             bash scripts/create_env_file.sh
 
 jobs:
-  test_next_auth_template:
+  test_job_board:
     machine:
       image: ubuntu-2204:2024.01.1
-    working_directory: ~/next_auth_template
+    working_directory: ~/job_board
     steps:
       - checkout
       - setup_env_file
@@ -42,7 +42,7 @@ jobs:
   push_service_image:
     machine:
       image: ubuntu-2204:2024.01.1
-    working_directory: ~/next_auth_template
+    working_directory: ~/job_board
     steps:
       - checkout
       - install_rok8s_scripts
@@ -70,15 +70,15 @@ jobs:
       - checkout
       - cloudrun/init
       - cloudrun/deploy:
-          image: "gcr.io/${GOOGLE_PROJECT_ID}/next_auth_template:${CIRCLE_SHA1}"
+          image: "gcr.io/${GOOGLE_PROJECT_ID}/job_board:${CIRCLE_SHA1}"
           platform: managed
           region: us-east1
-          service-name: next-auth-template-<< parameters.environment >>
+          service-name: infinite-job-board-<< parameters.environment >>
           unauthenticated: true
           args: --service-account=<< parameters.service-account-name >>
 
 workflows:
-  next_auth_template:
+  job_board:
     jobs:
       - push_service_image
       - deploy_service_cloud_run:
