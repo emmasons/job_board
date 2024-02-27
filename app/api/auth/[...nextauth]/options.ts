@@ -106,7 +106,7 @@ export const options = {
                 ) {
                   const updatedUser = await db.user.update({
                     where: { id: foundUser.id },
-                    data: { role: "ADMIN" },
+                    data: { role: Role.ADMIN },
                   });
                   const { password, ...userWithoutPassword } = updatedUser;
                   return { ...userWithoutPassword, registeredUser: true };
@@ -129,8 +129,9 @@ export const options = {
   callbacks: {
     async jwt({ token, user, profile, account }: CustomJwtCallbackData) {
       if (user) {
-        (token.isVerified = user.isVerified),
-          (token.registeredUser = user.registeredUser);
+        token.isVerified = user.isVerified;
+        token.registeredUser = user.registeredUser;
+        token.role = user.role;
       }
       if (profile && account?.provider === "google")
         token.image = profile?.picture;
@@ -141,13 +142,18 @@ export const options = {
       session.user.registeredUser = token.registeredUser;
       if (session?.user) {
         // store the user id from MongoDB to session
-        const sessionUser = await db.user.findUnique({
+        const registeredSessionUser = await db.user.findUnique({
           where: { email: session.user.email as string },
           include: { profile: true },
         });
-        session.user.id = sessionUser?.id as string;
-        session.user.firstName = sessionUser?.profile?.firstName as string;
-        session.user.lastName = sessionUser?.profile?.lastName as string;
+        if (registeredSessionUser) {
+          session.user.id = registeredSessionUser.id as string;
+          session.user.firstName = registeredSessionUser?.profile
+            ?.firstName as string;
+          session.user.lastName = registeredSessionUser?.profile
+            ?.lastName as string;
+          session.user.role = registeredSessionUser.role;
+        }
       }
       return session;
     },
