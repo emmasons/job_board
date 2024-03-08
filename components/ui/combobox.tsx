@@ -22,9 +22,17 @@ interface ComboboxProps {
   options: { label: string; value: string }[];
   value?: string;
   onChange: (value: string) => void;
+  className?: string;
+  defaultText?: string;
 }
 
-export function Combobox({ options, value, onChange }: ComboboxProps) {
+export function Combobox({
+  options,
+  value,
+  onChange,
+  className,
+  defaultText,
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -34,11 +42,11 @@ export function Combobox({ options, value, onChange }: ComboboxProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className={`w-full justify-between ${className}`}
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : "Select option..."}
+            : defaultText || "Select an option..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

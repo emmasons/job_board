@@ -58,3 +58,67 @@ model GCPData {
   validityDuration Int      @default(7)
   downloadUrl      String
 }
+
+enum WorkSchedule {
+  FULL_TIME
+  PART_TIME
+  CONTRACTOR
+  TEMPORARY
+  SEASONAL
+  NOT_SPECIFIED
+}
+
+enum ContractType {
+  INTERNSHIP
+  DIRECT_HIRE
+  NOT_SPECIFIED
+  CONTRACT_TO_HIRE
+  TEMPORARY
+  TEMPORARY_TO_HIRE
+  SELF_EMPLOYED
+  CONTRACT
+  SEASONAL
+  APPRENTICESHIP
+  RECRUITMENT_RESERVE
+  ON_CALL
+  VOLUNTEER
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  city      String
+  state     String
+  zipCode   String
+  country   String
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id])
+
+  addressLineOne String
+  addressLineTwo String
+}
+
+model Company {
+  id      String   @id @default(cuid())
+  email   String
+  address Address?
+  Job     Job[]
+}
+
+model Job {
+  id             String       @id @default(cuid())
+  title          String
+  description    String
+  workSchedule   WorkSchedule @default(NOT_SPECIFIED)
+  location       String
+  jobSector      String
+  startDate      String
+  occupation     String?
+  educationLevel String
+  experience     String
+  contractType   ContractType @default(NOT_SPECIFIED)
+  companyId String?
+  company        Company?     @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
