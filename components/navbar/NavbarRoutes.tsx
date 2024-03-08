@@ -31,9 +31,9 @@ export default function NavbarRoutes({ user }: Props) {
           {!isDashboard && (
             <ul className="flex items-center">
               <li className="mr-4">
-                <Link href="#">
+                <Link href="/search">
                   <p className="after:bg-pes-red hover:text-pes-red relative block w-fit cursor-pointer after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:transition after:duration-300 after:content-[''] after:hover:scale-x-100">
-                    Action
+                    Search
                   </p>
                 </Link>
               </li>

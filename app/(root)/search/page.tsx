@@ -1,7 +1,7 @@
 import { getAllJobs } from "@/actions/getAllJobs";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import JobList from "@/components/index/JobList";
-import Search from "@/components/index/Search";
+import JobList from "@/components/search/JobList";
+import Search from "@/components/search/Search";
 import { JobsWithCompany } from "@/types/db";
 
 interface SearchPageProps {
