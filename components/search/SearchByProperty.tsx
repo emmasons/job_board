@@ -16,14 +16,14 @@ export const SearchByProperty = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const currentCategoryId = searchParams.get("categoryId");
+  const location = searchParams.get("location");
 
   useEffect(() => {
     const url = qs.stringifyUrl(
       {
         url: pathname,
         query: {
-          categoryId: currentCategoryId,
+          location: location,
           title: debouncedValue,
         },
       },
@@ -31,7 +31,7 @@ export const SearchByProperty = () => {
     );
 
     router.push(url);
-  }, [debouncedValue, currentCategoryId, router, pathname]);
+  }, [debouncedValue, location, router, pathname]);
 
   return (
     <div className="relative flex h-full items-center justify-center flex-1">

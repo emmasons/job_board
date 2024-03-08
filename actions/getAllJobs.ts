@@ -13,7 +13,7 @@ export const getAllJobs = async ({
   try {
     const jobs = await db.job.findMany({
       where: {
-        location,
+        country: location,
         ...(formattedTitle
           ? {
               OR: [
