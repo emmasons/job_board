@@ -97,6 +97,24 @@ model Address {
   addressLineTwo String
 }
 
+model EducationLevel {
+  id    String @id @default(cuid())
+  label String @unique
+  Job   Job[]
+}
+
+model Experience {
+  id    String @id @default(cuid())
+  label String @unique
+  Job   Job[]
+}
+
+model Sector {
+  id    String @id @default(cuid())
+  label String @unique
+  Job   Job[]
+}
+
 model Company {
   id      String   @id @default(cuid())
   email   String
@@ -115,11 +133,17 @@ model Job {
   startDate      String
   occupation     String?
   educationLevel String
-  experience     String
   contractType   ContractType @default(NOT_SPECIFIED)
   companyId      String?
   company        Company?     @relation(fields: [companyId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  educationLevelId String?
+  education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
+  experiencelId    String?
+  experience       Experience?     @relation(fields: [experiencelId], references: [id])
+  sector           Sector?         @relation(fields: [sectorId], references: [id])
+  sectorId         String?
+  
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 }

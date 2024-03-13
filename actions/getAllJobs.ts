@@ -19,6 +19,7 @@ export const getAllJobs = async ({
               OR: [
                 { title: { contains: title, mode: "insensitive" } },
                 { description: { contains: title, mode: "insensitive" } },
+                { city: { contains: title, mode: "insensitive" } },
               ],
             }
           : {}),
