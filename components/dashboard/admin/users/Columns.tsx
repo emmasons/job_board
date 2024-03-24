@@ -2,11 +2,7 @@
 
 import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  MoreHorizontal,
-  Pencil,
-} from "lucide-react";
+import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,7 +44,7 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "isCoach",
+    accessorKey: "role",
     header: ({ column }) => {
       return (
         <Button
@@ -61,13 +57,9 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => {
-      const isCoach = row.getValue("isCoach") || false;
+      const role = row.getValue("role") as string;
 
-      return (
-        <Badge className={cn("bg-slate-500", isCoach && "bg-sky-700")}>
-          {isCoach ? "Coach" : "Student"}
-        </Badge>
-      );
+      return <Badge className="bg-slate-500">{role}</Badge>;
     },
   },
   {

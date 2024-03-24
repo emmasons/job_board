@@ -1,6 +1,13 @@
 "use client";
 
-import { BarChart, Layout, Settings2, Users2 } from "lucide-react";
+import {
+  BarChart,
+  Layout,
+  Settings2,
+  Users2,
+  BriefcaseIcon,
+} from "lucide-react";
+
 import { usePathname } from "next/navigation";
 import { SidebarItem } from "./SidebarItem";
 
@@ -19,9 +26,9 @@ const guestRoutes = [
 
 const staffRoutes = [
   {
-    icon: BarChart,
-    label: "Analytics",
-    href: "/dashboard/instructor/analytics",
+    icon: BriefcaseIcon,
+    label: "Jobs",
+    href: "/profile/dashboard/staff/jobs",
   },
 ];
 
@@ -36,10 +43,10 @@ const adminRoutes = [
 export default function SidebarRoutes() {
   const pathname = usePathname();
 
-  const isInstructorPage = pathname?.includes("/instructor");
+  const isStaffPage = pathname?.includes("/staff");
   const isAdminPage = pathname?.includes("/admin");
 
-  const routes = isInstructorPage
+  const routes = isStaffPage
     ? staffRoutes
     : isAdminPage
     ? adminRoutes
