@@ -1,0 +1,46 @@
+body {
+  position: relative;
+}
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  height: 100%;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Custom styles for Swiper navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: white; /* Set the background color to white */
+  border-radius: 50%; /* Make the buttons fully rounded */
+  width: 40px; /* Set a fixed width */
+  height: 40px; /* Set a fixed height */
+  display: flex; /* Use flexbox for centering the icon */
+  align-items: center; /* Center the icon vertically */
+  justify-content: center; /* Center the icon horizontally */
+  /* Add additional styles as needed */
+}
+
+/* You may also want to style the icons within the buttons */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1rem; /* Adjust the size of the icon */
+  color: black; /* Set the color of the icon */
+}
