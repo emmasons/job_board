@@ -1,12 +1,12 @@
 import React from "react";
-import FilterByCity from "./FilterByCity";
+import FilterByCountry from "./FilterByCountry";
 
 type Props = {};
 
 const Filter = (props: Props) => {
   return (
     <div>
-      <FilterByCity />
+      <FilterByCountry />
     </div>
   );
 };
