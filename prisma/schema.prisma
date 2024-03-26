@@ -45,6 +45,7 @@ model User {
   verifyToken               String?
   verifyTokenExpiry         DateTime?
   Job                       Job[]
+  Company                   Company[]
 
   @@map("users")
 }
@@ -117,29 +118,32 @@ model Sector {
 }
 
 model Company {
-  id      String   @id @default(cuid())
-  email   String
-  address Address?
-  Job     Job[]
+  id           String   @id @default(cuid())
+  companyEmail String
+  companyName  String
+  ownerId      String?
+  owner        User?    @relation(fields: [ownerId], references: [id])
+  address      Address?
+  Job          Job[]
 }
 
 model Job {
-  id             String       @id @default(cuid())
-  title          String
-  description    String
-  workSchedule   WorkSchedule @default(NOT_SPECIFIED)
-  country        String
-  city           String
-  jobSector      String
-  startDate      String
-  occupation     String?
-  educationLevel String
-  contractType   ContractType @default(NOT_SPECIFIED)
-  ownerId        String
-  owner          User         @relation(fields: [ownerId], references: [id])
-  companyId      String?
-  company        Company?     @relation(fields: [companyId], references: [id])
-  published      Boolean      @default(true)
+  id           String       @id @default(cuid())
+  title        String
+  description  String
+  workSchedule WorkSchedule @default(NOT_SPECIFIED)
+  country      String
+  city         String
+  startDate         String
+  occupation        String?
+  educationLevel    String
+  contractType      ContractType @default(NOT_SPECIFIED)
+  ownerId           String
+  owner             User         @relation(fields: [ownerId], references: [id])
+  companyId         String
+  company           Company      @relation(fields: [companyId], references: [id])
+  published         Boolean      @default(true)
+  numberOfPositions Int          @default(1)
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
