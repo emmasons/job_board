@@ -136,19 +136,18 @@ model Job {
   city              String
   startDate         String
   occupation        String?
-  educationLevel    String
   contractType      ContractType @default(NOT_SPECIFIED)
   ownerId           String
   owner             User         @relation(fields: [ownerId], references: [id])
   companyId         String
   company           Company      @relation(fields: [companyId], references: [id])
-  published         Boolean      @default(true)
+  published         Boolean      @default(false)
   numberOfPositions Int          @default(1)
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  experiencelId    String?
-  experience       Experience?     @relation(fields: [experiencelId], references: [id])
+  experienceId    String?
+  experience       Experience?     @relation(fields: [experienceId], references: [id])
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
 

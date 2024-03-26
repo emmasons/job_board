@@ -8,6 +8,8 @@ export async function POST(req: Request) {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
     const values = await req.json();
+    const { numberOfPositions, ...remainingValues } = values;
+
     if (!userId || !(user.role === Role.STAFF)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -26,13 +28,15 @@ export async function POST(req: Request) {
       data: {
         ownerId: userId,
         companyId: company.id,
-        ...values,
+        numberOfPositions: parseInt(numberOfPositions),
+        ...remainingValues,
       },
     });
 
     return NextResponse.json(job);
   } catch (error) {
     console.log("[COURSES]", error);
+    console.log(error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

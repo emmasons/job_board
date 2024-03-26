@@ -35,14 +35,13 @@ interface CreateJobFormProps {
     city: string;
     workSchedule: string;
     country: string;
-    jobSector: string;
     startDate: Date;
     occupation: string;
-    educationLevel: string;
+    educationLevelId: string;
     contractType: string;
     numberOfPositions: string;
-    experience: string;
-    sector: string;
+    experienceId: string;
+    sectorId: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -72,7 +71,7 @@ const formSchema = z.object({
   occupation: z.string().min(1, {
     message: "Occupation is required",
   }),
-  educationLevel: z.string().min(1, {
+  educationLevelId: z.string().min(1, {
     message: "Education level is required",
   }),
   contractType: z.string().min(1, {
@@ -83,10 +82,10 @@ const formSchema = z.object({
     .refine((val) => !Number.isNaN(parseInt(val, 10)), {
       message: "Expected number, received a string",
     }),
-  experience: z.string().min(1, {
+  experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
-  sector: z.string().min(1, {
+  sectorId: z.string().min(1, {
     message: "Sector is required",
   }),
 });
@@ -113,8 +112,6 @@ export default function CreateJobForm({
 
   const { isSubmitting, isValid, errors } = form.formState;
 
-  console.log(errors, "errors");
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await fetch("/api/jobs/", {
@@ -123,8 +120,6 @@ export default function CreateJobForm({
       });
       const data = await response.json();
 
-      console.log(data, response, "data");
-
       if (response.ok) {
         toast({
           title: "Success",
@@ -132,6 +127,7 @@ export default function CreateJobForm({
           variant: "default",
           className: "bg-green-300 border-0",
         });
+        router.push("/profile/dashboard/staff/jobs");
       } else {
         toast({
           variant: "destructive",
@@ -300,7 +296,7 @@ export default function CreateJobForm({
             />
             <FormField
               control={form.control}
-              name="sector"
+              name="sectorId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sector</FormLabel>
@@ -339,7 +335,7 @@ export default function CreateJobForm({
             />
             <FormField
               control={form.control}
-              name="educationLevel"
+              name="educationLevelId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Education Level</FormLabel>
@@ -352,7 +348,7 @@ export default function CreateJobForm({
             />
             <FormField
               control={form.control}
-              name="experience"
+              name="experienceId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Experience</FormLabel>
