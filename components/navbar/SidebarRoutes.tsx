@@ -6,6 +6,7 @@ import {
   Settings2,
   Users2,
   BriefcaseIcon,
+  LayoutDashboardIcon,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -25,6 +26,11 @@ const guestRoutes = [
 ];
 
 const staffRoutes = [
+  {
+    icon: LayoutDashboardIcon,
+    label: "Home",
+    href: "/profile/dashboard/staff",
+  },
   {
     icon: BriefcaseIcon,
     label: "Jobs",

@@ -119,8 +119,8 @@ model Sector {
 
 model Company {
   id           String   @id @default(cuid())
-  companyEmail String
-  companyName  String
+  companyEmail String   @unique
+  companyName  String   @unique
   ownerId      String?
   owner        User?    @relation(fields: [ownerId], references: [id])
   address      Address?
@@ -128,12 +128,12 @@ model Company {
 }
 
 model Job {
-  id           String       @id @default(cuid())
-  title        String
-  description  String
-  workSchedule WorkSchedule @default(NOT_SPECIFIED)
-  country      String
-  city         String
+  id                String       @id @default(cuid())
+  title             String
+  description       String
+  workSchedule      WorkSchedule @default(NOT_SPECIFIED)
+  country           String
+  city              String
   startDate         String
   occupation        String?
   educationLevel    String
