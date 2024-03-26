@@ -38,7 +38,7 @@ const FilterByCountry = () => {
     label: country.name,
     id: country.name,
   }));
-  console.log(countryList);
+
   const searchParams = useSearchParams();
   const country = searchParams.get("country");
 
