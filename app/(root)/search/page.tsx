@@ -1,4 +1,4 @@
-import { getAllJobs } from "@/actions/getAllJobs";
+import { getAllJobs } from "@/actions/get-all-jobs";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import JobList from "@/components/job/JobList";
 import Search from "@/components/search/Search";

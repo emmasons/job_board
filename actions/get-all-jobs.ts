@@ -26,6 +26,7 @@ export const getAllJobs = async ({
       },
       include: {
         company: true,
+        sector: true,
       },
       orderBy: {
         createdAt: "desc",
