@@ -44,6 +44,7 @@ model User {
   forgotPasswordTokenExpiry DateTime?
   verifyToken               String?
   verifyTokenExpiry         DateTime?
+  Job                       Job[]
 
   @@map("users")
 }
@@ -134,8 +135,11 @@ model Job {
   occupation     String?
   educationLevel String
   contractType   ContractType @default(NOT_SPECIFIED)
+  ownerId        String
+  owner          User         @relation(fields: [ownerId], references: [id])
   companyId      String?
   company        Company?     @relation(fields: [companyId], references: [id])
+  published      Boolean      @default(true)
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
@@ -143,7 +147,7 @@ model Job {
   experience       Experience?     @relation(fields: [experiencelId], references: [id])
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
-  
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
