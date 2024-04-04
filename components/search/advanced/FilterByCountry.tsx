@@ -12,7 +12,7 @@ const FilterByCountry = () => {
   }));
 
   const searchParams = useSearchParams();
-  const country = searchParams.get("country");
+  const countriesFilter = searchParams.get("countriesFilter");
 
   const defaultValues = [];
 
@@ -30,8 +30,8 @@ const FilterByCountry = () => {
     }
   };
 
-  if (country) {
-    const values = country.split(",");
+  if (countriesFilter) {
+    const values = countriesFilter.split(",");
     defaultValues.push(...values);
   }
 
@@ -41,7 +41,7 @@ const FilterByCountry = () => {
       <CheckboxGroupForm
         items={countryList.slice(0, filtersLimit)}
         defaultValues={defaultValues}
-        searchParamLabel="country"
+        searchParamLabel="countriesFilter"
       />
       {!showAll ? (
         <p

@@ -13,8 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import qs from "query-string";
 
 export type Item = {
@@ -56,17 +55,26 @@ export function CheckboxGroupForm({
   const title = searchParams.get("title");
   const location = searchParams.get("location");
   const workSchedule = searchParams.get("workSchedule");
+  const countriesFilter = searchParams.get("countriesFilter");
 
   const formValues = form.watch();
 
   useEffect(() => {
     const selectedItemsSequence = formValues.items.join(",");
-
-    const query = {
-      [searchParamLabel]: selectedItemsSequence,
+    console.log(
+      workSchedule,
+      "workSchedule",
+      countriesFilter,
+      "countriesFilter",
+    );
+    let query = {
       title: title,
       location: location,
+      workSchedule: workSchedule,
+      countriesFilter: countriesFilter,
     };
+
+    query[searchParamLabel] = selectedItemsSequence;
 
     const searchParamsObject = Object.entries(query).reduce(
       (acc, [key, value]) => {
@@ -85,10 +93,11 @@ export function CheckboxGroupForm({
       },
       { skipEmptyString: true, skipNull: true },
     );
-    router.push(url);
+
+    if (selectedItemsSequence) router.push(url);
   }, [
-    form,
-    formValues,
+    countriesFilter,
+    formValues.items,
     location,
     pathname,
     router,
@@ -96,17 +105,6 @@ export function CheckboxGroupForm({
     title,
     workSchedule,
   ]);
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
 
   return (
     <Form {...form}>
