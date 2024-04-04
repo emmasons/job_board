@@ -1,13 +1,36 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Signup from "@/components/auth/Signup";
+import Login from "@/components/auth/Login";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const page = () => {
+type Props = {
+  searchParams?: Record<"callbackUrl" | "error", string>;
+};
+
+const page = async (props: Props) => {
+  const user = await getCurrentSessionUser();
+  if (user) {
+    return redirect("/profile/settings/");
+  }
   return (
-    <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40">
-      <div className="w-full rounded-md px-[10%] py-8 shadow">
-        <Signup />
-      </div>
-    </MaxWidthWrapper>
+    <div className="flex h-full w-full flex-col justify-center gap-4">
+      <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
+      <Link
+        href="/auth/signin/employer"
+        className="inline-flex w-1/2 items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
+      >
+        <p>Register as an Employer</p>
+        <ChevronRight />
+      </Link>
+      <Link
+        href="/auth/signin/job-seeker"
+        className="inline-flex w-1/2 items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
+      >
+        <p>Register as a Job Seeker</p>
+        <ChevronRight />
+      </Link>
+    </div>
   );
 };
 

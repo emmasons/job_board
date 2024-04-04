@@ -6,7 +6,7 @@ import { env } from "@/lib/env";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const { email, password, role } = await req.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       data: {
         password: hashPassword,
         email,
+        role,
       },
     });
     await db.profile.create({ data: { userId: user.id } });

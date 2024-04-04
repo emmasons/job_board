@@ -9,6 +9,7 @@ import { Logo } from "./Logo";
 
 import UserMenuButton from "./UserMenuButton";
 import { Role } from "@prisma/client";
+import EmployerOptions from "./EmployerOptions";
 
 interface Props {
   user: Session["user"] | undefined;
@@ -37,6 +38,7 @@ export default function NavbarRoutes({ user }: Props) {
                   </p>
                 </Link>
               </li>
+              <EmployerOptions />
             </ul>
           )}
         </div>

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-import { Eye, EyeOff, Info } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Info } from "lucide-react";
 import Link from "next/link";
 import { toast } from "../ui/use-toast";
 import { Icon } from "@iconify/react";
@@ -127,7 +127,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
           <div></div>
         </form>
       </Form>
-      <div className="flex flex-col items-center py-4">
+      <div className="flex flex-col items-start py-4">
         <p className="text-secondary">
           <Link
             href="/auth/send-reset-password-link"
@@ -136,16 +136,25 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
             Forgot your password?
           </Link>
         </p>
-        <p className="text-secondary">
-          If you don&apos;t have an account &nbsp;
-          <Link
-            href="/auth/signup"
-            className="font-semibold text-[#1676f9] hover:text-[#1676f9]"
-          >
-            click here
-          </Link>
-          &nbsp;to sign up
+
+        <p className="mt-4 font-semibold text-secondary">
+          Dont have an account? &nbsp;
         </p>
+        <Link
+          href="/auth/signup/employer"
+          className="mb-4 inline-flex w-auto items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
+        >
+          <p>Register as an Employer</p>
+          <ChevronRight />
+        </Link>
+
+        <Link
+          href="/auth/signup/job-seeker"
+          className="mb-4 inline-flex w-auto items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
+        >
+          <p>Register as a Job Seeker</p>
+          <ChevronRight />
+        </Link>
       </div>
       {/* <div className="flex flex-col items-center">
         <p>Or login with your socials</p>

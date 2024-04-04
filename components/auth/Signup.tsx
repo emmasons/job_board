@@ -18,8 +18,13 @@ import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { Role } from "@prisma/client";
 
-const Signup = () => {
+type Props = {
+  role: Role;
+};
+
+const Signup = ({ role }: Props) => {
   const router = useRouter();
   const { toast } = useToast();
   const formSchema = z
@@ -69,7 +74,7 @@ const Signup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, role }),
       });
       const response = await res.json();
       if (!res.ok) {
