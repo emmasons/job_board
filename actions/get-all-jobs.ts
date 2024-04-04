@@ -4,19 +4,19 @@ import { JobsWithCompany } from "@/types/db";
 type Params = {
   title?: string;
   location?: string;
-  country?: string;
   workSchedule?: string;
+  countriesFilter?: string;
 };
 export const getAllJobs = async ({
   title,
   location,
-  country,
+  countriesFilter,
   workSchedule,
 }: Params): Promise<JobsWithCompany[]> => {
   const formattedTitle = title?.replace(/\s/g, "");
   const countries = [];
-  if (country) {
-    const formattedCountries = country?.split(",");
+  if (countriesFilter) {
+    const formattedCountries = countriesFilter?.split(",");
     countries.push(...formattedCountries);
   }
 
