@@ -3,34 +3,6 @@ import { useCountries } from "use-react-countries";
 import { CheckboxGroupForm } from "./checkbox-group-form";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
-
-const items = [
-  {
-    id: "recents",
-    label: "Recents",
-  },
-  {
-    id: "home",
-    label: "Home",
-  },
-  {
-    id: "applications",
-    label: "Applications",
-  },
-  {
-    id: "desktop",
-    label: "Desktop",
-  },
-  {
-    id: "downloads",
-    label: "Downloads",
-  },
-  {
-    id: "documents",
-    label: "Documents",
-  },
-];
 
 const FilterByCountry = () => {
   const { countries } = useCountries();
