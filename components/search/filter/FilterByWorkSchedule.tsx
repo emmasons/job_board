@@ -8,7 +8,7 @@ type props = {
   workSchedules: WorkSchedule[];
 };
 
-const SearchByWorkSchedule = ({ workSchedules }: props) => {
+const FilterByWorkSchedule = ({ workSchedules }: props) => {
   const items = workSchedules.map((schedule) => ({
     label: schedule.label,
     id: schedule.value,
@@ -66,4 +66,4 @@ const SearchByWorkSchedule = ({ workSchedules }: props) => {
   );
 };
 
-export default SearchByWorkSchedule;
+export default FilterByWorkSchedule;

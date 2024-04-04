@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import qs from "query-string";
 
 export type Item = {
@@ -56,22 +56,18 @@ export function CheckboxGroupForm({
   const location = searchParams.get("location");
   const workSchedule = searchParams.get("workSchedule");
   const countriesFilter = searchParams.get("countriesFilter");
+  const sectorFilter = searchParams.get("sectorFilter");
 
   const formValues = form.watch();
 
   useEffect(() => {
     const selectedItemsSequence = formValues.items.join(",");
-    console.log(
-      workSchedule,
-      "workSchedule",
-      countriesFilter,
-      "countriesFilter",
-    );
     let query = {
       title: title,
       location: location,
       workSchedule: workSchedule,
       countriesFilter: countriesFilter,
+      sectorFilter: sectorFilter,
     };
 
     query[searchParamLabel] = selectedItemsSequence;
@@ -104,6 +100,7 @@ export function CheckboxGroupForm({
     searchParamLabel,
     title,
     workSchedule,
+    sectorFilter,
   ]);
 
   return (
