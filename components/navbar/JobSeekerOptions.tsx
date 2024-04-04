@@ -9,22 +9,29 @@ import {
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-export default function EmployerOptions() {
+export default function JobSeekerOptions() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus-within:ring-transparent">
         <div className="flex items-center">
-          <p>Employers</p>
+          <p>Job Seeker</p>
           <ChevronDown />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem className="mb-2 py-2">
-          <Link
-            href="/profile/dashboard/staff/jobs"
-            className="h-full w-full hover:cursor-pointer"
-          >
-            Advertise
+          <Link href="/search" className="hover:cursor-pointer w-full h-full">
+            Find a Job
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="mb-2 py-2">
+          <Link href="#" className="hover:cursor-pointer w-full h-full">
+            My CV
+          </Link>
+        </DropdownMenuItem>{" "}
+        <DropdownMenuItem className="mb-2 py-2">
+          <Link href="#" className="hover:cursor-pointer w-full h-full">
+            My Jobs
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

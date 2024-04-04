@@ -10,6 +10,7 @@ import { Logo } from "./Logo";
 import UserMenuButton from "./UserMenuButton";
 import { Role } from "@prisma/client";
 import EmployerOptions from "./EmployerOptions";
+import JobSeekerOptions from "./JobSeekerOptions";
 
 interface Props {
   user: Session["user"] | undefined;
@@ -30,15 +31,13 @@ export default function NavbarRoutes({ user }: Props) {
             <Logo />
           </Link>
           {!isDashboard && (
-            <ul className="flex items-center">
+            <ul className="flex items-center gap-4">
               <li className="mr-4">
-                <Link href="/search">
-                  <p className="after:bg-pes-red hover:text-pes-red relative block w-fit cursor-pointer after:absolute after:block after:h-[3px] after:w-full after:origin-left after:scale-x-0 after:transition after:duration-300 after:content-[''] after:hover:scale-x-100">
-                    Search
-                  </p>
-                </Link>
+                <JobSeekerOptions />
               </li>
-              <EmployerOptions />
+              <li className="mr-4">
+                <EmployerOptions />
+              </li>
             </ul>
           )}
         </div>
