@@ -5,11 +5,13 @@ type Params = {
   title?: string;
   location?: string;
   country?: string;
+  workSchedule?: string;
 };
 export const getAllJobs = async ({
   title,
   location,
   country,
+  workSchedule,
 }: Params): Promise<JobsWithCompany[]> => {
   const formattedTitle = title?.replace(/\s/g, "");
   const countries = [];
@@ -17,6 +19,13 @@ export const getAllJobs = async ({
     const formattedCountries = country?.split(",");
     countries.push(...formattedCountries);
   }
+
+  const workSchedules = [];
+  if (workSchedule) {
+    const formatted = workSchedule?.split(",");
+    workSchedules.push(...formatted);
+  }
+
   try {
     // Define the list of countries
 
@@ -26,6 +35,12 @@ export const getAllJobs = async ({
       : countries.length > 0
       ? { country: { in: countries } } // If the country list exists and is not empty, use it
       : {}; // Otherwise, do not apply any country filter
+
+    // Determine the country condition for the query
+    const workScheduleCondition =
+      workSchedules.length > 0
+        ? { workSchedule: { in: workSchedules } } // If the workSchedule list exists and is not empty, use it
+        : {}; // Otherwise, do not apply any workSchedule filter
 
     const jobs = await db.job.findMany({
       where: {
@@ -39,6 +54,8 @@ export const getAllJobs = async ({
               ],
             }
           : {}),
+        // workSchedule: { in: workSchedules },
+        ...workScheduleCondition,
       },
       include: {
         company: true,
