@@ -1,9 +1,9 @@
 import { JobsWithCompany } from "@/types/db";
 import React from "react";
 import JobCard from "./JobCard";
-import SearchByWorkSchedule from "../search/advanced/SearchByWorkSchedule";
+import SearchByWorkSchedule from "../search/filter/SearchByWorkSchedule";
 import { getWorkSchedules } from "@/actions/get-work-schedules";
-import FilterByCountry from "../search/advanced/FilterByCountry";
+import FilterByCountry from "../search/filter/FilterByCountry";
 
 type Props = {
   items: JobsWithCompany[];
