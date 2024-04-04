@@ -4,12 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -50,13 +48,17 @@ export function CheckboxGroupForm({
       items: defaultValues,
     },
   });
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
   const title = searchParams.get("title");
   const location = searchParams.get("location");
+  const workSchedule = searchParams.get("workSchedule");
 
   const formValues = form.watch();
+
   useEffect(() => {
     const selectedItemsSequence = formValues.items.join(",");
 
@@ -84,7 +86,16 @@ export function CheckboxGroupForm({
       { skipEmptyString: true, skipNull: true },
     );
     router.push(url);
-  }, [form, formValues, location, pathname, router, searchParamLabel, title]);
+  }, [
+    form,
+    formValues,
+    location,
+    pathname,
+    router,
+    searchParamLabel,
+    title,
+    workSchedule,
+  ]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({

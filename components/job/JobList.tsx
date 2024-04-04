@@ -2,16 +2,21 @@ import { JobsWithCompany } from "@/types/db";
 import React from "react";
 import JobCard from "./JobCard";
 import Filter from "../search/advanced/Filter";
+import SearchByWorkSchedule from "../search/advanced/SearchByWorkSchedule";
+import { getWorkSchedules } from "@/actions/get-work-schedules";
 
 type Props = {
   items: JobsWithCompany[];
 };
 
-const JobList = ({ items }: Props) => {
+const JobList = async ({ items }: Props) => {
+  const workSchedules = await getWorkSchedules();
+
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
       <div className="basis-1/3">
         <Filter />
+        <SearchByWorkSchedule workSchedules={workSchedules} />
       </div>
       <div className="basis-2/3">
         {items.map((item) => (
