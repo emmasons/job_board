@@ -58,7 +58,7 @@ export default function CreateCompanyForm({
       if (response.ok) {
         toast({
           title: "Success",
-          description: "Job Created",
+          description: "Company Added",
           variant: "default",
           className: "bg-green-300 border-0",
         });
