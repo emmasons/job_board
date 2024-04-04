@@ -25,6 +25,8 @@ enum Role {
   USER
   STAFF
   ADMIN
+  JOB_SEEKER
+  EMPLOYER
 }
 
 model User {
@@ -146,7 +148,7 @@ model Job {
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  experienceId    String?
+  experienceId     String?
   experience       Experience?     @relation(fields: [experienceId], references: [id])
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?

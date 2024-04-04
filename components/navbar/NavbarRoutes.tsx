@@ -22,6 +22,7 @@ export default function NavbarRoutes({ user }: Props) {
   const isStaffPage = pathname?.includes("/staff");
   const isAdminPage = pathname?.includes("/admin");
   const isDashboard = pathname?.includes("/profile/dashboard");
+  const isEmployerPage = pathname?.includes("/employer");
 
   return (
     <>
@@ -55,6 +56,21 @@ export default function NavbarRoutes({ user }: Props) {
           <Link href="/profile/dashboard/staff/jobs">
             <Button size="sm" variant="outline" className="h-auto py-2">
               Staff Dashboard
+            </Button>
+          </Link>
+        ) : null}
+
+        {user?.role === Role.EMPLOYER && isEmployerPage ? (
+          <Link href="/profile/dashboard">
+            <Button size="sm" variant="ghost">
+              <LogOut className="mr-2 h-4 w-4" />
+              Exit
+            </Button>
+          </Link>
+        ) : user?.role === Role.EMPLOYER ? (
+          <Link href="/profile/dashboard/employer">
+            <Button size="sm" variant="outline" className="h-auto py-2">
+              Employers Dashboard
             </Button>
           </Link>
         ) : null}

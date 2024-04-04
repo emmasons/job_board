@@ -31,10 +31,18 @@ const staffRoutes = [
     label: "Home",
     href: "/profile/dashboard/staff",
   },
+];
+
+const employerRoutes = [
+  {
+    icon: LayoutDashboardIcon,
+    label: "Home",
+    href: "/profile/dashboard/employer",
+  },
   {
     icon: BriefcaseIcon,
     label: "Jobs",
-    href: "/profile/dashboard/staff/jobs",
+    href: "/profile/dashboard/employer/jobs",
   },
 ];
 
@@ -51,11 +59,14 @@ export default function SidebarRoutes() {
 
   const isStaffPage = pathname?.includes("/staff");
   const isAdminPage = pathname?.includes("/admin");
+  const isEmployerPage = pathname?.includes("/employer");
 
   const routes = isStaffPage
     ? staffRoutes
     : isAdminPage
     ? adminRoutes
+    : isEmployerPage
+    ? employerRoutes
     : guestRoutes;
 
   return (

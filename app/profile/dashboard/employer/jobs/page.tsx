@@ -1,13 +1,13 @@
 import { getUserJobs } from "@/actions/get-user-jobs";
-import { columns } from "@/components/dashboard/staff/jobs/Columns";
-import { DataTable } from "@/components/dashboard/staff/jobs/DataTable";
+import { columns } from "@/components/dashboard/employer/jobs/Columns";
+import { DataTable } from "@/components/dashboard/employer/jobs/DataTable";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.STAFF)) {
+  if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/");
   }
   const jobs = await getUserJobs(user.id);

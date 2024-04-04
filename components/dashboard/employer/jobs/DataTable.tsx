@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Link href="/profile/dashboard/staff/jobs/create/">
+        <Link href="/profile/dashboard/employer/jobs/create/">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             New Job

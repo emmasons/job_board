@@ -62,7 +62,7 @@ export default function CreateCompanyForm({
           variant: "default",
           className: "bg-green-300 border-0",
         });
-        router.push("/profile/dashboard/staff");
+        router.push("/profile/dashboard/employer");
       } else {
         toast({
           variant: "destructive",

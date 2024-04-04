@@ -127,7 +127,7 @@ export default function CreateJobForm({
           variant: "default",
           className: "bg-green-300 border-0",
         });
-        router.push("/profile/dashboard/staff/jobs");
+        router.push("/profile/dashboard/employer/jobs");
       } else {
         toast({
           variant: "destructive",
@@ -226,7 +226,7 @@ export default function CreateJobForm({
               name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Start Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>

@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.STAFF)) {
+  if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/");
   }
   const company = await getCompanyForUser(user.id);

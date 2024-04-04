@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const values = await req.json();
     const { numberOfPositions, ...remainingValues } = values;
 
-    if (!userId || !(user.role === Role.STAFF)) {
+    if (!userId || !(user.role === Role.EMPLOYER)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 

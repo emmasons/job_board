@@ -1,11 +1,11 @@
-import CreateCompanyForm from "@/components/dashboard/staff/company/CreateCompanyForm";
+import CreateCompanyForm from "@/components/dashboard/employer/company/CreateCompanyForm";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.STAFF)) {
+  if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/");
   }
   return (

@@ -4,7 +4,7 @@ import { getContractTypes } from "@/actions/get-contract-types";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import { getExperience } from "@/actions/get-experience";
 import { getWorkSchedules } from "@/actions/get-work-schedules";
-import CreateJobForm from "@/components/dashboard/staff/jobs/create/CreateJobForm";
+import CreateJobForm from "@/components/dashboard/employer/jobs/create/CreateJobForm";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { ChevronRight } from "lucide-react";
@@ -13,7 +13,7 @@ import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.STAFF)) {
+  if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/");
   }
   const sectors = await getAllSectors();
@@ -27,7 +27,7 @@ const page = async () => {
     return (
       <div className="flex h-full items-center justify-center">
         <Link
-          href="/profile/dashboard/staff/company"
+          href="/profile/dashboard/employer/company"
           className="flex items-center text-sm text-zinc-600 hover:text-zinc-400"
         >
           Please set up your company first
