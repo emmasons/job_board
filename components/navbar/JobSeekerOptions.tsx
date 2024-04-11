@@ -20,17 +20,20 @@ export default function JobSeekerOptions() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem className="mb-2 py-2">
-          <Link href="/search" className="hover:cursor-pointer w-full h-full">
+          <Link href="/search" className="h-full w-full hover:cursor-pointer">
             Find a Job
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="mb-2 py-2">
-          <Link href="#" className="hover:cursor-pointer w-full h-full">
+          <Link
+            href="/profile/dashboard/job-seeker/cv"
+            className="h-full w-full hover:cursor-pointer"
+          >
             My CV
           </Link>
         </DropdownMenuItem>{" "}
         <DropdownMenuItem className="mb-2 py-2">
-          <Link href="#" className="hover:cursor-pointer w-full h-full">
+          <Link href="#" className="h-full w-full hover:cursor-pointer">
             My Jobs
           </Link>
         </DropdownMenuItem>

@@ -20,11 +20,11 @@ const page = async (props: Props) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
-        <MailWarning className="h-16 w-16 text-red-400" />
-        <h2 className="text-2xl font-bold text-primary">
+        <MailWarning className="h-16 w-16 text-white" />
+        <h2 className="text-2xl font-bold text-secondary">
           Verify your email address
         </h2>
-        <p className="text-center text-primary">
+        <p className="text-center text-secondary">
           We noticed your email address has not been verified. <br />
           We have sent a verification link to your inbox <br />
           Click on the link to complete the verification process. <br />
