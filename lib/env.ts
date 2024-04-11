@@ -23,6 +23,13 @@ const envSchema = zod.object({
     .string()
     .min(1, "Please provide NODE_ENV")
     .default("development"),
+
+  // nodeemail
+  SMTP_EMAIL_HOST: zod.string().min(1, "Please provide SMTP_EMAIL_HOST"),
+  SMTP_EMAIL_PORT: zod.string().min(1, "Please provide SMTP_EMAIL_PORT"),
+  SMTP_EMAIL_PORT: zod.string().min(1, "Please provide SMTP_EMAIL_PORT"),
+  SMTP_AUTH_USER: zod.string().min(1, "Please provide SMTP_AUTH_USER"),
+  SMTP_AUTH_PASSWORD: zod.string().min(1, "Please provide SMTP_AUTH_PASSWORD"),
 });
 
 export const env = envSchema.parse(process.env);
