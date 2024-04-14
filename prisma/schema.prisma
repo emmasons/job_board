@@ -48,8 +48,16 @@ model User {
   verifyTokenExpiry         DateTime?
   Job                       Job[]
   Company                   Company[]
+  cv                        CV?
 
   @@map("users")
+}
+
+model CV {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model GCPData {

@@ -26,7 +26,6 @@ interface Accept {
 
 interface FileUploadProps {
   assetId: string;
-  toggleEdit?: () => void;
   fileMessage: string;
   acceptedFileTypes: Accept;
   bucketFileDirectory: string;
@@ -35,7 +34,6 @@ interface FileUploadProps {
 
 const UploadDropzone = ({
   assetId,
-  toggleEdit,
   fileMessage,
   acceptedFileTypes,
   bucketFileDirectory,
@@ -112,6 +110,7 @@ const UploadDropzone = ({
               }),
             });
             const data = await response.json();
+            console.log(response.status, "**********************");
             if (response.status === 200) {
               toast({
                 title: "Success",
@@ -119,7 +118,7 @@ const UploadDropzone = ({
                 variant: "default",
                 className: "bg-green-300 border-0",
               });
-              toggleEdit();
+
               router.refresh();
               setIsError(false);
             } else {
@@ -130,10 +129,11 @@ const UploadDropzone = ({
               });
             }
           } catch (error) {
+            console.log(error, "#SERVER ERROR");
             toast({
               variant: "destructive",
               title: "Error",
-              description: error.tosString() || "Something went wrong!",
+              description: "Something went wrong when uploading your file!",
             });
           }
         } else if (xhr.readyState === 4 && xhr.status != 200) {
@@ -173,7 +173,7 @@ const UploadDropzone = ({
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div
           {...getRootProps({ onClick: (evt) => evt.preventDefault() })}
-          className="m-4 h-64 rounded-lg border border-dashed border-gray-300"
+          className="my-4 h-64 rounded-lg border border-dashed border-gray-300"
         >
           <div className="flex h-full w-full items-center justify-center">
             <label
@@ -265,7 +265,7 @@ const UploadDropzone = ({
 
 export const FileUpload = ({
   assetId,
-  toggleEdit,
+
   fileMessage,
   acceptedFileTypes,
   bucketFileDirectory,
@@ -275,7 +275,6 @@ export const FileUpload = ({
     <UploadDropzone
       isVideo={isVideo}
       assetId={assetId}
-      toggleEdit={toggleEdit}
       fileMessage={fileMessage}
       acceptedFileTypes={acceptedFileTypes}
       bucketFileDirectory={bucketFileDirectory}

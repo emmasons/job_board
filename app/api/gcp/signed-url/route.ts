@@ -24,7 +24,6 @@ export async function POST(
     );
     const { url, blobName } = await uploader.generateSignedUrl();
     const downloadUrl = await uploader.generateSignedDownloadUrl();
-    console.log(blobName, "here blobName");
 
     if (url && blobName && downloadUrl) {
       return new NextResponse(
