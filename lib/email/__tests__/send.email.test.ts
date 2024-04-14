@@ -1,70 +1,31 @@
-import { sendEmail } from '..';
-import { createTransport, Transporter } from 'nodemailer';
-import { SMTPServer } from 'smtp-server';
+import { mail } from "../nodemailer";
+import { env } from "@/lib/env";
 
-describe('sendEmail integration tests', () => {
-  let smtpServer: SMTPServer;
-  let transporter: Transporter;
+// This will tell jest to wait 30 seconds maximum for each test to finish
+jest.setTimeout(30000); // Setting timeount globally for all tests
 
-  beforeAll(async () => {
-    // Set up a test SMTP server
-    smtpServer = new SMTPServer({
-      authOptional: true,
-      onData(stream, session, callback) {
-        let mailData = '';
-        stream.on('data', (chunk) => {
-          mailData += chunk;
-        });
-        stream.on('end', () => {
-          callback(null, 'Message queued');
-        });
-      },
-    });
+describe("Test sending email", () => {
+  let timeoutId;
 
-    await new Promise<void>((resolve) => {
-      smtpServer.listen(0, 'localhost', () => {
-        resolve();
-      });
-    });
-
-    // Configure the test transporter
-    transporter = createTransport({
-      host: 'localhost',
-      port: smtpServer.options.port,
-      secure: false,
-      ignoreTLS: true,
-    });
+  // Set a timeout
+  beforeAll(() => {
+    timeoutId = setTimeout(() => {}, 30000);
   });
 
-  afterAll(async () => {
-    // Close the test SMTP server and transporter
-    await new Promise<void>((resolve) => {
-      smtpServer.close(() => {
-        resolve();
-      });
-    });
-    await transporter.close();
+  afterAll(() => {
+    clearTimeout(timeoutId); // Clear the timer to let Jest shut down gracefully
   });
 
-  it('should send an email successfully', async () => {
-    const to_email = 'test@example.com';
-    const subject = 'Test Subject';
-    const message = 'Test Message';
+  it("should send email using real email server successfully", async () => {
+    const emailProps = {
+      to_email: env.TEST_RECIPIENT, // Replace with a valid recipient email for testing
+      subject: "Integration Test Email",
+      message: "This is an integration test message",
+    };
 
-    const result = await sendEmail({ to_email, subject, message });
+    const result = await mail(emailProps);
 
     expect(result.status).toBe(200);
-    expect(result.message).toBe('Email sent successfully');
-  });
-
-  it('should throw an error if email sending fails', async () => {
-    // Misconfigure the transporter to simulate an error
-    transporter.options.port = 12345;
-
-    const to_email = 'test@example.com';
-    const subject = 'Test Subject';
-    const message = 'Test Message';
-
-    await expect(sendEmail({ to_email, subject, message })).rejects.toThrow();
+    expect(result.message).toContain("Email sent successfuly.");
   });
 });

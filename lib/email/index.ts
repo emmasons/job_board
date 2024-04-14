@@ -1,6 +1,6 @@
 import { mail } from "./nodemailer";
 
-interface Props {
+export interface EmailProps {
   to_email: string;
   subject?: string;
   message?: string;
@@ -10,7 +10,7 @@ export const sendEmail = async ({
   to_email,
   subject,
   message,
-}: Props): Promise<{ status: number; message: string }> => {
+}: EmailProps): Promise<{ status: number; message: string }> => {
   try {
     const formProps = {
       subject,
