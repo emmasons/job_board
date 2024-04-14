@@ -1,8 +1,9 @@
 import nodemailer from "nodemailer";
 import { env } from "../env";
 import { EmailProps } from ".";
+import path from "path";
+import fs from "fs";
 
-// Create a transporter object with SMTP configuration
 const transporter = nodemailer.createTransport({
   host: env.SMTP_EMAIL_HOST,
   port: 587,
@@ -21,11 +22,63 @@ export const mail = async ({
 }: EmailProps): Promise<{ status: number; message: string }> => {
   // Define the email options
 
+  // Define a simple template for the email
+
+  const logoPath = path.resolve("./public/logo.png");
+
+  const logoData = fs.readFileSync(logoPath).toString("base64");
+
+  const htmlTemplate = `<html>
+  <head>
+    <title>Infinite Talent Limited</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: whitesmoke; 
+        font-family: 'Google Sans', Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+      }
+      div {
+        background-color: white; 
+        padding: 20px;
+        border-radius: 20px;
+      }
+      h1 {
+        color: #F97316;
+      }
+      p {
+        color: #333333;
+        font-size:1rem;
+      }
+    </style>
+  </head>
+  <body>
+      <div>
+        <h1>${subject}</h1>
+        <p>${message}</p>
+      </div>
+      <p style="margin: 0;">Thank you.</p>
+      <p style="margin: 0;"><i>The Infinite Talent Limited Team</i></p><br>
+      <address style="font-size: 0.6rem; color: #787878;">
+          <p>1st Floor, Muthaiga Square, Thika road, Nairobi</p>
+          <p>Tel: 0203 151 2410</p>
+          <p>Mobile +254712428640</p>
+      </address>
+    <img src="cid:logo" style="background-color:white; max-height:40px; height:auto; width:auto; object-fit:contain">
+  </body>
+  </html>`;
   const mailOptions = {
     from: env.SMTP_AUTH_USER,
+    name: "Infinite Talent Limited",
     to: to_email,
     subject: subject,
-    text: message,
+    html: htmlTemplate,
+    attachments: [
+      {
+        filename: "logo.png",
+        path: logoPath,
+        cid: "logo", // You can give it any unique identifier.
+      },
+    ],
   };
 
   if (!to_email || !subject || !message || !env.SMTP_AUTH_USER) {
