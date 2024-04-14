@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
-import { sendEmail } from "@/lib/emailjs";
+import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
 

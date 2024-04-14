@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
-import { sendEmail } from "@/lib/emailjs";
+import { sendEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   const toEmail = req.nextUrl.searchParams.get("toEmail");
