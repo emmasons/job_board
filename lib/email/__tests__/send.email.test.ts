@@ -1,24 +1,23 @@
 import { mail } from "../nodemailer";
 import { env } from "@/lib/env";
 
-// This will tell jest to wait 30 seconds maximum for each test to finish
-jest.setTimeout(30000); // Setting timeount globally for all tests
+jest.setTimeout(30000); // Sets a global timeout of 30 seconds
 
 describe("Test sending email", () => {
   let timeoutId;
 
-  // Set a timeout
   beforeAll(() => {
     timeoutId = setTimeout(() => {}, 30000);
   });
 
   afterAll(() => {
-    clearTimeout(timeoutId); // Clear the timer to let Jest shut down gracefully
+    clearTimeout(timeoutId);
   });
 
+  // Your existing test
   it("should send email using real email server successfully", async () => {
     const emailProps = {
-      to_email: env.TEST_RECIPIENT, // Replace with a valid recipient email for testing
+      to_email: env.TEST_RECIPIENT,
       subject: "Integration Test Email",
       message: "This is an integration test message",
     };
@@ -26,6 +25,45 @@ describe("Test sending email", () => {
     const result = await mail(emailProps);
 
     expect(result.status).toBe(200);
-    expect(result.message).toContain("Email sent successfuly.");
+    expect(result.message).toContain("Email sent successfully.");
+  });
+
+  // Test for missing email parameters
+  it("should return an error if email parameters are missing", async () => {
+    try {
+      const result = await mail({});
+    } catch (error) {
+      expect(error.message).toContain("Invalid or missing email parameters.");
+    }
+  });
+
+  // Test for invalid recipient email
+  it("should return an error if the recipient email is incorrect", async () => {
+    const emailProps = {
+      to_email: "not-valid-email",
+      subject: "Integration Test Email",
+      message: "This is an integration test message",
+    };
+
+    try {
+      const result = await mail(emailProps);
+    } catch (error) {
+      expect(error.message).toContain("Error: No recipients defined");
+    }
+  });
+
+  // Test for missing or incorrect subject or message
+  it("should return an error if there's a missing or incorrect subject", async () => {
+    const emailProps = {
+      to_email: env.TEST_RECIPIENT,
+      subject: "",
+      message: "Testing subject",
+    };
+
+    try {
+      const result = await mail(emailProps);
+    } catch (error) {
+      expect(error.message).toContain("Invalid or missing email parameters.");
+    }
   });
 });
