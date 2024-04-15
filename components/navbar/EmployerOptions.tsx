@@ -21,7 +21,7 @@ export default function EmployerOptions() {
       <DropdownMenuContent>
         <DropdownMenuItem className="mb-2 py-2">
           <Link
-            href="/profile/dashboard/staff/jobs"
+            href="/profile/dashboard/employer/jobs"
             className="h-full w-full hover:cursor-pointer"
           >
             Advertise
