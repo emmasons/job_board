@@ -141,6 +141,7 @@ model Job {
   id                String       @id @default(cuid())
   title             String
   description       String
+  howToApply        String
   workSchedule      WorkSchedule @default(NOT_SPECIFIED)
   country           String
   city              String

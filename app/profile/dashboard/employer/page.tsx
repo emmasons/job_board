@@ -23,7 +23,7 @@ const page = async () => {
         </Link>
       ) : (
         <Link
-          href="/profile/dashboard/staff/company"
+          href="/profile/dashboard/employer/company"
           className="inline-flex items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
         >
           <p>Please set up your company</p>
