@@ -6,6 +6,9 @@ export const getUserJobs = async (ownerId: string) => {
       where: {
         ownerId,
       },
+      include: {
+        sector: true,
+      },
     });
     return jobs;
   } catch (error) {
