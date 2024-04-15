@@ -2,8 +2,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "./styles.css";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { ChevronRight, LogIn } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -67,7 +68,15 @@ const slideContent = [
 export default function Hero() {
   return (
     <div className="h-[70vh] bg-slate-100">
-      <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+      <Swiper
+        navigation={true}
+        modules={[Navigation, Pagination]}
+        pagination={{
+          // dynamicBullets: true,
+          clickable: true,
+        }}
+        className="mySwiper"
+      >
         {slideContent.map((slide, index) => (
           <SwiperSlide key={`slide-${slide.title}-${index + 1}`}>
             <div

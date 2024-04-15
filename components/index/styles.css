@@ -44,3 +44,13 @@ body {
   font-size: 1rem; /* Adjust the size of the icon */
   color: black; /* Set the color of the icon */
 }
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: red; /* Default color for inactive bullets */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #1177bc; /* Color for active bullet */
+}
