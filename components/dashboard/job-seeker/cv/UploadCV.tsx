@@ -3,9 +3,7 @@ import { CV, GCPData } from "@prisma/client";
 import { FileUpload } from "@/components/FileUpload";
 import { DropZoneDocumentFileTypes } from "@/constants";
 import {
-  FileIcon,
   FilePlus,
-  ImageIcon,
   Link,
   Pencil,
   PlusCircle,
@@ -66,6 +64,7 @@ const UploadCV = ({ cv, cvFile }: Props) => {
             fileMessage={"Upload your CV"}
             acceptedFileTypes={DropZoneDocumentFileTypes}
             bucketFileDirectory={`users/${cv.userId}/cv`}
+            toggleEdit={toggleEdit}
           />
           <div className="mt-4 text-xs text-muted-foreground">
             PDF or docx recommended.

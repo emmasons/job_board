@@ -30,6 +30,7 @@ interface FileUploadProps {
   acceptedFileTypes: Accept;
   bucketFileDirectory: string;
   isVideo?: boolean;
+  toggleEdit?: () => void;
 }
 
 const UploadDropzone = ({
@@ -38,6 +39,7 @@ const UploadDropzone = ({
   acceptedFileTypes,
   bucketFileDirectory,
   isVideo,
+  toggleEdit,
 }: FileUploadProps) => {
   const router = useRouter();
 
@@ -116,8 +118,9 @@ const UploadDropzone = ({
                 variant: "default",
                 className: "bg-green-300 border-0",
               });
-              router.refresh();
               setIsError(false);
+              router.refresh();
+              toggleEdit();
             } else {
               toast({
                 variant: "destructive",
@@ -262,7 +265,7 @@ const UploadDropzone = ({
 
 export const FileUpload = ({
   assetId,
-
+  toggleEdit,
   fileMessage,
   acceptedFileTypes,
   bucketFileDirectory,
@@ -275,6 +278,7 @@ export const FileUpload = ({
       fileMessage={fileMessage}
       acceptedFileTypes={acceptedFileTypes}
       bucketFileDirectory={bucketFileDirectory}
+      toggleEdit={toggleEdit}
     />
   );
 };
