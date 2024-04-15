@@ -46,7 +46,6 @@ const UploadDropzone = ({
   const [isProcessingFile, setIsProcessingFile] = useState<boolean>(false);
 
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [readable, setReadable] = useState(null);
 
   const startUpload = async function (acceptedFile: File) {
     let fileToUpload = acceptedFile;
@@ -110,7 +109,6 @@ const UploadDropzone = ({
               }),
             });
             const data = await response.json();
-            console.log(response.status, "**********************");
             if (response.status === 200) {
               toast({
                 title: "Success",
@@ -118,7 +116,6 @@ const UploadDropzone = ({
                 variant: "default",
                 className: "bg-green-300 border-0",
               });
-
               router.refresh();
               setIsError(false);
             } else {

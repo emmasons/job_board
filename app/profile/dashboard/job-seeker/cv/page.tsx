@@ -5,15 +5,16 @@ import { Role } from "@prisma/client";
 import { getUserCv } from "@/actions/get-user-cv";
 import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { Settings } from "lucide-react";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 
-type Props = {};
-
-const page = async (props: Props) => {
+const page = async () => {
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {
     return redirect("/");
   }
   const cv = await getUserCv(user.id);
+  const cvFile = await getLatestFileMetaData(cv.id);
+
   return (
     <div className="p-6">
       <div className="md:w-1/2">
@@ -21,7 +22,7 @@ const page = async (props: Props) => {
           CV Settings
           <Settings className="h-6 w-6 text-primary" />
         </h1>
-        <UploadCV cv={cv} />
+        <UploadCV cv={cv} cvFile={cvFile} />
       </div>
     </div>
   );
