@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
+import RichTextEditor from "@/components/ckeditor/RichTextEditor";
 
 interface CreateJobFormProps {
   initialData: {
@@ -42,6 +43,7 @@ interface CreateJobFormProps {
     numberOfPositions: string;
     experienceId: string;
     sectorId: string;
+    howToApply: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -86,6 +88,9 @@ const formSchema = z.object({
     message: "Experience is required",
   }),
   sectorId: z.string().min(1, {
+    message: "Sector is required",
+  }),
+  howToApply: z.string().min(1, {
     message: "Sector is required",
   }),
 });
@@ -194,11 +199,19 @@ export default function CreateJobForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="Job description: 'describe your job here'"
-                      {...field}
-                    />
+                    <RichTextEditor {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="howToApply"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <RichTextEditor {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

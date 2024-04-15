@@ -41,7 +41,7 @@ const page = async () => {
       <CreateJobForm
         initialData={{
           city: "",
-          description: "",
+          description: "Job Description",
           title: "",
           country: "",
           contractType: "",
@@ -52,6 +52,7 @@ const page = async () => {
           educationLevelId: "",
           experienceId: "",
           sectorId: "",
+          howToApply: "How to Apply",
         }}
         sectorList={sectors.map((sector) => ({
           label: sector.label,

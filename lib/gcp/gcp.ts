@@ -10,23 +10,37 @@ export class FileUploader {
   fileName: string;
   storage: any;
   downloadExpiryDate: Date;
-
+  isPublic: boolean;
   constructor(
     blobName: string,
     contentType: string,
     method: string,
     downloadExpiryDate: Date,
+    isPublic: boolean = false,
   ) {
+    this.isPublic = isPublic;
     this.blobName = blobName;
     this.contentType = contentType;
     this.method = method;
     //   The ID of your GCS bucket
-    this.gsBucketName = env.GS_BUCKET_NAME;
+    this.gsBucketName = this.isPublic
+      ? env.GS_PUBLIC_BUCKET_NAME
+      : env.GS_BUCKET_NAME;
     this.gsLocation = env.GS_LOCATION;
     this.fileName = `${this.gsLocation}/${this.blobName}`;
     this.downloadExpiryDate = downloadExpiryDate;
 
     this.storage = new Storage({ keyFilename: env.GS_CREDENTIALS });
+  }
+
+  async makeFilePublic(): Promise<string> {
+    const bucket = this.storage.bucket(this.gsBucketName);
+    const file = bucket.file(this.fileName);
+
+    // Make the file public
+    await file.makePublic();
+    const publicUrl = file.publicUrl();
+    return publicUrl;
   }
 
   generateSignedUrl(): Promise<{ url: string; blobName: string }> {
@@ -58,21 +72,25 @@ export class FileUploader {
 
   generateSignedDownloadUrl(): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      try {
-        const options = {
-          version: "v4",
-          action: "read",
-          expires: this.downloadExpiryDate,
-        };
+      if (this.isPublic) {
+        return resolve(await this.makeFilePublic());
+      } else {
+        try {
+          const options = {
+            version: "v4",
+            action: "read",
+            expires: this.downloadExpiryDate,
+          };
 
-        const [url] = await this.storage
-          .bucket(this.gsBucketName)
-          .file(this.blobName)
-          .getSignedUrl(options);
+          const [url] = await this.storage
+            .bucket(this.gsBucketName)
+            .file(this.fileName)
+            .getSignedUrl(options);
 
-        resolve(url);
-      } catch (error) {
-        reject(error);
+          resolve(url);
+        } catch (error) {
+          reject(error);
+        }
       }
     });
   }
@@ -81,15 +99,17 @@ export class FileUploader {
     file: FormDataEntryValue,
   ): Promise<{ status: number; message: string; downloadUrl: string }> {
     return new Promise(async (resolve, reject) => {
+      // console.log(await this.generateSignedDownloadUrl())
       try {
-        const signedUrl = await this.generateSignedUrl();
-        const cloudResponse = await fetch(signedUrl, {
+        const { url } = await this.generateSignedUrl();
+        const cloudResponse = await fetch(url, {
           method: this.method,
           headers: {
             "Content-Type": this.contentType,
           },
           body: file,
         });
+        console.log(cloudResponse.status, cloudResponse.statusText);
         const downloadUrl = await this.generateSignedDownloadUrl();
         const response = {
           status: cloudResponse.status,
@@ -109,7 +129,7 @@ export class FileUploader {
   async getGenerationNumber() {
     const [metadata] = await this.storage
       .bucket(this.gsBucketName)
-      .file(this.blobName)
+      .file(this.fileName)
       .getMetadata();
     const generationNumber = metadata.generation;
     return generationNumber;
@@ -123,7 +143,7 @@ export class FileUploader {
 
     const [response] = await this.storage
       .bucket(this.gsBucketName)
-      .file(this.blobName)
+      .file(this.fileName)
       .delete(deleteOptions);
   }
 }
