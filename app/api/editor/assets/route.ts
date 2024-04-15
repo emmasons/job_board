@@ -18,12 +18,10 @@ export async function POST(req: Request) {
 
     // upload image
     const ROOT_DIR = `editor/assets`;
+    const randomString = Math.random().toString(36).substr(2, 5); // generate a random string
 
-    const { status, downloadUrl } = await uploadFile(
-      file,
-      `${ROOT_DIR}/${file.name}`,
-      true,
-    );
+    const fileName = `${ROOT_DIR}/${randomString}/${file.name}`;
+    const { status, downloadUrl } = await uploadFile(file, fileName, true);
 
     if (status !== 200) {
       return new Response(JSON.stringify({ error: "Failed to upload image" }), {
