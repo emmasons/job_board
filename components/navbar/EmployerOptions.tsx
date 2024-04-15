@@ -27,6 +27,16 @@ export default function EmployerOptions() {
             Advertise
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem className="mb-2 py-2">
+          <Link href="#" className="h-full w-full hover:cursor-pointer">
+            Find Candidated
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="mb-2 py-2">
+          <Link href="#" className="h-full w-full hover:cursor-pointer">
+            My Candidates
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
