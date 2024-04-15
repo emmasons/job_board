@@ -7,7 +7,7 @@ export const Logo = () => {
       alt="Logo"
       height={100}
       width={130}
-      className="h-[40px] w-[40px] rounded-full"
+      className="h-[40px] w-auto"
     />
   );
 };
