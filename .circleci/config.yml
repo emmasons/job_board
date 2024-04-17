@@ -81,14 +81,22 @@ workflows:
   job_board:
     jobs:
       - push_service_image
+          context:
+            - infinite_gcp
       - deploy_service_cloud_run:
+          context:
+            - infinite_gcp
           requires:
             - push_service_image
       - production_deploy_hold:
+          context:
+            - infinite_gcp
           type: approval
           requires:
             - push_service_image
       - deploy_service_cloud_run:
+          context:
+            - infinite_gcp
           environment: production
           service-account-name: production@radiant-destiny-370910.iam.gserviceaccount.com
           requires:
