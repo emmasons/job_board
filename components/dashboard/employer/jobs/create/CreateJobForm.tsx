@@ -157,7 +157,7 @@ export default function CreateJobForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-4 space-y-4"
+            className="mt-4 w-2/3 space-y-4"
           >
             <FormField
               control={form.control}
