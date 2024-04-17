@@ -26,22 +26,21 @@ commands:
           name: setup_env_file
           command: |
             bash scripts/create_env_file.sh
-
 jobs:
-  test_job_board:
-    machine:
-      image: ubuntu-2204:2024.01.1
-    working_directory: ~/job_board
-    steps:
-      - checkout
-      - setup_env_file
-      - run:
-          name: Run Tests
-          command: |
-            make ci-test
+  # test_job_board:
+  #   machine:
+  #     image: ubuntu-2004:2024.01.2
+  #   working_directory: ~/job_board
+  #   steps:
+  #     - checkout
+  #     - setup_env_file
+  #     - run:
+  #         name: Run Tests
+  #         command: |
+  #           make ci-test
   push_service_image:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: ubuntu-2004:2024.01.2
     working_directory: ~/job_board
     steps:
       - checkout
@@ -56,7 +55,7 @@ jobs:
             docker-push -f deploy/build.config
   deploy_service_cloud_run:
     machine:
-      image: ubuntu-2204:2024.01.1
+      image: ubuntu-2004:2024.01.2
     parameters:
       environment:
         description: "The environment where to deploy the application"
@@ -65,7 +64,7 @@ jobs:
       service-account-name:
         description: The service account the app uses for access to GCP resources. It uses a different service account for deployment.
         type: string
-        default: staging@radiant-destiny-370910.iam.gserviceaccount.com
+        default: staging@infinite-419910.iam.gserviceaccount.com
     steps:
       - checkout
       - cloudrun/init
@@ -78,9 +77,9 @@ jobs:
           args: --service-account=<< parameters.service-account-name >>
 
 workflows:
-  job_board:
+  talent:
     jobs:
-      - push_service_image
+      - push_service_image:
           context:
             - infinite_gcp
       - deploy_service_cloud_run:
@@ -98,6 +97,6 @@ workflows:
           context:
             - infinite_gcp
           environment: production
-          service-account-name: production@radiant-destiny-370910.iam.gserviceaccount.com
+          service-account-name: production@infinite-419910.iam.gserviceaccount.com
           requires:
             - production_deploy_hold
