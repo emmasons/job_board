@@ -21,15 +21,17 @@ import { ComboProps } from "@/types/db";
 
 interface ProfileProps {
   initialData: {
-    country: string;
-    occupation: string;
-    educationLevelId: string;
-    experienceId: string;
-    sectorId: string;
+    country: string | null;
+    occupation: string | null;
+    educationLevelId: string | null;
+    experienceId: string | null;
+    sectorId: string | null;
+    id: string | null;
   };
   sectorList: ComboProps;
   educationLevelList: ComboProps;
   experienceList: ComboProps;
+  isEditing: boolean;
 }
 
 const formSchema = z.object({
@@ -57,6 +59,7 @@ export default function Profile({
   sectorList,
   educationLevelList,
   experienceList,
+  isEditing,
 }: ProfileProps) {
   const router = useRouter();
   const { countries } = useCountries();
@@ -74,20 +77,29 @@ export default function Profile({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await fetch("/api/job-seeker/profile/", {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
+      let response: any;
+      if (isEditing) {
+        response = await fetch(`/api/job-seeker/profile/${initialData.id}/`, {
+          method: "PATCH",
+          body: JSON.stringify(values),
+        });
+      } else {
+        response = await fetch("/api/job-seeker/profile/", {
+          method: "POST",
+          body: JSON.stringify(values),
+        });
+      }
 
+      const data = await response.json();
+      const toastMessage = isEditing ? "Profile Updated" : "Profile Created";
       if (response.ok) {
         toast({
           title: "Success",
-          description: "Job Created",
+          description: toastMessage,
           variant: "default",
           className: "bg-green-300 border-0",
         });
-        router.push("/profile/dashboard/job-seeker/cv");
+        router.refresh();
       } else {
         toast({
           variant: "destructive",
@@ -112,7 +124,7 @@ export default function Profile({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-4 w-2/3 space-y-4"
+            className="mt-4 w-full space-y-4"
           >
             <FormField
               control={form.control}
@@ -185,7 +197,7 @@ export default function Profile({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={isSubmitting} type="submit">
-                Create
+                {isEditing ? "Update" : "Create"}
               </Button>
             </div>
           </form>

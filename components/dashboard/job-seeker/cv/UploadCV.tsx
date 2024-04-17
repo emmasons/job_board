@@ -22,7 +22,7 @@ const UploadCV = ({ cv, cvFile }: Props) => {
   const toggleEdit = () => setIsEditing((current) => !current);
   return (
     <div className="space-y-4">
-      <Button onClick={toggleEdit} variant="secondary">
+      <Button onClick={toggleEdit} variant="ghost">
         {isEditing && <>Cancel</>}
         {!isEditing && !cvFile && (
           <>
@@ -43,7 +43,7 @@ const UploadCV = ({ cv, cvFile }: Props) => {
             <FilePlus className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative mt-2 aspect-video">
+          <div className="relative mt-2 h-auto">
             <div className="bg-slate-200 p-6">
               <a
                 href={cvFile.downloadUrl}

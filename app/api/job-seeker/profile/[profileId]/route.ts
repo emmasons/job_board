@@ -3,7 +3,10 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
-export async function POST(req: Request) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { profileId: string } },
+) {
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
@@ -13,16 +16,18 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const profile = await db.jobSeekerProfile.create({
+    const profile = await db.jobSeekerProfile.update({
+      where: {
+        id: params.profileId,
+      },
       data: {
-        jobSeekerId: userId,
         ...values,
       },
     });
 
     return NextResponse.json(profile);
   } catch (error) {
-    console.log("[PROFILE]", error);
+    console.log("[PROFILE_ID]", error);
     console.log(error);
     return new NextResponse("Internal Error", { status: 500 });
   }

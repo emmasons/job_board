@@ -10,6 +10,8 @@ import Profile from "@/components/dashboard/job-seeker/cv/Profile";
 import { getAllSectors } from "@/actions/get-all-sectors";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import { getExperience } from "@/actions/get-experience";
+import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
+import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
@@ -23,6 +25,8 @@ const page = async () => {
   const experience = await getExperience();
   const sectors = await getAllSectors();
 
+  const jobSeekerProfile = await getJobSeekerProfile(user.id);
+
   return (
     <div className="p-6">
       <div className="md:w-1/2">
@@ -30,28 +34,24 @@ const page = async () => {
           CV Settings
           <Settings className="h-6 w-6 text-primary" />
         </h1>
-        <UploadCV cv={cv} cvFile={cvFile} />
-        <Profile
-          initialData={{
-            country: "",
-            occupation: "",
-            educationLevelId: "",
-            experienceId: "",
-            sectorId: "",
-          }}
-          sectorList={sectors.map((sector) => ({
-            label: sector.label,
-            value: sector.id,
-          }))}
-          educationLevelList={educationLevels.map((level) => ({
-            label: level.label,
-            value: level.id,
-          }))}
-          experienceList={experience.map((exp) => ({
-            label: exp.label,
-            value: exp.id,
-          }))}
-        />
+        <div className="space-y-12">
+          <UploadCV cv={cv} cvFile={cvFile} />
+          <JobSeekerProfileUpdate
+            profile={jobSeekerProfile}
+            sectorList={sectors.map((sector) => ({
+              label: sector.label,
+              value: sector.id,
+            }))}
+            educationLevelList={educationLevels.map((level) => ({
+              label: level.label,
+              value: level.id,
+            }))}
+            experienceList={experience.map((exp) => ({
+              label: exp.label,
+              value: exp.id,
+            }))}
+          />
+        </div>
       </div>
     </div>
   );
