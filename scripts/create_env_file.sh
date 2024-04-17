@@ -28,6 +28,10 @@ create_env_file() {
     echo "SMTP_AUTH_USER=${SMTP_AUTH_USER}" >> .env
     echo "SMTP_AUTH_PASSWORD=${SMTP_AUTH_PASSWORD}" >> .env
     echo "TEST_RECIPIENT=${TEST_RECIPIENT}" >> .env
+
+    # paypal 
+    echo "PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}" >> .env
+    echo "PAYPAL_CLIENT_SECRET=${PAYPAL_CLIENT_SECRET}" >> .env
 }
 main(){
     create_env_file

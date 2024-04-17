@@ -1,6 +1,7 @@
 import { getJobById } from "@/actions/get-job-by-id";
 import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Link from "next/link";
 import React from "react";
 
 type Props = {
@@ -44,9 +45,12 @@ const page = async (props: Props) => {
             {job?.company.companyName}
           </p>
         </div>
-        <div className="border-zinc-400 border-l-[0.3em] pl-4 bg-zinc-100">
-          <Preview value={job?.howToApply} />
-        </div>
+        <Link
+          href={`/jobs/${job?.id}/apply`}
+          className="mt-4 inline-flex items-center rounded-md border border-transparent justify-center bg-primary px-4 py-2 text-xs font-semibold uppercase text-white hover:bg-secondary focus:outline-none"
+        >
+          Apply
+        </Link>
       </div>
     </MaxWidthWrapper>
   );

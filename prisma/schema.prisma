@@ -166,8 +166,9 @@ model Job {
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Purchase  Purchase[]
 }
 
 model JobSeekerProfile {
@@ -185,4 +186,26 @@ model JobSeekerProfile {
   experience       Experience?     @relation(fields: [experienceId], references: [id])
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+}
+
+model Purchase {
+  id     String @id @default(uuid())
+  userId String
+
+  status  PurchaseStatus @default(PENDING)
+  orderID String         @unique
+
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([userId, jobId])
+  @@index([jobId])
 }
