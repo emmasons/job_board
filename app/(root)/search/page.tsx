@@ -4,6 +4,7 @@ import JobList from "@/components/job/JobList";
 import Search from "@/components/search/Search";
 import { JobsWithCompany } from "@/types/db";
 
+export const dynamic = "force-dynamic";
 interface SearchPageProps {
   searchParams: {
     title: string;
