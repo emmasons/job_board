@@ -38,3 +38,4 @@ next-env.d.ts
 migrations/
 bfg.jar
 notes.txt
+.http

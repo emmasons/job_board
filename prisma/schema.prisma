@@ -145,17 +145,17 @@ model Job {
   id                String       @id @default(cuid())
   title             String
   description       String
-  howToApply        String
+  howToApply        String?
   workSchedule      WorkSchedule @default(NOT_SPECIFIED)
   country           String
   city              String
   startDate         String
   occupation        String?
   contractType      ContractType @default(NOT_SPECIFIED)
-  ownerId           String
-  owner             User         @relation(fields: [ownerId], references: [id])
-  companyId         String
-  company           Company      @relation(fields: [companyId], references: [id])
+  ownerId           String?
+  owner             User?        @relation(fields: [ownerId], references: [id])
+  companyId         String?
+  company           Company?     @relation(fields: [companyId], references: [id])
   published         Boolean      @default(false)
   numberOfPositions Int          @default(1)
 
