@@ -29,7 +29,7 @@ const JobList = async ({ items }: Props) => {
               id={item.id}
               title={item.title}
               createdAt={item.createdAt}
-              sector={item.sector.label}
+              sector={item.sector?.label}
               city={item.city}
               country={item.country}
               occupation={item.occupation}
