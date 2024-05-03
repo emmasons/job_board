@@ -39,3 +39,4 @@ migrations/
 bfg.jar
 notes.txt
 .http
+.vscode/
