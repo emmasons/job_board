@@ -26,10 +26,6 @@ const KeywordSearch = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    // const selectedItemsSequence = Object.values(initialData).join(",");
-
-    // query["keywords"] = selectedItemsSequence;
-
     Object.entries(initialData).forEach(([key, value]) => {
       query[key] = value;
     });
