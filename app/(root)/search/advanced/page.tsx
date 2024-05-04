@@ -11,7 +11,7 @@ import FilterByEducationLevel from "@/components/search/filter/EducationLevel";
 import { getExperience } from "@/actions/get-experience";
 import FilterByExperience from "@/components/search/filter/Experience";
 import PublicationDateSearch from "@/components/search/advanced/PublicationDateSearch";
-import { Button } from "@/components/ui/button";
+import Search from "@/components/search/advanced/Search";
 
 type Props = {};
 
@@ -20,6 +20,7 @@ const page = async (props: Props) => {
   const workSchedules = await getWorkSchedules();
   const levels = await getEducationLevels();
   const experienceLevels = await getExperience();
+
   return (
     <MaxWidthWrapper className="py-4">
       <BreadCrumb />
@@ -50,7 +51,7 @@ const page = async (props: Props) => {
           <PublicationDateSearch />
         </div>
         <div className="flex items-center gap-x-2">
-          <Button type="submit">Search</Button>
+          <Search />
         </div>
       </div>
     </MaxWidthWrapper>

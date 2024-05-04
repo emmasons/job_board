@@ -16,16 +16,16 @@ import { Input } from "@/components/ui/input";
 
 interface KeywordFormProps {
   initialData: {
-    jobTitle: string;
-    jobDescription: string;
+    title: string;
+    description: string;
     employerName: string;
   };
   onChange: (data: z.infer<typeof formSchema>) => void;
 }
 
 const formSchema = z.object({
-  jobTitle: z.string(),
-  jobDescription: z.string(),
+  title: z.string(),
+  description: z.string(),
   employerName: z.string(),
 });
 
@@ -33,14 +33,12 @@ export default function KeywordForm({
   initialData,
   onChange,
 }: KeywordFormProps) {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
 
-  const { isSubmitting, isValid, errors } = form.formState;
+  const { isSubmitting } = form.formState;
 
   form.watch((newValues) => {
     onChange(newValues);
@@ -53,7 +51,7 @@ export default function KeywordForm({
           <form className="mt-4 space-y-4">
             <FormField
               control={form.control}
-              name="jobTitle"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job Title</FormLabel>
@@ -71,7 +69,7 @@ export default function KeywordForm({
 
             <FormField
               control={form.control}
-              name="jobDescription"
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Job Description</FormLabel>

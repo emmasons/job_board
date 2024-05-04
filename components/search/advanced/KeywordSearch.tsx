@@ -8,13 +8,13 @@ import useQueryParams from "@/hooks/useQueryParams";
 const KeywordSearch = () => {
   const { query, getParam } = useQueryParams();
 
-  const jobTitle = getParam("jobTitle");
-  const jobDescription = getParam("jobDescription");
+  const title = getParam("title");
+  const description = getParam("description");
   const employerName = getParam("employerName");
 
   const [initialData, setInitialData] = useState({
-    jobTitle: jobTitle || "",
-    jobDescription: jobDescription || "",
+    title: title || "",
+    description: description || "",
     employerName: employerName || "",
   });
 
