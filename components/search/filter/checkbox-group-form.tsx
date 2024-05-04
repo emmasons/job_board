@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useEffect } from "react";
 import qs from "query-string";
+import useQueryParams from "@/hooks/useQueryParams";
 
 export type Item = {
   id: string;
@@ -48,27 +49,15 @@ export function CheckboxGroupForm({
     },
   });
 
-  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const title = searchParams.get("title");
-  const location = searchParams.get("location");
-  const workSchedule = searchParams.get("workSchedule");
-  const countriesFilter = searchParams.get("countriesFilter");
-  const sectorFilter = searchParams.get("sectorFilter");
+  const { query } = useQueryParams();
 
   const formValues = form.watch();
 
   useEffect(() => {
     const selectedItemsSequence = formValues.items.join(",");
-    let query = {
-      title: title,
-      location: location,
-      workSchedule: workSchedule,
-      countriesFilter: countriesFilter,
-      sectorFilter: sectorFilter,
-    };
 
     query[searchParamLabel] = selectedItemsSequence;
 
@@ -91,17 +80,7 @@ export function CheckboxGroupForm({
     );
 
     if (selectedItemsSequence) router.push(url);
-  }, [
-    countriesFilter,
-    formValues.items,
-    location,
-    pathname,
-    router,
-    searchParamLabel,
-    title,
-    workSchedule,
-    sectorFilter,
-  ]);
+  }, [formValues.items, pathname, router, searchParamLabel, query]);
 
   return (
     <Form {...form}>
