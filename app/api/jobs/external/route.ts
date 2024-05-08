@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 
     const { numberOfPositions, ...remainingValues } = values;
 
-    const job = await db.job.create({
+    const job = await db.scrapedJob.create({
       data: {
         numberOfPositions: parseInt(numberOfPositions),
         ...remainingValues,

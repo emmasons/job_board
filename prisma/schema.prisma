@@ -209,3 +209,26 @@ model Purchase {
   @@unique([userId, jobId])
   @@index([jobId])
 }
+
+model ScrapedJob {
+  id                String  @id @default(uuid())
+  title             String
+  description       String
+  howToApply        String?
+  workSchedule      String
+  country           String
+  city              String
+  startDate         String?
+  datePosted        String?
+  occupation        String?
+  contractType      String
+  company           String?
+  numberOfPositions Int     @default(1)
+
+  educationLevel  String?
+  experienceLevel String?
+  sector          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
