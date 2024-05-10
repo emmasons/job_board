@@ -20,20 +20,11 @@ export const SearchByProperty = ({ query }: Props) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const searchParamsObject = Object.entries(query).reduce(
-      (acc, [key, value]) => {
-        if (value) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {},
-    );
-    searchParamsObject["title"] = debouncedValue;
+    query["title"] = debouncedValue;
     const url = qs.stringifyUrl(
       {
         url: pathname,
-        query: searchParamsObject,
+        query: query,
       },
       { skipEmptyString: true, skipNull: true },
     );
