@@ -4,7 +4,6 @@ import qs from "query-string";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useCountries } from "use-react-countries";
-import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
 import { Combobox } from "@/components/ui/combobox";
 import useQueryParams from "@/hooks/useQueryParams";
@@ -16,18 +15,15 @@ export const SearchByLocation = () => {
     label: country.name,
   }));
   const { query, getParam } = useQueryParams();
-  const [value, setValue] = useState(getParam("location"));
-  const handleComboboxChange = (value) => {
-    setValue(value);
-  };
-
-  const debouncedValue = useDebounce(value);
+  const defaultLocation = getParam("location");
+  console.log(defaultLocation, "defaultLocation");
+  const [value, setValue] = useState(defaultLocation || "");
 
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    query["location"] = debouncedValue;
+  const handleComboboxChange = (value) => {
+    setValue(value);
+    query["location"] = value;
     const url = qs.stringifyUrl(
       {
         url: pathname,
@@ -37,7 +33,11 @@ export const SearchByLocation = () => {
     );
 
     router.push(url);
-  }, [debouncedValue, router, pathname, query]);
+  };
+
+  useEffect(() => {
+    setValue(getParam("location") || "");
+  }, [getParam, query]);
 
   return (
     <div className="relative flex h-full flex-1 items-center justify-center">
