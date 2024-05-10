@@ -16,7 +16,7 @@ export const SearchByLocation = () => {
   }));
   const { query, getParam } = useQueryParams();
   const defaultLocation = getParam("location");
-  console.log(defaultLocation, "defaultLocation");
+
   const [value, setValue] = useState(defaultLocation || "");
 
   const router = useRouter();

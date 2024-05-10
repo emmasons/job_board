@@ -20,7 +20,8 @@ export const SearchByProperty = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
+  const handleChange = (value) => {
+    setValue(value);
     query["title"] = value;
     const url = qs.stringifyUrl(
       {
@@ -31,7 +32,11 @@ export const SearchByProperty = () => {
     );
 
     router.push(url);
-  }, [router, pathname, query, value]);
+  };
+
+  useEffect(() => {
+    setValue(getParam("title"));
+  }, [getParam]);
 
   return (
     <div className="relative flex h-full flex-1 items-center justify-center">
@@ -40,7 +45,7 @@ export const SearchByProperty = () => {
         icon="mdi:magnify"
       />
       <Input
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
         value={value}
         className="w-full rounded-full border-0 bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
         placeholder="Job title, key words, or company"
