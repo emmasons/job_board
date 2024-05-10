@@ -7,18 +7,16 @@ import { useCountries } from "use-react-countries";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
 import { Combobox } from "@/components/ui/combobox";
+import useQueryParams from "@/hooks/useQueryParams";
 
-type Props = {
-  query: {};
-};
-
-export const SearchByLocation = ({ query }: Props) => {
+export const SearchByLocation = () => {
   const { countries } = useCountries();
   const locations = countries.map((country) => ({
     value: country.name,
     label: country.name,
   }));
-  const [value, setValue] = useState("");
+  const { query, getParam } = useQueryParams();
+  const [value, setValue] = useState(getParam("location"));
   const handleComboboxChange = (value) => {
     setValue(value);
   };

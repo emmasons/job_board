@@ -7,20 +7,21 @@ import { useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
+import useQueryParams from "@/hooks/useQueryParams";
 
 type Props = {
-  query: {};
+  defaultValue: string;
 };
 
-export const SearchByProperty = ({ query }: Props) => {
-  const [value, setValue] = useState("");
-  const debouncedValue = useDebounce(value);
+export const SearchByProperty = () => {
+  const { query, getParam } = useQueryParams();
+  const [value, setValue] = useState(getParam("title"));
 
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    query["title"] = debouncedValue;
+    query["title"] = value;
     const url = qs.stringifyUrl(
       {
         url: pathname,
@@ -30,7 +31,7 @@ export const SearchByProperty = ({ query }: Props) => {
     );
 
     router.push(url);
-  }, [debouncedValue, router, pathname, query]);
+  }, [router, pathname, query, value]);
 
   return (
     <div className="relative flex h-full flex-1 items-center justify-center">
