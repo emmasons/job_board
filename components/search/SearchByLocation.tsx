@@ -8,7 +8,11 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
 import { Combobox } from "@/components/ui/combobox";
 
-export const SearchByLocation = () => {
+type Props = {
+  query: {};
+};
+
+export const SearchByLocation = ({ query }: Props) => {
   const { countries } = useCountries();
   const locations = countries.map((country) => ({
     value: country.name,
@@ -25,22 +29,27 @@ export const SearchByLocation = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const title = searchParams.get("title");
-
   useEffect(() => {
+    const searchParamsObject = Object.entries(query).reduce(
+      (acc, [key, value]) => {
+        if (value) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {},
+    );
+    searchParamsObject["location"] = debouncedValue;
     const url = qs.stringifyUrl(
       {
         url: pathname,
-        query: {
-          location: debouncedValue,
-          title: title,
-        },
+        query: searchParamsObject,
       },
       { skipEmptyString: true, skipNull: true },
     );
 
     router.push(url);
-  }, [debouncedValue, title, router, pathname]);
+  }, [debouncedValue, router, pathname, query]);
 
   return (
     <div className="relative flex h-full flex-1 items-center justify-center">
