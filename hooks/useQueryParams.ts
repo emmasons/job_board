@@ -21,7 +21,15 @@ const useQueryParams = () => {
     }));
   };
 
-  return { getParam, setParam, query };
+  const removeParam = (paramName) => {
+    setQuery((prevQuery) => {
+      const newQuery = { ...prevQuery };
+      delete newQuery[paramName];
+      return newQuery;
+    });
+  };
+
+  return { getParam, setParam, query, removeParam };
 };
 
 export default useQueryParams;
