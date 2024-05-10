@@ -1,8 +1,7 @@
 import React from "react";
 import { SearchByProperty } from "./SearchByProperty";
-import { FilterByLocation } from "./FilterByLocation";
+import { SearchByLocation } from "./SearchByLocation";
 import { Button } from "../ui/button";
-
 
 type Props = {};
 
@@ -12,7 +11,7 @@ const Search = async (props: Props) => {
       <div className="flex-1 items-center rounded-md border border-slate-200 p-4 shadow-md md:flex md:gap-2 md:border-none md:p-0 md:shadow-none">
         <SearchByProperty />
         <div className="my-4 border-b-2 border-gray-300 md:h-8 md:border-l-2 "></div>
-        <FilterByLocation />
+        <SearchByLocation />
         <div className="my-4 border-b-2 border-gray-300 md:h-8 md:border-l-2 "></div>
       </div>
 
