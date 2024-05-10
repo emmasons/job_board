@@ -2,7 +2,7 @@
 
 import qs from "query-string";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useCountries } from "use-react-countries";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
@@ -25,25 +25,15 @@ export const SearchByLocation = ({ query }: Props) => {
 
   const debouncedValue = useDebounce(value);
 
-  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    const searchParamsObject = Object.entries(query).reduce(
-      (acc, [key, value]) => {
-        if (value) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {},
-    );
-    searchParamsObject["location"] = debouncedValue;
+    query["location"] = debouncedValue;
     const url = qs.stringifyUrl(
       {
         url: pathname,
-        query: searchParamsObject,
+        query: query,
       },
       { skipEmptyString: true, skipNull: true },
     );
