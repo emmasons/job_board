@@ -6,17 +6,8 @@ import { JobsWithCompany } from "@/types/db";
 
 export const dynamic = "force-dynamic";
 interface SearchPageProps {
-  searchParams: {
-    title: string;
-    categoryId: string;
-  };
+  searchParams: Record<string, string | string[] | undefined>;
 }
-
-// export const generateMetadata = ({ searchParams }: SearchPageProps) => {
-//   return {
-//     title: searchParams.title || "Search",
-//   };
-// }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const items = (await getAllJobs({ ...searchParams })) as JobsWithCompany[];
