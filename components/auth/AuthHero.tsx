@@ -4,9 +4,11 @@ const AuthHero = () => {
   return (
     <div className="flex h-full flex-col justify-end bg-[url('/auth/ladylogin.jpg')] bg-cover bg-center bg-no-repeat px-4 pb-24">
       <div className="rounded-lg bg-[rgba(64,64,64,0.7)] px-4 py-8 text-secondary">
-        <h2 className="text-xl font-bold">Welcome to My Site</h2>
+        <h2 className="text-xl font-bold">
+          Welcome to Infinite Talent Europe Job Portal
+        </h2>
         <p className="text-[0.9rem]">
-          Join many others who consume the awesome product we sell.
+          Join thousands of other talentseekers and employers.
         </p>
       </div>
     </div>

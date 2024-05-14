@@ -6,7 +6,8 @@ import { env } from "@/lib/env";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password, role } = await req.json();
+    const { email, password, role, firstName, lastName, phoneNumber } =
+      await req.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
         role,
       },
     });
-    await db.profile.create({ data: { userId: user.id } });
+    await db.profile.create({ data: { userId: user.id, firstName, lastName } });
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
       where: { id: user.id },

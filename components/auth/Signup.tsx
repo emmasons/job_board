@@ -38,6 +38,9 @@ const Signup = ({ role }: Props) => {
           "Password must have a combination of lowercase and uppercase letters, a special character and at least one number.",
         ),
       confirmPassword: z.string().min(8),
+      firstName: z.string().min(1, "Please provide your first name"),
+      lastName: z.string().min(1, "Please provide your last name"),
+      phoneNumber: z.string().min(2, "Please provide your phone number"),
     })
     .superRefine(({ confirmPassword, password }, ctx) => {
       if (confirmPassword !== password) {
@@ -54,6 +57,9 @@ const Signup = ({ role }: Props) => {
     defaultValues: {
       email: "",
       password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
     },
   });
 
@@ -94,7 +100,48 @@ const Signup = ({ role }: Props) => {
     <div className="flex h-full w-full flex-col justify-center">
       <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex justify-between gap-4">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-secondary">First Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g Jason" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-secondary">Last Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g Bourne" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-secondary">Phone Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g +234801234567" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
