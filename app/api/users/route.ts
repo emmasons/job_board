@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
         role,
       },
     });
-    await db.profile.create({ data: { userId: user.id, firstName, lastName } });
+    await db.profile.create({
+      data: { userId: user.id, firstName, lastName, phoneNumber },
+    });
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
       where: { id: user.id },
