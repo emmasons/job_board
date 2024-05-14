@@ -28,8 +28,11 @@ export default function EmployerOptions() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="mb-2 py-2">
-          <Link href="#" className="h-full w-full hover:cursor-pointer">
-            Find Candidated
+          <Link
+            href="/find-candidates"
+            className="h-full w-full hover:cursor-pointer"
+          >
+            Find Candidates
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="mb-2 py-2">
