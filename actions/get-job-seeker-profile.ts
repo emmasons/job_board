@@ -6,7 +6,7 @@ export const getJobSeekerProfile = async (
 ): Promise<JobSeekerProfileProps | null> => {
   try {
     const profile = await db.jobSeekerProfile.findFirst({
-      where: { jobSeekerId },
+      where: { userId: jobSeekerId },
       include: {
         sector: true,
         education: true,

@@ -7,7 +7,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="basis-1/2">
         <AuthHero />
       </div>
-      <div className="flex basis-1/2 bg-primary items-center">{children}</div>
+      <div className="flex basis-1/2 bg-primary items-center p-8">{children}</div>
     </div>
   );
 };

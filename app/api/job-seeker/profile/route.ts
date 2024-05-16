@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     const profile = await db.jobSeekerProfile.create({
       data: {
-        jobSeekerId: userId,
+        userId,
         ...values,
       },
     });

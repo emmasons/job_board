@@ -1,7 +1,26 @@
 import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import {
+  Role,
+  Profile,
+  JobSeekerProfile,
+  User,
+  Sector,
+  EducationLevel,
+  Experience,
+} from "@prisma/client";
 
-export const getAllCandidates = async () => {
+type candidate =
+  | (User & {
+      profile: Profile;
+      jobSeekerProfile: JobSeekerProfile & {
+        sector: Sector;
+        education: EducationLevel;
+        experience: Experience;
+      };
+    })
+  | null;
+
+export const getAllCandidates = async (): Promise<candidate[]> => {
   try {
     const candidates = await db.user.findMany({
       where: {
@@ -9,7 +28,13 @@ export const getAllCandidates = async () => {
       },
       include: {
         profile: true,
-        JobSeekerProfile: true,
+        jobSeekerProfile: {
+          include: {
+            sector: true,
+            education: true,
+            experience: true,
+          },
+        },
       },
     });
     return candidates;
