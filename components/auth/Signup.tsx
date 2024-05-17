@@ -98,7 +98,11 @@ const Signup = ({ role }: Props) => {
   }
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
+      <h1 className="my-4 text-2xl font-bold text-secondary">
+        {role === "EMPLOYER"
+          ? "Register as an Employer"
+          : "Register as a Job Seeker"}
+      </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex justify-between gap-4">

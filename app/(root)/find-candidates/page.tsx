@@ -1,13 +1,27 @@
 import { getAllCandidates } from "@/actions/get-all-candidates";
+import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
+import AddCandidateForm from "@/components/find-candidates/AddCandidateForm";
 import { SearchInput } from "@/components/find-candidates/SearchInput";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Briefcase, Flag, GraduationCap, UserSquareIcon } from "lucide-react";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { Role } from "@prisma/client";
+import {
+  Briefcase,
+  CheckCircle,
+  Flag,
+  GraduationCap,
+  UserSquareIcon,
+} from "lucide-react";
+import { redirect } from "next/navigation";
 
-type Props = {};
-
-const page = async (props: Props) => {
+const page = async () => {
+  const user = await getCurrentSessionUser();
+  if (!user || !(user.role === Role.EMPLOYER)) {
+    return redirect("/auth/signup/employer?callBack=/find-candidates");
+  }
   const candidates = await getAllCandidates();
-  console.log(candidates[0]?.jobSeekerProfile, "**");
+  const candidateIds = await getEmployerCandidatesIds(user.id);
+  console.log(candidateIds);
   return (
     <MaxWidthWrapper className="py-4">
       <SearchInput />
@@ -35,6 +49,18 @@ const page = async (props: Props) => {
                 <Briefcase className="h-4 w-4 text-primary" />
                 {candidate?.jobSeekerProfile?.occupation || "N/A"}
               </p>
+              {candidateIds.some(
+                ({ candidateId }) => candidateId === candidate?.id,
+              ) ? (
+                <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  Added to your list
+                </p>
+              ) : (
+                <>
+                  <AddCandidateForm candidateId={candidate?.id} />
+                </>
+              )}
             </div>
           ))}
           {candidates && candidates.length === 0 && (

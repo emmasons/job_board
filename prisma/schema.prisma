@@ -38,6 +38,15 @@ model Profile {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Candidate {
+  id String @id @default(cuid())
+
+  candidateId String
+
+  employerId String
+  employer   User   @relation(fields: [employerId], references: [id], onDelete: Cascade)
+}
+
 enum Role {
   USER
   STAFF
@@ -67,6 +76,7 @@ model User {
   Company                   Company[]
   cv                        CV?
   jobSeekerProfile          JobSeekerProfile?
+  candidates                Candidate[]
 
   @@map("users")
 }
