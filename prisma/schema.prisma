@@ -185,8 +185,10 @@ model Job {
   owner             User?        @relation(fields: [ownerId], references: [id])
   companyId         String?
   company           Company?     @relation(fields: [companyId], references: [id])
+  companyName       String?
   published         Boolean      @default(false)
   numberOfPositions Int          @default(1)
+  datePosted        DateTime?
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])

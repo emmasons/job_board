@@ -8,6 +8,7 @@ import {
   BriefcaseIcon,
   LayoutDashboardIcon,
   Users,
+  BarChart2Icon,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -57,6 +58,11 @@ const adminRoutes = [
     icon: Users2,
     label: "Users",
     href: "/profile/dashboard/admin/users",
+  },
+  {
+    icon: BarChart2Icon,
+    label: "Data",
+    href: "/profile/dashboard/admin/data",
   },
 ];
 
