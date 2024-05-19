@@ -30,19 +30,23 @@ const RemoveSearchParam = (props: Props) => {
 
   return (
     <div className="flex gap-2 overflow-x-auto">
-      {Object.entries(query).map(([key, value]) => (
-        <div key={key} className="bg-orange-100 p-1">
-          <span className="flex items-center gap-2">
-            {value}
-            <button
-              onClick={() => handleRemoveParam(key)}
-              className="hover:text-red-600"
-            >
-              <XCircle className="h-4 w-4" />
-            </button>
-          </span>
-        </div>
-      ))}
+      {Object.entries(query).map(
+        ([key, value]) =>
+          key !== "page" &&
+          key !== "pageSize" && (
+            <div key={key} className="bg-orange-100 p-1">
+              <span className="flex items-center gap-2">
+                {value}
+                <button
+                  onClick={() => handleRemoveParam(key)}
+                  className="hover:text-red-600"
+                >
+                  <XCircle className="h-4 w-4" />
+                </button>
+              </span>
+            </div>
+          ),
+      )}
     </div>
   );
 };
