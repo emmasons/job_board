@@ -42,12 +42,12 @@ const page = async (props: Props) => {
           </p>
           <p className="text-lg">
             <span className="font-semibold">Employer:</span>{" "}
-            {job?.company.companyName}
+            {job?.company?.companyName || job?.companyName || "N/A"}
           </p>
         </div>
         <Link
           href={`/jobs/${job?.id}/apply`}
-          className="mt-4 inline-flex items-center rounded-md border border-transparent justify-center bg-primary px-4 py-2 text-xs font-semibold uppercase text-white hover:bg-secondary focus:outline-none"
+          className="mt-4 inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-xs font-semibold uppercase text-white hover:bg-secondary focus:outline-none"
         >
           Apply
         </Link>
