@@ -28,7 +28,7 @@ export async function POST(
 
     return NextResponse.json(candidate);
   } catch (error) {
-    console.log("[COURSES]", error);
+    console.log("[JOBS]", error);
     console.log(error);
     return new NextResponse("Internal Error", { status: 500 });
   }

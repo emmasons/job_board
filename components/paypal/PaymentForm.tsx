@@ -23,7 +23,6 @@ type Props = {
   clientToken: string;
   jobId: string;
   jobTitle: string;
-  jobDescription: string;
 };
 
 export const PaymentForm = ({
@@ -31,7 +30,6 @@ export const PaymentForm = ({
   clientToken,
   jobId,
   jobTitle,
-  jobDescription,
 }: Props) => {
   const [loader, showLoader] = useState(false);
   const [success, showSuccess] = useState(false);
@@ -123,10 +121,10 @@ export const PaymentForm = ({
         <div className="flex flex-grow basis-1/2  ">
           <div className="p-4">
             <Link
-              href={`/courses/${jobId}`}
+              href={`/jobs/${jobId}`}
               className="mb-4 flex items-center gap-2"
             >
-              <ArrowLeft /> Back to course
+              <ArrowLeft /> Back to Job
             </Link>
             <h1 className="text-pes-red py-4 text-2xl font-semibold">
               {jobTitle}
@@ -134,9 +132,9 @@ export const PaymentForm = ({
             <p className="text-pes-red text-3xl font-bold">
               {formatPrice(2500)}
             </p>
-            <p>{jobDescription}</p>
+
             <div className="text-pes-red mt-6 flex w-full items-center gap-4">
-              <p>&copy; private capital support</p>
+              <p>&copy; Infinite Talent Limited</p>
               <Link href="#">Terms</Link>
               <Link href="#">Privacy</Link>
             </div>

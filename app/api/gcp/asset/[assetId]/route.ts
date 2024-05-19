@@ -60,7 +60,7 @@ export async function PUT(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.log("[COURSES_CHAPTER_ID]", error);
+    console.log("[COURSE_ID_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

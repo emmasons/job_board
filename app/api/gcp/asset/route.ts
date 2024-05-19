@@ -37,7 +37,7 @@ export async function PUT(req: NextRequest) {
       try {
         await uploader.deleteBlob();
       } catch (error) {
-        console.log("[COURSES_CHAPTER_ID]", error);
+        console.log("[COURSE_ID_ID]", error);
         return new NextResponse(JSON.stringify({ message: "Storage Error." }), {
           status: 500,
         });
@@ -66,7 +66,7 @@ export async function PUT(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.log("[COURSES_CHAPTER_ID]", error);
+    console.log("[COURSE_ID_ID]", error);
     return new NextResponse(JSON.stringify({ message: "Internal Error." }), {
       status: 500,
     });

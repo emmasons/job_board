@@ -42,7 +42,6 @@ export default async function page({ params }: Params) {
           clientID={clientID}
           jobId={params.jobId}
           jobTitle={job.title}
-          jobDescription="Awesome Job"
         />
       ) : (
         <p className="text-red-500">

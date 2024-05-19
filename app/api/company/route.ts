@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(company);
   } catch (error) {
-    console.log("[COURSES]", error);
+    console.log("[JOBS]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

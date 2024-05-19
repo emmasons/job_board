@@ -3,10 +3,7 @@ import { getCurrentSessionUser } from "@/lib/auth";
 import { FileUploader } from "@/lib/gcp/gcp";
 import { DOWNLOAD_EXPIRY_IN_SECONDS } from "@/lib/gcp/gcp-utils";
 
-export async function POST(
-  req: Request,
-  { params }: { params: { courseId: string; chapterId: string } },
-) {
+export async function POST(req: Request) {
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
@@ -42,7 +39,7 @@ export async function POST(
       status: 500,
     });
   } catch (error) {
-    console.log("[COURSES_CHAPTER_ID]", error);
+    console.log("[COURSE_ID_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
