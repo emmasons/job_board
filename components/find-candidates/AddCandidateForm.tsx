@@ -3,6 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { Loader2, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {
   candidateId: string;
@@ -11,6 +12,7 @@ type Props = {
 const AddCandidateForm = ({ candidateId }: Props) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const onClick = async () => {
     if (!candidateId) return;
@@ -40,6 +42,7 @@ const AddCandidateForm = ({ candidateId }: Props) => {
       console.log(error);
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
   return (

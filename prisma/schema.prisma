@@ -45,6 +45,8 @@ model Candidate {
 
   employerId String
   employer   User   @relation(fields: [employerId], references: [id], onDelete: Cascade)
+
+  @@unique([candidateId, employerId])
 }
 
 enum Role {

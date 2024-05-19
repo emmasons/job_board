@@ -36,7 +36,10 @@ export default function EmployerOptions() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="mb-2 py-2">
-          <Link href="#" className="h-full w-full hover:cursor-pointer">
+          <Link
+            href="/profile/dashboard/employer/candidates"
+            className="h-full w-full hover:cursor-pointer"
+          >
             My Candidates
           </Link>
         </DropdownMenuItem>
