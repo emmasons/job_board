@@ -11,9 +11,19 @@ import { Settings } from "lucide-react";
 
 type Props = {
   items: JobsWithCompany[];
+  totalItems: number;
+  page: number;
+  pageSize: string;
+  totalPages: number;
 };
 
-const JobList = async ({ items }: Props) => {
+const JobList = async ({
+  items,
+  totalItems,
+  page,
+  pageSize,
+  totalPages,
+}: Props) => {
   const workSchedules = await getWorkSchedules();
   const sectors = await getAllSectors();
 
@@ -32,11 +42,20 @@ const JobList = async ({ items }: Props) => {
       </div>
       <div className="basis-2/3">
         <div className="flex justify-end">
-          <Link href="/search/advanced/" className="text-sm underline py-4 hover:text-blue-400 text-blue-700">Advanced Search</Link>
+          <Link
+            href="/search/advanced/"
+            className="py-4 text-sm text-blue-700 underline hover:text-blue-400"
+          >
+            Advanced Search
+          </Link>
         </div>
-        <div className="p-4 flex flex-col bg-slate-50 items-start">
+        <div className="flex flex-col items-start bg-slate-50 p-4">
           <h2 className="text-xl font-bold">Search Results</h2>
-          <p className="text-sm">We have over {items.length} jobs for you</p>
+          <p className="text-sm">We have over {totalItems} jobs for you</p>
+          <p className="text-sm">
+            Showing page {page} of {totalPages}
+          </p>
+          <p className="text-sm">{items.length} jobs</p>
         </div>
         {items.map((item) => (
           <div key={item.id} className="mb-4 w-full">
