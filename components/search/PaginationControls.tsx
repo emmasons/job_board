@@ -36,7 +36,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 w-full justify-end">
       <Button
         variant="ghost"
         className="bg-slate-200 p-1 px-4 py-1 "

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role, WorkSchedule, ContractType } from "@prisma/client";
 import similarity from "string-similarity";
+import countries from "country-list";
+
 
 function prepareWorkSchedule(scrapedSchedule) {
   if (!scrapedSchedule) WorkSchedule.NOT_SPECIFIED;
@@ -91,6 +93,23 @@ function transformExperienceData(experience, experienceLevels) {
   }
 }
 
+function transformCountry(country) {
+  if (!country) return "Not specified";
+  const countryList = countries.getNames();
+  const countrySimilarity = countryList.find((c) => {
+    const similarity = require("string-similarity").compareTwoStrings(
+      country,
+      c,
+    );
+    return similarity >= 0.6;
+  });
+  if (countrySimilarity) {
+    return countrySimilarity;
+  } else {
+    return "Not specified";
+  }
+ }
+
 function transformDatePosted(datePosted) {
   let date = new Date(datePosted);
   if (isNaN(date.getTime())) {
@@ -116,6 +135,7 @@ async function transformEurosData() {
       id,
       datePosted,
       company,
+      country,
       ...jobWithoutWorkSchedule
     } = job;
     const transformedJob = {};
@@ -130,8 +150,10 @@ async function transformEurosData() {
       experienceLevel,
       experienceLevels,
     );
+    const transformedCountry = transformCountry(country);
     transformedJob["companyName"] = transformDatePosted(company);
     transformedJob["datePosted"] = transformDatePosted(datePosted);
+    transformedJob["country"] = transformedCountry;
     transformedJob["experienceId"] = transformedExperienceLevel;
     transformedJob["educationLevelId"] = transformedEducationLevel;
     transformedJob["sectorId"] = transformedSector;
@@ -158,7 +180,7 @@ export async function POST(req: Request) {
     await db.job.createMany({
       data: tranformedData,
     });
-    console.log(tranformedData[10].datePosted);
+
 
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
