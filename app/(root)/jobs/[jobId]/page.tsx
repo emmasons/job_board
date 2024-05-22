@@ -45,12 +45,9 @@ const page = async (props: Props) => {
             {job?.company?.companyName || job?.companyName || "N/A"}
           </p>
         </div>
-        <Link
-          href={`/jobs/${job?.id}/apply`}
-          className="mt-4 inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-xs font-semibold uppercase text-white hover:bg-secondary focus:outline-none"
-        >
-          Apply
-        </Link>
+        <div className="border-l-[0.3em] border-zinc-400 bg-zinc-100 pl-4">
+          <Preview value={job?.howToApply} />
+        </div>
       </div>
     </MaxWidthWrapper>
   );
