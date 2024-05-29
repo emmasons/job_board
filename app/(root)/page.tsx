@@ -13,15 +13,19 @@ export default function Home() {
       <MaxWidthWrapper className="py-24">
         <Services />
       </MaxWidthWrapper>
-      <MaxWidthWrapper className="py-24">
-        <Partners />
-      </MaxWidthWrapper>
+      <div className="bg-sky-50">
+        <MaxWidthWrapper className="py-24">
+          <Partners />
+        </MaxWidthWrapper>
+      </div>
       <MaxWidthWrapper className="py-24">
         <JobsByCountry />
       </MaxWidthWrapper>
-      <MaxWidthWrapper className="py-24">
-        <News />
-      </MaxWidthWrapper>
+      <div className="bg-sky-50">
+        <MaxWidthWrapper className="py-24">
+          <News />
+        </MaxWidthWrapper>
+      </div>
       <MaxWidthWrapper className="py-24">
         <PopularSearches />
       </MaxWidthWrapper>

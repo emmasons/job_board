@@ -12,7 +12,7 @@ import Link from "next/link";
 export default function EmployerOptions() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="focus-within:ring-transparent">
+      <DropdownMenuTrigger className="ring-0 focus:border-0 focus:ring-0 focus:ring-transparent">
         <div className="flex items-center">
           <p>Employers</p>
           <ChevronDown />
