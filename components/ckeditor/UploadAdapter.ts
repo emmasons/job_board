@@ -1,11 +1,9 @@
 export default class UploadAdapter {
   loader: any;
-  url: string;
-  xhr: any;
-  constructor(loader: any, url: string) {
+  xhr: XMLHttpRequest;
+  constructor(loader, postId) {
     // The file loader instance to use during the upload.
     this.loader = loader;
-    this.url = url;
   }
 
   // Starts the upload process.
@@ -35,7 +33,7 @@ export default class UploadAdapter {
     // integration to choose the right communication channel. This example uses
     // a POST request with JSON as a data structure but your configuration
     // could be different.
-    xhr.open("POST", this.url, true);
+    xhr.open("POST", `/api/ckeditor/images`, true);
     xhr.responseType = "json";
   }
 

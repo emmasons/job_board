@@ -20,6 +20,7 @@
     "@paypal/checkout-server-sdk": "^1.0.3",
     "@paypal/react-paypal-js": "^8.2.0",
     "@prisma/client": "^5.13.0",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -60,6 +61,8 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.48.2",
     "react-quill": "^2.0.0",
+    "reading-time-estimator": "^1.11.0",
+    "slugify": "^1.6.6",
     "smtp-server": "^3.13.3",
     "string-similarity": "^4.0.4",
     "supertest": "^6.3.4",
@@ -71,7 +74,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "use-react-countries": "^2.0.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2",

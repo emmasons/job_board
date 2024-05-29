@@ -2,6 +2,7 @@
 
 import {
   BarChart,
+  Files,
   Layout,
   Settings2,
   Users2,
@@ -64,6 +65,11 @@ const adminRoutes = [
     label: "Data",
     href: "/profile/dashboard/admin/data",
   },
+  {
+    icon: Files,
+    label: "Blogs",
+    href: "/profile/dashboard/admin/blog",
+  }
 ];
 
 export default function SidebarRoutes() {

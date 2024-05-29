@@ -1,32 +1,16 @@
+import getFeaturedPosts from "@/actions/get-featured-posts";
 import { Clock } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 
-const latest = [
-  {
-    title: "Want to make your cover letter stand out? Here's how",
-    summary:
-      "The era of digital recruitment is here, and employers are receiving more responses to their job postings than ever before. What can you do to help boost your application to the top of the selection list? The answer may lie in the cover letter.",
-    readingTime: "4 min",
-    mainImageUrl: "/assets/index/news/1.jpg",
-  },
-  {
-    title: "Want to make your cover letter stand out? Here's how",
-    summary:
-      "The era of digital recruitment is here, and employers are receiving more responses to their job postings than ever before. What can you do to help boost your application to the top of the selection list? The answer may lie in the cover letter.",
-    readingTime: "4 min",
-    mainImageUrl: "/assets/index/news/1.jpg",
-  },
-  {
-    title: "Want to make your cover letter stand out? Here's how",
-    summary:
-      "The era of digital recruitment is here, and employers are receiving more responses to their job postings than ever before. What can you do to help boost your application to the top of the selection list? The answer may lie in the cover letter.",
-    readingTime: "4 min",
-    mainImageUrl: "/assets/index/news/1.jpg",
-  },
-];
 
-const News = () => {
+const News = async () => {
+  const latest = await getFeaturedPosts();
+  if (!latest)
+    return (
+      <div>
+        <h1 className="text-2xl font-bold">We are compiling the latest news</h1>
+      </div>
+    );
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Latest News</h1>
@@ -45,7 +29,7 @@ const News = () => {
             />
             <div className="space-y-2 p-4">
               <h2 className="text-lg font-bold">{item.title}</h2>
-              <p className="line-clamp-5 ">{item.summary}</p>
+              <p className="line-clamp-5 ">{item.epigraph}</p>
               <p className="flex items-center gap-4">
                 <Clock className="h-4 w-4" /> {item.readingTime} min read
               </p>

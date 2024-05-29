@@ -79,6 +79,7 @@ model User {
   cv                        CV?
   jobSeekerProfile          JobSeekerProfile?
   candidates                Candidate[]
+  Post                      Post[]
 
   @@map("users")
 }
@@ -245,4 +246,21 @@ model ScrapedJob {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  content     String?
+  epigraph    String?
+  imageUrl    String?
+  authorId    String?
+  author      User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  isPublished Boolean  @default(false)
+  slug        String   @unique
+  views       Int      @default(0)
+  categoryId  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  isFeatured  Boolean  @default(false)
 }
