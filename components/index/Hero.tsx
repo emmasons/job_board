@@ -24,7 +24,7 @@ const slideContent = [
   {
     title: "Find a Job",
     description:
-      "Search for your ideal job opportunity in Dubail and other gulf countries with ease!",
+      "Search for your ideal job opportunity in Dubai and other gulf countries with ease!",
     bgImage: "/index/carousel/gulf2.avif",
     content: (
       <Link
@@ -38,7 +38,7 @@ const slideContent = [
   },
   {
     title: "Find the right skilled candidate",
-    description: "Search for your perfect applicant in Europe!",
+    description: "Search for your perfect applicant in the middle east!",
     bgImage: "/index/carousel/gulf3.jpg",
     content: (
       <Link
