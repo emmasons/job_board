@@ -12,9 +12,9 @@ import Link from "next/link";
 
 const slideContent = [
   {
-    title: "Welcome to the EURES portal",
+    title: "Welcome to the Gulf Job portal",
     description: "The place where jobs and skilled applicants match.",
-    bgImage: "/index/carousel/bg1.jpeg",
+    bgImage: "/index/carousel/gulf1.webp",
     content: (
       <Button size="sm" variant="default" onClick={() => signIn()}>
         <LogIn className="mr-2 h-4 w-4" /> LogIn
@@ -23,8 +23,9 @@ const slideContent = [
   },
   {
     title: "Find a Job",
-    description: "Search for your ideal job opportunity in Europe with ease!",
-    bgImage: "/index/carousel/bg2.jpg",
+    description:
+      "Search for your ideal job opportunity in Dubail and other gulf countries with ease!",
+    bgImage: "/index/carousel/gulf2.avif",
     content: (
       <Link
         className="inline-flex items-center gap-4 rounded-md bg-primary px-4 py-2"
@@ -38,7 +39,7 @@ const slideContent = [
   {
     title: "Find the right skilled candidate",
     description: "Search for your perfect applicant in Europe!",
-    bgImage: "/index/carousel/bg3.jpg",
+    bgImage: "/index/carousel/gulf3.jpg",
     content: (
       <Link
         className="inline-flex items-center gap-4 rounded-md bg-primary px-4 py-2"

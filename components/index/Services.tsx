@@ -10,7 +10,7 @@ const services = [
   },
   {
     icon: "fluent:people-search-20-filled",
-    link: <Link className="font-semibold underline text-secondary" href="/search">Find a candidate</Link>,
+    link: <Link className="font-semibold underline text-secondary" href="/find-candidates">Find a candidate</Link>,
     description: "Search for your perfect employee in Europe",
   },
   {
@@ -27,7 +27,7 @@ const services = [
   //   },
 ];
 
-const Services = (props: Props) => {
+const Services = () => {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {services.map((service) => (

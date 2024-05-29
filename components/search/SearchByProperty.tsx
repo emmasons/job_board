@@ -8,12 +8,14 @@ import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
 import useQueryParams from "@/hooks/useQueryParams";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  defaultValue: string;
+  defaultValue?: string;
+  inExternalComponent?: boolean;
 };
 
-export const SearchByProperty = () => {
+export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
   const { query, getParam } = useQueryParams();
   const [value, setValue] = useState(getParam("title"));
 
@@ -47,7 +49,10 @@ export const SearchByProperty = () => {
       <Input
         onChange={(e) => handleChange(e.target.value)}
         value={value}
-        className="w-full rounded-full border-0 bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
+        className={cn(
+          "w-full rounded-full border-0 bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full",
+          !inExternalComponent && "md:rounded-br-none md:rounded-tr-none",
+        )}
         placeholder="Job title, key words, or company"
       />
       <Icon
