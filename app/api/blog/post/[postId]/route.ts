@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Post, Role } from "@prisma/client";
+import slugify from "slugify";
 
 async function performTransactionWithRetry(
   userId: string,
@@ -51,6 +52,31 @@ export async function PATCH(
   const { postId } = params;
   const values = await req.json();
 
+  if (!values) {
+    return NextResponse.json({
+      message: "All fields are required",
+      status: 400,
+    });
+  }
+
+  const post = await db.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+
+  if (!post) {
+    return NextResponse.json({ status: 404, message: "Post not found" });
+  }
+
+  let slug = post.slug;
+
+  if (values.title) {
+    slug = slugify(values.title);
+  }
+
+ 
+
   try {
     await db.post.update({
       where: {
@@ -59,6 +85,7 @@ export async function PATCH(
       },
       data: {
         ...values,
+        slug,
       },
     });
 
@@ -71,7 +98,10 @@ export async function PATCH(
         db.$disconnect();
       });
 
-    return NextResponse.json( { status: 200, message: "Post updated successfully" });
+    return NextResponse.json({
+      status: 200,
+      message: "Post updated successfully",
+    });
   } catch (error) {
     console.log("[POST_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });

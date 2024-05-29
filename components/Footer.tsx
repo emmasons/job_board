@@ -61,24 +61,32 @@ const Footer = (props: Props) => {
         </div>
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">About us</h2>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
-          >
-            About Infinte Talent Limited
-          </Link>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
-          >
-            Terms and Conditions
-          </Link>
+          <div className="flex flex-col">
+            <Link
+              href="#"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              About Infinte Talent Limited
+            </Link>
+            <Link
+              href="#"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="#"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              Terms and Conditions
+            </Link>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              Blog
+            </Link>
+          </div>
         </div>
       </MaxWidthWrapper>
     </footer>
