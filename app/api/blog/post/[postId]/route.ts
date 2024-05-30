@@ -72,10 +72,12 @@ export async function PATCH(
   let slug = post.slug;
 
   if (values.title) {
-    slug = slugify(values.title);
+    slug = slugify(values.title, {
+      lower: true,
+      strict: true,
+      trim: true,
+    });
   }
-
- 
 
   try {
     await db.post.update({

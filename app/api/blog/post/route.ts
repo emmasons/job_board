@@ -14,7 +14,11 @@ export async function POST(req: Request) {
     }
     const { title } = await req.json();
 
-    const slug = slugify(title);
+    const slug = slugify(title, {
+      lower: true,
+      strict: true,
+      trim: true,
+    });
     const post = await db.post.create({
       data: {
         // imageUrl,
