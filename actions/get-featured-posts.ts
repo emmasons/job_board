@@ -27,7 +27,7 @@ export default async function getFeaturedPosts(): Promise<PostProps[] | null> {
         return {
           ...post,
           mainImageUrl: mainImage?.downloadUrl || "",
-          readingTime: readingTime(post.content || "", 10).minutes.toFixed(0),
+          readingTime: readingTime(post.content || "", 200).minutes.toFixed(0),
         };
       }),
     );
