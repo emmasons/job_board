@@ -23,7 +23,7 @@ export const DropZoneImageFileTypes = {
   "image/tiff": [".tiff"],
   "image/svg": [".svg", ".svgz", "xml"],
   "image/png": [".png"],
-  "image/jpg": [".jpeg", "jpg"],
+  "image/jpg": [".jpeg", ".jpg"],
   "image/gif": [".gif"],
   "image/bmp": [".bmp"],
 };
