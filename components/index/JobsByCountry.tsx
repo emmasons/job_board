@@ -1,24 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useCountries } from "use-react-countries";
-import {
-  getCountryByAlpha2Code,
-  getContinentByCountryCode,
-} from "use-react-countries";
+import { gulfCountries } from "@/lib/utils";
 
-type Props = {};
-
-const JobsByCountry = (props: Props) => {
+const JobsByCountry = () => {
   const { countries } = useCountries();
-  const gulfCountries = [
-    "UAE",
-    "Oman",
-    "Qatar",
-    "Bahrain",
-    "Kuwait",
-    "Qatar",
-    "Saudi Arabia",
-  ];
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">
@@ -33,7 +20,7 @@ const JobsByCountry = (props: Props) => {
               className="flex items-center gap-4 rounded-sm border p-6"
             >
               <h2 className="text-3xl">{emoji}</h2>
-              <p className="text-lg text-sky-500">{name}</p>
+              <p className="text-sm text-sky-500">{name}</p>
             </Link>
           ) : null,
         )}

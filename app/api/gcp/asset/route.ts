@@ -27,22 +27,22 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    if (existingMetadata) {
-      const uploader = new FileUploader(
-        existingMetadata.blobName,
-        contentType,
-        "PUT",
-        DOWNLOAD_EXPIRY_IN_SECONDS,
-      );
-      try {
-        await uploader.deleteBlob();
-      } catch (error) {
-        console.log("[COURSE_ID_ID]", error);
-        return new NextResponse(JSON.stringify({ message: "Storage Error." }), {
-          status: 500,
-        });
-      }
-    }
+    // if (existingMetadata) {
+    //   const uploader = new FileUploader(
+    //     existingMetadata.blobName,
+    //     contentType,
+    //     "PUT",
+    //     DOWNLOAD_EXPIRY_IN_SECONDS,
+    //   );
+    //   try {
+    //     await uploader.deleteBlob();
+    //   } catch (error) {
+    //     console.log("[COURSE_ID_ID]", error);
+    //     return new NextResponse(JSON.stringify({ message: "Storage Error." }), {
+    //       status: 500,
+    //     });
+    //   }
+    // }
 
     await db.gCPData.upsert({
       where: { assetId: assetId },

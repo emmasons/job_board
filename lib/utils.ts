@@ -12,3 +12,12 @@ export function capitalizeFirstLetter(string) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
     .join(" "); // Join the words back into a single string
 }
+
+export const gulfCountries = [
+  "United Arab Emirates",
+  "Oman",
+  "Qatar",
+  "Bahrain",
+  "Kuwait",
+  "Saudi Arabia",
+];
