@@ -43,7 +43,7 @@ const slideContent = [
     content: (
       <Link
         className="inline-flex items-center gap-4 rounded-md bg-primary px-4 py-2"
-        href="/search"
+        href="/find-candidates"
       >
         Start your search here
         <ChevronRight className="mr-2 h-4 w-4" />
