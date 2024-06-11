@@ -264,3 +264,17 @@ model Post {
   updatedAt   DateTime @default(now())
   isFeatured  Boolean  @default(false)
 }
+
+model Occupation {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  subOccupations SubOccupation[]
+}
+
+model SubOccupation {
+  id          String   @id @default(cuid())
+  title       String   @unique
+
+  occupationId String
+  occupation   Occupation    @relation(fields: [occupationId], references: [id], onDelete: Cascade)
+}

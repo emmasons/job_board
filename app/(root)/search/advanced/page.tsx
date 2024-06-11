@@ -12,6 +12,8 @@ import { getExperience } from "@/actions/get-experience";
 import FilterByExperience from "@/components/search/filter/Experience";
 import PublicationDateSearch from "@/components/search/advanced/PublicationDateSearch";
 import Search from "@/components/search/advanced/Search";
+import FilterByOccupation from "@/components/search/filter/FilterByOccupation";
+import { getAllOccupations } from "@/actions/get-all-occupations";
 
 type Props = {};
 
@@ -20,6 +22,7 @@ const page = async (props: Props) => {
   const workSchedules = await getWorkSchedules();
   const levels = await getEducationLevels();
   const experienceLevels = await getExperience();
+  const occupations = await getAllOccupations();
 
   return (
     <MaxWidthWrapper className="py-4">
@@ -34,6 +37,9 @@ const page = async (props: Props) => {
         </div>
         <div className="space-y-2">
           <FilterBySector sectors={sectors} />
+        </div>
+        <div className="flex items-center gap-x-2">
+          <FilterByOccupation occupations={occupations} />
         </div>
         <div className="space-y-2">
           <FilterByCountry />
