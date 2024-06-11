@@ -28,15 +28,15 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    if (existingMetadata) {
-      const uploader = new FileUploader(
-        existingMetadata.blobName,
-        contentType,
-        "PUT",
-        DOWNLOAD_EXPIRY_IN_SECONDS,
-      );
-      await uploader.deleteBlob();
-    }
+    // if (existingMetadata) {
+    //   const uploader = new FileUploader(
+    //     existingMetadata.blobName,
+    //     contentType,
+    //     "PUT",
+    //     DOWNLOAD_EXPIRY_IN_SECONDS,
+    //   );
+    //   await uploader.deleteBlob();
+    // }
 
     await db.gCPData.upsert({
       where: { assetId: assetId },
