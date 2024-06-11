@@ -3,16 +3,15 @@
 import qs from "query-string";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { useCountries } from "use-react-countries";
 import { Icon } from "@iconify/react";
 import { Combobox } from "@/components/ui/combobox";
 import useQueryParams from "@/hooks/useQueryParams";
+import { gulfCountries } from "@/lib/utils";
 
 export const SearchByLocation = () => {
-  const { countries } = useCountries();
-  const locations = countries.map((country) => ({
-    value: country.name,
-    label: country.name,
+  const locations = gulfCountries.map((country) => ({
+    value: country,
+    label: country,
   }));
   const { query, getParam } = useQueryParams();
   const defaultLocation = getParam("location");
