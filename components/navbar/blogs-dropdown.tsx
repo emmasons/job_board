@@ -4,7 +4,7 @@ import  { FileText as BlogsIcon } from "lucide-react";
 const BlogsDropdown: React.FC = () => {
     return (
         <div className="group relative">
-            <Link href="/blogs" className="font-medium flex items-center mt-4 px-4 text-gray-700 hover:text-orange-500 text-sm">
+            <Link href="/blog" className="font-medium flex items-center mt-4 px-4 text-gray-700 hover:text-orange-500 text-sm">
                 {/* <BlogsIcon className="mr-2 h-5 w-5"/> */}
                 BlOGS
             </Link>
