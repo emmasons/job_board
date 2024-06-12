@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
 import { Logo } from "./Logo";
+import Home from "./home"; 
+import JobsDropdown from "./jobs-dropdown";
+import BlogsDropdown from "./blogs-dropdown";
+import ServicesDropdown from "./services-dropdown";
 
 import UserMenuButton from "./UserMenuButton";
 import { Role } from "@prisma/client";
@@ -27,21 +32,28 @@ export default function NavbarRoutes({ user }: Props) {
   return (
     <>
       <div className="hidden flex-1 md:block">
-        <div className="flex w-full justify-between gap-x-2 align-middle">
+        <div className="flex w-full justify-between align-middle">
           <Link href="/">
             <Logo />
           </Link>
-          {!isDashboard && (
-            <ul className="flex items-center gap-4">
-              <li className="mr-4">
-                <JobSeekerOptions />
-              </li>
-              <li className="mr-4">
-                <EmployerOptions />
-              </li>
-            </ul>
-          )}
+          <div className="ml-auto flex justify-between align-middle mr-auto gap-x-2">
+            <div className="relative group">
+              <Home />
+            </div>
+            <div className="relative group">
+              <JobsDropdown />
+            </div>
+            <div className="relative group">
+              <BlogsDropdown />
+            </div>
+            <div className="relative group">
+              <ServicesDropdown/>
+            </div>
+          </div>
+         
+         
         </div>
+        
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
@@ -91,6 +103,17 @@ export default function NavbarRoutes({ user }: Props) {
         ) : null}
 
         <UserMenuButton user={user} />
+        {!isDashboard && (
+            <ul className="flex items-center gap-4">
+              {/* <li className="mr-4">
+                <JobSeekerOptions />
+              </li> */}
+              <li className="mr-4">
+                <EmployerOptions />
+              </li>
+            </ul>
+          )}
+        
       </div>
     </>
   );
