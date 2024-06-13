@@ -4,11 +4,11 @@ import { Briefcase as JobsIcon } from "lucide-react";
 const JobsDropdown: React.FC = () => {
     return (
         <div className="group relative">
-            <Link href="/search" className="font-medium flex items-center mt-4 px-4 text-gray-700 hover:text-orange-500 text-sm">
+            <Link href="/search" className="font-medium pb-7 px-4 text-gray-700 hover:text-orange-500 text-sm hover:border-b-4 hover:border-indigo-600">
                 {/* <JobsIcon className="mr-2 h-5 w-5" /> */}
                 JOBS
             </Link>
-            <div className="absolute left-0 mt-2 hidden bg-white shadow-lg group-hover:flex w-auto p-6">
+            <div className="absolute left-0 mt-7 px-4 hidden bg-white shadow-lg group-hover:flex w-auto">
                 <div className="flex justify-between w-full flex-shrink-1 px-8 py-4 space-x-8">
                     {/* By Country */}
                     <div className="flex flex-col">

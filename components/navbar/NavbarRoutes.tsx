@@ -31,12 +31,12 @@ export default function NavbarRoutes({ user }: Props) {
 
   return (
     <>
-      <div className="hidden flex-1 md:block">
+      <div className="hidden flex-auto md:block">
         <div className="flex w-full justify-between align-middle">
           <Link href="/">
             <Logo />
           </Link>
-          <div className="ml-auto flex justify-between align-middle mr-auto gap-x-2">
+          <div className="ml-auto flex items-center mr-auto gap-x-2">
             <div className="relative group">
               <Home />
             </div>
@@ -101,14 +101,17 @@ export default function NavbarRoutes({ user }: Props) {
             </Button>
           </Link>
         ) : null}
-
+        
+        {/* user menu and options */}
         <UserMenuButton user={user} />
-        {!isDashboard && (
+
+        {/* conditionally render the Employers options */}
+        {!isDashboard && user?.role !== Role.EMPLOYER &&(
             <ul className="flex items-center gap-4">
               {/* <li className="mr-4">
                 <JobSeekerOptions />
               </li> */}
-              <li className="mr-4">
+              <li className="mr-4 outline-none">
                 <EmployerOptions />
               </li>
             </ul>

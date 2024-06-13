@@ -12,9 +12,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogIn, LogOut } from "lucide-react";
+import { ChevronDown, LogIn, LogOut, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import clsx from "clsx"; // Import clsx for condition
+import Signup from "../auth/Signup";
+
 
 interface UserMenuButtonProps {
   user: Session["user"] | undefined;
@@ -25,16 +28,16 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
     <>
       {user ? (
         <DropdownMenu>
-          <DropdownMenuTrigger className="focus-within:ring-transparent">
+          <DropdownMenuTrigger className={clsx("border-none focus-within:ring-transparent", "outline-none")}>
             <div className="flex items-center">
               <Image
                 src={user?.image || profilePicPlaceholder}
                 alt="Profile picture"
-                width={40}
-                height={40}
-                className="w-10 rounded-full"
+                width={30}
+                height={30}
+                className="w-9 p-1 rounded-full"
               />
-              <ChevronDown />
+              <ChevronDown className="w-4 h-4" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -55,10 +58,18 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Button size="sm" variant="default" onClick={() => signIn()}>
-          <LogIn className="mr-2 h-4 w-4" /> LogIn
-        </Button>
+        <div className="flex">
+          <button className="flex items-center border-0 p-2 text-medium hover:scale-95 hover:text-orange-500" onClick={() => signIn()}>
+            <LogIn className="mr-2 h-4 w-4" /> LogIn
+          </button>
+          <Link className="flex items-center p-2  border border-orange-400 rounded-lg bg-orange-400 h-9 hover:scale-95" href="/auth/signup/job-seeker">
+            <UserPlus className="mr-2 h-4 w-4" /> Register
+          </Link>
+        </div>
       )}
+      
+      
+     
     </>
   );
 }

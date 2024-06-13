@@ -3,11 +3,11 @@ import Image from "next/image";
 export const Logo = () => {
   return (
     <Image
-      src="/logo.png"
+      src="/Jobs Connect logo .png"
       alt="Logo"
-      height={100}
-      width={130}
-      className="h-[40px] w-auto"
+      height={140}
+      width={140}
+      className="h-[180px] w-auto p-4"
     />
   );
 };
