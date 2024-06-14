@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import SessionProvider from "@/providers/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600", "700"] }); // Define Poppins font with weights
 
 export const metadata: Metadata = {
   title: "Infinite Talent Job Board",
@@ -18,10 +19,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const additionalClassName = "h-full";
+ 
   return (
     <html lang="en" className="h-full">
-      <body className={cn(inter.className, "h-full")}>
+      <body className={cn(poppins.className, "h-full")}>
         <SessionProvider>
           <Toaster />
           {children}

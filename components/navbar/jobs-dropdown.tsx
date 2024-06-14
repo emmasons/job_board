@@ -4,15 +4,15 @@ import { Briefcase as JobsIcon } from "lucide-react";
 const JobsDropdown: React.FC = () => {
     return (
         <div className="group relative">
-            <Link href="/search" className="font-medium pb-7 px-4 text-gray-700 hover:text-orange-500 text-sm hover:border-b-4 hover:border-indigo-600">
+            <Link href="/search" className="font-sm pb-7 px-4 text-gray-700 hover:text-orange-500 text-sm hover:border-b-4 hover:border-indigo-600">
                 {/* <JobsIcon className="mr-2 h-5 w-5" /> */}
                 JOBS
             </Link>
-            <div className="absolute left-0 mt-7 px-4 hidden bg-white shadow-lg group-hover:flex w-auto">
+            <div className="absolute left-0 mt-7 px-4 hidden bg-white shadow-lg group-hover:flex group-hover:border-t-4 group-hover:border-indigo-400 w-auto">
                 <div className="flex justify-between w-full flex-shrink-1 px-8 py-4 space-x-8">
                     {/* By Country */}
                     <div className="flex flex-col">
-                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By Country <span className="text-red-500">&gt;&gt;</span></h4>
+                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By Country <span className="text-red-500"></span></h4>
                         <ul className="flex flex-col w-max items-start">
                             <li>
                                 <Link href="/search?country=UAE" className="block text-nowrap text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
@@ -54,7 +54,7 @@ const JobsDropdown: React.FC = () => {
 
                     {/* By City */}
                     <div>
-                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By City <span className="text-red-500">&gt;&gt;</span></h4>
+                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By City <span className="text-red-500"></span></h4>
                         <ul className="flex flex-col w-max items-start">
                             <li>
                                 <Link href="/search?city=Dubai" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
@@ -91,11 +91,11 @@ const JobsDropdown: React.FC = () => {
 
                     {/* By Category */}
                     <div>
-                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By Category <span className="text-red-500"> &gt;&gt;</span></h4>
+                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">By sector<span className="text-red-500"></span></h4>
                         <ul className="flex flex-col w-max items-start">
                             <li>
                                 <Link href="/search?category=Civil Engineering" className="block text-sm px-4  py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Civil Engineering Jobs
+                                    Accountancy jobs
                                 </Link>
                             </li>
                             <li>
@@ -105,17 +105,17 @@ const JobsDropdown: React.FC = () => {
                             </li>
                             <li>
                                 <Link href="/search?category=Admin" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Admin Jobs
+                                    Construction & Property
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/search?category=HR" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    HR Jobs
+                                    Security
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/search?category=Finance" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Finance Jobs
+                                    Healthcare & Pharma
                                 </Link>
                             </li>
                             <li>
@@ -127,8 +127,8 @@ const JobsDropdown: React.FC = () => {
                     </div>
 
                     {/* More Jobs */}
-                    <div>
-                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">More Jobs <span className="text-red-500">&gt;&gt;</span></h4>
+                    {/* <div>
+                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">More Jobs <span className="text-red-500"></span></h4>
                         <ul className="flex flex-col w-max items-start">
                             <li>
                                 <Link href="/search?filter=industry" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
@@ -166,7 +166,7 @@ const JobsDropdown: React.FC = () => {
                                 </Link>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

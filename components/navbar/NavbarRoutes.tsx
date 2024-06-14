@@ -36,7 +36,7 @@ export default function NavbarRoutes({ user }: Props) {
           <Link href="/">
             <Logo />
           </Link>
-          <div className="ml-auto flex items-center mr-auto gap-x-2">
+          <div className="text-sm ml-auto flex items-center mr-auto gap-x-2">
             <div className="relative group">
               <Home />
             </div>
