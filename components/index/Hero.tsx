@@ -39,7 +39,7 @@ const slideContent = [
     bgImage: "/index/carousel/gulf3.jpg",
     content: (
       <Link className="link" href="/find-candidates">
-        Start your search here
+          Begin your search here
         <ChevronRight className="mr-2 h-4 w-4" />
       </Link>
     ),
