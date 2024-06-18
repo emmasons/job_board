@@ -1,18 +1,17 @@
 "use client";
 
 import { CheckboxGroupForm } from "./checkbox-group-form";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { gulfCountries } from "@/lib/utils";
+import useQueryParams from "@/hooks/useQueryParams";
 
 const FilterByCountry = () => {
   const countryList = gulfCountries.map((country) => ({
     id: country,
     label: country,
   }));
-
-  const searchParams = useSearchParams();
-  const countriesFilter = searchParams.get("countriesFilter");
+  const { query, getParam, removeParam } = useQueryParams();
+  const countriesFilter = getParam("countriesFilter");
 
   const defaultValues = [];
 

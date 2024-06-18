@@ -14,7 +14,7 @@ type Props = {
 
 export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
   const { query, getParam, removeParam } = useQueryParams();
-  const [value, setValue] = useState(getParam("title"));
+  const [value, setValue] = useState(getParam("title") || "");
 
   const router = useRouter();
   let pathname = usePathname();
