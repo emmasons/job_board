@@ -32,8 +32,6 @@ const FilterBySector = ({ sectors }: props) => {
     }
   };
 
-  // console.log(sector, 'in client')
-
   if (sectorFilter) {
     const values = sectorFilter.split(",");
     defaultValues.push(...values);
