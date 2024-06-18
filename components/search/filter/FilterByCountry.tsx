@@ -7,7 +7,7 @@ import { gulfCountries } from "@/lib/utils";
 
 const FilterByCountry = () => {
   const countryList = gulfCountries.map((country) => ({
-    value: country,
+    id: country,
     label: country,
   }));
 
