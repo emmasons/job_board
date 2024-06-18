@@ -1,8 +1,8 @@
 "use client";
 import { EducationLevel } from "@prisma/client";
 import { CheckboxGroupForm } from "./checkbox-group-form";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import useQueryParams from "@/hooks/useQueryParams";
 
 type props = {
   levels: EducationLevel[];
@@ -13,9 +13,9 @@ const FilterByEducationLevel = ({ levels }: props) => {
     label: level.label,
     id: level.id,
   }));
-  const searchParams = useSearchParams();
-  const educationLevelFilter = searchParams.get("educationLevelFilter");
 
+  const { getParam } = useQueryParams();
+  const educationLevelFilter = getParam("educationLevelFilter");
   const defaultValues = [];
 
   const [showAll, setShowAll] = useState<boolean>(false);

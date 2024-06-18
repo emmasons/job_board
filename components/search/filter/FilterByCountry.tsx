@@ -10,7 +10,7 @@ const FilterByCountry = () => {
     id: country,
     label: country,
   }));
-  const { query, getParam, removeParam } = useQueryParams();
+  const { getParam } = useQueryParams();
   const countriesFilter = getParam("countriesFilter");
 
   const defaultValues = [];

@@ -3,6 +3,7 @@ import { Experience } from "@prisma/client";
 import { CheckboxGroupForm } from "./checkbox-group-form";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import useQueryParams from "@/hooks/useQueryParams";
 
 type props = {
   experienceLevels: Experience[];
@@ -13,8 +14,9 @@ const FilterByExperience = ({ experienceLevels }: props) => {
     label: level.label,
     id: level.id,
   }));
-  const searchParams = useSearchParams();
-  const experienceFilter = searchParams.get("experienceFilter");
+
+  const { getParam } = useQueryParams();
+  const experienceFilter = getParam("experienceFilter");
 
   const defaultValues = [];
 

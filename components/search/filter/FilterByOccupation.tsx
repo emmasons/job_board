@@ -1,7 +1,6 @@
 "use client";
 import { Occupation, SubOccupation } from "@prisma/client";
 import { CheckboxGroupForm } from "./checkbox-group-form";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import "./detail.css";
 
@@ -16,8 +15,6 @@ const FilterByOccupation = ({ occupations }: props) => {
     label: occupation.title,
     id: occupation.id,
   }));
-  const searchParams = useSearchParams();
-  const occupationFilter = searchParams.get("occupationFilter");
 
   const defaultValues = [];
 

@@ -1,8 +1,8 @@
 "use client";
 import { WorkSchedule } from "@prisma/client";
 import { CheckboxGroupForm } from "./checkbox-group-form";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import useQueryParams from "@/hooks/useQueryParams";
 
 type props = {
   workSchedules: WorkSchedule[];
@@ -13,8 +13,9 @@ const FilterByWorkSchedule = ({ workSchedules }: props) => {
     label: schedule.label,
     id: schedule.value,
   }));
-  const searchParams = useSearchParams();
-  const workSchedule = searchParams.get("workSchedule");
+
+  const { getParam } = useQueryParams();
+  const workSchedule = getParam("workSchedule");
 
   const defaultValues = [];
 
