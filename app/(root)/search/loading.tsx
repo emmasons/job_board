@@ -1,11 +1,16 @@
-import React from 'react'
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { JobListSkeleton } from "@/components/job/JobListSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
-type Props = {}
+type Props = {};
 
 const loading = (props: Props) => {
   return (
-    <div>loading</div>
-  )
-}
+    <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center text-center sm:mt-4 space-y-4">
+      <Skeleton className="h-[80px] w-full bg-slate-300" />
+      <JobListSkeleton />
+    </MaxWidthWrapper>
+  );
+};
 
-export default loading
+export default loading;
