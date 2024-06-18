@@ -25,7 +25,8 @@ const RemoveSearchParam = (props: Props) => {
       { skipEmptyString: true, skipNull: true },
     );
 
-    router.push(url);
+    // router.push(url);
+    window.location.href = url;
   };
 
   return (
