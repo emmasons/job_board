@@ -3,20 +3,17 @@
 import qs from "query-string";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
 import useQueryParams from "@/hooks/useQueryParams";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  defaultValue?: string;
   inExternalComponent?: boolean;
 };
 
 export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
-  const { query, getParam } = useQueryParams();
+  const { query, getParam, removeParam } = useQueryParams();
   const [value, setValue] = useState(getParam("title"));
 
   const router = useRouter();
@@ -35,13 +32,23 @@ export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
       },
       { skipEmptyString: true, skipNull: true },
     );
-
     router.push(url);
   };
 
-  useEffect(() => {
-    setValue(getParam("title"));
-  }, [getParam]);
+  const handleRemoveParam = (key) => {
+    setValue("");
+    const newQuery = { ...query };
+    delete newQuery[key];
+
+    const url = qs.stringifyUrl(
+      {
+        url: pathname,
+        query: newQuery,
+      },
+      { skipEmptyString: true, skipNull: true },
+    );
+    router.push(url);
+  };
 
   return (
     <div className="relative flex h-full flex-1 items-center justify-center">
@@ -61,7 +68,7 @@ export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
       <Icon
         icon="mdi:close"
         className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform cursor-pointer text-slate-600"
-        onClick={() => setValue("")}
+        onClick={() => handleRemoveParam("title")}
       />
     </div>
   );
