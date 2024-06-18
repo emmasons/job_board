@@ -1,11 +1,12 @@
 import { getAllJobs } from "@/actions/get-all-jobs";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import JobList from "@/components/job/JobList";
+import { JobListSkeleton } from "@/components/job/JobListSkeleton";
 import PaginationControls from "@/components/search/PaginationControls";
 import RemoveSearchParam from "@/components/search/RemoveSearchParam";
 import Search from "@/components/search/Search";
 import { JobsWithCompany } from "@/types/db";
-import Link from "next/link";
+import { Suspense } from "react";
 
 interface SearchPageProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -34,7 +35,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <RemoveSearchParam />
           </div>
         )}
-        {items && (
+
+        <Suspense fallback={<JobListSkeleton />}>
           <JobList
             items={items}
             totalItems={itemsList.length}
@@ -42,7 +44,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             pageSize={pageSize}
             totalPages={totalPages}
           />
-        )}
+        </Suspense>
+
         <PaginationControls
           hasNextPage={end < itemsList.length}
           hasPrevPage={start > 0}

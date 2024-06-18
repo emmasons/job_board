@@ -27,18 +27,6 @@ const JobList = async ({
   const workSchedules = await getWorkSchedules();
   const sectors = await getAllSectors();
 
-  // if (!items || items.length === 0) {
-  //   return (
-  //     <div>
-  //       <h2 className="text-2xl font-semibold text-primary">No Jobs Found</h2>
-  //       <p className="font-semibold text-zinc-500">Try changing your search</p>
-  //       <Link href="/search" className="text-orange-600 underline">
-  //         Continue search
-  //       </Link>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
       <div className="basis-1/3 space-y-4">
