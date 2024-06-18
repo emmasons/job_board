@@ -1,0 +1,25 @@
+details > summary {
+  list-style: none;
+  padding-right: 10px;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+summary::before {
+  content: "+ ";
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+details[open] summary::before {
+  content: "-";
+  font-size: 1.5rem;
+  margin-left: 5px;
+
+}
+
+details[open] summary {
+  font-weight: 600;
+  color: #707070;
+}

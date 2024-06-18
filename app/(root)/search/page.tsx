@@ -24,47 +24,31 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <main className="">
-      {itemsList && itemsList.length > 0 ? (
-        <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center text-center sm:mt-4">
-          <Search />
-          {searchParams && Object.keys(searchParams).length > 0 && (
-            <div className="mt-6 w-full rounded-md bg-slate-50 p-4">
-              <h2 className="text-left text-xl font-semibold text-primary">
-                Remove filter
-              </h2>
-              <RemoveSearchParam />
-            </div>
-          )}
-          {items && items.length > 0 && (
-            <JobList
-              items={items}
-              totalItems={itemsList.length}
-              page={page}
-              pageSize={pageSize}
-              totalPages={totalPages}
-            />
-          )}
-          <PaginationControls
-            hasNextPage={end < itemsList.length}
-            hasPrevPage={start > 0}
+      <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center text-center sm:mt-4">
+        <Search />
+        {searchParams && Object.keys(searchParams).length > 0 && (
+          <div className="mt-6 w-full rounded-md bg-slate-50 p-4">
+            <h2 className="text-left text-xl font-semibold text-primary">
+              Remove filter
+            </h2>
+            <RemoveSearchParam />
+          </div>
+        )}
+        {items && (
+          <JobList
+            items={items}
+            totalItems={itemsList.length}
+            page={page}
+            pageSize={pageSize}
             totalPages={totalPages}
           />
-        </MaxWidthWrapper>
-      ) : (
-        <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center text-center sm:mt-4">
-          <div>
-            <h2 className="text-2xl font-semibold text-primary">
-              No Jobs Found
-            </h2>
-            <p className="font-semibold text-zinc-500">
-              Try changing your search
-            </p>
-            <Link href="/" className="text-orange-600 underline">
-              Go Home
-            </Link>
-          </div>
-        </MaxWidthWrapper>
-      )}
+        )}
+        <PaginationControls
+          hasNextPage={end < itemsList.length}
+          hasPrevPage={start > 0}
+          totalPages={totalPages}
+        />
+      </MaxWidthWrapper>
     </main>
   );
 }

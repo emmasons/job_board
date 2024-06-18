@@ -27,6 +27,18 @@ const JobList = async ({
   const workSchedules = await getWorkSchedules();
   const sectors = await getAllSectors();
 
+  // if (!items || items.length === 0) {
+  //   return (
+  //     <div>
+  //       <h2 className="text-2xl font-semibold text-primary">No Jobs Found</h2>
+  //       <p className="font-semibold text-zinc-500">Try changing your search</p>
+  //       <Link href="/search" className="text-orange-600 underline">
+  //         Continue search
+  //       </Link>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
       <div className="basis-1/3 space-y-4">
@@ -49,14 +61,7 @@ const JobList = async ({
             Advanced Search
           </Link>
         </div>
-        <div className="flex flex-col items-start bg-slate-50 p-4">
-          <h2 className="text-xl font-bold">Search Results</h2>
-          <p className="text-sm">We have over {totalItems} jobs for you</p>
-          <p className="text-sm">
-            Showing page {page} of {totalPages}
-          </p>
-          <p className="text-sm">{items.length} jobs</p>
-        </div>
+
         {items.map((item) => (
           <div key={item.id} className="mb-4 w-full">
             <JobCard
@@ -71,6 +76,28 @@ const JobList = async ({
             />
           </div>
         ))}
+        {items.length === 0 ? (
+          <div className="flex flex-col items-start bg-slate-50 p-4">
+            <h2 className="text-2xl font-semibold text-primary">
+              No Jobs Found
+            </h2>
+            <p className="font-semibold text-zinc-500">
+              Try changing your search or removing filters
+            </p>
+            <Link href="/search" className="text-orange-600 underline">
+              Continue search
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col items-start bg-slate-50 p-4">
+            <h2 className="text-xl font-bold">Search Results</h2>
+            <p className="text-sm">We have over {totalItems} jobs for you</p>
+            <p className="text-sm">
+              Showing page {page} of {totalPages}
+            </p>
+            <p className="text-sm">{items.length} jobs</p>
+          </div>
+        )}
       </div>
     </div>
   );

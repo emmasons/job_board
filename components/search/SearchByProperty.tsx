@@ -20,7 +20,10 @@ export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
   const [value, setValue] = useState(getParam("title"));
 
   const router = useRouter();
-  const pathname = usePathname();
+  let pathname = usePathname();
+  if (!pathname.startsWith("/search")) {
+    pathname = "/search" + pathname;
+  }
 
   const handleChange = (value) => {
     setValue(value);

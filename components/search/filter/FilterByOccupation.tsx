@@ -1,11 +1,14 @@
 "use client";
-import { Occupation } from "@prisma/client";
+import { Occupation, SubOccupation } from "@prisma/client";
 import { CheckboxGroupForm } from "./checkbox-group-form";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import "./detail.css";
+
+type OccupationFilter = Occupation & { subOccupations: SubOccupation[] };
 
 type props = {
-  occupations: Occupation[];
+  occupations: OccupationFilter[];
 };
 
 const FilterByOccupation = ({ occupations }: props) => {
@@ -32,20 +35,26 @@ const FilterByOccupation = ({ occupations }: props) => {
     }
   };
 
-  if (occupationFilter) {
-    const values = occupationFilter.split(",");
-    defaultValues.push(...values);
-  }
-
   return (
     <div className="text-left">
       <h3 className="mb-2 font-bold">Filter by occupation</h3>
+      {occupations.map((occupation) => (
+        <details key={occupation.id}>
+          <summary className="cursor-pointer">{occupation.title}</summary>
+          <div className="px-3">
+            <CheckboxGroupForm
+              key={`${occupation.id}-${occupation.title}`}
+              items={occupation.subOccupations.map((subOccupation) => ({
+                label: subOccupation.title,
+                id: subOccupation.id,
+              }))}
+              defaultValues={defaultValues}
+              searchParamLabel="occupationFilter"
+            />
+          </div>
+        </details>
+      ))}
 
-      <CheckboxGroupForm
-        items={items.slice(0, filtersLimit)}
-        defaultValues={defaultValues}
-        searchParamLabel="occupationFilter"
-      />
       {!showAll ? (
         <p
           className="cursor-pointer text-sky-600 underline hover:text-slate-500"
