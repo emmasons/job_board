@@ -15,7 +15,7 @@ const Footer = (props: Props) => {
           <h2 className="text-lg font-bold">
             Infinite Talent Limited European Job Portal
           </h2>
-          <div className="inline-flex bg-white p-2">
+          <div className="inline-flex p-2">
             <Logo />
           </div>
           <p className="text-sm">
@@ -32,7 +32,8 @@ const Footer = (props: Props) => {
           <ul>
             <li>
               <Link
-                href="#"
+                href="https://twitter.com/InfiniteTalent1/" 
+                target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
                 <Icon icon="pajamas:twitter" className="h-4 w-4" />
@@ -41,7 +42,8 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="#"
+                href="www.linkedin.com/in/infinite-talent-15a732314"
+                target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
                 <Icon icon="pajamas:linkedin" className="h-4 w-4" />
@@ -50,7 +52,8 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="#"
+                href="https://web.facebook.com/profile.php?id=100092599658225" 
+                target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
                 <Icon icon="ic:baseline-facebook" className="h-4 w-4" />
