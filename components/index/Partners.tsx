@@ -42,10 +42,11 @@ const logos = [
 const Partners = () => {
   return (
     <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Join Top Employers</h1>
+        <h1 className="text-3xl font-semibold mt-12 mb-4 text-gray-900">Join Top Employers</h1>
+        <p>Some of the companies we have helped recruit excellent applicants over the years.</p>
         <div className='grid md:grid-cols-3 grid-cols-2 gap-2'>
           {logos.map((logo) => (
-            <div key={logo.src} className="flex items-center p-2 justify-center border rounded-sm">
+            <div key={logo.src} className="flex items-center p-2 justify-center">
               <Image
                 src={logo.src}
                 alt={logo.alt}

@@ -55,7 +55,7 @@ export default function EmployerOptions() {
 
         Employer  <ChevronDown className=" w-4 h-4" />
       </Link>
-      <div className="absolute left-0 pt-7 hidden bg-white shadow-lg group-hover:flex w-auto">
+      <div className="absolute left-0 hidden bg-white shadow-lg group-hover:flex w-auto">
       <ul className="py-2 w-max">
                 <li>
                     <Link href="/auth/signin" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
@@ -66,6 +66,14 @@ export default function EmployerOptions() {
                     <Link href="/auth/signup/employer" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
                         Register
                     </Link>
+                </li>
+                <li>
+                <Link
+                  href="/profile/dashboard/employer/jobs"
+                  className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+                  >
+                  Advertise
+               </Link>
                 </li>
                 <li>
                     <Link href="/find-candidates" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">

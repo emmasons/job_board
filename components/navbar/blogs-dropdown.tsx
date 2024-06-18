@@ -17,22 +17,22 @@ const BlogsDropdown: React.FC = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/blogs/news" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
+                    <Link href="/blog" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
                             Top News
                     </Link>
                 </li>
                 <li>
-                    <Link href="/blogs/tech" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
+                    <Link href="/blog" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
                             Jobs search
                     </Link>
                 </li>
                 <li>
-                    <Link href="/blogs/tech" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
+                    <Link href="/blog" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
                             Career advice
                     </Link>
                 </li>
                 <li>
-                    <Link href="/blogs/tech" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
+                    <Link href="/blog" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
                             Work in the Gulf
                     </Link>
                 </li>

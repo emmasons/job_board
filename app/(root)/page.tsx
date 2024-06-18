@@ -17,7 +17,7 @@ export default function Home() {
       <MaxWidthWrapper className="py-24">
         <Services />
       </MaxWidthWrapper>
-      <div className="bg-sky-50">
+      <div className="bg-slate-100">
         <MaxWidthWrapper className="py-24">
           <Partners />
         </MaxWidthWrapper>

@@ -59,7 +59,7 @@ const slideContent = [
 
 export default function Hero() {
   return (
-    <div className="h-screen bg-slate-100">
+    <div className="h-full bg-slate-100">
       <Swiper
         navigation={true}
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
@@ -87,9 +87,9 @@ export default function Hero() {
           <SwiperSlide key={`slide-${slide.title}-${index + 1}`}>
             <div
               style={{ backgroundImage: `url(${slide.bgImage})` }}
-              className="h-full w-full bg-cover bg-center bg-no-repeat"
+              className="h-screen  w-full bg-cover bg-center bg-no-repeat"
             >
-              <div className="flex h-full w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.5)] text-white swiper-slide-content">
+              <div className="flex h-full w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.6)] text-white swiper-slide-content">
                 <div className="space-y-8">
                   <div className="rounded-md px-4 py-8">
                     <h1>{slide.title}</h1>
