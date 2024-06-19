@@ -6,15 +6,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+          Form,
+          FormControl,
+          FormField,
+          FormItem,
+          FormMessage,
+        } 
+from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+// Redefine the props for the component
 interface CreateCompanyFormProps {
   initialData: {
     companyName: string;

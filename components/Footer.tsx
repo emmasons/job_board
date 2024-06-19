@@ -26,7 +26,7 @@ const Footer = (props: Props) => {
           <h2 className="text-lg font-bold">Contact us</h2>
           <Link href="#" className="inline-flex items-center gap-2">
             Contact Jobs connect Helpdesk
-            <ChevronRight className="h-4 w-4" />
+            {/* <ChevronRight className="h-4 w-4" /> */}
           </Link>
           <p className="">Follow us</p>
           <ul>
@@ -42,7 +42,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="www.linkedin.com/in/infinite-talent-15a732314"
+                href="https://www.linkedin.com//in/infinite-talent-15a732314"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
