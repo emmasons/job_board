@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
@@ -15,7 +14,6 @@ import ServicesDropdown from "./services-dropdown";
 import UserMenuButton from "./UserMenuButton";
 import { Role } from "@prisma/client";
 import EmployerOptions from "./EmployerOptions";
-import JobSeekerOptions from "./JobSeekerOptions";
 
 interface Props {
   user: Session["user"] | undefined;
