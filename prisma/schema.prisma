@@ -92,13 +92,12 @@ model CV {
 }
 
 model Application {
-  id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   jobId String @unique
   job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  @@unique([userId, jobId])
+  @@id(name: "applicationId", [userId, jobId])
 }
 
 model GCPData {

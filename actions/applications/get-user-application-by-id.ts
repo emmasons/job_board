@@ -4,9 +4,9 @@ export const getUserApplicationById = async (userId: string, jobId: string) => {
   try {
     const application = await db.application.findUnique({
       where: {
-        userId_jobId: {
-          userId: userId,
-          jobId: jobId,
+        applicationId: {
+          userId,
+          jobId,
         },
       },
     });

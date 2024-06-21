@@ -44,7 +44,7 @@ const page = async (props: Props) => {
           <div className="mt-6 flex flex-col items-center justify-center gap-4 rounded-md bg-white p-8">
             {/* <h1 className="text-3xl font-bold text-zinc-700">Thank you!</h1> */}
             <CheckCircle className="h-12 w-12 text-green-500" />
-            <p className="text-xl md:w-[60%] text-center">
+            <p className="text-center text-xl md:w-[60%]">
               You have already applied for this job. You will be contacted
               shortly to confirm your application.
             </p>
