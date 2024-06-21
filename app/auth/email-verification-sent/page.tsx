@@ -1,6 +1,7 @@
 import ResendEmail from "@/components/auth/ResendEmail";
 import { db } from "@/lib/db";
-import { Mail } from "lucide-react";
+import { HomeIcon, Mail } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -23,12 +24,17 @@ const page = async (props: Props) => {
         <h2 className="text-2xl font-bold text-secondary">
           Verify your email address
         </h2>
-        <p className="text-center text-secondary">
-          We have sent a verification link to your inbox <br />
-          Click on the link to complete the verification process. <br />
-          You might need to check your spam folder if you can&apos;t see it.
+        <p className="w-[70%] text-center text-secondary">
+          We have sent a verification link to your inbox Click on the link to
+          complete the verification process. You might need to check your spam
+          folder if you can&apos;t see it.
         </p>
-        <ResendEmail toEmail={user.email} />
+        <div className="flex gap-4">
+          <ResendEmail toEmail={user.email} />
+          <Link href="/" className="bg-secondary px-4 rounded-md flex items-center justify-center">
+            <HomeIcon className="h-5 w-5 text-primary" />
+          </Link>
+        </div>
       </div>
     </div>
   );

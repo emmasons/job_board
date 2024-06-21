@@ -17,14 +17,14 @@ const page = async (props: Props) => {
     <div className="flex h-full w-full flex-col justify-center gap-4">
       <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
       <Link
-        href="/auth/signin/employer"
+        href="/auth/signup/employer"
         className="inline-flex w-1/2 items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
       >
         <p>Register as an Employer</p>
         <ChevronRight />
       </Link>
       <Link
-        href="/auth/signin/job-seeker"
+        href="/auth/signup/job-seeker"
         className="inline-flex w-1/2 items-center rounded-md bg-slate-200 p-4 text-sky-700 hover:text-sky-500"
       >
         <p>Register as a Job Seeker</p>

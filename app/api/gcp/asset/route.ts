@@ -1,17 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getCurrentSessionUser } from "@/lib/auth";
 import { DOWNLOAD_EXPIRY_IN_SECONDS } from "@/lib/gcp/gcp-utils";
-import { FileUploader } from "@/lib/gcp/gcp";
 
 export async function PUT(req: NextRequest) {
   try {
-    const user = await getCurrentSessionUser();
-    const userId = user?.id;
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
     const { blobName, contentType, assetId, assetName, downloadUrl } =
       await req.json();
 

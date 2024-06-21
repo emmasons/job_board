@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
 import { Logo } from "./Logo";
-import Home from "./home"; 
+import Home from "./home";
 import JobsDropdown from "./jobs-dropdown";
 import BlogsDropdown from "./blogs-dropdown";
 import ServicesDropdown from "./services-dropdown";
@@ -50,10 +50,10 @@ export default function NavbarRoutes({ user }: Props) {
               <ServicesDropdown/>
             </div>
           </div>
-         
-         
+
+
         </div>
-        
+
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
@@ -101,7 +101,7 @@ export default function NavbarRoutes({ user }: Props) {
             </Button>
           </Link>
         ) : null}
-        
+
         {/* user menu and options */}
         <UserMenuButton user={user} />
 
@@ -116,7 +116,7 @@ export default function NavbarRoutes({ user }: Props) {
               </li>
             </ul>
           )}
-        
+
       </div>
     </>
   );

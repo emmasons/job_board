@@ -173,7 +173,7 @@ const UploadDropzone = ({
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div
           {...getRootProps({ onClick: (evt) => evt.preventDefault() })}
-          className="my-4 h-64 rounded-lg border border-dashed border-gray-300"
+          className="my-4 h-60 rounded-lg border border-dashed border-gray-300"
         >
           <div className="flex h-full w-full items-center justify-center">
             <label
@@ -181,9 +181,9 @@ const UploadDropzone = ({
               className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-gray-50 hover:bg-gray-100"
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                <Cloud className="mb-2 h-6 w-6 text-zinc-500" />
+                <Cloud className="mb-2 h-6 w-6 text-sky-500" />
                 <p className="mb-2 text-sm text-zinc-700">
-                  <span className="font-semibold">Click to upload</span> or drag
+                  <span className="font-semibold text-sky-500">Click to upload</span> or drag
                   and drop
                 </p>
                 <p className="text-xs text-zinc-500">{fileMessage}</p>

@@ -6,12 +6,6 @@ import { FileUploader } from "@/lib/gcp/gcp";
 
 export async function PUT(req: NextRequest) {
   try {
-    const user = await getCurrentSessionUser();
-    const userId = user?.id;
-
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
     const { blobName, contentType, assetId, assetName, downloadUrl } =
       await req.json();
     console.log(blobName, contentType, assetId, assetName, downloadUrl);
@@ -60,7 +54,7 @@ export async function PUT(req: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.log("[COURSE_ID_ID]", error);
+    console.log("[PUT_ASSET_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

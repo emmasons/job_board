@@ -3,13 +3,31 @@ import { NextResponse, NextRequest } from "next/server";
 import bcrypt from "bcrypt";
 import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
+import { Role } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password, role, firstName, lastName, phoneNumber } =
-      await req.json();
+    const {
+      email,
+      password,
+      role,
+      firstName,
+      lastName,
+      phoneNumber,
+      cvId,
+      occupation,
+    } = await req.json();
 
-    if (!email || !password) {
+    if (!email || !password || !role) {
+      return NextResponse.json(
+        { message: "All fields are required." },
+        { status: 400 },
+      );
+    }
+
+    console.log(role, cvId, occupation, '************');
+
+    if (role === Role.JOB_SEEKER && (!cvId || !occupation)) {
       return NextResponse.json(
         { message: "All fields are required." },
         { status: 400 },
@@ -37,6 +55,12 @@ export async function POST(req: NextRequest) {
     await db.profile.create({
       data: { userId: user.id, firstName, lastName, phoneNumber },
     });
+
+    if (role === Role.JOB_SEEKER) {
+      await db.jobSeekerProfile.create({
+        data: { userId: user.id, cvId, occupation },
+      });
+    }
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
       where: { id: user.id },

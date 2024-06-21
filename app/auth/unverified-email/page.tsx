@@ -1,7 +1,8 @@
 import ResendEmail from "@/components/auth/ResendEmail";
-import { MailWarning } from "lucide-react";
+import { HomeIcon, MailWarning } from "lucide-react";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
+import Link from "next/link";
 
 type Props = {
   searchParams: Record<"u", string>;
@@ -32,7 +33,15 @@ const page = async (props: Props) => {
           <br />
           click the resend button below.
         </p>
-        <ResendEmail toEmail={user.email} />
+        <div className="flex gap-4">
+          <ResendEmail toEmail={user.email} />
+          <Link
+            href="/"
+            className="flex items-center justify-center rounded-md bg-secondary px-4"
+          >
+            <HomeIcon className="h-5 w-5 text-primary" />
+          </Link>
+        </div>
       </div>
     </div>
   );

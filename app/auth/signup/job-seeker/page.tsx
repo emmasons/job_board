@@ -5,7 +5,7 @@ import { Role } from "@prisma/client";
 const page = () => {
   return (
     <MaxWidthWrapper>
-      <div className="w-full rounded-md px-[10%] py-8 shadow">
+      <div className="w-full rounded-md px-[10%] py-8 shadow h-full">
         <Signup role={Role.JOB_SEEKER} />
       </div>
     </MaxWidthWrapper>
