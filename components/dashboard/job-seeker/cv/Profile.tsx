@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useState } from "react";
 import { useCountries } from "use-react-countries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ComboProps } from "@/types/db";
+import { Loader2 } from "lucide-react";
 
 interface ProfileProps {
   initialData: {
@@ -74,8 +76,10 @@ export default function Profile({
   });
 
   const { isSubmitting, isValid, errors } = form.formState;
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     try {
       let response: any;
       if (isEditing) {
@@ -115,6 +119,8 @@ export default function Profile({
         title: "Error",
         description: "Something went wrong!",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,9 +202,16 @@ export default function Profile({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={isSubmitting} type="submit">
-                {isEditing ? "Update" : "Create"}
-              </Button>
+              {loading ? (
+                <Button type="submit" disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </Button>
+              ) : (
+                <Button disabled={isSubmitting} type="submit">
+                  {isEditing ? "Update" : "Create"}
+                </Button>
+              )}
             </div>
           </form>
         </Form>

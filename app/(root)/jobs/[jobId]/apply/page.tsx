@@ -5,7 +5,14 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { FileText } from "lucide-react";
 import { redirect } from "next/navigation";
-import React from "react";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
+import { getAllSectors } from "@/actions/get-all-sectors";
+import { getEducationLevels } from "@/actions/get-education-levels";
+import { getExperience } from "@/actions/get-experience";
+import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
+import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
+import { getUserCv } from "@/actions/get-user-cv";
+import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 
 type Props = {
   params: {
@@ -19,6 +26,16 @@ const page = async (props: Props) => {
     return redirect("/auth/signin?callbackUrl=/jobs/[jobId]/apply");
   }
 
+  const cv = await getUserCv(user.id);
+
+  const cvFile = await getLatestFileMetaData(cv?.id);
+
+  const educationLevels = await getEducationLevels();
+  const experience = await getExperience();
+  const sectors = await getAllSectors();
+
+  const jobSeekerProfile = await getJobSeekerProfile(user.id);
+
   const job = await getJobById(props.params.jobId);
   return (
     <div className="h-full bg-zinc-100">
@@ -28,8 +45,23 @@ const page = async (props: Props) => {
             Apply for {job?.title}
             <FileText className="h-6 w-6 text-primary" />
           </h1>
-          <div className="border-l-[0.3em] border-zinc-400 bg-zinc-100 pl-4">
-            <Preview value={job?.howToApply} />
+          <div className="space-y-12">
+            <UploadCV cv={cv} cvFile={cvFile} />
+            <JobSeekerProfileUpdate
+              profile={jobSeekerProfile}
+              sectorList={sectors.map((sector) => ({
+                label: sector.label,
+                value: sector.id,
+              }))}
+              educationLevelList={educationLevels.map((level) => ({
+                label: level.label,
+                value: level.id,
+              }))}
+              experienceList={experience.map((exp) => ({
+                label: exp.label,
+                value: exp.id,
+              }))}
+            />
           </div>
         </div>
       </MaxWidthWrapper>
