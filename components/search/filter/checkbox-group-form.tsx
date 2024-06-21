@@ -55,19 +55,21 @@ export function CheckboxGroupForm({
   const { query } = useQueryParams();
 
   const formValues = form.watch();
-  console.log(defaultValues, "filter values before useffect");
+
+  const formValuesSet = new Set(formValues.items);
+  const defaultValuesSet = new Set(defaultValues);
+
+  const differences = Array.from(
+    new Set([...formValuesSet].filter((value) => !defaultValuesSet.has(value))),
+  );
+
+  if (differences.length > 0) {
+    form.reset({
+      items: defaultValues,
+    });
+  }
 
   useEffect(() => {
-    console.log(defaultValues, "filter values after useffect");
-    const differences = defaultValues.filter(
-      (item) => !formValues.items.includes(item),
-    );
-
-    if (differences.length > 0) {
-      form.reset({
-        items: defaultValues,
-      });
-    }
     const selectedItemsSequence = formValues.items.join(",");
 
     query[searchParamLabel] = selectedItemsSequence;
@@ -91,15 +93,7 @@ export function CheckboxGroupForm({
     );
 
     if (selectedItemsSequence) router.push(url);
-  }, [
-    formValues.items,
-    pathname,
-    router,
-    searchParamLabel,
-    query,
-    defaultValues,
-    form,
-  ]);
+  }, [formValues.items, pathname, query, router, searchParamLabel]);
 
   return (
     <Form {...form}>
