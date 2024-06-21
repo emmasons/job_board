@@ -1,0 +1,19 @@
+import { db } from "@/lib/db";
+
+export const getUserApplicationById = async (userId: string, jobId: string) => {
+  try {
+    const application = await db.application.findUnique({
+      where: {
+        userId_jobId: {
+          userId: userId,
+          jobId: jobId,
+        },
+      },
+    });
+
+    return application;
+  } catch (error) {
+    console.log("GET_USER_APPLICATION_BY_ID", error);
+    return null;
+  }
+};

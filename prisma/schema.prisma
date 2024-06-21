@@ -80,14 +80,25 @@ model User {
   jobSeekerProfile          JobSeekerProfile?
   candidates                Candidate[]
   Post                      Post[]
+  applications              Application[]
 
   @@map("users")
 }
 
 model CV {
-  id String @id @default(cuid())
+  id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Application {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  jobId String @unique
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  @@unique([userId, jobId])
 }
 
 model GCPData {
@@ -197,9 +208,10 @@ model Job {
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Purchase  Purchase[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Purchase    Purchase[]
+  Application Application?
 }
 
 enum PurchaseStatus {
@@ -265,15 +277,15 @@ model Post {
 }
 
 model Occupation {
-  id          String   @id @default(cuid())
-  title       String   @unique
+  id             String          @id @default(cuid())
+  title          String          @unique
   subOccupations SubOccupation[]
 }
 
 model SubOccupation {
-  id          String   @id @default(cuid())
-  title       String   @unique
+  id    String @id @default(cuid())
+  title String @unique
 
   occupationId String
-  occupation   Occupation    @relation(fields: [occupationId], references: [id], onDelete: Cascade)
+  occupation   Occupation @relation(fields: [occupationId], references: [id], onDelete: Cascade)
 }
