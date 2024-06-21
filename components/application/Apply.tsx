@@ -34,7 +34,7 @@ const Apply = (props: Props) => {
           title: "Success",
           description: "Application submitted successfully!",
         });
-        router.refresh();
+        window.location.reload();
       }
       console.log(data);
     } catch (error) {
