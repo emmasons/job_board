@@ -8,7 +8,7 @@ import { ComboProps } from "@/types/db";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 
 type Props = {
-  profile: JobSeekerProfileProps;
+  profile: JobSeekerProfileProps | null;
   sectorList: ComboProps;
   educationLevelList: ComboProps;
   experienceList: ComboProps;
@@ -54,12 +54,12 @@ const JobSeekerProfileUpdate = ({ profile, ...rest }: Props) => {
               </p>
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Education Level:</span>{" "}
-                {profile?.education.label}
+                {profile?.education?.label}
                 <br />
               </p>
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Experience:</span>{" "}
-                {profile.experience.label}
+                {profile.experience?.label}
               </p>
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Country:</span>{" "}

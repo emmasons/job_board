@@ -6,7 +6,6 @@ import { getUserCv } from "@/actions/get-user-cv";
 import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { Settings } from "lucide-react";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
-import Profile from "@/components/dashboard/job-seeker/cv/Profile";
 import { getAllSectors } from "@/actions/get-all-sectors";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import { getExperience } from "@/actions/get-experience";
@@ -16,10 +15,11 @@ import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeek
 const page = async () => {
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {
-    return redirect("/");
+    return redirect("/auth/signin?callbackUrl=/profile/dashboard/job-seeker");
   }
   const cv = await getUserCv(user.id);
-  const cvFile = await getLatestFileMetaData(cv.id);
+
+  const cvFile = await getLatestFileMetaData(cv?.cvId);
 
   const educationLevels = await getEducationLevels();
   const experience = await getExperience();

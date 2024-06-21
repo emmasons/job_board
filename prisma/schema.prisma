@@ -25,7 +25,6 @@ model JobSeekerProfile {
   experience       Experience?     @relation(fields: [experienceId], references: [id])
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
-  cvId             String?
 }
 
 model Profile {
@@ -87,7 +86,6 @@ model User {
 
 model CV {
   id String @id @default(cuid())
-
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

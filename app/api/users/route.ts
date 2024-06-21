@@ -4,19 +4,22 @@ import bcrypt from "bcrypt";
 import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
 import { Role } from "@prisma/client";
+import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
 
 export async function POST(req: NextRequest) {
   try {
-    const {
-      email,
-      password,
-      role,
-      firstName,
-      lastName,
-      phoneNumber,
-      cvId,
-      occupation,
-    } = await req.json();
+    const formData = await req.formData();
+    const { email, password, role, firstName, lastName, phoneNumber, cvFile } =
+      Object.fromEntries(formData) as {
+        email: string;
+        password: string;
+        role: Role;
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
+        cvId: string;
+        cvFile: File;
+      };
 
     if (!email || !password || !role) {
       return NextResponse.json(
@@ -25,9 +28,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(role, cvId, occupation, '************');
+    console.log(role, cvFile, "************");
 
-    if (role === Role.JOB_SEEKER && (!cvId || !occupation)) {
+    if (role === Role.JOB_SEEKER && !cvFile) {
       return NextResponse.json(
         { message: "All fields are required." },
         { status: 400 },
@@ -55,10 +58,25 @@ export async function POST(req: NextRequest) {
     await db.profile.create({
       data: { userId: user.id, firstName, lastName, phoneNumber },
     });
-
     if (role === Role.JOB_SEEKER) {
-      await db.jobSeekerProfile.create({
-        data: { userId: user.id, cvId, occupation },
+      const cloudResponse = await uploadFile(cvFile, cvFile.name);
+      if (cloudResponse.status !== 200) {
+        return NextResponse.json({ message: "Storage Error" }, { status: 500 });
+      }
+      const cv = await db.cV.create({
+        data: {
+          userId: user.id,
+        },
+      });
+      await db.gCPData.create({
+        data: {
+          assetId: cv.id,
+          blobName: cloudResponse.blobName,
+          assetType: cvFile.type,
+          urlExpiryDate: DOWNLOAD_EXPIRY_IN_SECONDS,
+          assetName: cvFile.name,
+          downloadUrl: cloudResponse.downloadUrl,
+        },
       });
     }
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);

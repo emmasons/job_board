@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { CV } from "@prisma/client";
 
-export const getUserCv = async (userId: string): Promise<CV | null> => {
+export const getUserCv = async (userId: string): Promise<CV> => {
   let cv = await db.cV.findUnique({
     where: {
       userId,

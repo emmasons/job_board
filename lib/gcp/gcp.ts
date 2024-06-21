@@ -97,7 +97,12 @@ export class FileUploader {
 
   async uploadFile(
     file: FormDataEntryValue,
-  ): Promise<{ status: number; message: string; downloadUrl: string }> {
+  ): Promise<{
+    status: number;
+    message: string;
+    downloadUrl: string;
+    blobName: string;
+  }> {
     return new Promise(async (resolve, reject) => {
       // console.log(await this.generateSignedDownloadUrl())
       try {
@@ -115,6 +120,7 @@ export class FileUploader {
           status: cloudResponse.status,
           message: cloudResponse.statusText,
           downloadUrl: downloadUrl,
+          blobName: this.fileName,
         };
         resolve(response);
       } catch (error) {

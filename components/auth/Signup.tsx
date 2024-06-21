@@ -19,14 +19,15 @@ import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Role } from "@prisma/client";
-import UploadCV from "../dashboard/job-seeker/cv/UploadCV";
 import { createId } from "@paralleldrive/cuid2";
+import FileDrop from "@/components/FileDrop";
 
 type Props = {
   role: Role;
 };
 
 const Signup = ({ role }: Props) => {
+  const [cvFile, setCvFile] = useState<File[] | null>([]);
   const cvId = createId();
   const router = useRouter();
   const { toast } = useToast();
@@ -44,7 +45,6 @@ const Signup = ({ role }: Props) => {
       firstName: z.string().min(1, "Please provide your first name"),
       lastName: z.string().min(1, "Please provide your last name"),
       phoneNumber: z.string().min(2, "Please provide your phone number"),
-      occupation: z.string().min(1, "Please provide your occupation"),
     })
     .superRefine(({ confirmPassword, password }, ctx) => {
       if (confirmPassword !== password) {
@@ -64,7 +64,6 @@ const Signup = ({ role }: Props) => {
       firstName: "",
       lastName: "",
       phoneNumber: "",
-      occupation: "",
     },
   });
 
@@ -80,12 +79,21 @@ const Signup = ({ role }: Props) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("phoneNumber", values.phoneNumber);
+      formData.append("occupation", values.occupation);
+      formData.append("role", role);
+      formData.append("cvId", cvId);
+      if (cvFile) {
+        formData.append("cvFile", cvFile[0]);
+      }
       const res = await fetch("/api/users/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...values, role, cvId }),
+        body: formData,
       });
       const response = await res.json();
       if (!res.ok) {
@@ -164,22 +172,21 @@ const Signup = ({ role }: Props) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="occupation"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-secondary">
-                  What is your occupation?
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g Housekeeper" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <UploadCV cvFile={null} assetId={cvId} />
+          <FileDrop setFiles={setCvFile} />
+          {/* <p className="text-red-500">
+            {cvFile?.length === 0 && "Please upload your cv"}
+          </p> */}
+          {cvFile && cvFile?.length > 0 && (
+            <div className="flex justify-between">
+              <p className="text-secondary">CV: {cvFile[0]?.name}</p>
+              <p
+                onClick={() => setCvFile(null)}
+                className="cursor-pointer text-secondary"
+              >
+                Remove &times;
+              </p>
+            </div>
+          )}
           <FormField
             control={form.control}
             name="password"
@@ -209,6 +216,7 @@ const Signup = ({ role }: Props) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="confirmPassword"
