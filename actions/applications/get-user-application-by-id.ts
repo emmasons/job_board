@@ -2,12 +2,10 @@ import { db } from "@/lib/db";
 
 export const getUserApplicationById = async (userId: string, jobId: string) => {
   try {
-    const application = await db.application.findUnique({
+    const application = await db.application.findFirst({
       where: {
-        applicationId: {
-          userId,
-          jobId,
-        },
+        userId,
+        jobId,
       },
     });
 

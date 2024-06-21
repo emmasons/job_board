@@ -25,7 +25,9 @@ type Props = {
 const page = async (props: Props) => {
   const user = await getCurrentSessionUser();
   if (!user) {
-    return redirect("/auth/signin?callbackUrl=/jobs/[jobId]/apply");
+    return redirect(
+      `/auth/signin?callbackUrl=/jobs/${props.params.jobId}/apply`,
+    );
   }
 
   const cv = await getUserCv(user.id);
