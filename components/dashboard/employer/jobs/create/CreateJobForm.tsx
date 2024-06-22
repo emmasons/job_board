@@ -36,13 +36,14 @@ interface CreateJobFormProps {
     city: string;
     workSchedule: string;
     country: string;
-    startDate: Date | null;
+    startDate: Date;
     occupation: string;
     educationLevelId: string;
     contractType: string;
     numberOfPositions: string;
     experienceId: string;
     sectorId: string;
+    salary: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -88,6 +89,9 @@ const formSchema = z.object({
   }),
   sectorId: z.string().min(1, {
     message: "Sector is required",
+  }),
+  salary: z.string().min(1, {
+    message: "Salary is required",
   }),
 });
 
@@ -213,6 +217,24 @@ export default function CreateJobForm({
                     <Input
                       disabled={isSubmitting}
                       placeholder="e.g. '3'"
+                      {...field}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Salary</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="e.g. '$2500/month'"
                       {...field}
                       type="number"
                     />

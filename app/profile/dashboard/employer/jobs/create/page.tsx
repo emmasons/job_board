@@ -52,6 +52,7 @@ const page = async () => {
           educationLevelId: "",
           experienceId: "",
           sectorId: "",
+          salary: "",
         }}
         sectorList={sectors.map((sector) => ({
           label: sector.label,

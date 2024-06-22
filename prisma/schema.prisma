@@ -190,6 +190,7 @@ model Job {
   published         Boolean      @default(false)
   numberOfPositions Int          @default(1)
   datePosted        DateTime?
+  salary            String?
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
