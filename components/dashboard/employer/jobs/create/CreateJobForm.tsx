@@ -36,14 +36,13 @@ interface CreateJobFormProps {
     city: string;
     workSchedule: string;
     country: string;
-    startDate: Date;
+    startDate: Date | null;
     occupation: string;
     educationLevelId: string;
     contractType: string;
     numberOfPositions: string;
     experienceId: string;
     sectorId: string;
-    howToApply: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -88,9 +87,6 @@ const formSchema = z.object({
     message: "Experience is required",
   }),
   sectorId: z.string().min(1, {
-    message: "Sector is required",
-  }),
-  howToApply: z.string().min(1, {
     message: "Sector is required",
   }),
 });
@@ -198,6 +194,7 @@ export default function CreateJobForm({
               name="description"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Job Description</FormLabel>
                   <FormControl>
                     <RichTextEditor {...field} />
                   </FormControl>
@@ -205,27 +202,17 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="howToApply"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <RichTextEditor {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="numberOfPositions"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Number of Positions</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="Number of Positions: e.g. '3'"
+                      placeholder="e.g. '3'"
                       {...field}
                       type="number"
                     />
