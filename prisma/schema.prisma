@@ -91,16 +91,6 @@ model CV {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Application {
-  id     String @id @default(cuid())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  jobId String @unique
-  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
-}
-
 model GCPData {
   id               String   @id @default(cuid())
   urlExpiryDate    DateTime
@@ -208,10 +198,22 @@ model Job {
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  Purchase    Purchase[]
-  Application Application?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Purchase     Purchase[]
+  applications Application[]
+}
+
+model Application {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId])
 }
 
 enum PurchaseStatus {
