@@ -56,11 +56,8 @@ export function CheckboxGroupForm({
 
   const formValues = form.watch();
 
-  const formValuesSet = new Set(formValues.items);
-  const defaultValuesSet = new Set(defaultValues);
-
-  const differences = Array.from(
-    new Set([...formValuesSet].filter((value) => !defaultValuesSet.has(value))),
+  const differences = defaultValues.filter(
+    (item) => !formValues.items.includes(item),
   );
 
   if (differences.length > 0) {
