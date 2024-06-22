@@ -6,7 +6,7 @@ import { Role } from "@prisma/client";
 export async function POST(req: Request) {
   try {
     const user = await getCurrentSessionUser();
-    if (!user || !(user.role === Role.JOB_SEEKER)) {
+    if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     const { jobId } = await req.json();
