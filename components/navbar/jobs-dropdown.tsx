@@ -47,12 +47,17 @@ const JobsDropdown: React.FC = () => {
             <ul className="flex w-max flex-col items-start">
               {popularCities.map((city) => (
                 <li key={city}>
-                  <Link
+                  {/* <Link
                     href={`/search?title=${city}`}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
                   >
                     Jobs in {city}
-                  </Link>
+                  </Link> */}
+                  <ParamLink
+                    value={city}
+                    searchParamLabel="title"
+                    displayText={`Jobs in ${city}`}
+                  />
                 </li>
               ))}
             </ul>
