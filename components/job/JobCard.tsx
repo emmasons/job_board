@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+
 import { format } from "date-fns";
 type Props = {
   id: string;
   title: string;
   createdAt: Date;
+  company?: string;
   sector: string;
   city: string;
   country: string;
@@ -17,6 +19,7 @@ const JobCard = ({
   id,
   title,
   createdAt,
+  company, 
   sector,
   city,
   country,
@@ -34,6 +37,14 @@ const JobCard = ({
           </h2>
           <p className="text-sm text-gray-400">{formattedDate}</p>
         </div>
+        {company && (
+          <div className="text-sm text-gray-600 mb-1">
+            <div className="flex items-center gap-1">
+              <Icon icon="mdi:office-building" className="text-gray-500" />
+              <span>{company}</span>
+            </div>
+          </div>
+        )}
         <div className="text-sm text-gray-600">
           <div className="mb-1 flex items-center gap-1">
             <Icon icon="maki:industry" className="text-gray-500" />

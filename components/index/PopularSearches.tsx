@@ -36,14 +36,14 @@ const PopularSearches = (props: Props) => {
       <h1 className="text-2xl font-bold">Popular Searches</h1>
       <div className="space-y-4">
         <SearchByProperty inExternalComponent={true} />
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+        <div className="flex flex-wrap">
           {popularSearches.map(({ keyword, label }) => (
             <Link
               href={`/search?title=${keyword}`}
               key={keyword}
-              className="flex items-center justify-center rounded-full border p-2"
+              className="flex flex-wrap items-center justify-center py-2 px-4"
             >
-              <p className="text-center text-[1rem] text-sky-500">{label}</p>
+              <p className="w-max break-keep text-center  text-sky-500">{label}</p>
             </Link>
           ))}
         </div>

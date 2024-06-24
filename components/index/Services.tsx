@@ -33,7 +33,7 @@ const Services = () => {
       {services.map((service) => (
         <div
           key={service.icon}
-          className="flex flex-col items-center gap-4 rounded-md bg-slate-100"
+          className="flex flex-col items-center gap-4 p-4 rounded-md   hover:shadow-md"
         >
           <Icon icon={service.icon} className="h-16 w-16 text-[#1177BC]" />
           {service.link}

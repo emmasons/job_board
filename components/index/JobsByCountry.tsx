@@ -8,19 +8,20 @@ const JobsByCountry = () => {
 
   return (
     <div className="space-y-6 px-4 md:px-8 lg:px-16 py-8">
-      <h1 className="text-2xl font-bold text-center mb-4">
+      <h1 className="text-2xl font-bold text-center mb-12">
         Find Jobs in Popular Gulf Countries
       </h1>
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-4 justify-items-center">
+      <div className="flex flex-wrap gap-8 justify-center">
         {countries.map(({ name, emoji }) =>
           gulfCountries.includes(name) ? (
             <Link
               href={`/search?countriesFilter=${name}`}
               key={name}
-              className="flex flex-col items-center gap-2 p-4 transition-transform duration-300 transform hover:scale-105"
+              className="flex flex-col justify-center text-center items-center gap-2 h-32 w-32 border rounded-full shadow-md transition-transform duration-300 transform hover:scale-105"
             >
-              <span className="text-4xl">{emoji}</span>
               <p className="text-sm text-gray-700">{name}</p>
+              <span className="text-4xl">{emoji}</span>
+
             </Link>
           ) : null,
         )}
