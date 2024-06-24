@@ -191,6 +191,7 @@ model Job {
   numberOfPositions Int          @default(1)
   datePosted        DateTime?
   salary            String?
+  isFeatured        Boolean      @default(false)
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
