@@ -21,3 +21,14 @@ export const gulfCountries = [
   "Kuwait",
   "Saudi Arabia",
 ];
+
+export const popularCities = [
+  "Dubai",
+  "Sharjah",
+  "Abu Dhabi",
+  "Riyadh",
+  "Ras Al Khaimah",
+  "Fujairah",
+  "Muscat",
+  "Umm Al Quwain",
+];

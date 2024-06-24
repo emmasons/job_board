@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { gulfCountries } from "@/lib/utils";
+import { gulfCountries, popularCities } from "@/lib/utils";
 
 const JobsDropdown: React.FC = () => {
   return (
@@ -46,54 +46,16 @@ const JobsDropdown: React.FC = () => {
               By City <span className="text-red-500"></span>
             </h4>
             <ul className="flex w-max flex-col items-start">
-              <li>
-                <Link
-                  href="/search?city=Dubai"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Jobs in Dubai
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?city=Abu Dhabi"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Jobs in Abu Dhabi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?city=Riyadh"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Jobs in Riyadh
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?city=Doha"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Jobs in Doha
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?city=Muscat"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Jobs in Muscat
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?viewMore=cities"
-                  className="block px-4 py-2  text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  View More cities
-                </Link>
-              </li>
+              {popularCities.map((city) => (
+                <li key={city}>
+                  <Link
+                    href={`/search?title=${city}`}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+                  >
+                    Jobs in {city}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
