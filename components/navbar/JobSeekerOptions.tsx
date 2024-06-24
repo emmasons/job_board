@@ -33,12 +33,12 @@ export default function JobSeekerOptions() {
           </Link>
         </DropdownMenuItem>{" "}
         <DropdownMenuItem className="mb-2 py-2">
-          <Link
+          <Linkbg-slate-50
             href="/profile/dashboard/job-seeker/jobs"
             className="h-full w-full hover:cursor-pointer"
           >
             My Jobs
-          </Link>
+          </Linkbg-slate-50>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

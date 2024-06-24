@@ -2,6 +2,14 @@ import Link from "next/link";
 import { gulfCountries, popularCities } from "@/lib/utils";
 import ParamLink from "./ParamLink";
 
+const sampleOccupations = [
+  "Accounting",
+  "Sales",
+  "Construction",
+  "Security",
+  "Healthcare and Pharmaceuticals",
+];
+
 const JobsDropdown: React.FC = () => {
   return (
     <div className="group relative">
@@ -63,49 +71,19 @@ const JobsDropdown: React.FC = () => {
               By sector<span className="text-red-500"></span>
             </h4>
             <ul className="flex w-max flex-col items-start">
+              {sampleOccupations.map((occupation) => (
+                <li key={occupation}>
+                  <ParamLink
+                    value={occupation}
+                    searchParamLabel="occupationFilter"
+                    displayText={`Jobs in ${occupation}`}
+                  />
+                </li>
+              ))}
+
               <li>
                 <Link
-                  href="/search?category=Civil Engineering"
-                  className="block px-4 py-2  text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Accountancy jobs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?category=Sales"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Sales Jobs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?category=Admin"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Construction & Property
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?category=HR"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Security
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?category=Finance"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  Healthcare & Pharma
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search?viewMore=categories"
+                  href="/search/advanced"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
                 >
                   View More Categories
