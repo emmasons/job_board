@@ -9,7 +9,7 @@ type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <footer className="bg-secondary py-8">
+    <footer className="bg-primary py-8">
       <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">
