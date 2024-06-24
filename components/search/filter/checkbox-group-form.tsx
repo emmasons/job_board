@@ -56,16 +56,6 @@ export function CheckboxGroupForm({
 
   const formValues = form.watch();
 
-  const differences = defaultValues.filter(
-    (item) => !formValues.items.includes(item),
-  );
-
-  if (differences.length > 0) {
-    form.reset({
-      items: defaultValues,
-    });
-  }
-
   useEffect(() => {
     const selectedItemsSequence = formValues.items.join(",");
 

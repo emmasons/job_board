@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { gulfCountries, popularCities } from "@/lib/utils";
+import ParamLink from "./ParamLink";
 
 const JobsDropdown: React.FC = () => {
   return (
@@ -21,21 +22,19 @@ const JobsDropdown: React.FC = () => {
             <ul className="flex w-max flex-col items-start">
               {gulfCountries.map((country) => (
                 <li key={country}>
-                  <Link
-                    href={`/search?countriesFilter=${country}`}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                  >
-                    Jobs in {country}
-                  </Link>
+                  <ParamLink
+                    value={country}
+                    searchParamLabel="countriesFilter"
+                    displayText={`Jobs in ${country}`}
+                  />
                 </li>
               ))}
               <li>
-                <Link
-                  href={`/search?countriesFilter=${gulfCountries.map((country) => country).join(",")}`}
-                  className="block px-4 py-2  text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
-                >
-                  All Countries
-                </Link>
+                <ParamLink
+                  value={`${gulfCountries.map((country) => country).join(",")}`}
+                  searchParamLabel="countriesFilter"
+                  displayText="All gulf countries"
+                />
               </li>
             </ul>
           </div>
