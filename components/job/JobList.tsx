@@ -56,6 +56,7 @@ const JobList = async ({
               id={item.id}
               title={item.title}
               createdAt={item.createdAt}
+              company={item.companyName}
               sector={item.sector?.label}
               city={item.city}
               country={item.country}
