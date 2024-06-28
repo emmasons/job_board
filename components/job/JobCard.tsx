@@ -7,7 +7,7 @@ type Props = {
   id: string;
   title: string;
   createdAt: Date;
-  company?: string | null;
+  companyName?: string | null;
   sector: string;
   city: string;
   country: string;
@@ -19,7 +19,7 @@ const JobCard = ({
   id,
   title,
   createdAt,
-  company, 
+  companyName, 
   sector,
   city,
   country,
@@ -33,14 +33,14 @@ const JobCard = ({
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 p-4 bg-white transition-shadow duration-200 hover:shadow-lg">
         <div className="flex justify-between items-start mb-2">
           <div>
-            <h2 className="truncate text-primary text-lg font-semibold group-hover:text-orange-600">
+            <h2 className="truncate text-primary text-start text-lg font-semibold group-hover:text-orange-600">
               {title}
             </h2>
-            {company && (
-                  <div className="text-sm text-gray-600 mb-1">
+            {companyName && (
+                  <div className="text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <Icon icon="mdi:office-building" className="text-gray-500" />
-                      <span>{company}</span>
+                      <span>{companyName}</span>
                     </div>
                   </div>
             )}
