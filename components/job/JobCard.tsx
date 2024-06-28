@@ -73,12 +73,8 @@ const JobCard = ({
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
-            <Link
-            href={`/jobs/${job?.id}/apply`}
-            className="mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
-          >
+          
             Easy Apply
-          </Link>
             </span>
           </div>
           
