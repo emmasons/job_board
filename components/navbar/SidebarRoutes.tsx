@@ -52,6 +52,11 @@ const employerRoutes = [
     label: "Candidates",
     href: "/profile/dashboard/employer/candidates",
   },
+  {
+    icon: Files,
+    label: "Applications",
+    href: "/profile/dashboard/employer/applications",
+  },
 ];
 
 const adminRoutes = [
@@ -69,7 +74,7 @@ const adminRoutes = [
     icon: Files,
     label: "Blogs",
     href: "/profile/dashboard/admin/blog",
-  }
+  },
 ];
 
 export default function SidebarRoutes() {
@@ -82,10 +87,10 @@ export default function SidebarRoutes() {
   const routes = isStaffPage
     ? staffRoutes
     : isAdminPage
-    ? adminRoutes
-    : isEmployerPage
-    ? employerRoutes
-    : guestRoutes;
+      ? adminRoutes
+      : isEmployerPage
+        ? employerRoutes
+        : guestRoutes;
 
   return (
     <div className="flex w-full flex-col">
