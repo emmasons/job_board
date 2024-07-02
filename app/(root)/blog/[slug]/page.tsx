@@ -79,14 +79,14 @@ const Post = async ({ params }: Props) => {
       <div>
         <Image
           src={imageMetadata?.downloadUrl || "/assets/travel.jpg"}
-          height={600}
-          width={800}
+          height={500}
+          width={700}
           alt="Category Title Thumbnail"
           className="rounded-0 h-auto max-h-[600px] w-full object-cover"
         />
       </div>
-      <div className="mb-10 flex flex-col gap-[10%] md:flex-row ">
-        <div className="flex flex-1 basis-[50%] flex-col justify-between gap-4 pt-2">
+      <div className="mb-10 flex flex-col justify-center items-center gap-[10%] md:flex-row ">
+        <div className="flex flex-1 basis-[70%] flex-col justify-between gap-4 pt-2">
           <h1 className="border-border-color mb-4 border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:mb-0 md:w-[450px]">
             {post.title}
           </h1>
