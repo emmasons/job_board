@@ -79,25 +79,27 @@ const Post = async ({ params }: Props) => {
       <div>
         <Image
           src={imageMetadata?.downloadUrl || "/assets/travel.jpg"}
-          height={500}
+          height={600}
           width={700}
           alt="Category Title Thumbnail"
-          className="rounded-0 h-auto max-h-[500px] w-full object-cover"
+          className="rounded-0 h-auto max-h-[600px] w-full object-cover"
         />
       </div>
       <div className="mb-10 flex flex-col justify-center items-center gap-[10%] md:flex-row ">
-        <div className="flex flex-1 basis-[70%] flex-col justify-center items-center gap-4 pt-2">
-          <h1 className="border-border-color mb-4 border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:mb-0">
+        <div className="flex flex-1 basis-[70%] flex-col justify-center items-center gap-4 py-6">
+          <h1 className="border-border-color mb-4 border-b-2 border-zinc-400 text-5xl font-semibold leading-[3rem] tracking-wide md:mb-0">
             {post.title}
           </h1>
-          <AuthorCard date={formattedDate} author={""} />
+          
         </div>
       </div>
-      <div className="flex justify-center items-center flex-col gap-[10%] md:flex-row">
+      <div className="font-sans flex justify-center items-center flex-col gap-[10%] md:flex-row">
         <div className="basis-[60%]">
           <div className="mb-4">
             <Preview value={post.content || ""} />
           </div>
+          <AuthorCard date={formattedDate} author={""} />
+
         </div>
       </div>
     </MaxWidthWrapper>

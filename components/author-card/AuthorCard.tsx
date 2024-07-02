@@ -8,7 +8,7 @@ type Props = {
 
 const AuthorCard = ({ date, author }: Props) => {
   return (
-    <div className="inline-flex w-fit flex-col gap-4 rounded-xl bg-slate-200 p-2">
+    <div className="inline-flex w-fit flex-col gap-1 rounded-xl bg-slate-200 p-2">
       <div>
         <Image
           src={me}
