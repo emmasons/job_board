@@ -14,6 +14,7 @@ import ServicesDropdown from "./services-dropdown";
 import UserMenuButton from "./UserMenuButton";
 import { Role } from "@prisma/client";
 import EmployerOptions from "./EmployerOptions";
+import JobSeekerOptions from "./JobSeekerOptions";
 
 interface Props {
   user: Session["user"] | undefined;
@@ -104,7 +105,7 @@ export default function NavbarRoutes({ user }: Props) {
         <UserMenuButton user={user} />
 
         {/* conditionally render the Employers options */}
-        {!isDashboard && user?.role !== Role.EMPLOYER &&(
+        {!isDashboard && user?.role === Role.EMPLOYER &&(
             <ul className="flex items-center gap-4">
               {/* <li className="mr-4">
                 <JobSeekerOptions />
@@ -112,6 +113,15 @@ export default function NavbarRoutes({ user }: Props) {
               <li className="mr-4 outline-none">
                 <EmployerOptions />
               </li>
+            </ul>
+          )}
+
+           {!isDashboard && user?.role === Role.JOB_SEEKER &&(
+            <ul className="flex items-center gap-4">
+              <li className="mr-4">
+                <JobSeekerOptions />
+              </li>
+
             </ul>
           )}
 

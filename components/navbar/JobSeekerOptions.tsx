@@ -26,7 +26,7 @@ export default function JobSeekerOptions() {
         </DropdownMenuItem>
         <DropdownMenuItem className="mb-2 py-2">
           <Link
-            href="/profile/dashboard/job-seeker/cv"
+            href="/profile/dashboard/job-seeker"
             className="h-full w-full hover:cursor-pointer"
           >
             My CV
