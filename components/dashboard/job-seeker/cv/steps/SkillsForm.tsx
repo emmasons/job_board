@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 
 type Props = {
   title: String;
+  description: String;
   profileId: string;
   skills: Skill[];
 };

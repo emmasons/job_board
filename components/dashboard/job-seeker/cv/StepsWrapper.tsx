@@ -30,14 +30,22 @@ const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
       profilePercentage={10}
       initialData={{ cvHeadLine: jobSeekerProfile.cvHeadLine }}
       profileId={jobSeekerProfile.id}
+      description="Highlight your professional career"
     />,
     <SkillsForm
       key={2}
       title="Skills"
       profileId={jobSeekerProfile.id}
       skills={jobSeekerProfile.skills}
+      description="Add your skills"
     />,
-    <UploadCV cv={cv} cvFile={cvFile} key={3} title="Update CV" />,
+    <UploadCV
+      cv={cv}
+      cvFile={cvFile}
+      key={3}
+      title="Update CV"
+      description="An updated CV increases your chances of getting job offers by 60%"
+    />,
   ]);
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
@@ -75,13 +83,23 @@ const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
               className={cn(
                 "p-4",
                 currentStepIndex === index
-                  ? "shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+                  ? "shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
                   : "shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]",
               )}
             >
-              <div className="flex items-center justify-between">
-                <p>{step.props.title}</p>
-
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-[0.9rem] font-semibold">
+                    {step.props.title}
+                  </p>
+                  <p className="text-[0.75rem]">{step.props.description}</p>
+                  <p
+                    className="cursor-pointer text-[0.75rem] text-sky-500"
+                    onClick={() => goTo(index)}
+                  >
+                    Add details
+                  </p>
+                </div>
                 {step.props.profilePercentage && (
                   <Badge>Adds {step.props.profilePercentage}</Badge>
                 )}
@@ -90,7 +108,7 @@ const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
           ))}
         </div>
         {/* main content  */}
-        <div className="flex-1 rounded-md shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+        <div className="flex-1 rounded-md shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
           {step}
         </div>
       </div>

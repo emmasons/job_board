@@ -10,6 +10,7 @@ type Props = {
   cv: CV;
   cvFile: GCPData | null;
   title: String;
+  description: String;
 };
 
 const UploadCV = ({ cv, cvFile }: Props) => {

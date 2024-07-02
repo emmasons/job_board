@@ -19,6 +19,7 @@ import { useState } from "react";
 
 type Props = {
   title: String;
+  description: String;
   profilePercentage: Number;
   initialData: {
     cvHeadLine: string | null;
