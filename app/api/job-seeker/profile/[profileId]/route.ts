@@ -10,7 +10,7 @@ export async function PATCH(
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const values = await req.json();
+    const { profilePercentage, ...values } = await req.json();
 
     if (!userId || !(user.role === Role.JOB_SEEKER)) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -25,10 +25,27 @@ export async function PATCH(
       },
     });
 
+    if (profilePercentage) {
+      const percentage = parseInt(profilePercentage, 10);
+      await db.jobSeekerProfilePercentage.upsert({
+        where: {
+          jobSeekerProfileId: params.profileId,
+        },
+        update: {
+          percentage: {
+            increment: percentage,
+          },
+        },
+        create: {
+          jobSeekerProfileId: params.profileId,
+          percentage: percentage,
+        },
+      });
+    }
     return NextResponse.json(profile);
   } catch (error) {
     console.log("[PROFILE_ID]", error);
     console.log(error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }

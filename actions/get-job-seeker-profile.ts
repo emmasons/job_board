@@ -5,7 +5,8 @@ export const getJobSeekerProfile = async (
   jobSeekerId: string,
 ): Promise<JobSeekerProfileProps | null> => {
   try {
-    const profile = await db.jobSeekerProfile.findFirst({
+    let profile;
+    profile = await db.jobSeekerProfile.findFirst({
       where: { userId: jobSeekerId },
       include: {
         sector: true,
@@ -13,7 +14,21 @@ export const getJobSeekerProfile = async (
         experience: true,
       },
     });
-    return profile;
+    if (!profile)
+      profile = await db.jobSeekerProfile.create({
+        data: { userId: jobSeekerId },
+      });
+
+    const profilePercentage = await db.jobSeekerProfilePercentage.findFirst({
+      where: {
+        jobSeekerProfileId: profile.id,
+      },
+    });
+
+    return {
+      ...profile,
+      profilePercentage: profilePercentage || null,
+    };
   } catch (error) {
     console.log("GET_JOB_SEEKER_PROFILE", error);
     return null;
