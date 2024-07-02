@@ -61,6 +61,9 @@ const page = async () => {
           jobSeekerProfile={jobSeekerProfile}
           cvFile={cvFile}
           cv={cv}
+          sectors={sectors}
+          educationLevels={educationLevels}
+          experience={experience} 
         />
       )}
     </>

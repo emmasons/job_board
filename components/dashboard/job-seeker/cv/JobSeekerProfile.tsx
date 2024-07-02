@@ -12,29 +12,36 @@ type Props = {
   sectorList: ComboProps;
   educationLevelList: ComboProps;
   experienceList: ComboProps;
+  title: String;
+  profilePercentage: Number;
 };
 
-const JobSeekerProfileUpdate = ({ profile, ...rest }: Props) => {
+const JobSeekerProfileUpdate = ({ profile, title, ...rest }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
+  const { profilePercentage } = rest;
+    const percentage = profile ? 0 : profilePercentage;
   return (
     <div className="space-y-4">
-      <Button onClick={toggleEdit} variant="ghost">
-        {isEditing && <>Cancel</>}
-        {!isEditing && !profile && (
-          <>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Create Profile
-          </>
-        )}
-        {!isEditing && profile && (
-          <>
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit Profile
-          </>
-        )}
-      </Button>
+      <div className="flex items-center justify-between px-6">
+        <h3 className="font-semibold">{title}</h3>
+        <Button onClick={toggleEdit} variant="ghost" className="">
+          {isEditing && <>Cancel</>}
+          {!isEditing && !profile && (
+            <>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create Profile
+            </>
+          )}
+          {!isEditing && profile && (
+            <>
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit Profile
+            </>
+          )}
+        </Button>
+      </div>
       {!isEditing &&
         (!profile ? (
           <div className="h-auto rounded-md bg-slate-200">
@@ -42,7 +49,7 @@ const JobSeekerProfileUpdate = ({ profile, ...rest }: Props) => {
           </div>
         ) : (
           <div className="relative mt-2">
-            <div className="bg-slate-200 p-6">
+            <div className="p-6">
               <h3 className="mb-4 font-semibold">Your Profile</h3>
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Occupation:</span>{" "}

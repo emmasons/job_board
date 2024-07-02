@@ -8,21 +8,35 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
   CV,
+  EducationLevel,
+  Experience,
   GCPData,
   JobSeekerProfile,
   JobSeekerProfilePercentage,
+  Sector,
 } from "@prisma/client";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Progress } from "@/components/ui/progress";
 import UploadCV from "./UploadCV";
+import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
   cv: CV;
   cvFile: GCPData | null;
+  sectors: Sector[];
+  educationLevels: EducationLevel[];
+  experience: Experience[];
 };
 
-const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
+const StepsWrapper = ({
+  jobSeekerProfile,
+  cvFile,
+  cv,
+  sectors,
+  educationLevels,
+  experience,
+}: Props) => {
   const { steps, step, goTo, currentStepIndex } = useSteps([
     <CVHeadlineForm
       key={1}
@@ -45,6 +59,25 @@ const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
       key={3}
       title="Update CV"
       description="An updated CV increases your chances of getting job offers by 60%"
+    />,
+    <JobSeekerProfileUpdate
+      profilePercentage={20}
+      description="Your sector, education level, experience and country of origin."
+      key={4}
+      title="Professional Summary"
+      profile={jobSeekerProfile}
+      sectorList={sectors.map((sector) => ({
+        label: sector.label,
+        value: sector.id,
+      }))}
+      educationLevelList={educationLevels.map((level) => ({
+        label: level.label,
+        value: level.id,
+      }))}
+      experienceList={experience.map((exp) => ({
+        label: exp.label,
+        value: exp.id,
+      }))}
     />,
   ]);
   return (
