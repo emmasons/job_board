@@ -6,18 +6,18 @@ const services = [
   {
     icon: "healthicons:factory-worker-outline",
     link: <Link className="font-semibold underline text-secondary" href="/search">Find a job</Link>,
-    description: "Search for your perfect job in Europe",
+    description: "Search for your perfect job in the Gulf",
   },
   {
     icon: "fluent:people-search-20-filled",
     link: <Link className="font-semibold underline text-secondary" href="/find-candidates">Find a candidate</Link>,
-    description: "Search for your perfect employee in Europe",
+    description: "Search for your perfect employee in the Gulf",
   },
   {
     icon: "wpf:worldwide-location",
     link: <Link className="font-semibold underline text-secondary" href="/search">Living and working conditions</Link>,
     description:
-      "Find out more about living and working conditions in your country of preference",
+      "Find out more about living and working conditions in Gulf countries",
   },
   //   {
   //     icon: "fluent:people-search-20-filled",
