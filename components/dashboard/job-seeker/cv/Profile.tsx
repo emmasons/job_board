@@ -34,6 +34,7 @@ interface ProfileProps {
   educationLevelList: ComboProps;
   experienceList: ComboProps;
   isEditing: boolean;
+  percentage: Number;
 }
 
 const formSchema = z.object({
@@ -62,6 +63,7 @@ export default function Profile({
   educationLevelList,
   experienceList,
   isEditing,
+  percentage,
 }: ProfileProps) {
   const router = useRouter();
   const { countries } = useCountries();
@@ -85,7 +87,7 @@ export default function Profile({
       if (isEditing) {
         response = await fetch(`/api/job-seeker/profile/${initialData.id}/`, {
           method: "PATCH",
-          body: JSON.stringify(values),
+          body: JSON.stringify({ ...values, profilePercentage: percentage }),
         });
       } else {
         response = await fetch("/api/job-seeker/profile/", {
@@ -125,7 +127,7 @@ export default function Profile({
   };
 
   return (
-    <div className="mt-6 rounded-md border bg-slate-100 p-4">
+    <div className="mt-6 rounded-md border p-4">
       <div className="flex items-center justify-between font-medium ">
         <Form {...form}>
           <form

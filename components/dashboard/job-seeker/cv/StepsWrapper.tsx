@@ -1,9 +1,7 @@
 "use client";
 import useSteps from "@/hooks/useStepsHook";
-import ProfileHeader from "@/components/dashboard/job-seeker/cv/ProfileHeader";
 import CVHeadlineForm from "./steps/CVHeadlineForm";
 import SkillsForm from "./steps/SkillsForm";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
@@ -11,8 +9,6 @@ import {
   EducationLevel,
   Experience,
   GCPData,
-  JobSeekerProfile,
-  JobSeekerProfilePercentage,
   Sector,
 } from "@prisma/client";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
@@ -121,7 +117,7 @@ const StepsWrapper = ({
               )}
             >
               <div className="flex items-start justify-between">
-                <div>
+                <div className="basis-2/3">
                   <p className="text-[0.9rem] font-semibold">
                     {step.props.title}
                   </p>
