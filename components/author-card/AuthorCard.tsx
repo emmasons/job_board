@@ -1,4 +1,4 @@
-import me from "@/public/logo.png";
+import me from "@/public/log2.png";
 import Image from "next/image";
 
 type Props = {
@@ -19,7 +19,7 @@ const AuthorCard = ({ date, author }: Props) => {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <h4 className="font-semibold">{author || "Infinite Talent ltd."}</h4>
+        <h4 className="font-semibold">{author || "Jobs Connect ltd."}</h4>
         <p className="text-[0.8rem] text-slate-500">{date}</p>
       </div>
     </div>

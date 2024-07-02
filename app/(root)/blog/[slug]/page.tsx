@@ -68,26 +68,26 @@ const Post = async ({ params }: Props) => {
     return notFound();
   }
   const formattedDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
     day: "numeric",
+    month: "long",
     year: "numeric",
   }).format(post.createdAt);
   const imageMetadata = await getLatestFileMetaData(post.id);
 
   return (
-    <MaxWidthWrapper className="px-4 md:px-0">
+    <MaxWidthWrapper className="px-4 md:px-0 font-serif">
       <div>
         <Image
           src={imageMetadata?.downloadUrl || "/assets/travel.jpg"}
           height={500}
           width={700}
           alt="Category Title Thumbnail"
-          className="rounded-0 h-auto max-h-[600px] w-full object-cover"
+          className="rounded-0 h-auto max-h-[500px] w-full object-cover"
         />
       </div>
       <div className="mb-10 flex flex-col justify-center items-center gap-[10%] md:flex-row ">
-        <div className="flex flex-1 basis-[70%] flex-col justify-between gap-4 pt-2">
-          <h1 className="border-border-color mb-4 border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:mb-0 md:w-[450px]">
+        <div className="flex flex-1 basis-[70%] flex-col justify-center items-center gap-4 pt-2">
+          <h1 className="border-border-color mb-4 border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:mb-0">
             {post.title}
           </h1>
           <AuthorCard date={formattedDate} author={""} />
