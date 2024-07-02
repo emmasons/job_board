@@ -38,7 +38,7 @@ const CVHeadlineForm = ({
   const router = useRouter();
   const { toast } = useToast();
   const formSchema = z.object({
-    cvHeadLine: z.string().min(2, "First name is required."),
+    cvHeadLine: z.string().min(2, "Your CV Headline is required."),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

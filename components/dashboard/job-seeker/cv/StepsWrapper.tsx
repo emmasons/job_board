@@ -6,15 +6,23 @@ import SkillsForm from "./steps/SkillsForm";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { JobSeekerProfile, JobSeekerProfilePercentage } from "@prisma/client";
+import {
+  CV,
+  GCPData,
+  JobSeekerProfile,
+  JobSeekerProfilePercentage,
+} from "@prisma/client";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Progress } from "@/components/ui/progress";
+import UploadCV from "./UploadCV";
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
+  cv: CV;
+  cvFile: GCPData | null;
 };
 
-const StepsWrapper = ({ jobSeekerProfile }: Props) => {
+const StepsWrapper = ({ jobSeekerProfile, cvFile, cv }: Props) => {
   const { steps, step, goTo, currentStepIndex } = useSteps([
     <CVHeadlineForm
       key={1}
@@ -23,7 +31,13 @@ const StepsWrapper = ({ jobSeekerProfile }: Props) => {
       initialData={{ cvHeadLine: jobSeekerProfile.cvHeadLine }}
       profileId={jobSeekerProfile.id}
     />,
-    <SkillsForm key={2} title="Skills" />,
+    <SkillsForm
+      key={2}
+      title="Skills"
+      profileId={jobSeekerProfile.id}
+      skills={jobSeekerProfile.skills}
+    />,
+    <UploadCV cv={cv} cvFile={cvFile} key={3} title="Update CV" />,
   ]);
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
@@ -69,7 +83,7 @@ const StepsWrapper = ({ jobSeekerProfile }: Props) => {
                 <p>{step.props.title}</p>
 
                 {step.props.profilePercentage && (
-                <Badge>Adds {step.props.profilePercentage}</Badge>
+                  <Badge>Adds {step.props.profilePercentage}</Badge>
                 )}
               </div>
             </div>

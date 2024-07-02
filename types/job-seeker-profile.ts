@@ -4,6 +4,7 @@ import {
   JobSeekerProfile,
   JobSeekerProfilePercentage,
   Sector,
+  Skill,
 } from "@prisma/client";
 
 export type JobSeekerProfileProps = JobSeekerProfile & {
@@ -11,4 +12,5 @@ export type JobSeekerProfileProps = JobSeekerProfile & {
   education: EducationLevel;
   experience: Experience;
   profilePercentage: JobSeekerProfilePercentage;
+  skills: Skill[];
 };

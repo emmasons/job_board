@@ -28,14 +28,14 @@ model JobSeekerProfile {
   sector           Sector?         @relation(fields: [sectorId], references: [id])
   sectorId         String?
 
-  skills Skills[]
+  skills Skill[]
 }
 
-model Skills {
+model Skill {
   id String @id @default(cuid())
 
   skill              String
-  jobSeekerProfileId String           @unique
+  jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 

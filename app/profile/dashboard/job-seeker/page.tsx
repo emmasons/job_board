@@ -27,7 +27,6 @@ const page = async () => {
   const sectors = await getAllSectors();
 
   const jobSeekerProfile = await getJobSeekerProfile(user.id);
-  console.log(jobSeekerProfile?.profilePercentage);
 
   return (
     <>
@@ -57,7 +56,13 @@ const page = async () => {
           </div>
         </div>
       </div> */}
-      {jobSeekerProfile && <StepsWrapper jobSeekerProfile={jobSeekerProfile} />}
+      {jobSeekerProfile && (
+        <StepsWrapper
+          jobSeekerProfile={jobSeekerProfile}
+          cvFile={cvFile}
+          cv={cv}
+        />
+      )}
     </>
   );
 };

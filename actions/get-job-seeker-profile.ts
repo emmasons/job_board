@@ -12,6 +12,7 @@ export const getJobSeekerProfile = async (
         sector: true,
         education: true,
         experience: true,
+        skills: true,
       },
     });
     if (!profile)

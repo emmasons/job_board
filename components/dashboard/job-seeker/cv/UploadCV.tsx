@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 type Props = {
   cv: CV;
   cvFile: GCPData | null;
+  title: String;
 };
 
 const UploadCV = ({ cv, cvFile }: Props) => {
@@ -39,7 +40,7 @@ const UploadCV = ({ cv, cvFile }: Props) => {
           </div>
         ) : (
           <div className="relative mt-2 h-auto">
-            <div className="bg-slate-200 p-6">
+            <div className="p-6">
               <a
                 href={cvFile.downloadUrl}
                 target="_blank"
