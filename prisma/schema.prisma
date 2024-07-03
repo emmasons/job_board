@@ -29,12 +29,25 @@ model JobSeekerProfile {
   sectorId         String?
 
   skills Skill[]
+  certificates Certificate[]
 }
 
 model Skill {
   id String @id @default(cuid())
 
   skill              String
+  jobSeekerProfileId String
+  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+}
+
+model Certificate {
+  id String @id @default(cuid())
+
+  name              String
+  lastUsed          String
+  totalExperienceYears Int @default(0)
+  totalExperienceMonths Int @default(0)
+
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
