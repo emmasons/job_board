@@ -1,9 +1,9 @@
-"use client";
+// "use client";
 
-import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
+// import { usePathname } from "next/navigation";
+// import { LogOut } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
 import { Logo } from "./Logo";
 import Home from "./home";
@@ -12,22 +12,22 @@ import BlogsDropdown from "./blogs-dropdown";
 import ServicesDropdown from "./services-dropdown";
 
 import UserMenuButton from "./UserMenuButton";
-import { Role } from "@prisma/client";
-import EmployerOptions from "./EmployerOptions";
-import JobSeekerOptions from "./JobSeekerOptions";
+// import { Role } from "@prisma/client";
+// import EmployerOptions from "./EmployerOptions";
+// import JobSeekerOptions from "./JobSeekerOptions";
 
 interface Props {
   user: Session["user"] | undefined;
 }
 
 export default function NavbarRoutes({ user }: Props) {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
-  const isStaffPage = pathname?.includes("/staff");
-  const isAdminPage = pathname?.includes("/admin");
-  const isDashboard = pathname?.includes("/profile/dashboard");
-  const isEmployerPage = pathname?.includes("/employer");
-  const isJobSeekerPage = pathname?.includes("/job-seeker");
+  // const isStaffPage = pathname?.includes("/staff");
+  // const isAdminPage = pathname?.includes("/admin");
+  // const isDashboard = pathname?.includes("/profile/dashboard");
+  // const isEmployerPage = pathname?.includes("/employer");
+  // const isJobSeekerPage = pathname?.includes("/job-seeker");
 
 
   return (

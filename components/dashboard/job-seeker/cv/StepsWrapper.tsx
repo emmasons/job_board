@@ -15,6 +15,8 @@ import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Progress } from "@/components/ui/progress";
 import UploadCV from "./UploadCV";
 import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
+import { useState } from "react";
+
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
@@ -76,17 +78,22 @@ const StepsWrapper = ({
       }))}
     />,
   ]);
+
+  // State to toggle sidebar visibility on small screen
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
+
       {/* top bar  */}
-      <div className="flex justify-between gap-2 rounded-md p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+      <div className="flex flex-wrap justify-between items-center gap-2 rounded-md p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
           <Badge
             key={index}
             variant={index === currentStepIndex ? "default" : "outline"}
             className={cn(
               currentStepIndex === index && "bg-sky-500/20 text-zinc-100",
-              "flex-1 cursor-pointer justify-center py-2 text-zinc-700  hover:bg-sky-500/30",
+              "text-center flex-1 cursor-pointer justify-center py-2 text-zinc-700  hover:bg-sky-500/30",
             )}
             onClick={() => goTo(index)}
           >
@@ -94,15 +101,34 @@ const StepsWrapper = ({
           </Badge>
         ))}
       </div>
-      {/* side bar  */}
-      <div className="flex gap-4 items-start">
-        <div className="basis-1/3 space-y-4 rounded-md p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h3>
-            <span className="text-[2rem]">
-              {jobSeekerProfile?.profilePercentage?.percentage | 0}
-            </span>
-            % Percentage completed
-          </h3>
+      {/* side bar hidden by default on small screens */}
+
+      {/* Toggle button for sidebar on small screen */}
+        
+
+        {/* content */}
+      <div className="flex flex-col md:flex-row gap-4 items-start">
+        <div 
+         className={cn(
+          "md:w-1/3 space-y-4 p-4 rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all",
+          showSidebar ? "block" : "hidden md:block"
+        )}>
+          <div className="flex justify-between items-center">
+            <h3>
+              <span className="text-[2rem]">
+                {jobSeekerProfile?.profilePercentage?.percentage | 0}
+              </span>
+              % Percentage completed
+            </h3>
+
+            <button 
+              className="flex justify-between rounded-md text-sm p-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] md:hidden"
+              onClick={() => setShowSidebar(!showSidebar)}
+              >
+              {showSidebar ? "Hide Details" : "Show Details" }
+            </button>
+          </div>
+         
           <Progress
             value={jobSeekerProfile?.profilePercentage?.percentage | 0}
           />
@@ -136,8 +162,35 @@ const StepsWrapper = ({
             </div>
           ))}
         </div>
+        {/* Mobile Progress Bar */}
+        <div
+          className="block w-full md:hidden bg-white p-4 rounded-md shadow-md mb-4"
+        >
+          <div className="flex w-full justify-between items-center">
+            <h3 className="text-xl">
+              {jobSeekerProfile?.profilePercentage?.percentage | 0}%
+              <span className="text-sm block text-gray-500">Profile Completed</span>
+            </h3>
+            {/* toggle button for sidebar on small screen */}
+            <button 
+              className="flex justify-between rounded-md text-sm m-2 p-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)] md:hidden"
+              onClick={() => setShowSidebar(!showSidebar)}
+              >
+              {showSidebar ? "Hide" : "Details" }
+            </button>
+
+          </div>
+
+
+
+
+          <Progress
+            value={jobSeekerProfile?.profilePercentage?.percentage | 0}
+            className="h-2 rounded-md"
+          />
+        </div>
         {/* main content  */}
-        <div className="flex-1 rounded-md shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
+        <div className="flex-1 w-full  rounded-md shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
           {step}
         </div>
       </div>
