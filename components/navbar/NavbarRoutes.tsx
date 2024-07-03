@@ -27,6 +27,8 @@ export default function NavbarRoutes({ user }: Props) {
   const isAdminPage = pathname?.includes("/admin");
   const isDashboard = pathname?.includes("/profile/dashboard");
   const isEmployerPage = pathname?.includes("/employer");
+  const isJobSeekerPage = pathname?.includes("/job-seeker");
+
 
   return (
     <>
@@ -56,7 +58,8 @@ export default function NavbarRoutes({ user }: Props) {
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
-        {user?.role === Role.STAFF && isStaffPage ? (
+        {/* staff options */}
+        {/* {user?.role === Role.STAFF && isStaffPage ? (
           <Link href="/profile/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
@@ -69,9 +72,10 @@ export default function NavbarRoutes({ user }: Props) {
               Staff Dashboard
             </Button>
           </Link>
-        ) : null}
+        ) : null} */}
 
-        {user?.role === Role.EMPLOYER && isEmployerPage ? (
+        {/* employer options */}
+        {/* {user?.role === Role.EMPLOYER && isEmployerPage ? (
           <Link href="/profile/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
@@ -84,9 +88,10 @@ export default function NavbarRoutes({ user }: Props) {
               Employers Dashboard
             </Button>
           </Link>
-        ) : null}
+        ) : null} */}
 
-        {user?.role === Role.ADMIN && isAdminPage ? (
+        {/* admin dashboard */}
+        {/* {user?.role === Role.ADMIN && isAdminPage ? (
           <Link href="/profile/dashboard">
             <Button size="sm" variant="ghost">
               <LogOut className="mr-2 h-4 w-4" />
@@ -99,31 +104,47 @@ export default function NavbarRoutes({ user }: Props) {
               Admin Dashboard
             </Button>
           </Link>
-        ) : null}
+        ) : null} */}
 
         {/* user menu and options */}
         <UserMenuButton user={user} />
 
         {/* conditionally render the Employers options */}
-        {!isDashboard && user?.role === Role.EMPLOYER &&(
+        {/* {!isDashboard && user?.role === Role.EMPLOYER &&(
             <ul className="flex items-center gap-4">
-              {/* <li className="mr-4">
-                <JobSeekerOptions />
-              </li> */}
+            
               <li className="mr-4 outline-none">
                 <EmployerOptions />
               </li>
             </ul>
-          )}
+          )} */}
+          
 
-           {!isDashboard && user?.role === Role.JOB_SEEKER &&(
-            <ul className="flex items-center gap-4">
-              <li className="mr-4">
-                <JobSeekerOptions />
-              </li>
+          {/* job seeker options */}
+          {/* {user?.role === Role.JOB_SEEKER && isJobSeekerPage ? (
+          <ul className="flex items-center gap-4 outline-none">
+            <li className="mr-4">
+              <JobSeekerOptions />
+            </li>
 
-            </ul>
-          )}
+          </ul>
+        
+          
+        ) : user?.role === Role.EMPLOYER ? (
+          <Link href="/profile/dashboard/employer">
+            <Button size="sm" variant="outline" className="h-auto py-2">
+              Employers Dashboard
+            </Button>
+          </Link>
+        ) : null}
+          {!isDashboard && user?.role === Role.JOB_SEEKER &&(
+          <ul className="flex items-center gap-4">
+            <li className="mr-4">
+              <JobSeekerOptions />
+            </li>
+
+          </ul>
+        )} */}
 
       </div>
     </>

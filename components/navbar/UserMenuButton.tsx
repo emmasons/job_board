@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx"; // Import clsx for condition
 import Signup from "../auth/Signup";
+import JobSeekerOptions from "./JobSeekerOptions";
+import { Role } from "@prisma/client";
 
 
 interface UserMenuButtonProps {
@@ -37,17 +39,98 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 height={30}
                 className="w-9 p-1 rounded-full"
               />
+              {user?.role === Role.ADMIN ?(
+                <>
+                Admin
+                </>
+              ):user?.role === Role.EMPLOYER  ?(
+                <>
+                Employer
+                </>
+              ):user?.role === Role.JOB_SEEKER ? (
+                <>
+                Job Seeker
+                </>
+              ):user?.role === Role.STAFF ? (
+                <>
+                Staff
+                </>
+                ):null}
+
+              
               <ChevronDown className="w-4 h-4" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="mb-2 py-2">
+            <DropdownMenuItem className="py-2">
               <Link href="/profile/dashboard/" className="hover:cursor-pointer">
-                Profile
+                Dashboard
               </Link>
             </DropdownMenuItem>
+              {/* job seeker options */}
+              {user?.role === Role.JOB_SEEKER ? (
+                <>
+                <DropdownMenuItem>
+                  <Link href="/search" className="h-full w-full hover:cursor-pointer">
+                    Find a Job
+                  </Link>   
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                <Link href="/profile/dashboard/job-seeker/jobs"
+                  className="h-full w-full hover:cursor-pointer" >
+                  My Jobs
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                  {/* 
+                    add more dropdown items if needed
+                   */}
+                </DropdownMenuItem>
+              </>
+            ):null}
+
+              {/* employer options */}
+              
+              {user?.role === Role.EMPLOYER  ?(
+                <>
+                <DropdownMenuItem>
+                   <Link href="/profile/dashboard/employer/jobs"
+                        className=" hover:cursor-pointer ">
+                      Advertise
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/find-candidates" 
+                        className="hover:cursor-pointer">
+                      Find Candidates
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/profile/dashboard/employer/candidates" 
+                        className="hover:cursor-pointer">
+                      My candidates  
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {/* 
+                    add more dropdown items if needed
+                   */}
+                </DropdownMenuItem>
+                </>
+              ):null}
+
+              {/* STAFF OPTIONS */}
+              {user?.role === Role.STAFF ? (
+              <Link href="/profile/dashboard">
+                <Button size="sm" variant="ghost">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Exit
+                </Button>
+              </Link>
+   
+            ) : null}
             <Button
               size="sm"
               variant="default"
@@ -69,8 +152,6 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
           </Link>
         </div>
       )}
-
-
 
     </>
   );
