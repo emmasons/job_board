@@ -15,7 +15,7 @@ const Footer = (props: Props) => {
           <h2 className="text-xl">
             Jobs connect <br /> Limited Job Portal
           </h2>
-          <div className="inline-flex">
+          <div className="inline-flex bg-blue-100 rounded-md shadow-md">
             <Logo />
           </div>
           <p className="text-sm">

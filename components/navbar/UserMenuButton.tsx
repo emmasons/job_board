@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx"; // Import clsx for condition
 import Signup from "../auth/Signup";
-import JobSeekerOptions from "./JobSeekerOptions";
+
 import { Role } from "@prisma/client";
 
 
@@ -146,7 +146,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             {/* <LogIn className="mr-2 h-4 w-4" /> */}
              LogIn
           </button>
-          <Link className="flex items-center text-sm p-2 px-2 rounded-lg  border-orange-400 text-white bg-blue-500 hover:scale-95 hover:text-orange-500" href="/auth/signup/">
+          <Link className="flex items-center text-sm p-2 px-2 rounded-lg  border-orange-400 text-white bg-primary hover:scale-95 hover:text-orange-500" href="/auth/signup/">
             {/* <UserPlus className="mr-2 h-4 w-4" /> */}
              Register
           </Link>
