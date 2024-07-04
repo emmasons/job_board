@@ -20,6 +20,7 @@ model JobSeekerProfile {
   country    String?
 
   cvHeadLine String?
+  profileSummary String?
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
@@ -68,6 +69,7 @@ model Profile {
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model Candidate {
   id String @id @default(cuid())

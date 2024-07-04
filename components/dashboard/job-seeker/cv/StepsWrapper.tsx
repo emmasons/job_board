@@ -2,6 +2,7 @@
 import useSteps from "@/hooks/useStepsHook";
 import CVHeadlineForm from "./steps/CVHeadlineForm";
 import SkillsForm from "./steps/SkillsForm";
+import ProfileSummaryForm from "./steps/ProfileSummaryForm";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
@@ -58,6 +59,9 @@ const StepsWrapper = ({
       title="Update CV"
       description="An updated CV increases your chances of getting job offers by 60%"
     />,
+    
+    
+
     <JobSeekerProfileUpdate
       profilePercentage={20}
       description="Your sector, education level, experience and country of origin."
@@ -76,6 +80,16 @@ const StepsWrapper = ({
         label: exp.label,
         value: exp.id,
       }))}
+    />,
+    <ProfileSummaryForm 
+      key={5}
+      title="Profile Summary"
+       description="Outline the key highlights of your career to employers" 
+       profileId={jobSeekerProfile.id} 
+       profilePercentage={1} 
+       initialData={{
+          profileSummary: jobSeekerProfile.profileSummary
+        }}    
     />,
   ]);
 
@@ -156,7 +170,7 @@ const StepsWrapper = ({
                   </p>
                 </div>
                 {step.props.profilePercentage && (
-                  <Badge>Adds {step.props.profilePercentage}</Badge>
+                  <Badge>Adds {step.props.profilePercentage} %</Badge>
                 )}
               </div>
             </div>
