@@ -69,6 +69,32 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 Dashboard
               </Link>
             </DropdownMenuItem>
+
+            {/* admin options */}
+            {user?.role === Role.ADMIN ? (
+              <>
+              <DropdownMenuItem>
+                <Link href="profile/dashboard/admin/users">
+                  Users
+                </Link>
+
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="profile/dashboard/admin/data">
+                  Data
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="profile/dashboard/admin/blog">
+                  Blogs
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                {/* more admin options */}
+              </DropdownMenuItem>
+              </>
+            ):null}
+
               {/* job seeker options */}
               {user?.role === Role.JOB_SEEKER ? (
                 <>
