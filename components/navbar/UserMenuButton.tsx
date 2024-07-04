@@ -64,37 +64,20 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
           <DropdownMenuContent>
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="py-2">
+            {user?.role === Role.ADMIN ? (
+              <DropdownMenuItem className="py-2">
+              <Link href="/profile/dashboard/admin/users" className="hover:cursor-pointer">
+                Dashboard
+              </Link>
+            </DropdownMenuItem>
+            ):(
+              <DropdownMenuItem className="py-2">
               <Link href="/profile/dashboard/" className="hover:cursor-pointer">
                 Dashboard
               </Link>
             </DropdownMenuItem>
-
-            {/* admin options */}
-            {user?.role === Role.ADMIN ? (
-              <>
-              <DropdownMenuItem>
-                <Link href="profile/dashboard/admin/users">
-                  Users
-                </Link>
-
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="profile/dashboard/admin/data">
-                  Data
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="profile/dashboard/admin/blog">
-                  Blogs
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                {/* more admin options */}
-              </DropdownMenuItem>
-              </>
-            ):null}
-
+            )}
+        
               {/* job seeker options */}
               {user?.role === Role.JOB_SEEKER ? (
                 <>
