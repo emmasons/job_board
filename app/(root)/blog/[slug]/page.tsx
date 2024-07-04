@@ -85,20 +85,21 @@ const Post = async ({ params }: Props) => {
           className="rounded-0 h-auto max-h-[600px] w-full object-cover"
         />
       </div>
-      <div className="my-10  flex flex-col justify-center items-center gap-[10%] md:flex-row ">
+      <div className="my-10  flex flex-col justify-center gap-[10%] md:flex-row ">
         <div className="flex flex-1 basis-[60%] flex-col justify-center items-center text-center mb-2">
           <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:text-4xl md:mb-0">
             {post.title}
           </h1>
           
         </div>
+        <AuthorCard date={formattedDate} author={""} />
       </div>
       <div className="font-sans flex justify-center items-center flex-col gap-[10%] md:flex-row">
         <div className="basis-[60%]">
           <div className="mb-4">
             <Preview value={post.content || ""} />
           </div>
-          <AuthorCard date={formattedDate} author={""} />
+          
 
         </div>
       </div>

@@ -9,13 +9,13 @@ type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <footer className="bg-primary py-8">
+    <footer className="bg-primary/70 py-8">
       <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className="space-y-2 text-white">
           <h2 className="text-xl">
             Jobs connect <br /> Limited Job Portal
           </h2>
-          <div className="inline-flex bg-blue-100 rounded-md shadow-md">
+          <div className="inline-flex">
             <Logo />
           </div>
           <p className="text-sm">
