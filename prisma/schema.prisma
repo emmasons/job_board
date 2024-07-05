@@ -21,6 +21,7 @@ model JobSeekerProfile {
 
   cvHeadLine String?
   profileSummary String?
+  employmentDetails EmploymentDetails[]
 
   educationLevelId String?
   education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
@@ -33,6 +34,21 @@ model JobSeekerProfile {
   certificates Certificate[]
 }
 
+model EmploymentDetails {
+  id               String   @id @default(cuid())
+  designation      String?
+  company          String?
+  location         String?
+  description      String?
+  currentlyWorking Boolean  @default(false)
+  startMonth       String
+  startYear        String
+  endMonth         String?
+  endYear          String?
+  jobSeekerProfileId String
+  jobSeekerProfile JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+}
+
 model Skill {
   id String @id @default(cuid())
 
@@ -40,6 +56,7 @@ model Skill {
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
+
 
 model Certificate {
   id String @id @default(cuid())

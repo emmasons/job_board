@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import {
   CV,
   EducationLevel,
+  EmploymentDetails,
   Experience,
   GCPData,
   Sector,
@@ -17,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import UploadCV from "./UploadCV";
 import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
 import { useState } from "react";
+import EmploymentDetailsForm from "./steps/EmploymentDetailsForm";
 
 
 type Props = {
@@ -25,6 +27,7 @@ type Props = {
   cvFile: GCPData | null;
   sectors: Sector[];
   educationLevels: EducationLevel[];
+  employmentDetails: EmploymentDetails | null;
   experience: Experience[];
 };
 
@@ -34,6 +37,7 @@ const StepsWrapper = ({
   cv,
   sectors,
   educationLevels,
+  employmentDetails,
   experience,
 }: Props) => {
   const { steps, step, goTo, currentStepIndex } = useSteps([
@@ -91,6 +95,20 @@ const StepsWrapper = ({
           profileSummary: jobSeekerProfile.profileSummary
         }}    
     />,
+    <EmploymentDetailsForm
+      key={6}
+      title="Employment Details"
+      profileId={jobSeekerProfile.id} 
+      designation={ employmentDetails?.designation || ''}
+      company={ employmentDetails?.company || ''}
+      location={ employmentDetails?.location || ''}
+      description={ employmentDetails?.description || ''}
+      profilePercentage={0}
+      initialData={{
+        employmentDetails: employmentDetails || null, // Pass initial employment details if available
+      }}
+    />,
+
   ]);
 
   // State to toggle sidebar visibility on small screen
