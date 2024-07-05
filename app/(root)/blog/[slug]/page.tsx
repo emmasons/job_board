@@ -95,9 +95,10 @@ const Post = async ({ params }: Props) => {
       
       </div>
       <div className="font-sans flex justify-center items-center flex-col gap-[10%] md:flex-row">
-        <AuthorCard date={formattedDate} author={""} />
 
         <div className="basis-[60%]">
+          <AuthorCard date={formattedDate} author={""} />
+
           <div className="mb-4">
             <Preview value={post.content || ""} />
           </div>
