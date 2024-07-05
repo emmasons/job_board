@@ -87,11 +87,11 @@ const Post = async ({ params }: Props) => {
       </div>
       <div className="my-10  flex flex-col justify-between gap-[10%]   ">
         <div className="flex flex-1 flex-col justify-center items-center text-center basis-[60%] mb-2">
-          <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[3rem] tracking-wide md:text-4xl md:mb-0">
+          <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:text-4xl md:mb-0">
             {post.title}
           </h1> 
         </div>
-        <div className="basis-[40%]">
+        <div className="w-2/3">
           <AuthorCard date={formattedDate} author={""} />
         </div>
       </div>
