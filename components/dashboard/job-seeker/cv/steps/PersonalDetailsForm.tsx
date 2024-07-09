@@ -42,7 +42,7 @@ type Props = {
   maritalStatus: string;
   drivingLicense: boolean;
   currentLocation: string;
-  languagesKnown: string;
+  languagesKnown: string[];
   visaStatus: string;
   religion: string;
   alternateEmail: string;
@@ -62,7 +62,7 @@ const PersonalDetailsForm = ({
   visaStatus,
   religion,
   alternateEmail,
-  alternateContactNumber
+  alternateContactNumber,
 
 }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -73,9 +73,9 @@ const PersonalDetailsForm = ({
     
     const formSchema = z.object({
       dateOfBirth: z.string().nonempty("Date of Birth is required"),
-      gender: z.enum(["Male", "Female"]),
+      gender: z.string().nonempty("Male or Female"),
       nationality: z.string().nonempty("Nationality is required"),
-      maritalStatus: z.enum(["Single", "Married", "Divorced", "Widower", "Other"]),
+      maritalStatus: z.string().nonempty("Single, Married, Divorced, Widower, Other"),
       drivingLicense: z.boolean(),
       currentLocation: z.string().nonempty("Current Location is required"),
       languagesKnown: z.array(z.string()).min(1, "At least one language is required"),
@@ -89,9 +89,9 @@ const PersonalDetailsForm = ({
       resolver: zodResolver(formSchema),
       defaultValues: {
         dateOfBirth: dateOfBirth || "",
-        gender: "Male" || "Female",
+        gender: gender || "",
         nationality: nationality || "",
-        maritalStatus: "Single",
+        maritalStatus: maritalStatus || "",
         drivingLicense: drivingLicense,
         currentLocation: currentLocation || "",
         languagesKnown: [] || "",
