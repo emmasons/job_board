@@ -3,6 +3,7 @@
 import {
   BarChart,
   Files,
+  FileBarChart,
   Layout,
   Settings2,
   Users2,
@@ -74,6 +75,11 @@ const adminRoutes = [
     icon: Files,
     label: "Blogs",
     href: "/profile/dashboard/admin/blog",
+  },
+  {
+    icon: FileBarChart,
+    label: "Cv Services",
+    href: "/profile/dashboard/admin/service",
   },
 ];
 
