@@ -12,10 +12,11 @@ import { useToast } from "@/components/ui/use-toast";
 interface ServiceProps {
     title: string;
     description?: string | null;
-    id: string;
+    slug: string;
+    
 }
 
-const Service = ({ title, description, id }: ServiceProps) => {
+const Service = ({ title, description, slug}: ServiceProps) => {
     const router = useRouter();
     const { toast } = useToast();
 
@@ -69,7 +70,7 @@ const Service = ({ title, description, id }: ServiceProps) => {
                   )}
                 />
               </ConfirmModal>
-              <Link href={`/profile/dashboard/admin/service/${id}`}>
+              <Link href={`/profile/dashboard/admin/service/${slug}`}>
                 <Eye className="h-5 w-5" />
               </Link>
             </div>
