@@ -3,11 +3,10 @@ import { db } from "@/lib/db";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { getAllServices } from "@/actions/services/get-all-service";
 
 const Dashboard = async () => {
-    const services = await db.service.findMany({
-        orderBy: { id: "desc" },
-    });
+    const services = await getAllServices();
     return (
         <section className="p-6">
         <h1 className="mb-8 text-4xl font-bold leading-tight text-gray-700 lg:text-4xl">

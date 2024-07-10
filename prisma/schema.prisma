@@ -313,6 +313,12 @@ model ScrapedJob {
   updatedAt DateTime @updatedAt
 }
 
+model Service {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  description     String
+  slug        String   @unique
+}
 model Post {
   id          String   @id @default(cuid())
   title       String   @unique

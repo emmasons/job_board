@@ -50,7 +50,7 @@ const CreateServiceForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const request = await fetch(`/api/service/`, {
+      const request = await fetch(`/api/services/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
