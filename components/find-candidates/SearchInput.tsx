@@ -39,7 +39,7 @@ export const SearchInput = () => {
         onChange={(e) => setValue(e.target.value)}
         value={value}
         className="w-full rounded-full bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full"
-        placeholder="Enter keyword"
+        placeholder="Eg: sales representative or any keyword"
       />
       <SearchX
         className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform text-slate-600"
