@@ -15,7 +15,7 @@ const ServiceList = async ({ services }: ServiceListProps) => {
             key={service.id}
             title={service.title}
             description={service.description}
-            slug={service.slug}
+            id={service.id}
           />
         ))}
       </div>

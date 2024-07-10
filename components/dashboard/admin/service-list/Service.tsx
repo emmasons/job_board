@@ -12,11 +12,11 @@ import { useToast } from "@/components/ui/use-toast";
 interface ServiceProps {
     title: string;
     description?: string | null;
-    slug: string;
+    id: string;
     
 }
 
-const Service = ({ title, description, slug}: ServiceProps) => {
+const Service = ({ title, description, id}: ServiceProps) => {
     const router = useRouter();
     const { toast } = useToast();
 
@@ -24,8 +24,8 @@ const Service = ({ title, description, slug}: ServiceProps) => {
     const onDelete = async () => {
         try {
             setIsLoading(true);
-            const request = await fetch('api/service/$[id]/', {
-                method: "DELETE",
+            const request = await fetch(`/api/services/${id}/`, {
+              method: "DELETE",
             });
 
             const response = await request.json();
@@ -70,7 +70,7 @@ const Service = ({ title, description, slug}: ServiceProps) => {
                   )}
                 />
               </ConfirmModal>
-              <Link href={`/profile/dashboard/admin/service/${slug}`}>
+              <Link href={`/profile/dashboard/admin/service/${id}`}>
                 <Eye className="h-5 w-5" />
               </Link>
             </div>

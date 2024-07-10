@@ -32,17 +32,12 @@ const CreateServiceForm = () => {
       .min(2, {
         message: "Title is required",
       })
-      .max(200),
-    description: z.string().min(10, {
-      message: "Description is required",
-    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: "",
     },
   });
 
@@ -98,23 +93,6 @@ const CreateServiceForm = () => {
               </FormControl>
               <FormDescription>
                 What service are you offering?
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Service Description</FormLabel>
-              <FormControl>
-                <Input placeholder="Service description" {...field} />
-              </FormControl>
-              <FormDescription>
-                Describe the service in detail.
               </FormDescription>
               <FormMessage />
             </FormItem>

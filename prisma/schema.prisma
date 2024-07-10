@@ -316,7 +316,7 @@ model ScrapedJob {
 model Service {
   id          String   @id @default(cuid())
   title       String   @unique
-  description     String
+  description     String?
   slug        String   @unique
 }
 model Post {
@@ -329,7 +329,7 @@ model Post {
   author      User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
   isPublished Boolean  @default(false)
   slug        String   @unique
-  views       Int      @default(0)
+  views       Int      @dformefault(0)
   categoryId  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())

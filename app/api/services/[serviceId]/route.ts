@@ -1,3 +1,4 @@
+// service
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
@@ -16,7 +17,7 @@ async function performTransactionWithRetry(
       await db.$transaction(async (db) => {
         await db.service.update({
           where: {
-            slug: serviceId,
+            id: serviceId,
           },
           data: {
             ...values,
@@ -59,7 +60,7 @@ export async function PATCH(
 
   const service = await db.service.findUnique({
     where: {
-      slug: serviceId,
+      id: serviceId,
     },
   });
 
@@ -80,7 +81,7 @@ export async function PATCH(
   try {
     await db.service.update({
       where: {
-        slug: serviceId,
+        id: serviceId,
       },
       data: {
         ...values,
@@ -128,13 +129,13 @@ export async function DELETE(
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const deletedPost = await db.post.delete({
+    const deletedService = await db.service.delete({
       where: {
         id: serviceId,
       },
     });
 
-    return NextResponse.json(deletedPost);
+    return NextResponse.json(deletedService);
   } catch (error) {
     console.log("[SERVICE_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });

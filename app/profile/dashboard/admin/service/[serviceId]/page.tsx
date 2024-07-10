@@ -11,7 +11,7 @@ import IsFeaturedForm from "@/components/dashboard/admin/post/IsFeatured";
 import IsPublishedForm from "@/components/dashboard/admin/post/IsPublished";
 import PostImageForm from "@/components/dashboard/admin/post/PostImageForm";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
-import ContentForm from "@/components/dashboard/admin/post/ContentForm";
+import ContentForm from "@/components/dashboard/admin/service/ContentForm";
 
 interface ServiceProps{
   params: {
@@ -29,7 +29,7 @@ const Service = async ({params}: ServiceProps) => {
 
   const service = await db.service.findUnique({
     where: {
-      slug: serviceId,
+      id: serviceId,
     },
   });
 
@@ -67,7 +67,8 @@ const Service = async ({params}: ServiceProps) => {
               <IconBadge icon={LayoutDashboard} />
               <h2 className="text-xl">Customize your service</h2>
             </div>
-            <TitleForm initialData={service} serviceId={service.slug} />
+            <TitleForm initialData={service} serviceId={service.id} />
+            <ContentForm initialData={service} />
           </div>
         </div>
       </div>
