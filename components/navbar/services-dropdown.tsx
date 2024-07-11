@@ -5,14 +5,13 @@ const services = [
   "Visual cv templates",
   "Cover letter writing",
   "CV evaluation",
-  "CV evaluation",
 ];
 
 const ServicesDropdown: React.FC = () => {
   return (
     <div className="group relative">
       <Link
-        href="/services"
+        href="/coming-soon"
         className="px-4 pb-7 text-sm font-medium text-gray-700 hover:border-b-4 hover:border-indigo-600 hover:text-orange-500"
       >
         {/* <ServicesIcon className="mr-2 h-5 w-5"/> */}

@@ -22,8 +22,9 @@ export const Preview = ({ value }: PreviewProps) => {
     const style = document.createElement("style");
     style.innerHTML = `
       .ql-editor {
-        font-size: 1.1rem;
+        font-size: 1rem;
         padding: 0;
+        font-family: sans-serif;
       }
     `;
     document.head.appendChild(style);

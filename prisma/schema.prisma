@@ -329,7 +329,7 @@ model Post {
   author      User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
   isPublished Boolean  @default(false)
   slug        String   @unique
-  views       Int      @dformefault(0)
+  views       Int      @default(0)
   categoryId  String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())

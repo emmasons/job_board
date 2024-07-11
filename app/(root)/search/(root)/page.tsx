@@ -17,7 +17,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     ...searchParams,
   })) as JobsWithCompany[];
   const page = searchParams?.page ? searchParams?.page : "1";
-  const pageSize = searchParams?.pageSize ? searchParams?.pageSize : "5";
+  const pageSize = searchParams?.pageSize ? searchParams?.pageSize : "10";
   const start = (Number(page) - 1) * Number(pageSize); // 0, 5, 10 ...
   const end = start + Number(pageSize); // 5, 10, 15 ...
   const items = itemsList.slice(start, end);
