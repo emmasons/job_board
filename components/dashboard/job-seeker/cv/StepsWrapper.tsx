@@ -9,7 +9,7 @@ import {
   CV,
   EducationLevel,
   EmploymentDetails,
-  PersonalDetails,
+  // PersonalDetails,
   Experience,
   GCPData,
   Sector,
@@ -30,7 +30,7 @@ type Props = {
   sectors: Sector[];
   educationLevels: EducationLevel[];
   employmentDetails: EmploymentDetails | null;
-  personalDetails: PersonalDetails | null;
+  // personalDetails: PersonalDetails | null;
   experience: Experience[];
 };
 
@@ -41,7 +41,7 @@ const StepsWrapper = ({
   sectors,
   educationLevels,
   employmentDetails,
-  personalDetails,
+  // personalDetails,
   experience,
 }: Props) => {
   const { steps, step, goTo, currentStepIndex } = useSteps([
@@ -112,25 +112,25 @@ const StepsWrapper = ({
         employmentDetails: employmentDetails || null, // Pass initial employment details if available
       }}
     />,
-    <PersonalDetailsForm
-      key={7} // Make sure the key is unique if you're rendering this within a list
-      title="Personal Details"
-      profileId={jobSeekerProfile.id}
-      dateOfBirth={typeof personalDetails?.dateOfBirth === 'string' 
-        ? personalDetails.dateOfBirth 
-        : personalDetails?.dateOfBirth?.toISOString().split('T')[0] || ''}
-      gender={personalDetails?.gender || ''}
-      nationality={personalDetails?.nationality || ''}
-      maritalStatus={personalDetails?.maritalStatus || ''}
-      drivingLicense={personalDetails?.drivingLicense || false}
-      currentLocation={personalDetails?.currentLocation || ''}
-      languagesKnown={personalDetails?.languagesKnown || []}
-      visaStatus={personalDetails?.visaStatus || ''}
-      religion={personalDetails?.religion || ''}
-      alternateEmail={personalDetails?.alternateEmail || ''}
-      alternateContactNumber={personalDetails?.alternateContactNumber || ''}
+    // <PersonalDetailsForm
+    //   key={7} // Make sure the key is unique if you're rendering this within a list
+    //   title="Personal Details"
+    //   profileId={jobSeekerProfile.id}
+    //   dateOfBirth={typeof personalDetails?.dateOfBirth === 'string' 
+    //     ? personalDetails.dateOfBirth 
+    //     : personalDetails?.dateOfBirth?.toISOString().split('T')[0] || ''}
+    //   gender={personalDetails?.gender || ''}
+    //   nationality={personalDetails?.nationality || ''}
+    //   maritalStatus={personalDetails?.maritalStatus || ''}
+    //   drivingLicense={personalDetails?.drivingLicense || false}
+    //   currentLocation={personalDetails?.currentLocation || ''}
+    //   languagesKnown={personalDetails?.languagesKnown || []}
+    //   visaStatus={personalDetails?.visaStatus || ''}
+    //   religion={personalDetails?.religion || ''}
+    //   alternateEmail={personalDetails?.alternateEmail || ''}
+    //   alternateContactNumber={personalDetails?.alternateContactNumber || ''}
 
-    />,
+    // />,
 
 
   ]);

@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox component
 import { useToast } from "@/components/ui/use-toast";
@@ -65,11 +59,12 @@ const EmploymentDetailsForm = ({
     company: z.string().min(2, "Company name is required"),
     location: z.string().min(2, "Location is required"),
     currentlyWorking: z.boolean().optional(),
+    description: z.string().min(2, "Description is required"),
     startMonth: z.string().nonempty("Start month is required"),
     startYear: z.string().nonempty("Start year is required"),
     endMonth: z.string().optional(),
     endYear: z.string().optional(),
-    jobProfile: z.string().optional(),
+    // jobProfile: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -83,7 +78,7 @@ const EmploymentDetailsForm = ({
       startYear: "",
       endMonth: "",
       endYear: "",
-      jobProfile: description || "",
+      description: description || "",
     },
   });
 
@@ -111,19 +106,16 @@ const EmploymentDetailsForm = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch(`/api/job-seeker/profile/${profileId}/`, {
-        method: "PATCH",
+      const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...values,
-          profilePercentage:
-            values.designation && values.designation.trim() !== "" ? 100 : profilePercentage,
-        }),
+        body: JSON.stringify(values),
       });
 
       const response = await res.json();
+      console.log(response)
       if (!res.ok) {
         toast({
           variant: "destructive",
@@ -166,7 +158,7 @@ const EmploymentDetailsForm = ({
             </>}
         </Button>
       </div>
-      {!isEditing && <p className="mt-2 text-sm">{initialData.employmentDetails}</p>}
+      {/* {!isEditing && <p className="mt-2 text-sm">{initialData.employmentDetails}</p>} */}
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -377,9 +369,12 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save
+             <Button type="submit" disabled={!isValid || isSubmitting}>
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Save"
+              )}
             </Button>
           </form>
         </Form>

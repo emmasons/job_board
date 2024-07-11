@@ -26,7 +26,7 @@ type Props = {
   skills: Skill[];
 };
 
-const CVHeadlineForm = ({ title, profileId, skills }: Props) => {
+const SkillsForm = ({ title, profileId, skills }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -145,4 +145,4 @@ const CVHeadlineForm = ({ title, profileId, skills }: Props) => {
   );
 };
 
-export default CVHeadlineForm;
+export default SkillsForm;
