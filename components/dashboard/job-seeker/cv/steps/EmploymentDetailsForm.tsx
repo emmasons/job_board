@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox component
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Pencil } from "lucide-react";
+import { Loader2, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 
 type Props = {
@@ -150,13 +150,24 @@ const EmploymentDetailsForm = ({
             Outline your professional career to Employers
           </p>
         </div>
-
+        <>
         <Button onClick={toggleEdit} variant="ghost">
+        {!isEditing && (
+            <>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add Employment
+            </>
+          )}
+        </Button>
+        <Button onClick={toggleEdit} variant="ghost">
+          
           {isEditing ? <>Cancel</> : <>
               <Pencil className="mr-2 h-4 w-4" />
               Edit
             </>}
         </Button>
+        </>
+        
       </div>
       {/* {!isEditing && <p className="mt-2 text-sm">{initialData.employmentDetails}</p>} */}
       {isEditing && (
