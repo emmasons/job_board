@@ -7,10 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox component
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Pencil, PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { EmploymentDetails } from "@prisma/client";
 
 type Props = {
   title: string;
@@ -20,21 +22,7 @@ type Props = {
   description: string;
   profileId: string;
   profilePercentage: number;
-  initialData: {
-    employmentDetails: {
-      id: string;
-      designation: string | null;
-      company: string | null;
-      location: string | null;
-      description: string | null;
-      currentlyWorking: boolean;
-      startMonth: string;
-      startYear: string;
-      endMonth: string | null;
-      endYear: string | null;
-      jobSeekerProfileId: string;
-    } | null;
-    };
+  employments: EmploymentDetails[];
 };
 
 const EmploymentDetailsForm = ({
@@ -45,9 +33,10 @@ const EmploymentDetailsForm = ({
   location,
   description,
   profilePercentage,
-  initialData,
+  employments,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>(employments || []);
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
@@ -64,7 +53,6 @@ const EmploymentDetailsForm = ({
     startYear: z.string().nonempty("Start year is required"),
     endMonth: z.string().optional(),
     endYear: z.string().optional(),
-    // jobProfile: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -83,18 +71,8 @@ const EmploymentDetailsForm = ({
   });
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
   ];
 
   const years = Array.from(
@@ -108,14 +86,11 @@ const EmploymentDetailsForm = ({
     try {
       const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
       const response = await res.json();
-      console.log(response)
       if (!res.ok) {
         toast({
           variant: "destructive",
@@ -129,6 +104,7 @@ const EmploymentDetailsForm = ({
           description: "Profile updated successfully.",
           className: "bg-green-500",
         });
+        setEmploymentList([...employmentList, response]);
         toggleEdit();
         router.refresh();
       }
@@ -150,26 +126,13 @@ const EmploymentDetailsForm = ({
             Outline your professional career to Employers
           </p>
         </div>
-        <>
         <Button onClick={toggleEdit} variant="ghost">
-        {!isEditing && (
-            <>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add Employment
-            </>
-          )}
-        </Button>
-        <Button onClick={toggleEdit} variant="ghost">
-          
           {isEditing ? <>Cancel</> : <>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </>}
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Add
+          </>}
         </Button>
-        </>
-        
       </div>
-      {/* {!isEditing && <p className="mt-2 text-sm">{initialData.employmentDetails}</p>} */}
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -181,11 +144,11 @@ const EmploymentDetailsForm = ({
                   <FormControl>
                     <label className="text-sm">
                       Designation
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="Tell us your designation / job role"
-                      {...field}
-                    />
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="Tell us your designation / job role"
+                        {...field}
+                      />
                     </label>
                   </FormControl>
                   <FormMessage />
@@ -200,11 +163,11 @@ const EmploymentDetailsForm = ({
                   <FormControl>
                     <label className="text-sm">
                       Company
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="Tell us your company name"
-                      {...field}
-                    />
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="Tell us your company name"
+                        {...field}
+                      />
                     </label>
                   </FormControl>
                   <FormMessage />
@@ -217,12 +180,13 @@ const EmploymentDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm">Employer Location
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="Tell us your employer location"
-                      {...field}
-                    />
+                    <label className="text-sm">
+                      Employer Location
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="Tell us your employer location"
+                        {...field}
+                      />
                     </label>
                   </FormControl>
                   <FormMessage />
@@ -243,10 +207,9 @@ const EmploymentDetailsForm = ({
                           setCurrentlyWorking(checked);
                           field.onChange(checked);
                         }}
-                        
                       />
-                     <span className="ml-3 text-sm">I currently work here</span>
-                  </label>
+                      <span className="ml-3 text-sm">I currently work here</span>
+                    </label>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -255,30 +218,30 @@ const EmploymentDetailsForm = ({
             <div className=" ">
               <span className="inline-flex text-sm">Working Since</span>
               <div className="flex flex-wrap space-x-4">
-              <FormField
-                control={form.control}
-                name="startMonth"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <select
-                      className="bg-white text-slate-600 border rounded-md  p-2 text-sm outline-none"
-                        disabled={isSubmitting}
-                        value={field.value}
-                        onChange={(e) => field.onChange(e.target.value)}
-                      >
-                        <option value="">Select Month</option>
-                        {months.map((month, index) => (
-                          <option key={index} value={month}>
-                            {month}
-                          </option>
-                        ))}
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="startMonth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <select
+                          className="bg-white text-slate-600 border rounded-md  p-2 text-sm outline-none"
+                          disabled={isSubmitting}
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                        >
+                          <option value="">Select Month</option>
+                          {months.map((month, index) => (
+                            <option key={index} value={month}>
+                              {month}
+                            </option>
+                          ))}
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="startYear"
@@ -303,61 +266,59 @@ const EmploymentDetailsForm = ({
                     </FormItem>
                   )}
                 />
-              
-              {!currentlyWorking && (
-                <div className="flex space-x-4">
-                  <span className="text-sm pt-2">to</span>
-                  <FormField
-                    control={form.control}
-                    name="endMonth"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <select
-                            className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
-                            disabled={isSubmitting}
-                            value={field.value}
-                            onChange={(e) => field.onChange(e.target.value)}
-                          >
-                            <option value="">Select Month</option>
-                            {months.map((month, index) => (
-                              <option key={index} value={month}>
-                                {month}
-                              </option>
-                            ))}
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="endYear"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <select
-                            className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
-                            disabled={isSubmitting}
-                            value={field.value}
-                            onChange={(e) => field.onChange(e.target.value)}
-                          >
-                            <option value="">Select Year</option>
-                            {years.map((year, index) => (
-                              <option key={index} value={year}>
-                                {year}
-                              </option>
-                            ))}
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                </div>
-              )}
+                {!currentlyWorking && (
+                  <div className="flex space-x-4">
+                    <span className="text-sm pt-2">to</span>
+                    <FormField
+                      control={form.control}
+                      name="endMonth"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <select
+                              className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
+                              disabled={isSubmitting}
+                              value={field.value}
+                              onChange={(e) => field.onChange(e.target.value)}
+                            >
+                              <option value="">Select Month</option>
+                              {months.map((month, index) => (
+                                <option key={index} value={month}>
+                                  {month}
+                                </option>
+                              ))}
+                            </select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="endYear"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <select
+                              className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
+                              disabled={isSubmitting}
+                              value={field.value}
+                              onChange={(e) => field.onChange(e.target.value)}
+                            >
+                              <option value="">Select Year</option>
+                              {years.map((year, index) => (
+                                <option key={index} value={year}>
+                                  {year}
+                                </option>
+                              ))}
+                            </select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <FormField
@@ -372,7 +333,7 @@ const EmploymentDetailsForm = ({
                         disabled={isSubmitting}
                         placeholder="Share your roles, responsibilities etc..."
                         {...field}
-                        className="border rounder-md outline-none p-2"
+                        className="border rounded-md outline-none p-2"
                       />
                     </label>
                   </FormControl>
@@ -380,7 +341,7 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-             <Button type="submit" disabled={!isValid || isSubmitting}>
+            <Button type="submit" disabled={!isValid || isSubmitting}>
               {isSubmitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
@@ -389,6 +350,19 @@ const EmploymentDetailsForm = ({
             </Button>
           </form>
         </Form>
+      )}
+      {employmentList && Array.isArray(employmentList) && (
+        <div className="mt-4">
+          {employmentList.map((employment) => (
+            <div key={employment.id} className="mb-4 p-4 border rounded-md">
+              <h3 className="font-semibold">{employment.designation}</h3>
+              <p className="text-sm text-gray-600">{employment.company}</p>
+              <p className="text-sm text-gray-600">{employment.location}</p>
+              <p className="text-sm text-gray-600">{employment.startMonth} {employment.startYear} - {employment.currentlyWorking ? "Present" : `${employment.endMonth} ${employment.endYear}`}</p>
+              <p className="text-sm">{employment.description}</p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

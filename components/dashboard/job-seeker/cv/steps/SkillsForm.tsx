@@ -94,6 +94,7 @@ const SkillsForm = ({ title, profileId, skills }: Props) => {
     }
   }
 
+  // delete function
   const deleteSkill = async (skillId: string) => {
     try {
       const res = await fetch(`/api/job-seeker/profile/${profileId}/skills/${skillId}`, {
