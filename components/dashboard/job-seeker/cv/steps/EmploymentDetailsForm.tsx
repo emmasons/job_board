@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -10,38 +11,56 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, PlusCircle } from "lucide-react";
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { EmploymentDetails } from "@prisma/client";
 
 type Props = {
   title: string;
-  designation: string;
-  company: string;
-  location: string;
-  description: string;
   profileId: string;
+  designation?: string;
+  company?: string;
+  location?: string;
+  description?: string;
   profilePercentage: number;
-  employments: EmploymentDetails[];
 };
 
 const EmploymentDetailsForm = ({
   title,
   profileId,
-  designation,
-  company,
-  location,
-  description,
+  designation = "",
+  company = "",
+  location = "",
+  description = "",
   profilePercentage,
-  employments,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>(employments || []);
+  const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>([]);
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    async function fetchEmployments() {
+      try {
+        const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch employment details");
+        }
+        const data = await res.json();
+        setEmploymentList(data);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
+        });
+      }
+    }
+
+    fetchEmployments();
+  }, [profileId, toast]);
 
   const formSchema = z.object({
     designation: z.string().min(2, "Designation is required"),
@@ -58,15 +77,15 @@ const EmploymentDetailsForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      designation: designation || "",
-      company: company || "",
-      location: location || "",
+      designation: designation,
+      company: company,
+      location: location,
       currentlyWorking: currentlyWorking,
       startMonth: "",
       startYear: "",
       endMonth: "",
       endYear: "",
-      description: description || "",
+      description: description,
     },
   });
 
@@ -351,7 +370,7 @@ const EmploymentDetailsForm = ({
           </form>
         </Form>
       )}
-      {employmentList && Array.isArray(employmentList) && (
+      {employmentList && (
         <div className="mt-4">
           {employmentList.map((employment) => (
             <div key={employment.id} className="mb-4 p-4 border rounded-md">
