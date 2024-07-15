@@ -55,10 +55,10 @@ const StepsWrapper = ({
     />,
     <SkillsForm
       key={2}
-      title="Skills"
+      title="Key Skills"
       profileId={jobSeekerProfile.id}
       skills={jobSeekerProfile.skills}
-      description="Add your skills"
+      description="Add your key skills "
     />,
     <UploadCV
       cv={cv}

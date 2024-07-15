@@ -1,4 +1,4 @@
-//api/job-seeker/profile/[profileId]/skills route.ts
+// api/job-seeker/profile/[profileId]/skills/[skillId].ts
 
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
@@ -31,7 +31,6 @@ export async function POST(
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
-
 
 export async function DELETE(
   req: Request,
