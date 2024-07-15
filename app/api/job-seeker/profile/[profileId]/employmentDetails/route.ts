@@ -49,3 +49,5 @@ export async function GET(
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
+
+// add a handle to Edit employment details

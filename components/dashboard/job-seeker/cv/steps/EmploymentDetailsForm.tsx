@@ -35,6 +35,7 @@ const EmploymentDetailsForm = ({
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>([]);
+  
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
@@ -100,6 +101,23 @@ const EmploymentDetailsForm = ({
   );
 
   const { isSubmitting, isValid, errors } = form.formState;
+
+  const handleEdit = (employment: EmploymentDetails) => {
+    setEditingItem(employment);
+    form.reset({
+      designation: employment.designation,
+      company: employment.company,
+      location: employment.location,
+      currentlyWorking: employment.currentlyWorking,
+      startMonth: employment.startMonth,
+      startYear: employment.startYear,
+      endMonth: employment.endMonth || "",
+      endYear: employment.endYear || "",
+      description: employment.description,
+    });
+    setCurrentlyWorking(employment.currentlyWorking);
+    setIsEditing(true);
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -373,12 +391,18 @@ const EmploymentDetailsForm = ({
       {employmentList && (
         <div className="mt-4">
           {employmentList.map((employment) => (
-            <div key={employment.id} className="mb-4 p-4 border rounded-md">
+            
+            <div key={employment.id} className="flex justify-between mb-4 p-4 border rounded-md">
+              <div>
               <h3 className="font-semibold">{employment.designation}</h3>
               <p className="text-sm text-gray-600">{employment.company}</p>
               <p className="text-sm text-gray-600">{employment.location}</p>
               <p className="text-sm text-gray-600">{employment.startMonth} {employment.startYear} - {employment.currentlyWorking ? "Present" : `${employment.endMonth} ${employment.endYear}`}</p>
               <p className="text-sm">{employment.description}</p>
+              </div>
+              <Button onClick={() => handleEdit(employment)} variant="ghost">
+                Edit
+              </Button>
             </div>
           ))}
         </div>
