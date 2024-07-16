@@ -95,9 +95,9 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm">
+                      <label className="text-sm flex flex-col gap-2 w-80">
                         Designation
-                        <Input {...field} placeholder="Preferred Designation" />
+                        <Input {...field} placeholder="Preferred Designation"  />
                         </label>
                       </FormControl>
                       <FormMessage />
@@ -110,7 +110,7 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm">
+                      <label className="text-sm flex flex-col gap-2 w-80">
                         Location
                         <Input {...field} placeholder="Preferred Location" />
                         </label>
@@ -125,7 +125,7 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm">
+                      <label className="text-sm flex flex-col gap-2 w-80">
                         Industry
                         <Input {...field} placeholder="Preferred Industry" />
                         </label>
@@ -134,7 +134,7 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="rounded-full text-xs hover:scale-95">
                   Save
                 </Button>
               </div>

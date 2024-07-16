@@ -156,14 +156,14 @@ const StepsWrapper = ({
     <div className="space-y-8 bg-slate-100/30 p-12">
 
       {/* top bar  */}
-      <div className="flex flex-wrap justify-between items-center gap-2 rounded-md p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+      <div className="bg-white flex flex-wrap justify-between items-center gap-2 rounded-md p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
           <Badge
             key={index}
             variant={index === currentStepIndex ? "default" : "outline"}
             className={cn(
-              currentStepIndex === index && "bg-sky-500/20 text-zinc-100",
-              "text-center flex-1 cursor-pointer justify-center py-2 text-zinc-700  hover:bg-sky-500/30",
+              currentStepIndex === index && "p-0 w-2 bg-sky-500/20 text-zinc-100 hover:bg-sky-500/20",
+              "text-center flex-1 cursor-pointer justify-center py-2 text-zinc-700 border-none text-xshover:text-slate-500",
             )}
             onClick={() => goTo(index)}
           >
@@ -172,16 +172,15 @@ const StepsWrapper = ({
         ))}
       </div>
       {/* side bar hidden by default on small screens */}
-
       {/* Toggle button for sidebar on small screen */}
         
 
         {/* content */}
-      <div className="flex flex-col md:flex-row gap-4 items-start">
+      <div className="flex flex-col md:flex-row gap-4 items-start ">
         <div 
          className={cn(
           "md:w-1/3 space-y-4 p-4 rounded-md shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all",
-          showSidebar ? "block" : "hidden md:block"
+          showSidebar ? "block" : "bg-white hidden md:block"
         )}>
           <div className="flex justify-between items-center">
             <h3>
@@ -206,13 +205,13 @@ const StepsWrapper = ({
             <div
               key={index}
               className={cn(
-                "p-4",
+                "p-4 bg-white border-none rounded-md",
                 currentStepIndex === index
                   ? "shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]"
                   : "shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]",
               )}
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between bg-white border-none rounded-md">
                 <div className="basis-2/3">
                   <p className="text-[0.9rem] font-semibold">
                     {step.props.title}
@@ -260,7 +259,7 @@ const StepsWrapper = ({
           />
         </div>
         {/* main content  */}
-        <div className="flex-1 w-full  rounded-md shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
+        <div className="flex-1 w-full  rounded-md bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
           {step}
         </div>
       </div>
