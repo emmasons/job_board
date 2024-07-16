@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Pencil, PlusCircle } from "lucide-react";
+import { Loader2, Pencil, PlusCircle, Briefcase } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { EmploymentDetails } from "@prisma/client";
 
@@ -84,15 +84,15 @@ const EmploymentDetailsForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      designation: designation,
-      company: company,
-      location: location,
-      currentlyWorking: currentlyWorking,
+      designation: "",
+      company: "",
+      location: "",
+      currentlyWorking: false,
       startMonth: "",
       startYear: "",
       endMonth: "",
       endYear: "",
-      description: description,
+      description: "",
     },
   });
 
@@ -111,15 +111,15 @@ const EmploymentDetailsForm = ({
   const handleEdit = (employment: EmploymentDetails) => {
     setEditingItem(employment);
     form.reset({
-      designation: employment.designation,
-      company: employment.company,
-      location: employment.location,
+      designation: employment.designation || "",
+      company: employment.company || "",
+      location: employment.location || "",
       currentlyWorking: employment.currentlyWorking,
       startMonth: employment.startMonth,
       startYear: employment.startYear,
       endMonth: employment.endMonth || "",
       endYear: employment.endYear || "",
-      description: employment.description,
+      description: employment.description || "",
     });
     setCurrentlyWorking(employment.currentlyWorking);
     setIsEditing(true);
@@ -204,6 +204,41 @@ const EmploymentDetailsForm = ({
     }
   }
 
+  // Function to calculate total months between two dates and format as "x Years, y Months"
+  const calculateTotalMonths = (startDate: string, endDate: string | null, currentlyWorking: boolean): string => {
+    const start = new Date(startDate);
+    let end: Date;
+
+    if (currentlyWorking) {
+      end = new Date(); // Use current date if employment is ongoing
+    } else {
+      end = new Date(endDate!); // Convert endDate to Date object if it exists
+    }
+
+    // Calculate differences in years and months
+    let years = end.getFullYear() - start.getFullYear();
+    let months = end.getMonth() - start.getMonth();
+
+    // Adjust years and months if months difference is negative
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    // Format the result
+    let result = "";
+    if (years > 0) {
+      result += `${years} ${years === 1 ? "Year" : "Years"}`;
+      if (months > 0) {
+        result += `, ${months} ${months === 1 ? "Month" : "Months"}`;
+      }
+    } else {
+      result += `${months} ${months === 1 ? "Month" : "Months"}`;
+    }
+
+    return result;
+  };
+
   return (
     <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
@@ -216,8 +251,10 @@ const EmploymentDetailsForm = ({
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? "Cancel" : (
             <>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add
+             <PlusCircle className="mr-2 h-4 w-4" />
+            Add
+             
+              
             </>
           )}
         </Button>
@@ -305,7 +342,7 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap text-slate-400 gap-4">
               <FormField
                 control={form.control}
                 name="startMonth"
@@ -313,10 +350,9 @@ const EmploymentDetailsForm = ({
                   <FormItem>
                     <FormControl>
                       <label className="text-sm">
-                        Start Month
                         <select
                           disabled={isSubmitting}
-                          className="mt-1 p-2 w-full border rounded-md"
+                          className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
                           {...field}
                         >
                           <option value="">Select Month</option>
@@ -339,10 +375,9 @@ const EmploymentDetailsForm = ({
                   <FormItem>
                     <FormControl>
                       <label className="text-sm">
-                        Start Year
                         <select
                           disabled={isSubmitting}
-                          className="mt-1 p-2 w-full border rounded-md"
+                          className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
                           {...field}
                         >
                           <option value="">Select Year</option>
@@ -360,6 +395,7 @@ const EmploymentDetailsForm = ({
               />
               {!currentlyWorking && (
                 <>
+                  <span className="text-sm pt-3">to</span>
                   <FormField
                     control={form.control}
                     name="endMonth"
@@ -367,11 +403,10 @@ const EmploymentDetailsForm = ({
                       <FormItem>
                         <FormControl>
                           <label className="text-sm">
-                            End Month
                             <select
                               disabled={isSubmitting}
-                              className="mt-1 p-2 w-full border rounded-md"
-                              {...field}
+                              className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
+                              {...field} 
                             >
                               <option value="">Select Month</option>
                               {months.map((month) => (
@@ -393,10 +428,9 @@ const EmploymentDetailsForm = ({
                       <FormItem>
                         <FormControl>
                           <label className="text-sm">
-                            End Year
                             <select
                               disabled={isSubmitting}
-                              className="mt-1 p-2 w-full border rounded-md"
+                              className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
                               {...field}
                             >
                               <option value="">Select Year</option>
@@ -426,7 +460,7 @@ const EmploymentDetailsForm = ({
                       <textarea
                         disabled={isSubmitting}
                         placeholder="Tell us more about your job role"
-                        className="mt-1 p-2 w-full border rounded-md"
+                        className="mt-1 p-2 w-full border rounded-md outline-none"
                         rows={4}
                         {...field}
                       />
@@ -436,10 +470,20 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting || !isValid}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {editingItem ? "Update Employment" : "Add Employment"}
-            </Button>
+            <div className="flex gap-5">
+              <Button type="submit" disabled={isSubmitting || !isValid} className="rounded-3xl">
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {editingItem ? "Save" : "Add Employment"}
+              </Button>
+              {editingItem && (
+                <Button
+                  variant="ghost"
+                  onClick={() => handleDelete(editingItem.id)}
+                >
+                  Remove this Employment
+                </Button>
+              )}
+            </div>
           </form>
         </Form>
       )}
@@ -447,32 +491,43 @@ const EmploymentDetailsForm = ({
         <p className="text-lg font-semibold mb-4">Employment History</p>
         {employmentList.length > 0 ? (
           employmentList.map((employment) => (
-            <div key={employment.id} className="flex justify-between p-4 mb-2 border-b ">
-              <div>
-                <p className="font-medium">{employment.designation}</p>
-                <p className="text-sm text-zinc-500">{employment.company}</p>
-                <p className="text-sm text-zinc-500">{employment.location}</p>
-                <p className="text-sm text-zinc-500">{employment.description}</p>
-                <p className="text-sm text-zinc-500">
-                  {employment.startMonth} {employment.startYear} -{" "}
-                  {employment.currentlyWorking
-                    ? "Present"
-                    : `${employment.endMonth} ${employment.endYear}`}
-                </p>
+            <div key={employment.id} className="flex justify-between py-4 mb-2 border-b ">
+              <div className="flex items-center gap-6">
+                <div className="p-4 rounded-full bg-blue-50 ">
+                <Briefcase className="h-6 "/>
+                </div>
+                
+                <div>
+                  <p className="font-medium">{employment.designation}</p>
+                  <span className="flex gap-2">
+                    <p className="text-sm text-zinc-700">{employment.company},</p>
+                    <p className="text-sm text-zinc-700">{employment.location}</p>
+                  </span>
+                  <p className="text-sm text-gray-600">
+                    {employment.startMonth} {employment.startYear} -{" "}
+                    {employment.currentlyWorking
+                      ? "Present"
+                      : `${employment.endMonth} ${employment.endYear}`}
+                    {" "}
+                    ({calculateTotalMonths(
+                      `${employment.startMonth} 1, ${employment.startYear}`,
+                      employment.currentlyWorking ? null : `${employment.endMonth} 1, ${employment.endYear}`,
+                      employment.currentlyWorking
+                    )})
+                  </p>
+                  <p className="pt-4 text-sm text-zinc-700">{employment.description}</p>
+                </div>
               </div>
+               
+              
               <div className="flex items-start gap-2">
                 <Button
                   variant="ghost"
                   onClick={() => handleEdit(employment)}
                 >
-                  <Pencil className="h-3"/>
                   Edit
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => handleDelete(employment.id)}
-                >
-                  Delete
+                  <Pencil className="h-3"/>
+
                 </Button>
               </div>
             </div>

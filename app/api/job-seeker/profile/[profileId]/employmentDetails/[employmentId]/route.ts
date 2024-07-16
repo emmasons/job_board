@@ -77,27 +77,35 @@ export async function PUT(
   }
 }
 
+
 // DELETE handler for deleting employment details
 export async function DELETE(
-  req: Request,
-  { params }: { params: { profileId: string; employmentId: string } },
-) {
-  try {
-    const user = await getCurrentSessionUser();
-    const userId = user?.id;
-
-    if (!userId || user.role !== Role.JOB_SEEKER) {
-      return new NextResponse("Unauthorized", { status: 401 });
+    req: Request,
+    { params }: { params: { profileId: string, employmentId: string } },
+  ) {
+    try {
+      const user = await getCurrentSessionUser();
+      const userId = user?.id;
+  
+      if (!userId || !(user.role === Role.JOB_SEEKER)) {
+        return new NextResponse("Unauthorized", { status: 401 });
+      }
+  
+      const employmentId = params.employmentId;
+      const deleteResult = await db.employmentDetails.delete({
+        where: {
+          id: employmentId,
+        },
+      });
+  
+      if (!deleteResult) {
+        return new NextResponse("Not Found", { status: 404 });
+      }
+  
+      return NextResponse.json({ message: "Employment deleted successfully" }, { status: 200 });
+    } catch (error) {
+      console.log("[PROFILE_ID]", error);
+      console.log(error);
+      return NextResponse.json({ message: "Internal Error" }, { status: 500 });
     }
-
-    await db.employmentDetails.delete({
-      where: {
-        id: params.employmentId,
-      },
-    });
-    return new NextResponse("Employment detail deleted", { status: 200 });
-  } catch (error) {
-    console.log("[PROFILE_ID]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
-}
