@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
@@ -34,8 +40,8 @@ const EmploymentDetailsForm = ({
   profilePercentage,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [editingItem, setEditingItem] = useState<EmploymentDetails | null>(null);
   const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>([]);
-  
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
@@ -119,10 +125,47 @@ const EmploymentDetailsForm = ({
     setIsEditing(true);
   };
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleDelete = async (employmentId: string) => {
     try {
-      const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails`, {
-        method: "POST",
+      const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const response = await res.json();
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: response.message,
+        });
+      } else {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "Employment detail deleted successfully.",
+          className: "bg-green-500",
+        });
+        setEmploymentList((prev) => prev.filter((item) => item.id !== employmentId));
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const url = editingItem
+      ? `/api/job-seeker/profile/${profileId}/employmentDetails/${editingItem.id}`
+      : `/api/job-seeker/profile/${profileId}/employmentDetails`;
+
+    const method = editingItem ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
@@ -138,11 +181,18 @@ const EmploymentDetailsForm = ({
         toast({
           variant: "default",
           title: "Success",
-          description: "Profile updated successfully.",
+          description: "Employment details saved successfully.",
           className: "bg-green-500",
         });
-        setEmploymentList([...employmentList, response]);
+        if (editingItem) {
+          setEmploymentList((prev) =>
+            prev.map((item) => (item.id === response.id ? response : item))
+          );
+        } else {
+          setEmploymentList([...employmentList, response]);
+        }
         toggleEdit();
+        setEditingItem(null);
         router.refresh();
       }
     } catch (error) {
@@ -164,10 +214,12 @@ const EmploymentDetailsForm = ({
           </p>
         </div>
         <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? <>Cancel</> : <>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add
-          </>}
+          {isEditing ? "Cancel" : (
+            <>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Add
+            </>
+          )}
         </Button>
       </div>
       {isEditing && (
@@ -241,122 +293,127 @@ const EmploymentDetailsForm = ({
                         disabled={isSubmitting}
                         checked={field.value}
                         onCheckedChange={(checked) => {
-                          setCurrentlyWorking(checked);
-                          field.onChange(checked);
+                          const isChecked = Boolean(checked);
+                          field.onChange(isChecked);
+                          setCurrentlyWorking(isChecked);
                         }}
                       />
-                      <span className="ml-3 text-sm">I currently work here</span>
+                      <span className="ml-2">I currently work here</span>
                     </label>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className=" ">
-              <span className="inline-flex text-sm">Working Since</span>
-              <div className="flex flex-wrap space-x-4">
-                <FormField
-                  control={form.control}
-                  name="startMonth"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
+            <div className="flex flex-wrap gap-4">
+              <FormField
+                control={form.control}
+                name="startMonth"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <label className="text-sm">
+                        Start Month
                         <select
-                          className="bg-white text-slate-600 border rounded-md  p-2 text-sm outline-none"
                           disabled={isSubmitting}
-                          value={field.value}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          className="mt-1 p-2 w-full border rounded-md"
+                          {...field}
                         >
                           <option value="">Select Month</option>
-                          {months.map((month, index) => (
-                            <option key={index} value={month}>
+                          {months.map((month) => (
+                            <option key={month} value={month}>
                               {month}
                             </option>
                           ))}
                         </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="startYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
+                      </label>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="startYear"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <label className="text-sm">
+                        Start Year
                         <select
-                          className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
                           disabled={isSubmitting}
-                          value={field.value}
-                          onChange={(e) => field.onChange(e.target.value)}
+                          className="mt-1 p-2 w-full border rounded-md"
+                          {...field}
                         >
                           <option value="">Select Year</option>
-                          {years.map((year, index) => (
-                            <option key={index} value={year}>
+                          {years.map((year) => (
+                            <option key={year} value={year.toString()}>
                               {year}
                             </option>
                           ))}
                         </select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {!currentlyWorking && (
-                  <div className="flex space-x-4">
-                    <span className="text-sm pt-2">to</span>
-                    <FormField
-                      control={form.control}
-                      name="endMonth"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
+                      </label>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {!currentlyWorking && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="endMonth"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <label className="text-sm">
+                            End Month
                             <select
-                              className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
                               disabled={isSubmitting}
-                              value={field.value}
-                              onChange={(e) => field.onChange(e.target.value)}
+                              className="mt-1 p-2 w-full border rounded-md"
+                              {...field}
                             >
                               <option value="">Select Month</option>
-                              {months.map((month, index) => (
-                                <option key={index} value={month}>
+                              {months.map((month) => (
+                                <option key={month} value={month}>
                                   {month}
                                 </option>
                               ))}
                             </select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="endYear"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
+                          </label>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="endYear"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <label className="text-sm">
+                            End Year
                             <select
-                              className="bg-white text-slate-600 border text-sm rounded-md p-2 outline-none"
                               disabled={isSubmitting}
-                              value={field.value}
-                              onChange={(e) => field.onChange(e.target.value)}
+                              className="mt-1 p-2 w-full border rounded-md"
+                              {...field}
                             >
                               <option value="">Select Year</option>
-                              {years.map((year, index) => (
-                                <option key={index} value={year}>
+                              {years.map((year) => (
+                                <option key={year} value={year.toString()}>
                                   {year}
                                 </option>
                               ))}
                             </select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
-              </div>
+                          </label>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
             </div>
             <FormField
               control={form.control}
@@ -364,13 +421,14 @@ const EmploymentDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="flex flex-col text-sm">
-                      Job Profile
+                    <label className="text-sm">
+                      Description
                       <textarea
                         disabled={isSubmitting}
-                        placeholder="Share your roles, responsibilities etc..."
+                        placeholder="Tell us more about your job role"
+                        className="mt-1 p-2 w-full border rounded-md"
+                        rows={4}
                         {...field}
-                        className="border rounded-md outline-none p-2"
                       />
                     </label>
                   </FormControl>
@@ -378,35 +436,50 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={!isValid || isSubmitting}>
-              {isSubmitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Save"
-              )}
+            <Button type="submit" disabled={isSubmitting || !isValid}>
+              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {editingItem ? "Update Employment" : "Add Employment"}
             </Button>
           </form>
         </Form>
       )}
-      {employmentList && (
-        <div className="mt-4">
-          {employmentList.map((employment) => (
-            
-            <div key={employment.id} className="flex justify-between mb-4 p-4 border rounded-md">
+      <div className="my-4">
+        <p className="text-lg font-semibold mb-4">Employment History</p>
+        {employmentList.length > 0 ? (
+          employmentList.map((employment) => (
+            <div key={employment.id} className="flex justify-between items-center mb-2">
               <div>
-              <h3 className="font-semibold">{employment.designation}</h3>
-              <p className="text-sm text-gray-600">{employment.company}</p>
-              <p className="text-sm text-gray-600">{employment.location}</p>
-              <p className="text-sm text-gray-600">{employment.startMonth} {employment.startYear} - {employment.currentlyWorking ? "Present" : `${employment.endMonth} ${employment.endYear}`}</p>
-              <p className="text-sm">{employment.description}</p>
+                <p className="font-medium">{employment.designation}</p>
+                <p className="text-sm text-zinc-500">{employment.company}</p>
+                <p className="text-sm text-zinc-500">{employment.location}</p>
+                <p className="text-sm text-zinc-500">{employment.description}</p>
+                <p className="text-sm text-zinc-500">
+                  {employment.startMonth} {employment.startYear} -{" "}
+                  {employment.currentlyWorking
+                    ? "Present"
+                    : `${employment.endMonth} ${employment.endYear}`}
+                </p>
               </div>
-              <Button onClick={() => handleEdit(employment)} variant="ghost">
-                Edit
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  onClick={() => handleEdit(employment)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleDelete(employment.id)}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <p className="text-sm text-zinc-500">No employment history available.</p>
+        )}
+      </div>
     </div>
   );
 };
