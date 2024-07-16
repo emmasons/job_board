@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Loader2, Pencil, PlusCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { EmploymentDetails } from "@prisma/client";
 
@@ -447,7 +447,7 @@ const EmploymentDetailsForm = ({
         <p className="text-lg font-semibold mb-4">Employment History</p>
         {employmentList.length > 0 ? (
           employmentList.map((employment) => (
-            <div key={employment.id} className="flex justify-between items-center mb-2">
+            <div key={employment.id} className="flex justify-between p-4 mb-2 border-b ">
               <div>
                 <p className="font-medium">{employment.designation}</p>
                 <p className="text-sm text-zinc-500">{employment.company}</p>
@@ -460,11 +460,12 @@ const EmploymentDetailsForm = ({
                     : `${employment.endMonth} ${employment.endYear}`}
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
                 <Button
                   variant="ghost"
                   onClick={() => handleEdit(employment)}
                 >
+                  <Pencil className="h-3"/>
                   Edit
                 </Button>
                 <Button
