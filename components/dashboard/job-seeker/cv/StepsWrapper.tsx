@@ -9,6 +9,7 @@ import {
   CV,
   EducationLevel,
   EmploymentDetails,
+  DesiredJob,
   // PersonalDetails,
   Experience,
   GCPData,
@@ -21,6 +22,7 @@ import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeek
 import { useState } from "react";
 import EmploymentDetailsForm from "./steps/EmploymentDetailsForm";
 import PersonalDetailsForm from "./steps/PersonalDetailsForm";
+import DesiredJobsForm from "./steps/DesiredJobsForm";
 
 
 type Props = {
@@ -111,7 +113,19 @@ const StepsWrapper = ({
       initialData={{
         employmentDetails: employmentDetails || null, // Pass initial employment details if available
       }}
+
     />,
+
+    <DesiredJobsForm 
+      key={7}
+      title="Desired job" 
+      description= "Add your desired jobs"
+      profileId={jobSeekerProfile.id} 
+      designation={DesiredJob?.designation || ""}
+      location={DesiredJob?.location || ""}
+      industry={DesiredJob?.industry || ""}
+       profilePercentage={10}    
+    />
     // <PersonalDetailsForm
     //   key={7} // Make sure the key is unique if you're rendering this within a list
     //   title="Personal Details"

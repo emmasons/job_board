@@ -33,10 +33,10 @@ type Props = {
 const EmploymentDetailsForm = ({
   title,
   profileId,
-  designation = "",
-  company = "",
-  location = "",
-  description = "",
+  designation,
+  company,
+  location,
+  description,
   profilePercentage,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);

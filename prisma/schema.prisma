@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,63 +8,66 @@ datasource db {
 }
 
 model JobSeekerProfile {
-  id String @id @default(cuid())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  occupation String?
-  country    String?
-
-  cvHeadLine String?
-  profileSummary String?
+  id                String              @id @default(cuid())
+  userId            String              @unique
+  occupation        String?
+  country           String?
+  educationLevelId  String?
+  experienceId      String?
+  sectorId          String?
+  cvHeadLine        String?
+  profileSummary    String?
+  certificates      Certificate[]
   employmentDetails EmploymentDetails[]
-
-  educationLevelId String?
-  education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  experienceId     String?
-  experience       Experience?     @relation(fields: [experienceId], references: [id])
-  sector           Sector?         @relation(fields: [sectorId], references: [id])
-  sectorId         String?
-
-  skills Skill[]
-  certificates Certificate[]
+  desiredJob DesiredJob[]
+  education         EducationLevel?     @relation(fields: [educationLevelId], references: [id])
+  experience        Experience?         @relation(fields: [experienceId], references: [id])
+  sector            Sector?             @relation(fields: [sectorId], references: [id])
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills            Skill[]
 }
 
 model EmploymentDetails {
-  id               String   @id @default(cuid())
-  designation      String?
-  company          String?
-  location         String?
-  description      String?
-  currentlyWorking Boolean  @default(false)
-  startMonth       String
-  startYear        String
-  endMonth         String?
-  endYear          String?
+  id                 String           @id @default(cuid())
+  designation        String?
+  company            String?
+  location           String?
+  description        String?
+  currentlyWorking   Boolean          @default(false)
+  startMonth         String
+  startYear          String
+  endMonth           String?
+  endYear            String?
   jobSeekerProfileId String
-  jobSeekerProfile JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  jobSeekerProfile   JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+}
+
+model DesiredJob {
+  id          String   @id @default(cuid())
+  designation String
+  location    String
+  industry    String
+  jobSeekerProfileId String
+  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Skill {
-  id String @id @default(cuid())
-
+  id                 String           @id @default(cuid())
   skill              String
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
-
 model Certificate {
-  id String @id @default(cuid())
-
-  name              String
-  lastUsed          String
-  totalExperienceYears Int @default(0)
-  totalExperienceMonths Int @default(0)
-
-  jobSeekerProfileId String
-  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  id                    String           @id @default(cuid())
+  name                  String
+  lastUsed              String
+  totalExperienceYears  Int              @default(0)
+  totalExperienceMonths Int              @default(0)
+  jobSeekerProfileId    String
+  profile               JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
 model JobSeekerProfilePercentage {
@@ -87,50 +87,38 @@ model Profile {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
 model Candidate {
-  id String @id @default(cuid())
-
+  id          String @id @default(cuid())
   candidateId String
-
-  employerId String
-  employer   User   @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  employerId  String
+  employer    User   @relation(fields: [employerId], references: [id], onDelete: Cascade)
 
   @@unique([candidateId, employerId])
 }
 
-enum Role {
-  USER
-  STAFF
-  ADMIN
-  JOB_SEEKER
-  EMPLOYER
-}
-
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  isVerified    Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  password      String?
-  profile       Profile?
-  role          Role      @default(USER)
-
+  id                        String            @id @default(uuid())
+  name                      String?
+  email                     String            @unique
+  emailVerified             DateTime?
+  isVerified                Boolean           @default(false)
+  image                     String?
+  createdAt                 DateTime          @default(now())
+  updatedAt                 DateTime          @updatedAt
+  password                  String?
+  role                      Role              @default(USER)
   forgotPasswordToken       String?
   forgotPasswordTokenExpiry DateTime?
   verifyToken               String?
   verifyTokenExpiry         DateTime?
-  Job                       Job[]
-  Company                   Company[]
-  cv                        CV?
-  jobSeekerProfile          JobSeekerProfile?
-  candidates                Candidate[]
-  Post                      Post[]
   applications              Application[]
+  cv                        CV?
+  candidates                Candidate[]
+  Company                   Company[]
+  Job                       Job[]
+  jobSeekerProfile          JobSeekerProfile?
+  Post                      Post[]
+  profile                   Profile?
 
   @@map("users")
 }
@@ -152,42 +140,16 @@ model GCPData {
   downloadUrl      String
 }
 
-enum WorkSchedule {
-  FULL_TIME
-  PART_TIME
-  CONTRACTOR
-  TEMPORARY
-  SEASONAL
-  NOT_SPECIFIED
-}
-
-enum ContractType {
-  INTERNSHIP
-  DIRECT_HIRE
-  NOT_SPECIFIED
-  CONTRACT_TO_HIRE
-  TEMPORARY
-  TEMPORARY_TO_HIRE
-  SELF_EMPLOYED
-  CONTRACT
-  SEASONAL
-  APPRENTICESHIP
-  RECRUITMENT_RESERVE
-  ON_CALL
-  VOLUNTEER
-}
-
 model Address {
-  id        String  @id @default(cuid())
-  city      String
-  state     String
-  zipCode   String
-  country   String
-  companyId String  @unique
-  company   Company @relation(fields: [companyId], references: [id])
-
+  id             String  @id @default(cuid())
+  city           String
+  state          String
+  zipCode        String
+  country        String
+  companyId      String  @unique
   addressLineOne String
   addressLineTwo String
+  company        Company @relation(fields: [companyId], references: [id])
 }
 
 model EducationLevel {
@@ -216,82 +178,70 @@ model Company {
   companyEmail String   @unique
   companyName  String   @unique
   ownerId      String?
-  owner        User?    @relation(fields: [ownerId], references: [id])
   address      Address?
+  owner        User?    @relation(fields: [ownerId], references: [id])
   Job          Job[]
 }
 
 model Job {
-  id                String       @id @default(cuid())
+  id                String          @id @default(cuid())
   title             String
   description       String
   howToApply        String?
-  workSchedule      WorkSchedule @default(NOT_SPECIFIED)
+  workSchedule      WorkSchedule    @default(NOT_SPECIFIED)
   country           String
   city              String
   startDate         String
   occupation        String?
-  contractType      ContractType @default(NOT_SPECIFIED)
+  contractType      ContractType    @default(NOT_SPECIFIED)
   ownerId           String?
-  owner             User?        @relation(fields: [ownerId], references: [id])
   companyId         String?
-  company           Company?     @relation(fields: [companyId], references: [id])
   companyName       String?
-  published         Boolean      @default(false)
-  numberOfPositions Int          @default(1)
+  published         Boolean         @default(false)
+  numberOfPositions Int             @default(1)
   datePosted        DateTime?
+  educationLevelId  String?
+  experienceId      String?
+  sectorId          String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  isFeatured        Boolean         @default(false)
   salary            String?
-  isFeatured        Boolean      @default(false)
-
-  educationLevelId String?
-  education        EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  experienceId     String?
-  experience       Experience?     @relation(fields: [experienceId], references: [id])
-  sector           Sector?         @relation(fields: [sectorId], references: [id])
-  sectorId         String?
-
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  Purchase     Purchase[]
-  applications Application[]
+  applications      Application[]
+  company           Company?        @relation(fields: [companyId], references: [id])
+  education         EducationLevel? @relation(fields: [educationLevelId], references: [id])
+  experience        Experience?     @relation(fields: [experienceId], references: [id])
+  owner             User?           @relation(fields: [ownerId], references: [id])
+  sector            Sector?         @relation(fields: [sectorId], references: [id])
+  Purchase          Purchase[]
 }
 
 model Application {
-  id String @id @default(cuid())
-
+  id     String @id @default(cuid())
   userId String
+  jobId  String
+  job    Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  jobId String
-  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@unique([userId, jobId])
 }
 
-enum PurchaseStatus {
-  PENDING
-  COMPLETED
-}
-
 model Purchase {
-  id     String @id @default(uuid())
-  userId String
-
-  status  PurchaseStatus @default(PENDING)
-  orderID String         @unique
-
-  jobId String
-  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  id        String         @id @default(uuid())
+  userId    String
+  status    PurchaseStatus @default(PENDING)
+  orderID   String         @unique
+  jobId     String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  job       Job            @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
   @@unique([userId, jobId])
   @@index([jobId])
 }
 
 model ScrapedJob {
-  id                String  @id @default(uuid())
+  id                String   @id @default(uuid())
   title             String
   description       String
   howToApply        String?
@@ -303,22 +253,21 @@ model ScrapedJob {
   occupation        String?
   contractType      String
   company           String?
-  numberOfPositions Int     @default(1)
-
-  educationLevel  String?
-  experienceLevel String?
-  sector          String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  numberOfPositions Int      @default(1)
+  educationLevel    String?
+  experienceLevel   String?
+  sector            String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  title       String   @unique
-  description     String?
-  slug        String   @unique
+  id          String  @id @default(cuid())
+  title       String  @unique
+  description String?
+  slug        String  @unique
 }
+
 model Post {
   id          String   @id @default(cuid())
   title       String   @unique
@@ -326,7 +275,6 @@ model Post {
   epigraph    String?
   imageUrl    String?
   authorId    String?
-  author      User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
   isPublished Boolean  @default(false)
   slug        String   @unique
   views       Int      @default(0)
@@ -334,6 +282,7 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   isFeatured  Boolean  @default(false)
+  author      User?    @relation(fields: [authorId], references: [id])
 }
 
 model Occupation {
@@ -343,9 +292,46 @@ model Occupation {
 }
 
 model SubOccupation {
-  id    String @id @default(cuid())
-  title String @unique
-
+  id           String     @id @default(cuid())
+  title        String     @unique
   occupationId String
   occupation   Occupation @relation(fields: [occupationId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  STAFF
+  ADMIN
+  JOB_SEEKER
+  EMPLOYER
+}
+
+enum WorkSchedule {
+  FULL_TIME
+  PART_TIME
+  CONTRACTOR
+  TEMPORARY
+  SEASONAL
+  NOT_SPECIFIED
+}
+
+enum ContractType {
+  INTERNSHIP
+  DIRECT_HIRE
+  NOT_SPECIFIED
+  CONTRACT_TO_HIRE
+  TEMPORARY
+  TEMPORARY_TO_HIRE
+  SELF_EMPLOYED
+  CONTRACT
+  SEASONAL
+  APPRENTICESHIP
+  RECRUITMENT_RESERVE
+  ON_CALL
+  VOLUNTEER
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
 }
