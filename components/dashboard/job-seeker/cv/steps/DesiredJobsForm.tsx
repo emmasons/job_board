@@ -25,6 +25,21 @@ const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProp
   const router = useRouter();
   const { toast } = useToast();
 
+  const formSchema = z.object({
+    designation: z.string().min(2, "Tell us your preferred designation."),
+    location: z.string().min(2, "Tell us your preferred work location."),
+    industry: z.string().min(2, "Tell us your preferred industry."),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      designation: "",
+      location: "",
+      industry: "",
+    },
+  });
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -37,7 +52,10 @@ const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProp
 
         if (res.ok) {
           const data = await res.json();
-          setDesiredJob(data);
+          if (data) {
+            setDesiredJob(data);
+            form.reset(data); // Pre-fill the form with the fetched data
+          }
         } else {
           console.error("Failed to fetch desired job data");
         }
@@ -47,22 +65,7 @@ const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProp
     }
 
     fetchData();
-  }, [profileId]);
-
-  const formSchema = z.object({
-    designation: z.string().min(2, "Tell us your preferred designation."),
-    location: z.string().min(2, "Tell us your preferred work location."),
-    industry: z.string().min(2, "Tell us your preferred industry."),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: desiredJob || {
-      designation: "",
-      location: "",
-      industry: "",
-    },
-  });
+  }, [profileId, form]);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -113,11 +116,11 @@ const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProp
             Outline your professional career to Employers
           </p>
         </div>
-        {!desiredJob && (
+       
           <Button onClick={toggleEdit} variant="ghost">
-            {isEditing ? <>Cancel</> : <>Add <PlusCircle className="ml-2 h-4 w-4" /></>}
+            {isEditing ? <>Cancel</> : <>Edit <Pencil className="ml-2 h-4 w-4" /></>}
           </Button>
-        )}
+     
       </div>
       {!isEditing && desiredJob ? (
         <div className="relative mt-2">
@@ -131,9 +134,6 @@ const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProp
             <p className="mb-3 text-sm text-slate-500">
               <span className="font-semibold">Preferred Industry:</span> {desiredJob.industry}
             </p>
-            <Button onClick={toggleEdit} variant="ghost">
-              Edit <Pencil className="ml-2 h-4 w-4" />
-            </Button>
           </div>
         </div>
       ) : (
