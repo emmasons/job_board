@@ -187,7 +187,7 @@ const StepsWrapper = ({
               <span className="text-[2rem]">
                 {jobSeekerProfile?.profilePercentage?.percentage | 0}
               </span>
-              % Percentage completed
+              %  completed
             </h3>
 
             <button 

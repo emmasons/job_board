@@ -7,16 +7,10 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Pencil, PlusCircle } from "lucide-react";
+import { Pencil, PlusCircle } from "lucide-react";
 import { DesiredJob } from "@prisma/client";
 
 type DesiredJobProps = {
@@ -29,8 +23,7 @@ type DesiredJobProps = {
 const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: DesiredJobProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [desiredJob, setDesiredJob] = useState<DesiredJob | null>(profile);
-
-  const toggleEdit = () => setIsEditing((current) => !current);
+  const router = useRouter();
   const { toast } = useToast();
 
   const formSchema = z.object({
@@ -39,7 +32,7 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
     industry: z.string().min(2, "Tell us your preferred industry."),
   });
 
-  const form = useForm<DesiredJob>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: desiredJob || {
       designation: "",
@@ -48,14 +41,45 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
     },
   });
 
-  const onSubmit = (data: DesiredJob) => {
-    setDesiredJob(data);
-    setIsEditing(false);
-    toast({
-      description: "Profile updated successfully!",
-    });
-    // Here you would typically also send the data to your server
-  };
+  const toggleEdit = () => setIsEditing((current) => !current);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch(`/api/job-seeker/profile/${profileId}/desiredJob`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const response = await res.json();
+      if (!res.ok) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: response.message,
+        });
+      } else {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "Profile updated successfully.",
+          className: "bg-green-500",
+        });
+        setDesiredJob(response);
+        toggleEdit();
+        router.refresh();
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -66,9 +90,11 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
             Outline your professional career to Employers
           </p>
         </div>
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? <>Cancel</> : desiredJob ? <>Edit <Pencil className="ml-2 h-4 w-4" /></> : <>Add <PlusCircle className="ml-2 h-4 w-4" /></>}
-        </Button>
+        {!desiredJob && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? <>Cancel</> : <>Add <PlusCircle className="ml-2 h-4 w-4" /></>}
+          </Button>
+        )}
       </div>
       {!isEditing && desiredJob ? (
         <div className="relative mt-2">
@@ -82,6 +108,9 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
             <p className="mb-3 text-sm text-slate-500">
               <span className="font-semibold">Preferred Industry:</span> {desiredJob.industry}
             </p>
+            <Button onClick={toggleEdit} variant="ghost">
+              Edit <Pencil className="ml-2 h-4 w-4" />
+            </Button>
           </div>
         </div>
       ) : (
@@ -95,9 +124,9 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm flex flex-col gap-2 w-80">
-                        Designation
-                        <Input {...field} placeholder="Preferred Designation"  />
+                        <label className="text-sm flex flex-col gap-2 w-80">
+                          Designation
+                          <Input {...field} placeholder="Preferred Designation" />
                         </label>
                       </FormControl>
                       <FormMessage />
@@ -110,9 +139,9 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm flex flex-col gap-2 w-80">
-                        Location
-                        <Input {...field} placeholder="Preferred Location" />
+                        <label className="text-sm flex flex-col gap-2 w-80">
+                          Location
+                          <Input {...field} placeholder="Preferred Location" />
                         </label>
                       </FormControl>
                       <FormMessage />
@@ -125,9 +154,9 @@ const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: Desir
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                      <label className="text-sm flex flex-col gap-2 w-80">
-                        Industry
-                        <Input {...field} placeholder="Preferred Industry" />
+                        <label className="text-sm flex flex-col gap-2 w-80">
+                          Industry
+                          <Input {...field} placeholder="Preferred Industry" />
                         </label>
                       </FormControl>
                       <FormMessage />
