@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 // imports
 import { useEffect, useState } from "react";
@@ -16,15 +16,38 @@ import { DesiredJob } from "@prisma/client";
 type DesiredJobProps = {
   title: string;
   profileId: string;
-  profile: DesiredJob | null;
   profilePercentage: number;
 };
 
-const DesiredJobsForm = ({ title, profileId, profile, profilePercentage }: DesiredJobProps) => {
+const DesiredJobsForm = ({ title, profileId, profilePercentage }: DesiredJobProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [desiredJob, setDesiredJob] = useState<DesiredJob | null>(profile);
+  const [desiredJob, setDesiredJob] = useState<DesiredJob | null>(null);
   const router = useRouter();
   const { toast } = useToast();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`/api/job-seeker/profile/${profileId}/desiredJob`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setDesiredJob(data);
+        } else {
+          console.error("Failed to fetch desired job data");
+        }
+      } catch (error) {
+        console.error("Error fetching desired job data:", error);
+      }
+    }
+
+    fetchData();
+  }, [profileId]);
 
   const formSchema = z.object({
     designation: z.string().min(2, "Tell us your preferred designation."),
