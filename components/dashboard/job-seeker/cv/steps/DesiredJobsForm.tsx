@@ -16,6 +16,9 @@ import { DesiredJob } from "@prisma/client";
 type DesiredJobProps = {
   title: string;
   profileId: string;
+  designation: string;
+  location: string;
+  industry: string;
   profilePercentage: number;
 };
 

@@ -10,7 +10,7 @@ import {
   EducationLevel,
   EmploymentDetails,
   DesiredJob,
-  // PersonalDetails,
+  PersonalDetails,
   Experience,
   GCPData,
   Sector,
@@ -32,7 +32,8 @@ type Props = {
   sectors: Sector[];
   educationLevels: EducationLevel[];
   employmentDetails: EmploymentDetails | null;
-  // personalDetails: PersonalDetails | null;
+  desiredJob: DesiredJob | null;
+  personalDetails: PersonalDetails | null;
   experience: Experience[];
 };
 
@@ -124,27 +125,28 @@ const StepsWrapper = ({
       designation={DesiredJob?.designation || ""}
       location={DesiredJob?.location || ""}
       industry={DesiredJob?.industry || ""}
-       profilePercentage={10}    
-    />
-    // <PersonalDetailsForm
-    //   key={7} // Make sure the key is unique if you're rendering this within a list
-    //   title="Personal Details"
-    //   profileId={jobSeekerProfile.id}
-    //   dateOfBirth={typeof personalDetails?.dateOfBirth === 'string' 
-    //     ? personalDetails.dateOfBirth 
-    //     : personalDetails?.dateOfBirth?.toISOString().split('T')[0] || ''}
-    //   gender={personalDetails?.gender || ''}
-    //   nationality={personalDetails?.nationality || ''}
-    //   maritalStatus={personalDetails?.maritalStatus || ''}
-    //   drivingLicense={personalDetails?.drivingLicense || false}
-    //   currentLocation={personalDetails?.currentLocation || ''}
-    //   languagesKnown={personalDetails?.languagesKnown || []}
-    //   visaStatus={personalDetails?.visaStatus || ''}
-    //   religion={personalDetails?.religion || ''}
-    //   alternateEmail={personalDetails?.alternateEmail || ''}
-    //   alternateContactNumber={personalDetails?.alternateContactNumber || ''}
+      profilePercentage={10}    
+    />,
 
-    // />,
+    <PersonalDetailsForm
+      key={8} // Make sure the key is unique if you're rendering this within a list
+      title="Personal Details"
+      profileId={jobSeekerProfile.id}
+      dateOfBirth={PersonalDetails?.dateOfBirth === 'string' 
+        ? PersonalDetails.dateOfBirth 
+        : PersonalDetails?.dateOfBirth?.toISOString().split('T')[0] || ''}
+      gender={PersonalDetails?.gender || ''}
+      nationality={PersonalDetails?.nationality || ''}
+      maritalStatus={PersonalDetails?.maritalStatus || ''}
+      drivingLicense={PersonalDetails?.drivingLicense || false}
+      currentLocation={PersonalDetails?.currentLocation || ''}
+      languagesKnown={PersonalDetails?.languagesKnown || []}
+      visaStatus={PersonalDetails?.visaStatus || ''}
+      religion={PersonalDetails?.religion || ''}
+      alternateEmail={PersonalDetails?.alternateEmail || ''}
+      alternateContactNumber={PersonalDetails?.alternateContactNumber || ''}
+
+    />,
 
 
   ]);

@@ -7,6 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model JobSeekerProfile {
   id                String              @id @default(cuid())
   userId            String              @unique
@@ -25,6 +26,7 @@ model JobSeekerProfile {
   user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   skills            Skill[]
   desiredJob        DesiredJob[]
+  personalDetails    PersonalDetails[]     
 }
 
 model DesiredJob {
@@ -39,18 +41,38 @@ model DesiredJob {
 }
 
 model EmploymentDetails {
-  id                 String           @id @default(cuid())
-  designation        String?
-  company            String?
-  location           String?
-  description        String?
-  currentlyWorking   Boolean          @default(false)
-  startMonth         String
-  startYear          String
-  endMonth           String?
-  endYear            String?
-  jobSeekerProfileId String
-  jobSeekerProfile   JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  id                     String             @id @default(cuid())
+  designation            String?
+  company                String?
+  location               String?
+  description            String?
+  currentlyWorking       Boolean            @default(false)
+  startMonth             String
+  startYear              String
+  endMonth               String?
+  endYear                String?
+  jobSeekerProfileId     String             
+  profile                JobSeekerProfile   @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+}
+
+model PersonalDetails {
+  id                     String   @id @default(cuid())
+  profileId              String
+  dateOfBirth            DateTime
+  gender                 String
+  nationality            String
+  maritalStatus          String
+  drivingLicense         Boolean
+  currentLocation        String
+  languagesKnown         String[]
+  visaStatus             String
+  religion               String?
+  alternateEmail         String?
+  alternateContactNumber String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  jobSeekerProfileId     String   
+  profile                JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
 model Skill {
