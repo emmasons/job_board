@@ -1,50 +1,43 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { Role } from "@prisma/client";
 
-const prisma = new PrismaClient();
+export async function PATCH(req: Request, { params }: { params: { profileId: string } }) {
+  try {
+    const user = await getCurrentSessionUser();
+    const userId = user?.id;
+    const values = await req.json();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+    if (!userId || user.role !== Role.JOB_SEEKER) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
-  if (req.method === 'PATCH') {
-    const {
-      dateOfBirth,
-      gender,
-      nationality,
-      maritalStatus,
-      drivingLicense,
-      currentLocation,
-      languagesKnown,
-      visaStatus,
-      religion,
-      alternateEmail,
-      alternateContactNumber,
-    } = req.body;
+    const personal = await db.personalDetails.findFirst({
+      where: {
+        jobSeekerProfileId: params.profileId,
+      },
+    });
 
-    try {
-      const updatedProfile = await prisma.personalDetails.update({
-        where: { profileId: String(id) },
+    let desiredJob;
+    if (personal) {
+      desiredJob = await db.personalDetails.update({
+        where: { id: params.profileId, },
+        data: { ...values },
+      });
+    } else {
+      desiredJob = await db.personalDetails.create({
         data: {
-          dateOfBirth: new Date(dateOfBirth),
-          gender,
-          nationality,
-          maritalStatus,
-          drivingLicense,
-          currentLocation,
-          languagesKnown,
-          visaStatus,
-          religion,
-          alternateEmail,
-          alternateContactNumber,
+          ...values,
+          jobSeekerProfileId: params.profileId,
         },
       });
-
-      res.status(200).json(updatedProfile);
-    } catch (error) {
-      res.status(500).json({ message: 'Error updating profile', error });
     }
-  } else {
-    res.setHeader('Allow', ['PATCH']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    return NextResponse.json(personal, { status: 200 });
+  } catch (error) {
+    console.log("[PROFILE_ID]", error);
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
+

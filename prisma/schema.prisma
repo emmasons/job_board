@@ -64,7 +64,7 @@ model PersonalDetails {
   maritalStatus          String
   drivingLicense         Boolean
   currentLocation        String
-  languagesKnown         String[]
+  languagesKnown         String
   visaStatus             String
   religion               String?
   alternateEmail         String?

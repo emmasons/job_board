@@ -5,21 +5,30 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import Link from "next/link"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
+  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 
-
+ } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 type Props = {
   title: string;
@@ -30,7 +39,7 @@ type Props = {
   maritalStatus: string;
   drivingLicense: boolean;
   currentLocation: string;
-  languagesKnown: string[];
+  languagesKnown: string;
   visaStatus: string;
   religion: string;
   alternateEmail: string;
@@ -64,13 +73,12 @@ const PersonalDetailsForm = ({
     maritalStatus: z.string().nonempty("Marital Status is required"),
     drivingLicense: z.boolean(),
     currentLocation: z.string().nonempty("Current Location is required"),
-    languagesKnown: z.array(z.string()).min(1, "At least one language is required"),
+    languagesKnown: z.string().nonempty("Atleast 1 languange is required"),
     visaStatus: z.string().nonempty("Visa Status is required"),
     religion: z.string().optional(),
     alternateEmail: z.string().email().optional(),
     alternateContactNumber: z.string().optional(),
   });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,14 +88,13 @@ const PersonalDetailsForm = ({
       maritalStatus: maritalStatus || "",
       drivingLicense: drivingLicense,
       currentLocation: currentLocation || "",
-      languagesKnown: languagesKnown || [],
+      languagesKnown: languagesKnown || "",
       visaStatus: visaStatus || "",
       religion: religion || "",
       alternateEmail: alternateEmail || "",
       alternateContactNumber: alternateContactNumber || "",
     },
   });
-
   const { isSubmitting, isValid, errors } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -147,6 +154,8 @@ const PersonalDetailsForm = ({
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
+            {/* date of birth */}
             <FormField
               control={form.control}
               name="dateOfBirth"
@@ -168,88 +177,130 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <label className="text-sm flex flex-col w-96">
-                      Gender
-                      <Select {...field} className="bg-white">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        
-                      </Select>
-                    </label>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+            {/* Gender fields */}
+
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex  space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="all" />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        Male
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="mentions" />
+                      </FormControl>
+                      <FormLabel className="font-normal">
+                        Female
+                      </FormLabel>
+                    </FormItem>
+                    
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Nationality field */}
+
             <FormField
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <label className="text-sm flex flex-col w-80">
-                      Nationality
-                      <Select {...field}>
-                        <option value="">Select Nationality</option>
-                        <option value="Kuwaiti">Kuwaiti</option>
-                        <option value="Kenyan">Kenyan</option>
-                        <option value="Nigerian">Nigerian</option>
-                      </Select>
-                    </label>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                <FormItem className="w-80 ">
+              <FormLabel>Nationality</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your nationality" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="kenya">Kenya</SelectItem>
+                  <SelectItem value="saudi">Saudi Arabia</SelectItem>
+                  <SelectItem value="tanzania">Tanzania</SelectItem>
+                </SelectContent>
+              </Select>
+      
+              <FormMessage />
+            </FormItem>
               )}
             />
+
+            {/* marital status */}
+
             <FormField
               control={form.control}
-              name="maritalStatus"
+              name="nationality"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <label className="text-sm flex flex-col w-80">
-                      Marital Status
-                      <Select {...field}>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Divorced">Divorced</option>
-                        <option value="Widower">Widower</option>
-                        <option value="Other">Other</option>
-                      </Select>
-                    </label>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                <FormItem className="w-80 ">
+              <FormLabel>Marital Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your marital status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="single">Single</SelectItem>
+                  <SelectItem value="married">Married</SelectItem>
+                  <SelectItem value="divorced">Divorced</SelectItem>
+                  <SelectItem value="widow">widow(er)</SelectItem>
+
+                </SelectContent>
+              </Select>
+      
+              <FormMessage />
+            </FormItem>
               )}
             />
+
+            {/* Driving licence */}
+
             <FormField
               control={form.control}
               name="drivingLicense"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0  pY-4">
                   <FormControl>
-                    <label className="text-sm flex items-center">
-                      <Checkbox {...field} />
-                      <span className="ml-2">Do you have a Driving License?</span>
-                    </label>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Do you have a driving licence
+                    </FormLabel>
+                  
+                  </div>
                 </FormItem>
               )}
             />
+
+            {/* Current Location */}
             <FormField
               control={form.control}
               name="currentLocation"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80">
+                    <label className="text-sm flex flex-col w-80 gap-2">
                       Current Location
                       <Input {...field} />
                     </label>
@@ -258,82 +309,67 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
+
+            {/* Languages */}
+
             <FormField
               control={form.control}
               name="languagesKnown"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80">
-                      Languages Known (Max 3)
-                      <Select {...field}>
-                        
-                        <option value="Arabic">
-                          Arabic
-                        </option>
-                        <option value="English">
-                          English
-                        </option>
-                        {/* Add other languages as needed */}
-                      </Select>
+                    <label className="text-sm flex flex-col w-80 gap-2">
+                      Languages known
+                      <Input {...field} />
                     </label>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="visaStatus"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <label className="text-sm flex flex-col w-80">
-                      Visa Status For Current Location
-                      <Select {...field}>
-                        <option value="Citizen / Emirati">Citizen / Emirati</option>
-                        <option value="Visit Visa / Transit Visa">Visit Visa / Transit Visa</option>
-                        <option value="Student Visa">Student Visa</option>
-                        <option value="Employment Visa - Mainland">Employment Visa - Mainland</option>
-                        <option value="Employment Visa - Freezone">Employment Visa - Freezone</option>
-                        <option value="Dependent Visa / Family Visa">Dependent Visa / Family Visa</option>
-                        <option value="Golden Visa">Golden Visa</option>
-                        <option value="Green Visa">Green Visa</option>
-                        <option value="GCC National Visa">GCC National Visa</option>
-                        <option value="Freelance Visa">Freelance Visa</option>
-                        <option value="Other">Other</option>
-                      </Select>
-                    </label>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+
+            {/* Visa Status */}
+          
             <FormField
               control={form.control}
               name="religion"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <label className="text-sm flex flex-col w-80">
-                      Religion
-                      <Select {...field}>
-                        <option value="">Select Religion</option>
-                        {/* Add religion options as needed */}
-                      </Select>
-                    </label>
-                  </FormControl>
+                <FormItem className="w-80">
+                  <FormLabel>Visa</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Visa status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="cisit">Visit Visa / Transit Visa</SelectItem>
+                        <SelectItem value="student">Student Visa</SelectItem>
+                        <SelectItem value="employment">Employment Visa - Mainland</SelectItem>
+                        <SelectItem value="freezone">Employment Visa - Freezone</SelectItem>
+                        <SelectItem value="golden">Golden Visa</SelectItem>
+                        <SelectItem value="dependent">Dependent Visa / Family Visa</SelectItem>
+                        <SelectItem value="national">GCC National Visa</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                 </SelectContent>
+                    </Select>
+                 
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+              )}               
+            /> 
+           
+
+            {/* Alternate Email */}
+
             <FormField
               control={form.control}
               name="alternateEmail"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80">
+                    <label className="text-sm flex flex-col w-80 gap-2">
                       Alternate Email Address
                       <Input type="email" {...field} />
                     </label>
@@ -342,13 +378,16 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
+
+            {/* Alternate Phone Number */}
+            
             <FormField
               control={form.control}
               name="alternateContactNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80">
+                    <label className="text-sm flex flex-col w-80 gap-2">
                       Alternate Contact Number
                       <Input {...field} />
                     </label>
@@ -357,7 +396,7 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" >
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save
             </Button>
