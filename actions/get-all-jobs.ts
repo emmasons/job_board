@@ -7,6 +7,7 @@ type Params = {
   workSchedule?: string;
   countriesFilter?: string;
   sectorFilter?: string;
+  jobTypeFilter?: string;
 };
 export const getAllJobs = async ({
   title,
@@ -14,6 +15,7 @@ export const getAllJobs = async ({
   countriesFilter,
   workSchedule,
   sectorFilter,
+  jobTypeFilter,
 }: Params): Promise<JobsWithCompany[]> => {
   const formattedTitle = title?.replace(/\s/g, "");
   const countries = [];
@@ -41,8 +43,8 @@ export const getAllJobs = async ({
     const countryCondition = location
       ? { country: location } // If location is provided, use it for the query
       : countries.length > 0
-      ? { country: { in: countries } } // If the country list exists and is not empty, use it
-      : {}; // Otherwise, do not apply any country filter
+        ? { country: { in: countries } } // If the country list exists and is not empty, use it
+        : {}; // Otherwise, do not apply any country filter
 
     // Determine the country condition for the query
     const workScheduleCondition =
@@ -54,6 +56,10 @@ export const getAllJobs = async ({
       sectors.length > 0
         ? { sectorId: { in: sectors } } // If the workSchedule list exists and is not empty, use it
         : {}; // Otherwise, do not apply any workSchedule filter
+
+    const jobTypeCondition = jobTypeFilter
+      ? { jobType: jobTypeFilter } // If the jobTypeFilter exists, use it as a condition
+      : {}; // Otherwise, do not apply any jobType filter
 
     const jobs = await db.job.findMany({
       where: {
@@ -69,6 +75,7 @@ export const getAllJobs = async ({
           : {}),
         ...workScheduleCondition,
         ...sectorCondition,
+        ...jobTypeCondition,
       },
       include: {
         company: true,
