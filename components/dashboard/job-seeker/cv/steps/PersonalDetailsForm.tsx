@@ -34,13 +34,14 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersonalDetails } from "@prisma/client";
 
 type Props = {
   title: string;
+  dateOfBirth: undefined;
   profileId: string;
   gender: string;
   nationality: string;
@@ -88,10 +89,11 @@ const PersonalDetailsForm = ({
     alternateContactNumber: z.string().optional(),
   });
 
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dateOfBirth: "",
+      dateOfBirth: "" || undefined,
       gender: "",
       nationality: "",
       maritalStatus: "",
@@ -104,6 +106,49 @@ const PersonalDetailsForm = ({
       alternateContactNumber: "",
     },
   });
+
+
+  const url = `/api/job-seeker/profile/${profileId}/personalDetails`;
+  useEffect(() => {
+    const fetchpersonalDetails = async () => {
+      try{
+        const res = await fetch(url);
+        const data: PersonalDetails = await res.json();
+
+        if (res.ok){
+          form .reset({
+            dateOfBirth: new Date(data.dateOfBirth),
+            gender: data.gender,
+            nationality: data.nationality,
+            maritalStatus: data.maritalStatus,
+            drivingLicense: data.drivingLicense,
+            currentLocation: data.currentLocation,
+            languagesKnown: data.languagesKnown,
+            visaStatus: data.visaStatus,
+            religion: data.religion ||"",
+            alternateEmail: data.alternateEmail || "",
+            alternateContactNumber: data.alternateContactNumber || "",
+          });
+        } else {
+          // Handle the error based on your requirements
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: error.message,
+          });
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error.message,
+        });
+      }
+      };
+
+      fetchpersonalDetails();
+  }, [profileId]);
+
 
   const handleEdit = (personal: PersonalDetails) => {
     setEditingItem(personal);
@@ -133,7 +178,11 @@ const PersonalDetailsForm = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values, 
+          dateOfBirth: values.dateOfBirth.toISOString(),
+        }),
+        
       });
 
       const response = await res.json();

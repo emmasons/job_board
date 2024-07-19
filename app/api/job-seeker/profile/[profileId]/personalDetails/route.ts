@@ -7,10 +7,8 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const body = await req.text();
+    const body = await req.json();  // Parse the body as JSON
     console.log("Request Body:", body);
-
-    const values = JSON.parse(body);
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -28,13 +26,13 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       // Update existing personal details
       personalDetails = await db.personalDetails.update({
         where: { id: personal.id },
-        data: { ...values },
+        data: { ...body },
       });
     } else {
       // Create new personal details
       personalDetails = await db.personalDetails.create({
         data: {
-          ...values,
+          ...body,
           jobSeekerProfileId: params.profileId,
         },
       });

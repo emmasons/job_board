@@ -1,8 +1,7 @@
 "use client"
 import React from 'react';
 import { Pencil} from 'lucide-react';
-import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
-
+import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV"; 
 
 // defining interfaces
 interface CV {}

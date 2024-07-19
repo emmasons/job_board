@@ -3,6 +3,8 @@
 import ProfileHeader from "./ProfileHeader";
 import ProfileProgress from "./ProfileProgress";
 import ProfileSections from "./ProfileSections";
+import { ScrollArea } from "@/components/ui/scroll-area"
+// import { Separator } from "@/components/ui/separator"
 import { User, CV, Sector, EducationLevel, Experience, JobSeekerProfile } from  "@/types";
 
 interface ProfileCardProps{
