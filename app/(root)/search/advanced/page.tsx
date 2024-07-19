@@ -16,6 +16,7 @@ import FilterByOccupation from "@/components/search/filter/FilterByOccupation";
 import { getAllOccupations } from "@/actions/get-all-occupations";
 import FilterByJobType from "@/components/search/filter/FilterByJobType";
 import { getAllJobTypes } from "@/actions/get-all-job-types";
+import { gulfCountries } from "@/lib/utils";
 
 type Props = {};
 
@@ -26,6 +27,11 @@ const page = async (props: Props) => {
   const experienceLevels = await getExperience();
   const occupations = await getAllOccupations();
   const jobTypes = getAllJobTypes();
+
+  const countryList = gulfCountries.map((country) => ({
+    id: country,
+    label: country,
+  }));
 
   return (
     <MaxWidthWrapper className="py-4">
@@ -48,7 +54,7 @@ const page = async (props: Props) => {
           <FilterByOccupation occupations={occupations} />
         </div>
         <div className="space-y-2">
-          <FilterByCountry />
+          <FilterByCountry countryList={countryList} />
         </div>
         <div className="space-y-2">
           <FilterByWorkSchedule workSchedules={workSchedules} />

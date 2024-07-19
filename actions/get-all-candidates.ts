@@ -22,13 +22,26 @@ type candidate =
 
 type Params = {
   cvTitle?: string;
+  countriesFilter?: string;
 };
 export const getAllCandidates = async ({
   cvTitle,
+  countriesFilter,
 }: Params): Promise<candidate[]> => {
+  const countries = [];
+  if (countriesFilter) {
+    const formattedCountries = countriesFilter?.split(",");
+    countries.push(...formattedCountries);
+  }
   try {
+    const countryCondition = location
+      ? { country: location } // If location is provided, use it for the query
+      : countries.length > 0
+        ? { country: { in: countries } } // If the country list exists and is not empty, use it
+        : {}; // Otherwise, do not apply any country filter
     const candidates = await db.user.findMany({
       where: {
+        ...countryCondition, // Use the determined country condition
         role: Role.JOB_SEEKER,
         OR: [
           {

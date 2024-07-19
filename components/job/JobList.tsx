@@ -8,6 +8,7 @@ import { getAllSectors } from "@/actions/get-all-sectors";
 import FilterBySector from "../search/filter/FilterBySector";
 import Link from "next/link";
 import { Settings } from "lucide-react";
+import { gulfCountries } from "@/lib/utils";
 
 type Props = {
   items: JobsWithCompany[];
@@ -27,10 +28,15 @@ const JobList = async ({
   const workSchedules = await getWorkSchedules();
   const sectors = await getAllSectors();
 
+  const countryList = gulfCountries.map((country) => ({
+    id: country,
+    label: country,
+  }));
+
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
       <div className="basis-1/3 space-y-4">
-        <FilterByCountry />
+        <FilterByCountry countryList={countryList} />
         <FilterByWorkSchedule workSchedules={workSchedules} />
         <FilterBySector sectors={sectors} />
         <Link

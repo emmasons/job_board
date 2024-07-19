@@ -2,14 +2,17 @@
 
 import { CheckboxGroupForm } from "./checkbox-group-form";
 import { useState } from "react";
-import { gulfCountries } from "@/lib/utils";
 import useQueryParams from "@/hooks/useQueryParams";
 
-const FilterByCountry = () => {
-  const countryList = gulfCountries.map((country) => ({
-    id: country,
-    label: country,
-  }));
+type Props = {
+  countryList: {
+    id: string;
+    label: string;
+  }[];
+};
+
+const FilterByCountry = ({ countryList = [] }: Props) => {
+
   const { getParam } = useQueryParams();
   const countriesFilter = getParam("countriesFilter");
 

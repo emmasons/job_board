@@ -15,6 +15,7 @@ import {
 import PaginationControls from "@/components/search/PaginationControls";
 import CandidatesSkeleton from "@/components/find-candidates/CandidatesSkeleton";
 import { Suspense } from "react";
+import CandidateFilters from "@/components/find-candidates/CandidateFilters";
 
 const cvFaqs = [
   {
@@ -91,10 +92,15 @@ const page = async ({ searchParams }: SearchPageProps) => {
       )}
 
       {hasParams && (
-        <>
+        <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
-            <section className="mt-6 md:w-2/3">
-              <CandidateList candidates={items} candidateIds={candidateIds} />
+            <section className="mt-6 flex">
+              <div className="md:w-1/3">
+                <CandidateFilters />
+              </div>
+              <div className="md:w-2/3">
+                <CandidateList candidates={items} candidateIds={candidateIds} />
+              </div>
             </section>
           </Suspense>
           <PaginationControls
@@ -102,7 +108,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
             hasPrevPage={start > 0}
             totalPages={totalPages}
           />
-        </>
+        </div>
       )}
     </MaxWidthWrapper>
   );
