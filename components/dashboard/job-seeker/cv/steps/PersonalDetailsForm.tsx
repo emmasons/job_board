@@ -454,7 +454,7 @@ const PersonalDetailsForm = ({
                 <FormItem>
                   <FormControl>
                     <label className="text-sm flex flex-col w-80 gap-2">
-                      Alternate Contact Number
+                      Alternate Phone Number
                       <Input {...field} />
                     </label>
                   </FormControl>
