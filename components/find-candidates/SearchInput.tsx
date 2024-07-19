@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
+import useQueryParams from "@/hooks/useQueryParams";
 
 export const SearchInput = () => {
-  const [value, setValue] = useState("");
+  const { query, getParam, removeParam } = useQueryParams();
+  const [value, setValue] = useState(getParam("cvTitle") || "");
   const debouncedValue = useDebounce(value);
 
   const searchParams = useSearchParams();
@@ -18,19 +20,17 @@ export const SearchInput = () => {
   const currentCategoryId = searchParams.get("categoryId");
 
   useEffect(() => {
+    setValue(value);
+    query["cvTitle"] = debouncedValue;
     const url = qs.stringifyUrl(
       {
         url: pathname,
-        query: {
-          categoryId: currentCategoryId,
-          title: debouncedValue,
-        },
+        query: query,
       },
       { skipEmptyString: true, skipNull: true },
     );
-
     router.push(url);
-  }, [debouncedValue, currentCategoryId, router, pathname]);
+  }, [debouncedValue, currentCategoryId, router, pathname, value, query]);
 
   return (
     <div className="relative flex h-full items-center justify-center">
@@ -38,11 +38,11 @@ export const SearchInput = () => {
       <Input
         onChange={(e) => setValue(e.target.value)}
         value={value}
-        className="w-full rounded-full bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full"
+        className="w-full rounded-full bg-slate-100 py-6 pl-12 text-[0.8rem] focus-visible:ring-slate-200 md:w-full"
         placeholder="Eg: sales representative or any keyword"
       />
       <SearchX
-        className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform text-slate-600"
+        className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform cursor-pointer text-slate-600"
         onClick={() => setValue("")}
       />
     </div>

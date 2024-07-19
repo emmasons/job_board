@@ -20,11 +20,88 @@ type candidate =
     })
   | null;
 
-export const getAllCandidates = async (): Promise<candidate[]> => {
+type Params = {
+  cvTitle?: string;
+};
+export const getAllCandidates = async ({
+  cvTitle,
+}: Params): Promise<candidate[]> => {
   try {
     const candidates = await db.user.findMany({
       where: {
         role: Role.JOB_SEEKER,
+        OR: [
+          {
+            jobSeekerProfile: {
+              occupation: {
+                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              country: {
+                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              cvHeadLine: {
+                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              profileSummary: {
+                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              sector: {
+                label: {
+                  contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              skills: {
+                some: {
+                  skill: {
+                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              desiredJob: {
+                some: {
+                  designation: {
+                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                    mode: "insensitive",
+                  },
+                  industry: {
+                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+        ],
       },
       include: {
         profile: true,

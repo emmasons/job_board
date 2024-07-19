@@ -1,83 +1,109 @@
 import { getAllCandidates } from "@/actions/get-all-candidates";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
-import AddCandidateForm from "@/components/find-candidates/AddCandidateForm";
+import CandidateList from "@/components/find-candidates/CandidateList";
 import { SearchInput } from "@/components/find-candidates/SearchInput";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
-import {
-  Briefcase,
-  CheckCircle,
-  Flag,
-  GraduationCap,
-  UserSquareIcon,
-} from "lucide-react";
 import { redirect } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import PaginationControls from "@/components/search/PaginationControls";
+import CandidatesSkeleton from "@/components/find-candidates/CandidatesSkeleton";
+import { Suspense } from "react";
 
-const page = async () => {
+const cvFaqs = [
+  {
+    title: "How can I find CVs for free?",
+    description:
+      "JobsConnect's free CV search tool gives an instant preview of profiles you can hire immediately. Alternatively, you may request a free demo to see CVs of relevant candidates specific to your vacancy. For a customized and affordable recruitment solution within your budget, speak to a JobsConnect consultant on +971 4 561 1500.",
+  },
+  {
+    title: "How do I contact candidates?",
+    description:
+      "Once you've found relevant candidates, you can contact them directly through our platform. Simply click on the More details button on the candidate's profile page.",
+  },
+  {
+    title: "How do I search CVs on JobsConnect?",
+    description:
+      "On JobsConnect CV search, you can filter candidates by over 20 different criteria - including education, experience, industry, location, nationality, age and salary expectation. See JobsConnect’s free CV search tool for a preview of how this works.",
+  },
+  {
+    title: "What type of candidates can I find on JobsConnect?",
+    description:
+      "JobsConnect is one of the most popular recruitment platforms in the Middle East. It has a database of over 10 million professionals, both local as well as expatriate talent, covering all industries and job categories. Over 86% of the candidates hold a university degree, while their experience level ranges from fresh graduates to top management.",
+  },
+];
+
+interface SearchPageProps {
+  searchParams: Record<string, string | string[] | undefined>;
+}
+
+const page = async ({ searchParams }: SearchPageProps) => {
+  const hasParams = Object.keys(searchParams).length > 0;
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/auth/signup/employer?callBack=/find-candidates");
   }
-  const candidates = await getAllCandidates();
+  const candidates = await getAllCandidates({
+    ...searchParams,
+  });
   const candidateIds = await getEmployerCandidatesIds(user.id);
-  console.log(candidateIds);
+
+  const page = searchParams?.page ? searchParams?.page : "1";
+  const pageSize = searchParams?.pageSize ? searchParams?.pageSize : "10";
+  const start = (Number(page) - 1) * Number(pageSize); // 0, 5, 10 ...
+  const end = start + Number(pageSize); // 5, 10, 15 ...
+  const items = candidates.slice(start, end);
+  const totalPages = Math.ceil(candidates.length / Number(pageSize));
+
   return (
     <MaxWidthWrapper className="py-4">
-      <SearchInput />
-      <section className="mt-6 items-start gap-4 md:flex">
-        <div className="flex basis-2/3 flex-col gap-4">
-          {candidates?.map((candidate) => (
-            <div
-              key={candidate?.id}
-              className="rounded-md  p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]"
-            >
-              <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
-                <UserSquareIcon className="h-4 w-4 text-primary" />
-                {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
-                  candidate?.email}
-              </p>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <Flag className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.country || "N/A"}
-              </p>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <GraduationCap className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.education?.label || "N/A"}
-              </p>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <Briefcase className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.occupation || "N/A"}
-              </p>
-              {candidateIds.some(
-                ({ candidateId }) => candidateId === candidate?.id,
-              ) ? (
-                <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                  <CheckCircle className="h-4 w-4 text-primary" />
-                  Added to your list
-                </p>
-              ) : (
-                <>
-                  <AddCandidateForm candidateId={candidate?.id} />
-                </>
-              )}
-            </div>
-          ))}
-          {candidates && candidates.length === 0 && (
-            <div>No candidates found</div>
-          )}
+      <div className="flex flex-col items-center justify-between gap-4 rounded-md bg-sky-100 py-20">
+        <h1>CV Search</h1>
+        <p>
+          Search for the perfect candidate. Please enter one or more keywords
+          that will help us find relevant CVs.
+        </p>
+        <div className="w-2/3">
+          <SearchInput />
         </div>
-        <div className="basis-1/3">
-          <p className="text-sm font-semibold text-muted-foreground">
-            Search for the perfect candidate.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit beatae
-            quo harum nobis, repellendus esse exercitationem ipsam rem
-            perferendis dolorum.
-          </p>
+        <p>show more options</p>
+      </div>
+      {!hasParams && (
+        <div className="md:w-2/3">
+          <h2 className="my-6 text-2xl">Frequently Asked Questions</h2>
+          <Accordion type="single" collapsible defaultValue={cvFaqs[0].title}>
+            {cvFaqs.map((faq) => (
+              <AccordionItem value={faq.title} key={faq.title}>
+                <AccordionTrigger className="text-lg font-semibold text-primary">
+                  {faq.title}
+                </AccordionTrigger>
+                <AccordionContent>{faq.description}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
-      </section>
+      )}
+
+      {hasParams && (
+        <>
+          <Suspense fallback={<CandidatesSkeleton />}>
+            <section className="mt-6 md:w-2/3">
+              <CandidateList candidates={items} candidateIds={candidateIds} />
+            </section>
+          </Suspense>
+          <PaginationControls
+            hasNextPage={end < candidates.length}
+            hasPrevPage={start > 0}
+            totalPages={totalPages}
+          />
+        </>
+      )}
     </MaxWidthWrapper>
   );
 };
