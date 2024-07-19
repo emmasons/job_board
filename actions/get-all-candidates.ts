@@ -23,10 +23,12 @@ type candidate =
 type Params = {
   cvTitle?: string;
   countriesFilter?: string;
+  location?: string;
 };
 export const getAllCandidates = async ({
   cvTitle,
   countriesFilter,
+  location,
 }: Params): Promise<candidate[]> => {
   const countries = [];
   if (countriesFilter) {
