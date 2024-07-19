@@ -60,7 +60,7 @@ export const columns: ColumnDef<JobProp>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original;
+      const { id } = row.original.user;
 
       return (
         <DropdownMenu>

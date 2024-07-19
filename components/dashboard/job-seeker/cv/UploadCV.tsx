@@ -11,29 +11,33 @@ type Props = {
   cvFile: GCPData | null;
   title: String;
   description: String;
+  isJobSeekerComponent: Boolean;
 };
 
-const UploadCV = ({ cv, cvFile }: Props) => {
+const UploadCV = ({ cv, cvFile, isJobSeekerComponent = true }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
   return (
     <div className="space-y-4">
-      <Button onClick={toggleEdit} variant="ghost">
-        {isEditing && <>Cancel</>}
-        {!isEditing && !cvFile && (
-          <>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Upload CV
-          </>
-        )}
-        {!isEditing && cvFile && (
-          <>
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit CV
-          </>
-        )}
-      </Button>
+      {isJobSeekerComponent && (
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing && <>Cancel</>}
+          {!isEditing && !cvFile && (
+            <>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Upload CV
+            </>
+          )}
+          {!isEditing && cvFile && (
+            <>
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit CV
+            </>
+          )}
+        </Button>
+      )}
+
       {!isEditing &&
         (!cvFile ? (
           <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">

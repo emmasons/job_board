@@ -14,33 +14,42 @@ type Props = {
   experienceList: ComboProps;
   title: String;
   profilePercentage: Number;
+  description: String | null;
+  isJobSeekerComponent: Boolean;
 };
 
-const JobSeekerProfileUpdate = ({ profile, title, ...rest }: Props) => {
+const JobSeekerProfileUpdate = ({
+  profile,
+  title,
+  isJobSeekerComponent = true,
+  ...rest
+}: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
   const { profilePercentage } = rest;
-    const percentage = profile ? 0 : profilePercentage;
+  const percentage = profile ? 0 : profilePercentage;
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between px-6">
         <h3 className="font-semibold">{title}</h3>
-        <Button onClick={toggleEdit} variant="ghost" className="">
-          {isEditing && <>Cancel</>}
-          {!isEditing && !profile && (
-            <>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Create Profile
-            </>
-          )}
-          {!isEditing && profile && (
-            <>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit Profile
-            </>
-          )}
-        </Button>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost" className="">
+            {isEditing && <>Cancel</>}
+            {!isEditing && !profile && (
+              <>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Create Profile
+              </>
+            )}
+            {!isEditing && profile && (
+              <>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit Profile
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing &&
         (!profile ? (
@@ -50,7 +59,6 @@ const JobSeekerProfileUpdate = ({ profile, title, ...rest }: Props) => {
         ) : (
           <div className="relative mt-2">
             <div className="p-6">
-              <h3 className="mb-4 font-semibold">Your Profile</h3>
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Occupation:</span>{" "}
                 {profile.occupation}

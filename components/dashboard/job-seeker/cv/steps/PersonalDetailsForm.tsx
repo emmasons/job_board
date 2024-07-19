@@ -8,8 +8,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button";
-import Link from "next/link"
-import { Calendar } from "@/components/ui/calendar"
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -37,7 +36,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { PersonalDetails } from "@prisma/client";
 
 type Props = {
   title: string;
@@ -53,6 +51,7 @@ type Props = {
   religion: string;
   alternateEmail: string;
   alternateContactNumber: string;
+  isJobSeekerComponent: Boolean;
 };
 
 const PersonalDetailsForm = ({
@@ -68,6 +67,7 @@ const PersonalDetailsForm = ({
   religion,
   alternateEmail,
   alternateContactNumber,
+  isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
@@ -173,17 +173,16 @@ const PersonalDetailsForm = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch(`/api/job-seeker/profile/${profileId}/personalDetails`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `/api/job-seeker/profile/${profileId}/personalDetails`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
         },
-        body: JSON.stringify({
-          ...values, 
-          dateOfBirth: values.dateOfBirth.toISOString(),
-        }),
-        
-      });
+      );
 
       const response = await res.json();
       if (!res.ok) {
@@ -215,24 +214,28 @@ const PersonalDetailsForm = ({
     <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
-          <p className="text-xl font-semibold font-sans">{title}</p>
-          <p className="text-sm py-2 text-zinc-500">
+          <p className="font-sans text-xl font-semibold">{title}</p>
+          <p className="py-2 text-sm text-zinc-500">
             Outline your professional career to Employers
           </p>
         </div>
-
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? "Cancel" : <>
-            <Pencil className="mr-2 h-4 w-4" />
-            Edit
-          </>}
-        </Button>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              "Cancel"
+            ) : (
+              <>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && <p className="mt-2 text-sm"> Add Initial data here </p>}
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
             {/* date of birth */}
             <FormField
           control={form.control}
@@ -243,43 +246,24 @@ const PersonalDetailsForm = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+                    <label className="text-sm">
+                      Date of Birth
+                      <Input
+                        type="date"
+                        disabled={isSubmitting}
+                        placeholder="DD/MM/YYYY"
+                        className="w-44 text-center uppercase"
+                        {...field}
+                      />
+                    </label>
                   </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
-                Your date of birth is used to calculate your age.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* Gender fields */}
+
             <FormField
               control={form.control}
               name="gender"
@@ -294,19 +278,15 @@ const PersonalDetailsForm = ({
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="male" />
+                          <RadioGroupItem value="all" />
                         </FormControl>
-                        <FormLabel className="font-normal">
-                          Male
-                        </FormLabel>
+                        <FormLabel className="font-normal">Male</FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="female" />
+                          <RadioGroupItem value="mentions" />
                         </FormControl>
-                        <FormLabel className="font-normal">
-                          Female
-                        </FormLabel>
+                        <FormLabel className="font-normal">Female</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -316,13 +296,17 @@ const PersonalDetailsForm = ({
             />
 
             {/* Nationality field */}
+
             <FormField
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem className="w-80">
+                <FormItem className="w-80 ">
                   <FormLabel>Nationality</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select your nationality" />
@@ -344,9 +328,12 @@ const PersonalDetailsForm = ({
               control={form.control}
               name="maritalStatus"
               render={({ field }) => (
-                <FormItem className="w-80">
+                <FormItem className="w-80 ">
                   <FormLabel>Marital Status</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select your marital status" />
@@ -356,9 +343,10 @@ const PersonalDetailsForm = ({
                       <SelectItem value="single">Single</SelectItem>
                       <SelectItem value="married">Married</SelectItem>
                       <SelectItem value="divorced">Divorced</SelectItem>
-                      <SelectItem value="widow">Widow(er)</SelectItem>
+                      <SelectItem value="widow">widow(er)</SelectItem>
                     </SelectContent>
                   </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -369,7 +357,7 @@ const PersonalDetailsForm = ({
               control={form.control}
               name="drivingLicense"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-4">
+                <FormItem className="pY-4 flex flex-row items-start space-x-3  space-y-0">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -377,9 +365,7 @@ const PersonalDetailsForm = ({
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Do you have a driving licence
-                    </FormLabel>
+                    <FormLabel>Do you have a driving licence</FormLabel>
                   </div>
                 </FormItem>
               )}
@@ -392,7 +378,7 @@ const PersonalDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80 gap-2">
+                    <label className="flex w-80 flex-col gap-2 text-sm">
                       Current Location
                       <Input {...field} />
                     </label>
@@ -409,7 +395,7 @@ const PersonalDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80 gap-2">
+                    <label className="flex w-80 flex-col gap-2 text-sm">
                       Languages known
                       <Input {...field} />
                     </label>
@@ -420,60 +406,44 @@ const PersonalDetailsForm = ({
             />
 
             {/* Visa Status */}
-            <FormField
-              control={form.control}
-              name="visaStatus"
-              render={({ field }) => (
-                <FormItem className="w-80">
-                  <FormLabel>Visa Status</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Visa status" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="visit">Visit Visa / Transit Visa</SelectItem>
-                      <SelectItem value="student">Student Visa</SelectItem>
-                      <SelectItem value="employment">Employment Visa - Mainland</SelectItem>
-                      <SelectItem value="freezone">Employment Visa - Freezone</SelectItem>
-                      <SelectItem value="golden">Golden Visa</SelectItem>
-                      <SelectItem value="dependent">Dependent Visa / Family Visa</SelectItem>
-                      <SelectItem value="national">GCC National Visa</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* religion */}
 
             <FormField
               control={form.control}
               name="religion"
               render={({ field }) => (
                 <FormItem className="w-80">
-                  <FormLabel>Religion</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormLabel>Visa</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Your Faith" />
+                        <SelectValue placeholder="Visa status" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-
-                      <SelectItem value="islam">Islam</SelectItem>
-                      <SelectItem value="christianity">Christianity</SelectItem>
-                      <SelectItem value="hinduism">Hinduism</SelectItem>
-                      <SelectItem value="budhhism">Budhhism</SelectItem>
-                      <SelectItem value="sikhism">Sikhism</SelectItem>
-                      <SelectItem value="jainism">Jainism</SelectItem>
-                      <SelectItem value="zoroastrianism">Zoroastrianism</SelectItem>
+                      <SelectItem value="cisit">
+                        Visit Visa / Transit Visa
+                      </SelectItem>
+                      <SelectItem value="student">Student Visa</SelectItem>
+                      <SelectItem value="employment">
+                        Employment Visa - Mainland
+                      </SelectItem>
+                      <SelectItem value="freezone">
+                        Employment Visa - Freezone
+                      </SelectItem>
+                      <SelectItem value="golden">Golden Visa</SelectItem>
+                      <SelectItem value="dependent">
+                        Dependent Visa / Family Visa
+                      </SelectItem>
+                      <SelectItem value="national">
+                        GCC National Visa
+                      </SelectItem>
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -485,7 +455,7 @@ const PersonalDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80 gap-2">
+                    <label className="flex w-80 flex-col gap-2 text-sm">
                       Alternate Email Address
                       <Input type="email" {...field} />
                     </label>
@@ -502,8 +472,8 @@ const PersonalDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <label className="text-sm flex flex-col w-80 gap-2">
-                      Alternate Phone Number
+                    <label className="flex w-80 flex-col gap-2 text-sm">
+                      Alternate Contact Number
                       <Input {...field} />
                     </label>
                   </FormControl>
@@ -511,18 +481,12 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-            <div className="flex items-center gap-x-2">
-              {loading ? (
-                <Button type="submit" disabled>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
-                </Button>
-              ) : (
-                <Button disabled={isSubmitting} type="submit">
-                  {isEditing ? "Save" : "Create"}
-                </Button>
+            <Button type="submit">
+              {isSubmitting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-            </div>
+              Save
+            </Button>
           </form>
         </Form>
       )}

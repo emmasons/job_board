@@ -15,6 +15,7 @@ export const getJobSeekerProfile = async (
         skills: true,
       },
     });
+    console.log("profile", profile);
     if (!profile)
       profile = await db.jobSeekerProfile.create({
         data: { userId: jobSeekerId },

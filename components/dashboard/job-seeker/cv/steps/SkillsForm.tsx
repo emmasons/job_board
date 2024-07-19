@@ -23,9 +23,16 @@ type Props = {
   title: string;
   profileId: string;
   skills: Skill[];
+  description: String;
+  isJobSeekerComponent: boolean;
 };
 
-const SkillsForm = ({ title, profileId, skills }: Props) => {
+const SkillsForm = ({
+  title,
+  profileId,
+  skills,
+  isJobSeekerComponent = true,
+}: Props) => {
   const [skillList, setSkillList] = useState(skills);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -97,18 +104,25 @@ const SkillsForm = ({ title, profileId, skills }: Props) => {
   // delete function
   const deleteSkill = async (skillId: string) => {
     try {
-      const res = await fetch(`/api/job-seeker/profile/${profileId}/skills/${skillId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `/api/job-seeker/profile/${profileId}/skills/${skillId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
-      const isJson = res.headers.get("content-type")?.includes("application/json");
+      const isJson = res.headers
+        .get("content-type")
+        ?.includes("application/json");
       const response = isJson ? await res.json() : null;
 
       if (!res.ok) {
-        const errorMessage = response ? response.message : 'An unexpected error occurred';
+        const errorMessage = response
+          ? response.message
+          : "An unexpected error occurred";
         toast({
           variant: "destructive",
           title: "Error",
@@ -121,7 +135,7 @@ const SkillsForm = ({ title, profileId, skills }: Props) => {
           description: "Skill deleted successfully.",
           className: "bg-green-500",
         });
-        setSkillList(skillList.filter(skill => skill.id !== skillId));
+        setSkillList(skillList.filter((skill) => skill.id !== skillId));
         router.refresh();
       }
     } catch (error) {
@@ -139,21 +153,24 @@ const SkillsForm = ({ title, profileId, skills }: Props) => {
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
           <p>{title}</p>
-          <p className="text-sm text-zinc-500">
-            Add skills to help us match you with qualified professionals.
-          </p>
-        </div>
-
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Plus className="mr-2 h-4 w-4" />
-              Add
-            </>
+          {isJobSeekerComponent && (
+            <p className="text-sm text-zinc-500">
+              Add skills to help us match you with qualified professionals.
+            </p>
           )}
-        </Button>
+        </div>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                Add
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {isEditing && (
         <Form {...form}>
@@ -188,12 +205,18 @@ const SkillsForm = ({ title, profileId, skills }: Props) => {
       {skillList && (
         <div className="mt-4 flex flex-wrap gap-2">
           {skillList.map((skill) => (
-            <Badge key={skill.id} variant="outline" className="flex items-center">
+            <Badge
+              key={skill.id}
+              variant="outline"
+              className="flex items-center"
+            >
               {skill.skill}
-              <Trash
-                className="ml-2 h-3 w-4 text-slate-600 cursor-pointer"
-                onClick={() => deleteSkill(skill.id)}
-              />
+              {isJobSeekerComponent && (
+                <Trash
+                  className="ml-2 h-3 w-4 cursor-pointer text-slate-600"
+                  onClick={() => deleteSkill(skill.id)}
+                />
+              )}
             </Badge>
           ))}
         </div>

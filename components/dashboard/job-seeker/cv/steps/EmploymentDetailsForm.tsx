@@ -28,6 +28,7 @@ type Props = {
   location?: string;
   description?: string;
   profilePercentage: number;
+  isJobSeekerComponent: Boolean;
 };
 
 const EmploymentDetailsForm = ({
@@ -38,9 +39,12 @@ const EmploymentDetailsForm = ({
   location,
   description,
   profilePercentage,
+  isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingItem, setEditingItem] = useState<EmploymentDetails | null>(null);
+  const [editingItem, setEditingItem] = useState<EmploymentDetails | null>(
+    null,
+  );
   const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>([]);
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -51,7 +55,9 @@ const EmploymentDetailsForm = ({
   useEffect(() => {
     async function fetchEmployments() {
       try {
-        const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails`);
+        const res = await fetch(
+          `/api/job-seeker/profile/${profileId}/employmentDetails`,
+        );
         if (!res.ok) {
           throw new Error("Failed to fetch employment details");
         }
@@ -97,13 +103,23 @@ const EmploymentDetailsForm = ({
   });
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const years = Array.from(
     { length: currentYear - 1990 + 1 },
-    (_, index) => currentYear - index
+    (_, index) => currentYear - index,
   );
 
   const { isSubmitting, isValid, errors } = form.formState;
@@ -127,9 +143,12 @@ const EmploymentDetailsForm = ({
 
   const handleDelete = async (employmentId: string) => {
     try {
-      const res = await fetch(`/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!res.ok) {
         const response = await res.json();
@@ -145,7 +164,9 @@ const EmploymentDetailsForm = ({
           description: "Employment detail deleted successfully.",
           className: "bg-green-500",
         });
-        setEmploymentList((prev) => prev.filter((item) => item.id !== employmentId));
+        setEmploymentList((prev) =>
+          prev.filter((item) => item.id !== employmentId),
+        );
       }
     } catch (error) {
       toast({
@@ -186,7 +207,7 @@ const EmploymentDetailsForm = ({
         });
         if (editingItem) {
           setEmploymentList((prev) =>
-            prev.map((item) => (item.id === response.id ? response : item))
+            prev.map((item) => (item.id === response.id ? response : item)),
           );
         } else {
           setEmploymentList([...employmentList, response]);
@@ -205,7 +226,11 @@ const EmploymentDetailsForm = ({
   }
 
   // Function to calculate total months between two dates and format as "x Years, y Months"
-  const calculateTotalMonths = (startDate: string, endDate: string | null, currentlyWorking: boolean): string => {
+  const calculateTotalMonths = (
+    startDate: string,
+    endDate: string | null,
+    currentlyWorking: boolean,
+  ): string => {
     const start = new Date(startDate);
     let end: Date;
 
@@ -243,21 +268,25 @@ const EmploymentDetailsForm = ({
     <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
-          <p className="text-xl font-semibold font-sans">{title}</p>
-          <p className="text-sm py-2 text-zinc-500">
-            Outline your professional career to Employers
-          </p>
-        </div>
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? "Cancel" : (
-            <>
-             <PlusCircle className="mr-2 h-4 w-4" />
-            Add
-             
-              
-            </>
+          <p className="font-sans text-xl font-semibold">{title}</p>
+          {isJobSeekerComponent && (
+            <p className="py-2 text-sm text-zinc-500">
+              Outline your professional career to Employers
+            </p>
           )}
-        </Button>
+        </div>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              "Cancel"
+            ) : (
+              <>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {isEditing && (
         <Form {...form}>
@@ -342,7 +371,7 @@ const EmploymentDetailsForm = ({
                 </FormItem>
               )}
             />
-            <div className="flex flex-wrap text-slate-400 gap-4">
+            <div className="flex flex-wrap gap-4 text-slate-400">
               <FormField
                 control={form.control}
                 name="startMonth"
@@ -352,7 +381,7 @@ const EmploymentDetailsForm = ({
                       <label className="text-sm">
                         <select
                           disabled={isSubmitting}
-                          className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
+                          className="mt-1 w-32 rounded-md border bg-white p-2 outline-none"
                           {...field}
                         >
                           <option value="">Select Month</option>
@@ -377,7 +406,7 @@ const EmploymentDetailsForm = ({
                       <label className="text-sm">
                         <select
                           disabled={isSubmitting}
-                          className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
+                          className="mt-1 w-32 rounded-md border bg-white p-2 outline-none"
                           {...field}
                         >
                           <option value="">Select Year</option>
@@ -395,7 +424,7 @@ const EmploymentDetailsForm = ({
               />
               {!currentlyWorking && (
                 <>
-                  <span className="text-sm pt-3">to</span>
+                  <span className="pt-3 text-sm">to</span>
                   <FormField
                     control={form.control}
                     name="endMonth"
@@ -405,8 +434,8 @@ const EmploymentDetailsForm = ({
                           <label className="text-sm">
                             <select
                               disabled={isSubmitting}
-                              className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
-                              {...field} 
+                              className="mt-1 w-32 rounded-md border bg-white p-2 outline-none"
+                              {...field}
                             >
                               <option value="">Select Month</option>
                               {months.map((month) => (
@@ -430,7 +459,7 @@ const EmploymentDetailsForm = ({
                           <label className="text-sm">
                             <select
                               disabled={isSubmitting}
-                              className="mt-1 p-2 w-32 border bg-white rounded-md outline-none"
+                              className="mt-1 w-32 rounded-md border bg-white p-2 outline-none"
                               {...field}
                             >
                               <option value="">Select Year</option>
@@ -460,7 +489,7 @@ const EmploymentDetailsForm = ({
                       <textarea
                         disabled={isSubmitting}
                         placeholder="Tell us more about your job role"
-                        className="mt-1 p-2 w-full border rounded-md outline-none"
+                        className="mt-1 w-full rounded-md border p-2 outline-none"
                         rows={4}
                         {...field}
                       />
@@ -471,8 +500,14 @@ const EmploymentDetailsForm = ({
               )}
             />
             <div className="flex gap-5">
-              <Button type="submit" disabled={isSubmitting || !isValid} className="rounded-3xl">
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button
+                type="submit"
+                disabled={isSubmitting || !isValid}
+                className="rounded-3xl"
+              >
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 {editingItem ? "Save" : "Add Employment"}
               </Button>
               {editingItem && (
@@ -488,52 +523,66 @@ const EmploymentDetailsForm = ({
         </Form>
       )}
       <div className="my-4">
-        <p className="text-lg font-semibold mb-4">Employment History</p>
+        <p className="mb-4 text-lg font-semibold">Employment History</p>
         {employmentList.length > 0 ? (
           employmentList.map((employment) => (
-            <div key={employment.id} className="flex justify-between py-4 mb-2 border-b ">
+            <div
+              key={employment.id}
+              className="mb-2 flex justify-between border-b py-4 "
+            >
               <div className="flex items-center gap-6">
-                <div className="p-4 rounded-full bg-blue-50 ">
-                <Briefcase className="h-6 "/>
+                <div className="rounded-full bg-blue-50 p-4 ">
+                  <Briefcase className="h-6 " />
                 </div>
-                
+
                 <div>
                   <p className="font-medium">{employment.designation}</p>
                   <span className="flex gap-2">
-                    <p className="text-sm text-zinc-700">{employment.company},</p>
-                    <p className="text-sm text-zinc-700">{employment.location}</p>
+                    <p className="text-sm text-zinc-700">
+                      {employment.company},
+                    </p>
+                    <p className="text-sm text-zinc-700">
+                      {employment.location}
+                    </p>
                   </span>
                   <p className="text-sm text-gray-600">
                     {employment.startMonth} {employment.startYear} -{" "}
                     {employment.currentlyWorking
                       ? "Present"
-                      : `${employment.endMonth} ${employment.endYear}`}
-                    {" "}
-                    ({calculateTotalMonths(
+                      : `${employment.endMonth} ${employment.endYear}`}{" "}
+                    (
+                    {calculateTotalMonths(
                       `${employment.startMonth} 1, ${employment.startYear}`,
-                      employment.currentlyWorking ? null : `${employment.endMonth} 1, ${employment.endYear}`,
                       employment.currentlyWorking
-                    )})
+                        ? null
+                        : `${employment.endMonth} 1, ${employment.endYear}`,
+                      employment.currentlyWorking,
+                    )}
+                    )
                   </p>
-                  <p className="pt-4 text-sm text-zinc-700">{employment.description}</p>
+                  <p className="pt-4 text-sm text-zinc-700">
+                    {employment.description}
+                  </p>
                 </div>
               </div>
-               
-              
-              <div className="flex items-start gap-2">
-                <Button
-                  variant="ghost"
-                  onClick={() => handleEdit(employment)}
-                >
-                  Edit
-                  <Pencil className="h-3"/>
 
-                </Button>
+              <div className="flex items-start gap-2">
+                {isJobSeekerComponent && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleEdit(employment)}
+                  >
+                    Edit
+                    <Pencil className="h-3" />
+                  </Button>
+                )}
               </div>
             </div>
           ))
         ) : (
-          <p className="text-sm text-zinc-500">No employment history available.</p>
+          <p className="text-sm text-zinc-500">
+            No employment history available.
+          </p>
         )}
       </div>
     </div>

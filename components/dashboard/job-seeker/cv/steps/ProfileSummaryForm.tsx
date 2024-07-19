@@ -17,7 +17,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Pencil } from "lucide-react";
 import { useState } from "react";
 
-
 type Props = {
   title: String;
   description: String;
@@ -26,13 +25,15 @@ type Props = {
   initialData: {
     profileSummary: string | null;
   };
+  isJobSeekerComponent: Boolean;
 };
 
-const ProfileSummaryForm = ({ 
-    title, 
-    profileId, 
-    profilePercentage, 
-    initialData 
+const ProfileSummaryForm = ({
+  title,
+  profileId,
+  profilePercentage,
+  initialData,
+  isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -51,9 +52,9 @@ const ProfileSummaryForm = ({
   });
 
   const percentage =
-  initialData.profileSummary && initialData.profileSummary.trim() !== ""
-    ? 0
-    : profilePercentage;
+    initialData.profileSummary && initialData.profileSummary.trim() !== ""
+      ? 0
+      : profilePercentage;
 
   const { isSubmitting, isValid, errors } = form.formState;
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -64,11 +65,11 @@ const ProfileSummaryForm = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            ...values,
-            profilePercentage: percentage,
-          }),
-        });
-        
+          ...values,
+          profilePercentage: percentage,
+        }),
+      });
+
       const response = await res.json();
       console.log(response);
       if (!res.ok) {
@@ -102,23 +103,30 @@ const ProfileSummaryForm = ({
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
           <p>{title}</p>
-          <p className="text-sm text-zinc-500">
-            Outline the key highlights of your professional career to Employers
-          </p>
+          {isJobSeekerComponent && (
+            <p className="text-sm text-zinc-500">
+              Outline the key highlights of your professional career to
+              Employers
+            </p>
+          )}
         </div>
 
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
-      {!isEditing && <p className="mt-2 text-sm">{initialData.profileSummary}</p>}
+      {!isEditing && (
+        <p className="mt-2 text-sm">{initialData.profileSummary}</p>
+      )}
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

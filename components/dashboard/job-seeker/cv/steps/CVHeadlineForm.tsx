@@ -25,6 +25,7 @@ type Props = {
     cvHeadLine: string | null;
   };
   profileId: string;
+  isJobSeekerComponent: boolean;
 };
 
 const CVHeadlineForm = ({
@@ -32,6 +33,7 @@ const CVHeadlineForm = ({
   profilePercentage,
   initialData,
   profileId,
+  isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -99,21 +101,24 @@ const CVHeadlineForm = ({
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
           <p>{title}</p>
-          <p className="text-sm text-zinc-500">
-            Keep it updated for better job opportunities
-          </p>
-        </div>
-
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </>
+          {isJobSeekerComponent && (
+            <p className="text-sm text-zinc-500">
+              Keep it updated for better job opportunities
+            </p>
           )}
-        </Button>
+        </div>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && <p className="mt-2 text-sm">{initialData.cvHeadLine}</p>}
       {isEditing && (
