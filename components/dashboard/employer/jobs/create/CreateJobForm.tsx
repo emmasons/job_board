@@ -28,6 +28,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
+import { JOBTYPE } from "@prisma/client";
 
 interface CreateJobFormProps {
   initialData: {
@@ -93,7 +94,15 @@ const formSchema = z.object({
   salary: z.string().min(1, {
     message: "Salary is required",
   }),
+  jobType: z.string().min(1, {
+    message: "Job type is required",
+  }),
 });
+
+const jobTypes = Object.values(JOBTYPE).map((type) => ({
+  value: type,
+  label: type,
+}));
 
 export default function CreateJobForm({
   initialData,
@@ -292,6 +301,19 @@ export default function CreateJobForm({
                       placeholder="City: e.g. 'Melbourne'"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="jobType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Type of Job</FormLabel>
+                  <FormControl>
+                    <Combobox options={jobTypes} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

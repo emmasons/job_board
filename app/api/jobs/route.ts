@@ -29,6 +29,7 @@ export async function POST(req: Request) {
         ownerId: userId,
         companyId: company.id,
         numberOfPositions: parseInt(numberOfPositions),
+        published: true,
         ...remainingValues,
       },
     });

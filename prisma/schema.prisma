@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model JobSeekerProfile {
   id                String              @id @default(cuid())
   userId            String              @unique
@@ -26,37 +25,38 @@ model JobSeekerProfile {
   user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   skills            Skill[]
   desiredJob        DesiredJob[]
-  personalDetails    PersonalDetails[]     
+  personalDetails   PersonalDetails[]
 }
 
 model DesiredJob {
-  id                  String   @id @default(cuid())
-  designation         String
-  location            String
-  industry            String
-  jobSeekerProfileId  String
-  profile             JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                 String           @id @default(cuid())
+  designation        String
+  location           String
+  industry           String
+  jobSeekerProfileId String
+  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
 }
 
 model EmploymentDetails {
-  id                     String             @id @default(cuid())
-  designation            String?
-  company                String?
-  location               String?
-  description            String?
-  currentlyWorking       Boolean            @default(false)
-  startMonth             String
-  startYear              String
-  endMonth               String?
-  endYear                String?
-  jobSeekerProfileId     String             
-  profile                JobSeekerProfile   @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  id                 String           @id @default(cuid())
+  designation        String?
+  company            String?
+  location           String?
+  description        String?
+  currentlyWorking   Boolean          @default(false)
+  startMonth         String
+  startYear          String
+  endMonth           String?
+  endYear            String?
+  jobSeekerProfileId String
+  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
 model PersonalDetails {
-  id                     String   @id @default(cuid())
+  id                     String           @id @default(cuid())
+  profileId              String
   dateOfBirth            DateTime
   gender                 String
   nationality            String
@@ -68,9 +68,9 @@ model PersonalDetails {
   religion               String?
   alternateEmail         String?
   alternateContactNumber String?
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
-  jobSeekerProfileId     String   
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  jobSeekerProfileId     String
   profile                JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
@@ -204,6 +204,11 @@ model Company {
   Job          Job[]
 }
 
+enum JOBTYPE {
+  NORMAL
+  WALK_IN_INTERVIEW
+}
+
 model Job {
   id                String          @id @default(cuid())
   title             String
@@ -235,6 +240,7 @@ model Job {
   owner             User?           @relation(fields: [ownerId], references: [id])
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
+  jobType           JOBTYPE         @default(NORMAL)
 }
 
 model Application {
