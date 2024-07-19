@@ -16,6 +16,7 @@ import PaginationControls from "@/components/search/PaginationControls";
 import CandidatesSkeleton from "@/components/find-candidates/CandidatesSkeleton";
 import { Suspense } from "react";
 import CandidateFilters from "@/components/find-candidates/CandidateFilters";
+import RemoveSearchParam from "@/components/search/RemoveSearchParam";
 
 const cvFaqs = [
   {
@@ -73,7 +74,17 @@ const page = async ({ searchParams }: SearchPageProps) => {
         <div className="w-2/3">
           <SearchInput />
         </div>
-        <p>show more options</p>
+        <RemoveSearchParam />
+        {!hasParams && (
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Show more search options</AccordionTrigger>
+              <AccordionContent>
+                <CandidateFilters />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
       </div>
       {!hasParams && (
         <div className="md:w-2/3">
