@@ -4,8 +4,12 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import Link from "next/link"
+import { Calendar } from "@/components/ui/calendar"
 import {
   Form,
   FormControl,
@@ -15,6 +19,11 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -22,18 +31,17 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-
- } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { PersonalDetails } from "@prisma/client";
 
 type Props = {
   title: string;
   profileId: string;
-  dateOfBirth: string;
   gender: string;
   nationality: string;
   maritalStatus: string;
@@ -49,7 +57,6 @@ type Props = {
 const PersonalDetailsForm = ({
   title,
   profileId,
-  dateOfBirth,
   gender,
   nationality,
   maritalStatus,
@@ -62,40 +69,62 @@ const PersonalDetailsForm = ({
   alternateContactNumber,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
 
   const formSchema = z.object({
-    dateOfBirth: z.string().nonempty("Date of Birth is required"),
+    dateOfBirth: z.date({required_error: "A date of birth is required.", }),
     gender: z.string().nonempty("Gender is required"),
     nationality: z.string().nonempty("Nationality is required"),
     maritalStatus: z.string().nonempty("Marital Status is required"),
     drivingLicense: z.boolean(),
     currentLocation: z.string().nonempty("Current Location is required"),
-    languagesKnown: z.string().nonempty("Atleast 1 languange is required"),
+    languagesKnown: z.string().nonempty("At least 1 language is required"),
     visaStatus: z.string().nonempty("Visa Status is required"),
     religion: z.string().optional(),
     alternateEmail: z.string().email().optional(),
     alternateContactNumber: z.string().optional(),
   });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dateOfBirth: dateOfBirth || "",
-      gender: gender || "",
-      nationality: nationality || "",
-      maritalStatus: maritalStatus || "",
-      drivingLicense: drivingLicense,
-      currentLocation: currentLocation || "",
-      languagesKnown: languagesKnown || "",
-      visaStatus: visaStatus || "",
-      religion: religion || "",
-      alternateEmail: alternateEmail || "",
-      alternateContactNumber: alternateContactNumber || "",
+      dateOfBirth: "",
+      gender: "",
+      nationality: "",
+      maritalStatus: "",
+      drivingLicense: false,
+      currentLocation: "",
+      languagesKnown: "",
+      visaStatus: "",
+      religion: "",
+      alternateEmail: "",
+      alternateContactNumber: "",
     },
   });
-  const { isSubmitting, isValid, errors } = form.formState;
+
+  const handleEdit = (personal: PersonalDetails) => {
+    setEditingItem(personal);
+    form.reset({
+      dateOfBirth: personal.dateOfBirth,
+      gender: personal.gender,
+      nationality: personal.nationality || "",
+      maritalStatus: personal.maritalStatus || "",
+      drivingLicense: personal.drivingLicense,
+      currentLocation: personal.currentLocation || "",
+      languagesKnown: personal.languagesKnown || "",
+      visaStatus: personal.visaStatus || "",
+      religion: personal.religion || "",
+      alternateEmail: personal.alternateEmail || "",
+      alternateContactNumber: personal.alternateContactNumber || "",
+    });
+    setIsEditing(true);
+  };
+
+  const { handleSubmit, formState: { isSubmitting, isValid, errors } } = form;
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -157,126 +186,141 @@ const PersonalDetailsForm = ({
 
             {/* date of birth */}
             <FormField
-              control={form.control}
-              name="dateOfBirth"
-              render={({ field }) => (
-                <FormItem>
+          control={form.control}
+          name="dateOfBirth"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date of birth</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
                   <FormControl>
-                    <label className="text-sm">
-                      Date of Birth
-                      <Input
-                        type="date"
-                        disabled={isSubmitting}
-                        placeholder="DD/MM/YYYY"
-                        className="w-44 uppercase text-center"
-                        {...field}
-                      />
-                    </label>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                Your date of birth is used to calculate your age.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+            {/* Gender fields */}
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Gender</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex  space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="male" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Male
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="female" />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Female
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Gender fields */}
-
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Gender</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex  space-y-1"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="all" />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        Male
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="mentions" />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        Female
-                      </FormLabel>
-                    </FormItem>
-                    
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Nationality field */}
-
+            {/* Nationality field */}
             <FormField
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem className="w-80 ">
-              <FormLabel>Nationality</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your nationality" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="kenya">Kenya</SelectItem>
-                  <SelectItem value="saudi">Saudi Arabia</SelectItem>
-                  <SelectItem value="tanzania">Tanzania</SelectItem>
-                </SelectContent>
-              </Select>
-      
-              <FormMessage />
-            </FormItem>
+                <FormItem className="w-80">
+                  <FormLabel>Nationality</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your nationality" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="kenya">Kenya</SelectItem>
+                      <SelectItem value="saudi">Saudi Arabia</SelectItem>
+                      <SelectItem value="tanzania">Tanzania</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
               )}
             />
 
             {/* marital status */}
-
             <FormField
               control={form.control}
-              name="nationality"
+              name="maritalStatus"
               render={({ field }) => (
-                <FormItem className="w-80 ">
-              <FormLabel>Marital Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your marital status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="single">Single</SelectItem>
-                  <SelectItem value="married">Married</SelectItem>
-                  <SelectItem value="divorced">Divorced</SelectItem>
-                  <SelectItem value="widow">widow(er)</SelectItem>
-
-                </SelectContent>
-              </Select>
-      
-              <FormMessage />
-            </FormItem>
+                <FormItem className="w-80">
+                  <FormLabel>Marital Status</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your marital status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="single">Single</SelectItem>
+                      <SelectItem value="married">Married</SelectItem>
+                      <SelectItem value="divorced">Divorced</SelectItem>
+                      <SelectItem value="widow">Widow(er)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
               )}
             />
 
             {/* Driving licence */}
-
             <FormField
               control={form.control}
               name="drivingLicense"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0  pY-4">
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-4">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -287,7 +331,6 @@ const PersonalDetailsForm = ({
                     <FormLabel>
                       Do you have a driving licence
                     </FormLabel>
-                  
                   </div>
                 </FormItem>
               )}
@@ -311,7 +354,6 @@ const PersonalDetailsForm = ({
             />
 
             {/* Languages */}
-
             <FormField
               control={form.control}
               name="languagesKnown"
@@ -328,41 +370,66 @@ const PersonalDetailsForm = ({
               )}
             />
 
-
             {/* Visa Status */}
-          
+            <FormField
+              control={form.control}
+              name="visaStatus"
+              render={({ field }) => (
+                <FormItem className="w-80">
+                  <FormLabel>Visa Status</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Visa status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="visit">Visit Visa / Transit Visa</SelectItem>
+                      <SelectItem value="student">Student Visa</SelectItem>
+                      <SelectItem value="employment">Employment Visa - Mainland</SelectItem>
+                      <SelectItem value="freezone">Employment Visa - Freezone</SelectItem>
+                      <SelectItem value="golden">Golden Visa</SelectItem>
+                      <SelectItem value="dependent">Dependent Visa / Family Visa</SelectItem>
+                      <SelectItem value="national">GCC National Visa</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* religion */}
+
             <FormField
               control={form.control}
               name="religion"
               render={({ field }) => (
                 <FormItem className="w-80">
-                  <FormLabel>Visa</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Visa status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="cisit">Visit Visa / Transit Visa</SelectItem>
-                        <SelectItem value="student">Student Visa</SelectItem>
-                        <SelectItem value="employment">Employment Visa - Mainland</SelectItem>
-                        <SelectItem value="freezone">Employment Visa - Freezone</SelectItem>
-                        <SelectItem value="golden">Golden Visa</SelectItem>
-                        <SelectItem value="dependent">Dependent Visa / Family Visa</SelectItem>
-                        <SelectItem value="national">GCC National Visa</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                 </SelectContent>
-                    </Select>
-                 
+                  <FormLabel>Religion</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Your Faith" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+
+                      <SelectItem value="islam">Islam</SelectItem>
+                      <SelectItem value="christianity">Christianity</SelectItem>
+                      <SelectItem value="hinduism">Hinduism</SelectItem>
+                      <SelectItem value="budhhism">Budhhism</SelectItem>
+                      <SelectItem value="sikhism">Sikhism</SelectItem>
+                      <SelectItem value="jainism">Jainism</SelectItem>
+                      <SelectItem value="zoroastrianism">Zoroastrianism</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
-              )}               
-            /> 
-           
-
+              )}
+            />
             {/* Alternate Email */}
-
             <FormField
               control={form.control}
               name="alternateEmail"
@@ -380,7 +447,6 @@ const PersonalDetailsForm = ({
             />
 
             {/* Alternate Phone Number */}
-            
             <FormField
               control={form.control}
               name="alternateContactNumber"
@@ -396,10 +462,18 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit" >
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save
-            </Button>
+            <div className="flex items-center gap-x-2">
+              {loading ? (
+                <Button type="submit" disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </Button>
+              ) : (
+                <Button disabled={isSubmitting} type="submit">
+                  {isEditing ? "Save" : "Create"}
+                </Button>
+              )}
+            </div>
           </form>
         </Form>
       )}

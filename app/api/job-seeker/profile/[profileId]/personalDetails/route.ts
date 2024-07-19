@@ -7,7 +7,10 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const values = await req.json();
+    const body = await req.text();
+    console.log("Request Body:", body);
+
+    const values = JSON.parse(body);
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -19,14 +22,17 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       },
     });
 
-    let desiredJob;
+    let personalDetails;
+
     if (personal) {
-      desiredJob = await db.personalDetails.update({
-        where: { id: params.profileId, },
+      // Update existing personal details
+      personalDetails = await db.personalDetails.update({
+        where: { id: personal.id },
         data: { ...values },
       });
     } else {
-      desiredJob = await db.personalDetails.create({
+      // Create new personal details
+      personalDetails = await db.personalDetails.create({
         data: {
           ...values,
           jobSeekerProfileId: params.profileId,
@@ -34,10 +40,9 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       });
     }
 
-    return NextResponse.json(personal, { status: 200 });
+    return NextResponse.json(personalDetails, { status: 200 });
   } catch (error) {
     console.log("[PROFILE_ID]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
-
