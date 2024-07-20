@@ -65,29 +65,29 @@ export const columns: ColumnDef<
       return <p>Phone Number</p>;
     },
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const { id } = row.original;
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const { id } = row.original;
 
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-4 w-8 p-0">
-  //             <span className="sr-only">View More</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <Link href={`/profile/dashboard/employer/jobs/${id}`}>
-  //             <DropdownMenuItem className="cursor-pointer">
-  //               <Pencil className="mr-2 h-4 w-4 " />
-  //               Manage
-  //             </DropdownMenuItem>
-  //           </Link>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-4 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <Link href={`/profile/dashboard/employer/candidates/${id}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                <Pencil className="mr-2 h-4 w-4 " />
+                View Profile
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
