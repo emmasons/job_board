@@ -1,6 +1,6 @@
 "use client";
 
-import { Profile, User } from "@prisma/client";
+import { Application, Profile, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import Link from "next/link";
@@ -12,9 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type JobProp = User & { profile: Profile };
+type ApplicationProp = Application & { user: User & { profile: Profile } };
 
-export const columns: ColumnDef<JobProp>[] = [
+export const columns: ColumnDef<ApplicationProp>[] = [
   {
     accessorKey: "user.email",
     header: ({ column }) => {
@@ -60,7 +60,7 @@ export const columns: ColumnDef<JobProp>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original.user;
+      const { id } = row.original;
 
       return (
         <DropdownMenu>
@@ -71,10 +71,10 @@ export const columns: ColumnDef<JobProp>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/profile/dashboard/employer/candidates/${id}`}>
+            <Link href={`/profile/dashboard/employer/applications/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil className="mr-2 h-4 w-4 " />
-                View Profile
+                Manage
               </DropdownMenuItem>
             </Link>
           </DropdownMenuContent>

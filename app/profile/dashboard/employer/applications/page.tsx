@@ -13,6 +13,7 @@ const page = async (props: Props) => {
     return redirect("/");
   }
   const applicants = await getAllEmployerJobsAndApplications(user.id);
+
   return (
     <div className="p-6">
       <DataTable columns={columns} data={applicants} />

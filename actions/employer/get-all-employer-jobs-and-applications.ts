@@ -1,14 +1,11 @@
 import { db } from "@/lib/db";
 import { Application, Job, Profile, User } from "@prisma/client";
 
-type JobProp = Job & {
-  applications: Application &
-    {
-      user: User & { profile: Profile };
-    }[];
-};
+type JobProp = Application & { user: User & { profile: Profile } };
 
-export const getAllEmployerJobsAndApplications = async (ownerId: string) => {
+export const getAllEmployerJobsAndApplications = async (
+  ownerId: string,
+): Promise<JobProp[]> => {
   try {
     const applicants = await db.application.findMany({
       where: {
