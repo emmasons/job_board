@@ -52,9 +52,9 @@ const AddCandidateForm = ({ candidateId }: Props) => {
         className="inline-flex items-center justify-center"
       >
         {isLoading ? (
-          <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+          <Loader2 className="h-6 w-6 animate-spin" />
         ) : (
-          <PlusCircle className="mr-2 h-6 w-6" />
+          <PlusCircle className="h-6 w-6" />
         )}
       </Button>
     </div>

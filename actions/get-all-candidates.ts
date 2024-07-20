@@ -8,6 +8,8 @@ import {
   EducationLevel,
   Experience,
 } from "@prisma/client";
+import { getLatestFileMetaData } from "./get-latest-file-metadata";
+import { getUserCv } from "./get-user-cv";
 
 type candidate =
   | (User & {
@@ -169,6 +171,13 @@ export const getAllCandidates = async ({
         },
       },
     });
+
+    for (const candidate of candidates) {
+      const cv = await getUserCv(candidate.id);
+      const cvFile = await getLatestFileMetaData(cv?.id);
+      candidate.cvFile = cvFile;
+    }
+
     return candidates;
   } catch (error) {
     console.log(error, "[GET_ALL_CANDIDATES]");
