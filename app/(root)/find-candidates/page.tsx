@@ -78,9 +78,13 @@ const page = async ({ searchParams }: SearchPageProps) => {
         {!hasParams && (
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
-              <AccordionTrigger>Show more search options</AccordionTrigger>
+              <AccordionTrigger className="inline-flex px-8">Show more search options</AccordionTrigger>
               <AccordionContent>
-                <CandidateFilters />
+                <CandidateFilters
+                  className="grid-cols-3 gap-4 md:grid"
+                  showFilterByCountry={false}
+                  formClasses="col-span-3"
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -105,7 +109,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
       {hasParams && (
         <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
-            <section className="mt-6 flex">
+            <section className="mt-6 flex gap-4">
               <div className="md:w-1/3">
                 <CandidateFilters />
               </div>

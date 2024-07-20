@@ -24,17 +24,25 @@ type Params = {
   cvTitle?: string;
   countriesFilter?: string;
   location?: string;
+  occupation?: string;
+  city?: string;
+  skills?: string;
 };
 export const getAllCandidates = async ({
   cvTitle,
   countriesFilter,
   location,
+  occupation,
+  city,
+  skills,
 }: Params): Promise<candidate[]> => {
   const countries = [];
   if (countriesFilter) {
     const formattedCountries = countriesFilter?.split(",");
     countries.push(...formattedCountries);
   }
+  const skillsList = skills ? skills.split(",") : [];
+
   try {
     const countryCondition = location
       ? { country: location } // If location is provided, use it for the query
@@ -50,6 +58,14 @@ export const getAllCandidates = async ({
             jobSeekerProfile: {
               occupation: {
                 contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                mode: "insensitive",
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              occupation: {
+                contains: occupation ? occupation.toLowerCase() : undefined,
                 mode: "insensitive",
               },
             },
@@ -102,6 +118,18 @@ export const getAllCandidates = async ({
           },
           {
             jobSeekerProfile: {
+              skills: {
+                some: {
+                  skill: {
+                    in: skillsList ? skillsList : undefined,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
               desiredJob: {
                 some: {
                   designation: {
@@ -110,6 +138,18 @@ export const getAllCandidates = async ({
                   },
                   industry: {
                     contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+          {
+            jobSeekerProfile: {
+              employmentDetails: {
+                some: {
+                  location: {
+                    contains: city ? city.toLowerCase() : undefined,
                     mode: "insensitive",
                   },
                 },

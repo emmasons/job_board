@@ -6,8 +6,20 @@ import { getAllSectors } from "@/actions/get-all-sectors";
 import { getExperience } from "@/actions/get-experience";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import FilterByEducationLevel from "@/components/search/filter/EducationLevel";
+import KeywordSearch from "./KeyWordSearch";
+import { cn } from "@/lib/utils";
 const countries = require("country-list");
-const CandidateFilters = async () => {
+
+type Props = {
+  className?: string;
+  showFilterByCountry?: boolean;
+  formClasses?: string;
+};
+const CandidateFilters = async ({
+  className,
+  showFilterByCountry = true,
+  formClasses,
+}: Props) => {
   const countryList = countries.getNames().map((country) => ({
     id: country,
     label: country,
@@ -17,8 +29,11 @@ const CandidateFilters = async () => {
   const levels = await getEducationLevels();
 
   return (
-    <div>
-      <FilterByCountry countryList={countryList} />
+    <div className={cn("space-y-4 px-8", className)}>
+      <div className={cn("space-y-2", formClasses)}>
+        <KeywordSearch />
+      </div>
+      {showFilterByCountry && <FilterByCountry countryList={countryList} />}
       <FilterBySector sectors={sectors} />
       <FilterByExperience experienceLevels={experienceLevels} />
       <FilterByEducationLevel levels={levels} />

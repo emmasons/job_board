@@ -34,7 +34,7 @@ type Props = {
 
 const CandidateList = ({ candidates, candidateIds }: Props) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 bg-slate-100">
       {candidates?.map((candidate) => (
         <div
           key={candidate?.id}
@@ -71,7 +71,11 @@ const CandidateList = ({ candidates, candidateIds }: Props) => {
           )}
         </div>
       ))}
-      {candidates && candidates.length === 0 && <div>No candidates found</div>}
+      {candidates && candidates.length === 0 && (
+        <div className="rounded-md bg-slate-100 p-8 text-center">
+          No candidates found
+        </div>
+      )}
     </div>
   );
 };
