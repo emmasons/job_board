@@ -6,9 +6,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -22,7 +23,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -36,6 +37,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { PersonalDetails } from "@prisma/client";
 
 type Props = {
   title: string;
@@ -51,7 +53,6 @@ type Props = {
   religion: string;
   alternateEmail: string;
   alternateContactNumber: string;
-  isJobSeekerComponent: Boolean;
 };
 
 const PersonalDetailsForm = ({
@@ -67,7 +68,6 @@ const PersonalDetailsForm = ({
   religion,
   alternateEmail,
   alternateContactNumber,
-  isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
@@ -76,7 +76,7 @@ const PersonalDetailsForm = ({
   const { toast } = useToast();
 
   const formSchema = z.object({
-    dateOfBirth: z.date({required_error: "A date of birth is required.", }),
+    dateOfBirth: z.date({ required_error: "A date of birth is required." }),
     gender: z.string().nonempty("Gender is required"),
     nationality: z.string().nonempty("Nationality is required"),
     maritalStatus: z.string().nonempty("Marital Status is required"),
@@ -88,7 +88,6 @@ const PersonalDetailsForm = ({
     alternateEmail: z.string().email().optional(),
     alternateContactNumber: z.string().optional(),
   });
-
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -107,16 +106,15 @@ const PersonalDetailsForm = ({
     },
   });
 
-
   const url = `/api/job-seeker/profile/${profileId}/personalDetails`;
   useEffect(() => {
     const fetchpersonalDetails = async () => {
-      try{
+      try {
         const res = await fetch(url);
         const data: PersonalDetails = await res.json();
 
-        if (res.ok){
-          form .reset({
+        if (res.ok) {
+          form.reset({
             dateOfBirth: new Date(data.dateOfBirth),
             gender: data.gender,
             nationality: data.nationality,
@@ -125,7 +123,7 @@ const PersonalDetailsForm = ({
             currentLocation: data.currentLocation,
             languagesKnown: data.languagesKnown,
             visaStatus: data.visaStatus,
-            religion: data.religion ||"",
+            religion: data.religion || "",
             alternateEmail: data.alternateEmail || "",
             alternateContactNumber: data.alternateContactNumber || "",
           });
@@ -144,11 +142,10 @@ const PersonalDetailsForm = ({
           description: error.message,
         });
       }
-      };
+    };
 
-      fetchpersonalDetails();
-  }, [profileId]);
-
+    fetchpersonalDetails();
+  }, [form, profileId, toast, url]);
 
   const handleEdit = (personal: PersonalDetails) => {
     setEditingItem(personal);
@@ -168,7 +165,10 @@ const PersonalDetailsForm = ({
     setIsEditing(true);
   };
 
-  const { handleSubmit, formState: { isSubmitting, isValid, errors } } = form;
+  const {
+    handleSubmit,
+    formState: { isSubmitting, isValid, errors },
+  } = form;
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -180,7 +180,10 @@ const PersonalDetailsForm = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(values),
+          body: JSON.stringify({
+            ...values,
+            dateOfBirth: values.dateOfBirth.toISOString(),
+          }),
         },
       );
 
@@ -219,18 +222,17 @@ const PersonalDetailsForm = ({
             Outline your professional career to Employers
           </p>
         </div>
-        {isJobSeekerComponent && (
-          <Button onClick={toggleEdit} variant="ghost">
-            {isEditing ? (
-              "Cancel"
-            ) : (
-              <>
-                <Pencil className="mr-2 h-4 w-4" />
-                Edit
-              </>
-            )}
-          </Button>
-        )}
+
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing ? (
+            "Cancel"
+          ) : (
+            <>
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit
+            </>
+          )}
+        </Button>
       </div>
       {!isEditing && <p className="mt-2 text-sm"> Add Initial data here </p>}
       {isEditing && (
@@ -238,32 +240,51 @@ const PersonalDetailsForm = ({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* date of birth */}
             <FormField
-          control={form.control}
-          name="dateOfBirth"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <label className="text-sm">
-                      Date of Birth
-                      <Input
-                        type="date"
-                        disabled={isSubmitting}
-                        placeholder="DD/MM/YYYY"
-                        className="w-44 text-center uppercase"
-                        {...field}
+              control={form.control}
+              name="dateOfBirth"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Date of birth</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
                       />
-                    </label>
-                  </FormControl>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Your date of birth is used to calculate your age.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             {/* Gender fields */}
-
             <FormField
               control={form.control}
               name="gender"
@@ -278,13 +299,13 @@ const PersonalDetailsForm = ({
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="all" />
+                          <RadioGroupItem value="male" />
                         </FormControl>
                         <FormLabel className="font-normal">Male</FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
-                          <RadioGroupItem value="mentions" />
+                          <RadioGroupItem value="female" />
                         </FormControl>
                         <FormLabel className="font-normal">Female</FormLabel>
                       </FormItem>
@@ -296,12 +317,11 @@ const PersonalDetailsForm = ({
             />
 
             {/* Nationality field */}
-
             <FormField
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem className="w-80 ">
+                <FormItem className="w-80">
                   <FormLabel>Nationality</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -328,7 +348,7 @@ const PersonalDetailsForm = ({
               control={form.control}
               name="maritalStatus"
               render={({ field }) => (
-                <FormItem className="w-80 ">
+                <FormItem className="w-80">
                   <FormLabel>Marital Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -343,10 +363,9 @@ const PersonalDetailsForm = ({
                       <SelectItem value="single">Single</SelectItem>
                       <SelectItem value="married">Married</SelectItem>
                       <SelectItem value="divorced">Divorced</SelectItem>
-                      <SelectItem value="widow">widow(er)</SelectItem>
+                      <SelectItem value="widow">Widow(er)</SelectItem>
                     </SelectContent>
                   </Select>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -357,7 +376,7 @@ const PersonalDetailsForm = ({
               control={form.control}
               name="drivingLicense"
               render={({ field }) => (
-                <FormItem className="pY-4 flex flex-row items-start space-x-3  space-y-0">
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 py-4">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -406,13 +425,12 @@ const PersonalDetailsForm = ({
             />
 
             {/* Visa Status */}
-
             <FormField
               control={form.control}
-              name="religion"
+              name="visaStatus"
               render={({ field }) => (
                 <FormItem className="w-80">
-                  <FormLabel>Visa</FormLabel>
+                  <FormLabel>Visa Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -423,7 +441,7 @@ const PersonalDetailsForm = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="cisit">
+                      <SelectItem value="visit">
                         Visit Visa / Transit Visa
                       </SelectItem>
                       <SelectItem value="student">Student Visa</SelectItem>
@@ -443,7 +461,41 @@ const PersonalDetailsForm = ({
                       <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
+            {/* religion */}
+
+            <FormField
+              control={form.control}
+              name="religion"
+              render={({ field }) => (
+                <FormItem className="w-80">
+                  <FormLabel>Religion</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Your Faith" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="islam">Islam</SelectItem>
+                      <SelectItem value="christianity">Christianity</SelectItem>
+                      <SelectItem value="hinduism">Hinduism</SelectItem>
+                      <SelectItem value="budhhism">Budhhism</SelectItem>
+                      <SelectItem value="sikhism">Sikhism</SelectItem>
+                      <SelectItem value="jainism">Jainism</SelectItem>
+                      <SelectItem value="zoroastrianism">
+                        Zoroastrianism
+                      </SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -473,7 +525,7 @@ const PersonalDetailsForm = ({
                 <FormItem>
                   <FormControl>
                     <label className="flex w-80 flex-col gap-2 text-sm">
-                      Alternate Contact Number
+                      Alternate Phone Number
                       <Input {...field} />
                     </label>
                   </FormControl>
@@ -481,12 +533,18 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-            <Button type="submit">
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <div className="flex items-center gap-x-2">
+              {loading ? (
+                <Button type="submit" disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </Button>
+              ) : (
+                <Button disabled={isSubmitting} type="submit">
+                  {isEditing ? "Save" : "Create"}
+                </Button>
               )}
-              Save
-            </Button>
+            </div>
           </form>
         </Form>
       )}
