@@ -36,7 +36,7 @@ const JobCard = ({
 }: Props) => {
   const formattedDate = formatDistanceToNow(createdAt, { addSuffix: true });
   const titleToShare = `Check out this amazing job: ${title}`;
-  
+
   return (
     <Link href={`/jobs/${id}`} className="group block">
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 p-4 bg-white transition-shadow duration-200 hover:shadow-lg">
@@ -81,24 +81,24 @@ const JobCard = ({
         <div className="flex justify-between items-center">
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
-            {/* Facebook Share Button */}
-            <FacebookShare 
-              style={{ width: '20px', height: '20px' }}
-              url={url} 
-              quote={titleToShare} />
-
-            {/* Twitter Share Button */}
-            <TwitterShare
-              style={{ width: '20px', height: '20px' }}
-              url={url}
-              title={titleToShare}
-            />
-
-            {/* LinkedIn Share Button */}
-            <LinkedinShare 
-              style={{ width: '20px', height: '20px' }}
-              url={url} />
-            
+            <div style={{ display: 'inline-block', width: '20px', height: '20px' }}>
+              <FacebookShare 
+                style={{ width: '100%', height: '100%' }}
+                url={url} 
+                quote={titleToShare} />
+            </div>
+            <div style={{ display: 'inline-block', width: '20px', height: '20px' }}>
+              <TwitterShare
+                style={{ width: '100%', height: '100%' }}
+                url={url}
+                title={titleToShare}
+              />
+            </div>
+            <div style={{ display: 'inline-block', width: '20px', height: '20px' }}>
+              <LinkedinShare 
+                style={{ width: '100%', height: '100%' }}
+                url={url} />
+            </div>
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
               Easy Apply
             </span>
