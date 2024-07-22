@@ -1,7 +1,10 @@
 "use client";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { FacebookShare } from 'react-share-kit';
+import { 
+  FacebookShare,
+  TwitterShare
+ } from 'react-share-kit';
 
 import { formatDistanceToNow } from "date-fns";
 type Props = {
@@ -79,6 +82,12 @@ const JobCard = ({
             <FacebookShare 
               url={'https://www.facebook.com/'}  
               quote={titleToShare} />
+
+              {/* Twitter share Button */}
+              <TwitterShare
+                url={"https://www.x.com/"}
+                title={'react-share-kit - social share buttons for next & react apps.'}
+              />
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
           
             Easy Apply
