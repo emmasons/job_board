@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { 
-  FacebookShare,
-  TwitterShare
- } from 'react-share-kit';
+  FacebookShareButton, 
+  TwitterShareButton, 
+  LinkedinShareButton 
+} from 'react-share';
 
 import { formatDistanceToNow } from "date-fns";
 type Props = {
@@ -79,15 +80,24 @@ const JobCard = ({
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
              {/* Facebook Share Button */}
-            <FacebookShare 
-              url={url}  
-              quote={titleToShare} />
-
-              {/* Twitter share Button */}
-              {/* <TwitterShare
-                url={"https://www.x.com/"}
-                title={'react-share-kit - social share buttons for next & react apps.'}
-              /> */}
+            {/* Facebook Share Button */}
+            <FacebookShareButton 
+              url={url} 
+              hashtag="jobsconnect">
+              <Icon icon="akar-icons:facebook-fill" className="text-blue-600 w-5 h-5" />
+            </FacebookShareButton>
+            {/* Twitter Share Button */}
+            <TwitterShareButton 
+              url={url} 
+              title={titleToShare}>
+              <Icon icon="akar-icons:twitter-fill" className="text-blue-400 w-5 h-5" />
+            </TwitterShareButton>
+            {/* LinkedIn Share Button */}
+            <LinkedinShareButton 
+              url={url} 
+              title={titleToShare}>
+              <Icon icon="akar-icons:linkedin-fill" className="text-blue-700 w-5 h-5" />
+            </LinkedinShareButton>
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
           
             Easy Apply
