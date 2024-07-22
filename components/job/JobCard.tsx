@@ -79,15 +79,15 @@ const JobCard = ({
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
              {/* Facebook Share Button */}
-            <FacebookShare 
+            {/* <FacebookShare 
               url={'https://www.facebook.com/'}  
-              quote={titleToShare} />
+              quote={titleToShare} /> */}
 
               {/* Twitter share Button */}
-              <TwitterShare
+              {/* <TwitterShare
                 url={"https://www.x.com/"}
                 title={'react-share-kit - social share buttons for next & react apps.'}
-              />
+              /> */}
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
           
             Easy Apply
