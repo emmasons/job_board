@@ -18,6 +18,8 @@ type Props = {
   totalPages: number;
 };
 
+const URL: string = "https://jobsconnect.net/";
+
 const JobList = async ({
   items,
   totalItems,
@@ -61,6 +63,7 @@ const JobList = async ({
             <JobCard
               id={item.id}
               title={item.title}
+              url={`${URL}/jobs/${item.id}`}  // Generate the correct URL for each job
               createdAt={item.createdAt}
               companyName={item.companyName}
               sector={item.sector?.label}

@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { FacebookShare } from 'react-share-kit';
 
 import { formatDistanceToNow } from "date-fns";
 type Props = {
   id: string;
   title: string;
+  url: string;
   createdAt: Date;
   companyName?: string | null;
   sector: string;
@@ -18,6 +20,7 @@ type Props = {
 const JobCard = ({
   id,
   title,
+  url,
   createdAt,
   companyName, 
   sector,
@@ -27,7 +30,7 @@ const JobCard = ({
   workSchedule,
 }: Props) => {
   const formattedDate = formatDistanceToNow(createdAt, { addSuffix: true });
-
+  const titleToShare = `Check out this amazing job: ${title}`;
   return (
     <Link href={`/jobs/${id}`} className="group block">
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 p-4 bg-white transition-shadow duration-200 hover:shadow-lg">
@@ -72,6 +75,10 @@ const JobCard = ({
         <div className="flex justify-between items-center">
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
+             {/* Facebook Share Button */}
+            <FacebookShare 
+              url={'https://www.facebook.com/'}  
+              quote={titleToShare} />
             <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
           
             Easy Apply
