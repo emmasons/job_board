@@ -83,20 +83,20 @@ const JobCard = ({
           <div className="flex items-center gap-2">
              {/* Facebook Share Button */}
             <FacebookShare 
-              className="h-4 w-4"
+              style={{ width: '20px', height: '20px' }}
               url={url} 
               quote={titleToShare} />
 
               {/* Twitter share button */}
               <TwitterShare
-                  className="h-4 w-4"
+                  style={{ width: '20px', height: '20px' }}
                   url={url}
                   title={'react-share-kit - social share buttons for next & react apps.'}
                 />
 
                 {/* Linkedln share buton */}
                 <LinkedinShare 
-                className="h-4 w-4"
+                style={{ width: '20px', height: '20px' }}
                 url={url} />
 
                 
