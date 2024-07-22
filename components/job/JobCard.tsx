@@ -79,9 +79,9 @@ const JobCard = ({
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
              {/* Facebook Share Button */}
-            {/* <FacebookShare 
-              url={'https://www.facebook.com/'}  
-              quote={titleToShare} /> */}
+            <FacebookShare 
+              url={url}  
+              quote={titleToShare} />
 
               {/* Twitter share Button */}
               {/* <TwitterShare
