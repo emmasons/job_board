@@ -42,7 +42,7 @@ import { PersonalDetails } from "@prisma/client";
 type Props = {
   title: string;
   dateOfBirth: undefined;
-  profileId: string;
+  profileId: string,
   gender: string;
   nationality: string;
   maritalStatus: string;
@@ -58,16 +58,7 @@ type Props = {
 const PersonalDetailsForm = ({
   title,
   profileId,
-  gender,
-  nationality,
-  maritalStatus,
-  drivingLicense,
-  currentLocation,
-  languagesKnown,
-  visaStatus,
-  religion,
-  alternateEmail,
-  alternateContactNumber,
+
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);

@@ -86,15 +86,15 @@ const JobCard = ({
             <FacebookShareButton 
               url={url} 
               hashtag={titleToShare}>
-              <Icon icon="akar-icons:facebook-fill" className="text-blue-600 w-3 h-3" />
+              <Icon icon="akar-icons:facebook-fill" className="text-blue-600 w-4 h-4" />
             </FacebookShareButton>
             {/* Twitter Share Button */}
             <TwitterShareButton url={url} title={titleToShare}>
-              <Icon icon="akar-icons:twitter-fill" className="text-blue-400 w-3 h-3" />
+              <Icon icon="akar-icons:twitter-fill" className="text-blue-400 w-4 h-4" />
             </TwitterShareButton>
             {/* LinkedIn Share Button */}
             <LinkedinShareButton url={url} title={titleToShare}>
-              <Icon icon="akar-icons:linkedin-fill" className="text-blue-700 w-3 h-3" />
+              <Icon icon="akar-icons:linkedin-fill" className="text-blue-700 w-4 h-4" />
             </LinkedinShareButton>
 
                 

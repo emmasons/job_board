@@ -56,7 +56,6 @@ model EmploymentDetails {
 
 model PersonalDetails {
   id                     String           @id @default(cuid())
-  profileId              String
   dateOfBirth            DateTime
   gender                 String
   nationality            String

@@ -27,3 +27,17 @@ export async function POST(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+// Example mock API endpoint
+
+export async function getProfileViews() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        views: [50, 100, 200, 400, 300, 150, 75],
+      });
+    }, 1000); // Simulate network delay
+  });
+}
+

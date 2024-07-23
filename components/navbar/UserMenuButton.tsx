@@ -73,7 +73,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             ):(
               <DropdownMenuItem className="py-2">
               <Link href="/profile/dashboard/" className="hover:cursor-pointer">
-                Dashboard
+                Profile
               </Link>
             </DropdownMenuItem>
             )}
@@ -81,6 +81,11 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               {/* job seeker options */}
               {user?.role === Role.JOB_SEEKER ? (
                 <>
+                <DropdownMenuItem>
+                  <Link href="/profile/main-dashboard" className="h-full w-full hover:cursor-pointer">
+                    Dashboard
+                  </Link>   
+                </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/search" className="h-full w-full hover:cursor-pointer">
                     Find a Job

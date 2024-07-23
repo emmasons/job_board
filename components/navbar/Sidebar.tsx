@@ -4,10 +4,10 @@ import SidebarRoutes from "./SidebarRoutes";
 
 export const Sidebar = () => {
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r bg-white shadow-sm">
-      <div className="p-6">
+    <div className="flex h-full flex-col items-center overflow-y-auto border-r bg-white shadow-sm">
+      <div className="p-12">
         <Link href="/profile/settings/">
-          <User2 className="h-8 w-8" />
+          <User2 className="h-16 w-16 border rounded-full" />
         </Link>
       </div>
       <div className="flex w-full flex-col">

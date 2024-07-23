@@ -157,7 +157,8 @@ const StepsWrapper = ({
   const [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="space-y-8 bg-slate-100/30 p-12">
+    <div className="space-y-8 pt-20  bg-slate-100/30 p-12">
+    <h4 className="scroll-m-20 pb-2 text-4xl  tracking-tight first:mt-0">Dashboard</h4>
       {/* top bar  */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
@@ -179,14 +180,14 @@ const StepsWrapper = ({
       {/* Toggle button for sidebar on small screen */}
 
       {/* content */}
-      <div className="flex flex-col items-start gap-4 md:flex-row ">
+      <div className=" flex flex-col items-start gap-4 md:flex-row ">
         <div
           className={cn(
-            "space-y-4 rounded-md p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all md:w-1/3",
-            showSidebar ? "block" : "hidden bg-white md:block",
+            "h-[39rem] space-y-4 rounded-md p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all md:w-1/3 overflow-auto",
+            showSidebar ? "block" : "hidden bg-white md:block" ,
           )}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between ">
             <h3>
               <span className="text-[2rem]">
                 {jobSeekerProfile?.profilePercentage?.percentage | 0}

@@ -5,9 +5,12 @@ import {
   Files,
   FileBarChart,
   Layout,
+  Settings,
   Settings2,
+  Bookmark,
   Users2,
   BriefcaseIcon,
+  LayoutDashboard,
   LayoutDashboardIcon,
   Users,
   BarChart2Icon,
@@ -18,13 +21,23 @@ import { SidebarItem } from "./SidebarItem";
 
 const guestRoutes = [
   {
-    icon: Layout,
+    icon: LayoutDashboard,
     label: "Dashboard",
+    href: "/profile/main-dashboard",
+  },
+  {
+    icon: Users2,
+    label: "My Profile",
     href: "/profile/dashboard",
   },
   {
-    icon: Settings2,
-    label: "Profile Settings",
+    icon: Bookmark,
+    label: "Saved Job",
+    href: "/profile/saved",
+  },
+  {
+    icon: Settings,
+    label: "Account Settings",
     href: "/profile/settings",
   },
 ];
@@ -99,7 +112,7 @@ export default function SidebarRoutes() {
         : guestRoutes;
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex h-full w-full flex-col">
       {routes.map((route) => (
         <SidebarItem
           key={route.href}
