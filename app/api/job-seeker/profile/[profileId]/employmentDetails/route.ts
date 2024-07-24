@@ -11,7 +11,8 @@ export async function POST(
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const values = await req.json();
+    // const values = await req.json();
+    const { profilePercentage, ...values } = await req.json();
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -23,6 +24,30 @@ export async function POST(
         jobSeekerProfileId: params.profileId,
       },
     });
+
+    if (profilePercentage !== undefined) {
+      const percentage = parseInt(profilePercentage, 25);
+
+      if (isNaN(percentage)) {
+        return new NextResponse("Invalid percentage value", { status: 400 });
+      }
+
+      await db.jobSeekerProfilePercentage.upsert({
+        where: {
+          jobSeekerProfileId: params.profileId,
+        },
+        update: {
+          percentage: {
+            increment: percentage,
+          },
+        },
+        create: {
+          jobSeekerProfileId: params.profileId,
+          percentage: percentage,
+        },
+      });
+    }
+    
     return NextResponse.json(employmentDetails, { status: 201 });
   } catch (error) {
     console.log("[PROFILE_ID]", error);

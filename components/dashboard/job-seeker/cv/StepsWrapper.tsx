@@ -2,6 +2,7 @@
 import useSteps from "@/hooks/useStepsHook";
 import CVHeadlineForm from "./steps/CVHeadlineForm";
 import SkillsForm from "./steps/SkillsForm";
+
 import ProfileSummaryForm from "./steps/ProfileSummaryForm";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -55,7 +56,7 @@ const StepsWrapper = ({
     <CVHeadlineForm
       key={1}
       title="CV Headline"
-      profilePercentage={10}
+      profilePercentage={5}
       initialData={{ cvHeadLine: jobSeekerProfile.cvHeadLine }}
       profileId={jobSeekerProfile.id}
       description="Highlight your professional career"
@@ -75,6 +76,7 @@ const StepsWrapper = ({
       cvFile={cvFile}
       key={3}
       title="Resume/CV"
+      profilePercentage={10}
       description="An updated CV increases your chances of getting job offers by 60%"
       isJobSeekerComponent={isJobSeekerComponent}
     />,
@@ -104,7 +106,7 @@ const StepsWrapper = ({
       title="Profile Summary"
       description="Outline the key highlights of your career to employers"
       profileId={jobSeekerProfile.id}
-      profilePercentage={1}
+      profilePercentage={5}
       initialData={{
         profileSummary: jobSeekerProfile.profileSummary,
       }}
@@ -118,7 +120,7 @@ const StepsWrapper = ({
       company={employmentDetails?.company || ""}
       location={employmentDetails?.location || ""}
       description={employmentDetails?.description || ""}
-      profilePercentage={7}
+      profilePercentage={20}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 
@@ -137,6 +139,7 @@ const StepsWrapper = ({
     <PersonalDetailsForm
       key={8} // Make sure the key is unique if you're rendering this within a list
       title="Personal Details"
+      profilePercentage={25}
       profileId={jobSeekerProfile.id}
       dateOfBirth={personalDetails?.dateOfBirth}
       gender={personalDetails?.gender || ""}

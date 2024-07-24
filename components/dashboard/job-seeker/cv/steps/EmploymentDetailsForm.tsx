@@ -122,6 +122,8 @@ const EmploymentDetailsForm = ({
     (_, index) => currentYear - index,
   );
 
+  const percentage = employmentList.length > 0 ? 0 : profilePercentage;
+
   const { isSubmitting, isValid, errors } = form.formState;
 
   const handleEdit = (employment: EmploymentDetails) => {
@@ -185,13 +187,21 @@ const EmploymentDetailsForm = ({
     const method = editingItem ? "PUT" : "POST";
 
     try {
+      const requestBody = {
+        ...values,
+        profilePercentage: percentage,
+      };
+      
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify(requestBody),
       });
 
+
+
       const response = await res.json();
+      console.log(response)
       if (!res.ok) {
         toast({
           variant: "destructive",

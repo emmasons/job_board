@@ -101,7 +101,38 @@ export async function DELETE(
       if (!deleteResult) {
         return new NextResponse("Not Found", { status: 404 });
       }
-  
+      
+      // Count the remaining skills
+    const employmentCount = await db.employmentDetails.count({
+      where: { jobSeekerProfileId: params.profileId },
+    });
+
+    // Define the deduction percentage
+    const additionalDeductionPercentage = 75; // Deduct an additional 25% if all employment are removed
+
+    // Get the previous profile percentage
+    const previousPercentage = await db.jobSeekerProfilePercentage.findUnique({
+      where: { jobSeekerProfileId: params.profileId },
+    });
+
+    if (previousPercentage) {
+      let newPercentage = previousPercentage.percentage;
+
+      // If no skills are remaining, add an additional 3% deduction
+      if (employmentCount === 0) {
+        newPercentage -= additionalDeductionPercentage;
+      }
+
+      // Ensure the percentage does not go below 0
+      newPercentage = Math.max(0, newPercentage);
+
+      await db.jobSeekerProfilePercentage.update({
+        where: { jobSeekerProfileId: params.profileId },
+        data: {
+          percentage: newPercentage,
+        },
+      });
+    }
       return NextResponse.json({ message: "Employment deleted successfully" }, { status: 200 });
     } catch (error) {
       console.log("[PROFILE_ID]", error);
