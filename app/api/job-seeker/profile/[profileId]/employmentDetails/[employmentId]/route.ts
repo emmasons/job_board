@@ -108,7 +108,7 @@ export async function DELETE(
     });
 
     // Define the deduction percentage
-    const additionalDeductionPercentage = 75; // Deduct an additional 25% if all employment are removed
+    const additionalDeductionPercentage = 20; // Deduct an additional 25% if all employment are removed
 
     // Get the previous profile percentage
     const previousPercentage = await db.jobSeekerProfilePercentage.findUnique({

@@ -149,6 +149,7 @@ const EmploymentDetailsForm = ({
         `/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`,
         {
           method: "DELETE",
+         
         },
       );
 
@@ -167,8 +168,8 @@ const EmploymentDetailsForm = ({
           className: "bg-green-500",
         });
         setEmploymentList((prev) =>
-          prev.filter((item) => item.id !== employmentId),
-        );
+          prev.filter((item) => item.id !== employmentId));
+        router.refresh();
       }
     } catch (error) {
       toast({
