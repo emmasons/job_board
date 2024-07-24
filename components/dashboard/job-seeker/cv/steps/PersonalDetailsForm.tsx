@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { date, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -38,28 +38,27 @@ import { useEffect, useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersonalDetails } from "@prisma/client";
+import { init } from "@paralleldrive/cuid2";
 
 type Props = {
+  profileId: string;
   title: string;
-  dateOfBirth: Date;
-  profileId: string,
-  gender: string;
-  nationality: string;
-  maritalStatus: string;
-  drivingLicense: boolean;
-  currentLocation: string;
-  languagesKnown: string;
-  visaStatus: string;
-  religion: string;
-  alternateEmail: string;
-  alternateContactNumber: string;
+  initialData: {
+    dateOfBirth: Date | null | undefined;
+    gender: string | null | undefined;
+    nationality: string | null | undefined;
+    maritalStatus: string | null | undefined;
+    drivingLicense: boolean | null | undefined;
+    currentLocation: string | null | undefined;
+    languagesKnown: string | null | undefined;
+    visaStatus: string | null | undefined;
+    religion: string | null | undefined;
+    alternateEmail: string | null | undefined;
+    alternateContactNumber: string | null | undefined;
+  };
 };
 
-const PersonalDetailsForm = ({
-  title,
-  profileId,
-
-}: Props) => {
+const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -83,53 +82,19 @@ const PersonalDetailsForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dateOfBirth: "" || undefined,
-      gender: "",
-      nationality: "",
-      maritalStatus: "",
-      drivingLicense: false,
-      currentLocation: "",
-      languagesKnown: "",
-      visaStatus: "",
-      religion: "",
-      alternateEmail: "",
-      alternateContactNumber: "",
+      dateOfBirth: initialData.dateOfBirth,
+      gender: initialData.gender || "",
+      nationality: initialData.nationality || "",
+      maritalStatus: initialData.maritalStatus || "",
+      drivingLicense: initialData.drivingLicense || false,
+      currentLocation: initialData.currentLocation || "",
+      languagesKnown: initialData.languagesKnown || "",
+      visaStatus: initialData.visaStatus || "",
+      religion: initialData.religion || "",
+      alternateEmail: initialData.alternateEmail || "",
+      alternateContactNumber: initialData.alternateContactNumber || "",
     },
   });
-
-  const url = `/api/job-seeker/profile/${profileId}/personalDetails`;
-  useEffect(() => {
-    const fetchpersonalDetails = async () => {
-      try {
-        const res = await fetch(url);
-        const data: PersonalDetails = await res.json();
-
-        if (res.ok) {
-          form.reset({
-            dateOfBirth: new Date(data.dateOfBirth),
-            gender: data.gender,
-            nationality: data.nationality,
-            maritalStatus: data.maritalStatus,
-            drivingLicense: data.drivingLicense,
-            currentLocation: data.currentLocation,
-            languagesKnown: data.languagesKnown,
-            visaStatus: data.visaStatus,
-            religion: data.religion || "",
-            alternateEmail: data.alternateEmail || "",
-            alternateContactNumber: data.alternateContactNumber || "",
-          });
-        }
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-        });
-      }
-    };
-
-    fetchpersonalDetails();
-  }, [form, profileId, toast, url]);
 
   const handleEdit = (personal: PersonalDetails) => {
     setEditingItem(personal);
@@ -218,11 +183,62 @@ const PersonalDetailsForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && <p className="mt-2 text-sm"> Add Initial data here </p>}
+      {!isEditing && (
+        <div className="flex basis-0 flex-col font-serif">
+          <span className="gap-8text-center grid w-48 basis-0 grid-cols-2">
+            <p className="text-md justify-between text-slate-400"> Gender </p>
+            <p className="font-mono text-xl capitalize">{initialData.gender}</p>
+          </span>
+          <span className="grid w-48 grid-cols-2 justify-between items-baseline gap-8 py-4">
+            <p className="text-md text-slate-400"> Nationality </p>
+            <p className="text-xl font-mono capitalize">
+              {initialData.nationality}
+            </p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Location</p>
+            <p className="text-md capitalize">{initialData.currentLocation}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Date of Birth </p>
+            {/* <p className="text-lg capitalize">{initialData.dateOfBirth}</p> */}
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Marital Status </p>
+            <p className="text-lg capitalize">{initialData.maritalStatus}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Driving License </p>
+            <p className="text-lg capitalize">{initialData.drivingLicense}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Languages Known </p>
+            <p className="text-lg capitalize">{initialData.gender}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Visa </p>
+            <p className="text-lg capitalize">{initialData.visaStatus}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400">Religion </p>
+            <p className="text-lg capitalize">{initialData.religion}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400"> Gender </p>
+            <p className="text-lg capitalize">{initialData.alternateEmail}</p>
+          </span>
+          <span className="flex gap-8 py-4 text-center">
+            <p className="text-md text-slate-400">Alternate Phone Number</p>
+            <p className="text-lg capitalize">
+              {initialData.alternateContactNumber}
+            </p>
+          </span>
+        </div>
+      )}
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* date of birth */}
+            {/* date of birth */}mt-2
             <FormField
               control={form.control}
               name="dateOfBirth"
@@ -267,7 +283,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Gender fields */}
             <FormField
               control={form.control}
@@ -299,7 +314,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Nationality field */}
             <FormField
               control={form.control}
@@ -326,7 +340,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* marital status */}
             <FormField
               control={form.control}
@@ -354,7 +367,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Driving licence */}
             <FormField
               control={form.control}
@@ -373,7 +385,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Current Location */}
             <FormField
               control={form.control}
@@ -390,7 +401,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Languages */}
             <FormField
               control={form.control}
@@ -407,7 +417,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Visa Status */}
             <FormField
               control={form.control}
@@ -449,9 +458,7 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* religion */}
-
             <FormField
               control={form.control}
               name="religion"
@@ -500,7 +507,6 @@ const PersonalDetailsForm = ({
                 </FormItem>
               )}
             />
-
             {/* Alternate Phone Number */}
             <FormField
               control={form.control}

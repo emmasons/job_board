@@ -13,6 +13,7 @@ export const getJobSeekerProfile = async (
         education: true,
         experience: true,
         skills: true,
+        personalDetails: true,
       },
     });
     console.log("profile", profile);

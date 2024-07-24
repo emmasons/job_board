@@ -25,7 +25,7 @@ model JobSeekerProfile {
   user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   skills            Skill[]
   desiredJob        DesiredJob[]
-  personalDetails   PersonalDetails[]
+  personalDetails   PersonalDetails?
 }
 
 model DesiredJob {
@@ -69,8 +69,8 @@ model PersonalDetails {
   alternateContactNumber String?
   createdAt              DateTime         @default(now())
   updatedAt              DateTime         @updatedAt
-  jobSeekerProfileId     String
-  profile                JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  jobSeekerProfileId      String    @unique
+  jobSeekerProfile        JobSeekerProfile      @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
 
 model Skill {

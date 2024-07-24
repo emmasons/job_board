@@ -64,6 +64,7 @@ const page = async () => {
           sectors={sectors}
           educationLevels={educationLevels}
           experience={experience} 
+          personalDetails={jobSeekerProfile.personalDetails[0]}
         />
       )}
     </>

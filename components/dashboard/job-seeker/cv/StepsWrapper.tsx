@@ -6,7 +6,7 @@ import SkillsForm from "./steps/SkillsForm";
 import ProfileSummaryForm from "./steps/ProfileSummaryForm";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
   CV,
@@ -141,27 +141,30 @@ const StepsWrapper = ({
       title="Personal Details"
       profilePercentage={25}
       profileId={jobSeekerProfile.id}
-      dateOfBirth={personalDetails?.dateOfBirth}
-      gender={personalDetails?.gender || ""}
-      nationality={personalDetails?.nationality || ""}
-      maritalStatus={personalDetails?.maritalStatus || ""}
-      drivingLicense={personalDetails?.drivingLicense || false}
-      currentLocation={personalDetails?.currentLocation || ""}
-      languagesKnown={personalDetails?.languagesKnown || ""}
-      visaStatus={personalDetails?.visaStatus || ""}
-      religion={personalDetails?.religion || ""}
-      alternateEmail={personalDetails?.alternateEmail || ""}
-      alternateContactNumber={personalDetails?.alternateContactNumber || ""}
-      isJobSeekerComponent={isJobSeekerComponent}
+      initialData={personalDetails}
+      // dateOfBirth={personalDetails?.dateOfBirth}
+      // gender={personalDetails?.gender || ""}
+      // nationality={personalDetails?.nationality || ""}
+      // maritalStatus={personalDetails?.maritalStatus || ""}
+      // drivingLicense={personalDetails?.drivingLicense || false}
+      // currentLocation={personalDetails?.currentLocation || ""}
+      // languagesKnown={personalDetails?.languagesKnown || ""}
+      // visaStatus={personalDetails?.visaStatus || ""}
+      // religion={personalDetails?.religion || ""}
+      // alternateEmail={personalDetails?.alternateEmail || ""}
+      // alternateContactNumber={personalDetails?.alternateContactNumber || ""}
+      // isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);
-
+  console.log(personalDetails);
   // State to toggle sidebar visibility on small screen
   const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
-    <h4 className="scroll-m-20 py-2 text-4xl  tracking-tight first:mt-0">My Profile</h4>
+      <h4 className="scroll-m-20 py-2 text-4xl  tracking-tight first:mt-0">
+        My Profile
+      </h4>
       {/* top bar  */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
@@ -186,8 +189,8 @@ const StepsWrapper = ({
       <div className=" flex flex-col items-start gap-4 md:flex-row ">
         <ScrollArea
           className={cn(
-            "h-[540px] w-[350px] border space-y-4 rounded-md p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all md:w-1/3",
-            showSidebar ? "block" : "hidden bg-white md:block" ,
+            "h-[540px] w-[350px] space-y-4 rounded-md border p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] transition-all md:w-1/3",
+            showSidebar ? "block" : "hidden bg-white md:block",
           )}
         >
           <div className="flex items-center justify-between ">
