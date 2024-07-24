@@ -75,7 +75,7 @@ export async function DELETE(
     });
 
     if (!skill || skill.jobSeekerProfileId !== params.profileId) {
-      return new NextResponse("Skill not found or not authorized", { status: 404 });
+      return new NextResponse("Skill not found or unauthorized", { status: 404 });
     }
 
     // Delete the skill
