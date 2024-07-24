@@ -22,13 +22,15 @@ import { Badge } from "@/components/ui/badge";
 type Props = {
   title: string;
   profileId: string;
+  profilePercentage: number;
   skills: Skill[];
-  description: String;
+  description: string;
   isJobSeekerComponent: boolean;
 };
 
 const SkillsForm = ({
   title,
+  profilePercentage,
   profileId,
   skills,
   isJobSeekerComponent = true,
@@ -50,6 +52,8 @@ const SkillsForm = ({
     },
   });
 
+  const percentage = skillList.length > 0 ? 0 : profilePercentage;
+
   const { isSubmitting, isValid, errors } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -63,12 +67,17 @@ const SkillsForm = ({
         return;
       }
 
+      const requestBody = {
+        ...values,
+        profilePercentage: percentage,
+      };
+
       const res = await fetch(`/api/job-seeker/profile/${profileId}/skills`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(requestBody),
       });
 
       const response = await res.json();
@@ -91,7 +100,7 @@ const SkillsForm = ({
         toggleEdit();
         router.refresh();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error, errors);
       toast({
         variant: "destructive",
@@ -101,7 +110,6 @@ const SkillsForm = ({
     }
   }
 
-  // delete function
   const deleteSkill = async (skillId: string) => {
     try {
       const res = await fetch(
@@ -111,7 +119,7 @@ const SkillsForm = ({
           headers: {
             "Content-Type": "application/json",
           },
-        },
+        }
       );
 
       const isJson = res.headers
@@ -138,7 +146,7 @@ const SkillsForm = ({
         setSkillList(skillList.filter((skill) => skill.id !== skillId));
         router.refresh();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error, errors);
       toast({
         variant: "destructive",

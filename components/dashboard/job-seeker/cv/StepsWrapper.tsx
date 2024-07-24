@@ -46,7 +46,8 @@ const StepsWrapper = ({
   sectors,
   educationLevels,
   employmentDetails,
-  // personalDetails,
+  personalDetails,
+  desiredJob,
   experience,
   isJobSeekerComponent = true,
 }: Props) => {
@@ -66,6 +67,7 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       skills={jobSeekerProfile.skills}
       description="Add your key skills "
+      profilePercentage={3}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
     <UploadCV
@@ -116,7 +118,7 @@ const StepsWrapper = ({
       company={employmentDetails?.company || ""}
       location={employmentDetails?.location || ""}
       description={employmentDetails?.description || ""}
-      profilePercentage={0}
+      profilePercentage={7}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 
@@ -125,9 +127,9 @@ const StepsWrapper = ({
       title="Desired job"
       description="Add your desired jobs"
       profileId={jobSeekerProfile.id}
-      designation={DesiredJob?.designation || ""}
-      location={DesiredJob?.location || ""}
-      industry={DesiredJob?.industry || ""}
+      designation={desiredJob?.designation || ""}
+      location={desiredJob?.location || ""}
+      industry={desiredJob?.industry || ""}
       profilePercentage={10}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
@@ -136,21 +138,17 @@ const StepsWrapper = ({
       key={8} // Make sure the key is unique if you're rendering this within a list
       title="Personal Details"
       profileId={jobSeekerProfile.id}
-      dateOfBirth={
-        PersonalDetails?.dateOfBirth === "string"
-          ? PersonalDetails.dateOfBirth
-          : PersonalDetails?.dateOfBirth?.toISOString().split("T")[0] || ""
-      }
-      gender={PersonalDetails?.gender || ""}
-      nationality={PersonalDetails?.nationality || ""}
-      maritalStatus={PersonalDetails?.maritalStatus || ""}
-      drivingLicense={PersonalDetails?.drivingLicense || false}
-      currentLocation={PersonalDetails?.currentLocation || ""}
-      languagesKnown={PersonalDetails?.languagesKnown || []}
-      visaStatus={PersonalDetails?.visaStatus || ""}
-      religion={PersonalDetails?.religion || ""}
-      alternateEmail={PersonalDetails?.alternateEmail || ""}
-      alternateContactNumber={PersonalDetails?.alternateContactNumber || ""}
+      dateOfBirth={personalDetails?.dateOfBirth}
+      gender={personalDetails?.gender || ""}
+      nationality={personalDetails?.nationality || ""}
+      maritalStatus={personalDetails?.maritalStatus || ""}
+      drivingLicense={personalDetails?.drivingLicense || false}
+      currentLocation={personalDetails?.currentLocation || ""}
+      languagesKnown={personalDetails?.languagesKnown || ""}
+      visaStatus={personalDetails?.visaStatus || ""}
+      religion={personalDetails?.religion || ""}
+      alternateEmail={personalDetails?.alternateEmail || ""}
+      alternateContactNumber={personalDetails?.alternateContactNumber || ""}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);
@@ -160,7 +158,7 @@ const StepsWrapper = ({
 
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
-    <h4 className="scroll-m-20 py-6 text-4xl  tracking-tight first:mt-0">My Profile</h4>
+    <h4 className="scroll-m-20 py-2 text-4xl  tracking-tight first:mt-0">My Profile</h4>
       {/* top bar  */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (

@@ -41,7 +41,7 @@ import { PersonalDetails } from "@prisma/client";
 
 type Props = {
   title: string;
-  dateOfBirth: undefined;
+  dateOfBirth: Date;
   profileId: string,
   gender: string;
   nationality: string;
@@ -117,13 +117,6 @@ const PersonalDetailsForm = ({
             religion: data.religion || "",
             alternateEmail: data.alternateEmail || "",
             alternateContactNumber: data.alternateContactNumber || "",
-          });
-        } else {
-          // Handle the error based on your requirements
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: error.message,
           });
         }
       } catch (error) {
