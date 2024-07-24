@@ -12,13 +12,12 @@ export async function POST(
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const values = await req.json();
+    const { profilePercentage, ...values } = await req.json();
 
     if (!userId || !(user.role === Role.JOB_SEEKER)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    // Add the new skill
     const skill = await db.skill.create({
       data: {
         ...values,
@@ -26,25 +25,32 @@ export async function POST(
       },
     });
 
-    // Increase the profile percentage by 1%
-    await db.jobSeekerProfilePercentage.upsert({
-      where: {
-        jobSeekerProfileId: params.profileId,
-      },
-      update: {
-        percentage: {
-          increment: 1,
+    if (profilePercentage !== undefined) {
+      const percentage = parseInt(profilePercentage, 5);
+
+      if (isNaN(percentage)) {
+        return new NextResponse("Invalid percentage value", { status: 400 });
+      }
+
+      await db.jobSeekerProfilePercentage.upsert({
+        where: {
+          jobSeekerProfileId: params.profileId,
         },
-      },
-      create: {
-        jobSeekerProfileId: params.profileId,
-        percentage: 1, // Start with 1% for the new skill
-      },
-    });
+        update: {
+          percentage: {
+            increment: percentage,
+          },
+        },
+        create: {
+          jobSeekerProfileId: params.profileId,
+          percentage: percentage,
+        },
+      });
+    }
 
     return NextResponse.json(skill, { status: 201 });
   } catch (error) {
-    console.log("[ADD_SKILL]", error);
+    console.log("[PROFILE_ID]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
@@ -84,7 +90,7 @@ export async function DELETE(
     });
 
     // Define the deduction percentage
-    const additionalDeductionPercentage = 3; // Deduct an additional 3% if all skills are removed
+    const additionalDeductionPercentage = 5; // Deduct an additional 3% if all skills are removed
 
     // Get the previous profile percentage
     const previousPercentage = await db.jobSeekerProfilePercentage.findUnique({

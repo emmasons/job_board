@@ -67,7 +67,7 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       skills={jobSeekerProfile.skills}
       description="Add your key skills "
-      profilePercentage={3}
+      profilePercentage={5}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
     <UploadCV

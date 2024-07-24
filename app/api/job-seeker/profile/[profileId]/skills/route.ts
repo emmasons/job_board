@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
+
 export async function POST(
   req: Request,
   { params }: { params: { profileId: string } },
@@ -89,7 +90,7 @@ export async function DELETE(
     });
 
     // Define the deduction percentage
-    const additionalDeductionPercentage = 3; // Deduct an additional 3% if all skills are removed
+    const additionalDeductionPercentage = 5; // Deduct an additional 3% if all skills are removed
 
     // Get the previous profile percentage
     const previousPercentage = await db.jobSeekerProfilePercentage.findUnique({
