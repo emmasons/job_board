@@ -12,14 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogIn, LogOut, UserPlus } from "lucide-react";
+import { ChevronDown, LogIn, LogInIcon, LogOut, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx"; // Import clsx for condition
 import Signup from "../auth/Signup";
 
 import { Role } from "@prisma/client";
-
 
 interface UserMenuButtonProps {
   user: Session["user"] | undefined;
@@ -30,35 +29,31 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
     <>
       {user ? (
         <DropdownMenu>
-          <DropdownMenuTrigger className={clsx("border-none focus-within:ring-transparent", "outline-none")}>
+          <DropdownMenuTrigger
+            className={clsx(
+              "border-none focus-within:ring-transparent",
+              "outline-none",
+            )}
+          >
             <div className="flex items-center">
               <Image
                 src={user?.image || profilePicPlaceholder}
                 alt="Profile picture"
                 width={30}
                 height={30}
-                className="w-9 p-1 rounded-full"
+                className="w-9 rounded-full p-1"
               />
-              {user?.role === Role.ADMIN ?(
-                <>
-                Admin
-                </>
-              ):user?.role === Role.EMPLOYER  ?(
-                <>
-                Employer
-                </>
-              ):user?.role === Role.JOB_SEEKER ? (
-                <>
-                Job Seeker
-                </>
-              ):user?.role === Role.STAFF ? (
-                <>
-                Staff
-                </>
-                ):null}
+              {user?.role === Role.ADMIN ? (
+                <>Admin</>
+              ) : user?.role === Role.EMPLOYER ? (
+                <>Employer</>
+              ) : user?.role === Role.JOB_SEEKER ? (
+                <>Job Seeker</>
+              ) : user?.role === Role.STAFF ? (
+                <>Staff</>
+              ) : null}
 
-              
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="h-4 w-4" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -66,107 +61,135 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
               <DropdownMenuItem className="py-2">
-              <Link href="/profile/dashboard/admin/users" className="hover:cursor-pointer">
-                Dashboard
-              </Link>
-            </DropdownMenuItem>
-            ):(
-              <DropdownMenuItem className="py-2">
-              <Link href="/profile/dashboard/" className="hover:cursor-pointer">
-                Profile
-              </Link>
-            </DropdownMenuItem>
-            )}
-        
-              {/* job seeker options */}
-              {user?.role === Role.JOB_SEEKER ? (
-                <>
-                <DropdownMenuItem>
-                  <Link href="/profile/main-dashboard" className="h-full w-full hover:cursor-pointer">
-                    Dashboard
-                  </Link>   
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/search" className="h-full w-full hover:cursor-pointer">
-                    Find a Job
-                  </Link>   
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                <Link href="/profile/dashboard/job-seeker/jobs"
-                  className="h-full w-full hover:cursor-pointer" >
-                  My Jobs
+                <Link
+                  href="/profile/dashboard/admin/users"
+                  className="hover:cursor-pointer"
+                >
+                  Dashboard
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem className="py-2">
+                <Link
+                  href="/profile/dashboard/"
+                  className="hover:cursor-pointer"
+                >
+                  Profile
+                </Link>
+              </DropdownMenuItem>
+            )}
+
+            {/* job seeker options */}
+            {user?.role === Role.JOB_SEEKER ? (
+              <>
+                <DropdownMenuItem>
+                  <Link
+                    href="/profile/main-dashboard"
+                    className="h-full w-full hover:cursor-pointer"
+                  >
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="/search"
+                    className="h-full w-full hover:cursor-pointer"
+                  >
+                    Find a Job
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="/profile/dashboard/job-seeker/jobs"
+                    className="h-full w-full hover:cursor-pointer"
+                  >
+                    My Jobs
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
                   {/* 
                     add more dropdown items if needed
                    */}
                 </DropdownMenuItem>
               </>
-            ):null}
+            ) : null}
 
-              {/* employer options */}
-              
-              {user?.role === Role.EMPLOYER  ?(
-                <>
+            {/* employer options */}
+
+            {user?.role === Role.EMPLOYER ? (
+              <>
                 <DropdownMenuItem>
-                   <Link href="/profile/dashboard/employer/jobs"
-                        className=" hover:cursor-pointer ">
-                      Advertise
+                  <Link
+                    href="/profile/dashboard/employer/jobs"
+                    className=" hover:cursor-pointer "
+                  >
+                    Advertise
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/find-candidates" 
-                        className="hover:cursor-pointer">
-                      Find Candidates
+                  <Link
+                    href="/find-candidates"
+                    className="hover:cursor-pointer"
+                  >
+                    Find Candidates
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/profile/dashboard/employer/candidates" 
-                        className="hover:cursor-pointer">
-                      My candidates  
-                    </Link>
+                  <Link
+                    href="/profile/dashboard/employer/candidates"
+                    className="hover:cursor-pointer"
+                  >
+                    My candidates
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   {/* 
                     add more dropdown items if needed
                    */}
                 </DropdownMenuItem>
-                </>
-              ):null}
+              </>
+            ) : null}
 
-              {/* STAFF OPTIONS */}
-              {user?.role === Role.STAFF ? (
+            {/* STAFF OPTIONS */}
+            {user?.role === Role.STAFF ? (
               <Link href="/profile/dashboard">
                 <Button size="sm" variant="ghost">
                   <LogOut className="mr-2 h-4 w-4" />
                   Exit
                 </Button>
               </Link>
-   
             ) : null}
             <Button
               size="sm"
               variant="default"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
-              <LogOut className="text-sm mr-2 h-4 w-4" /> Logout
+              <LogOut className="mr-2 h-4 w-4 text-sm" /> Logout
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="flex items-center text-sm">
-          <button className="flex items-center border-0 p-1 text-sm hover:scale-95 text-orange-500" onClick={() => signIn()}>
+        <div className="flex items-center gap-2 text-sm">
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2 border-0 p-2 text-sm text-secondary hover:scale-95 hover:bg-slate-50"
+            onClick={() => signIn()}
+          >
             {/* <LogIn className="mr-2 h-4 w-4" /> */}
-             LogIn
-          </button>
-          <Link className="flex items-center text-sm p-2 px-2 rounded-lg  border-orange-400 text-white bg-primary hover:scale-95 hover:text-orange-500" href="/auth/signup/">
-            {/* <UserPlus className="mr-2 h-4 w-4" /> */}
-             Register
-          </Link>
+            LogIn
+            <LogInIcon className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" className="hover:text-secondary">
+            <Link
+              className="flex items-center gap-2 text-sm text-primary  hover:text-secondary"
+              href="/auth/signup/"
+            >
+              Register
+              <UserPlus className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       )}
-
     </>
   );
 }
