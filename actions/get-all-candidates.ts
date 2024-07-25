@@ -7,6 +7,7 @@ import {
   Sector,
   EducationLevel,
   Experience,
+  Skill,
 } from "@prisma/client";
 import { getLatestFileMetaData } from "./get-latest-file-metadata";
 import { getUserCv } from "./get-user-cv";
@@ -18,6 +19,7 @@ type candidate =
         sector: Sector;
         education: EducationLevel;
         experience: Experience;
+        skills: Skill[];
       };
     })
   | null;
@@ -167,6 +169,7 @@ export const getAllCandidates = async ({
             sector: true,
             education: true,
             experience: true,
+            skills: true,
           },
         },
       },
