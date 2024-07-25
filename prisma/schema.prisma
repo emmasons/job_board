@@ -137,11 +137,11 @@ model User {
   applications              Application[]
   cv                        CV?
   candidates                Candidate[]
-  Company                   Company[]
   Job                       Job[]
   jobSeekerProfile          JobSeekerProfile?
   Post                      Post[]
   profile                   Profile?
+  employerProfile           EmployerProfile?
 
   @@map("users")
 }
@@ -163,16 +163,38 @@ model GCPData {
   downloadUrl      String
 }
 
+model EmployerProfile {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  company Company?
+  address Address?
+}
+
 model Address {
-  id             String  @id @default(cuid())
-  city           String
-  state          String
-  zipCode        String
-  country        String
-  companyId      String  @unique
+  id         String @id @default(cuid())
+  city       String
+  state      String
+  postalCode String
+  country    String
+
   addressLineOne String
-  addressLineTwo String
-  company        Company @relation(fields: [companyId], references: [id])
+  addressLineTwo String?
+
+  employerProfileId String?          @unique
+  employerProfile   EmployerProfile? @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id           String @id @default(cuid())
+  companyEmail String @unique
+  companyName  String @unique
+  Job          Job[]
+
+  employerProfileId String?          @unique
+  employerProfile   EmployerProfile? @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
 }
 
 model EducationLevel {
@@ -194,16 +216,6 @@ model Sector {
   label            String             @unique
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
-}
-
-model Company {
-  id           String   @id @default(cuid())
-  companyEmail String   @unique
-  companyName  String   @unique
-  ownerId      String?
-  address      Address?
-  owner        User?    @relation(fields: [ownerId], references: [id])
-  Job          Job[]
 }
 
 enum JOBTYPE {

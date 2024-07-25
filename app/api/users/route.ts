@@ -28,13 +28,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(role, cvFile, "************");
-
     if (role === Role.JOB_SEEKER && !cvFile) {
       return NextResponse.json(
         { message: "All fields are required." },
         { status: 400 },
       );
+    }
+
+    if (role === Role.EMPLOYER) {
+      //  create employer profile
     }
 
     const duplicate = await db.user.findUnique({ where: { email: email } });
