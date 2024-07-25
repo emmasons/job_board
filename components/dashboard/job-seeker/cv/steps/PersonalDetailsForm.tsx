@@ -68,7 +68,6 @@ const PersonalDetailsForm = ({
   isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  // const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
@@ -103,7 +102,7 @@ const PersonalDetailsForm = ({
       alternateContactNumber: initialData?.alternateContactNumber || "",
     },
   });
-  console.log("initial Data", initialData);
+  // console.log("initial Data", initialData);
   const percentage =
     initialData?.gender && initialData?.gender.trim() !== ""
       ? 0
@@ -178,67 +177,67 @@ const PersonalDetailsForm = ({
       {!isEditing && (
         <div className="flex basis-0 flex-col font-serif">
           <span className="flex gap-8 py-2">
-            <p className="text-md  min-w-32 text-slate-400"> Gender </p>
+            <p className="text-md  min-w-40 text-slate-400"> Gender </p>
             <p className="text-md font-mono capitalize">
               {initialData?.gender}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Nationality </p>
+            <p className="text-md min-w-40 text-slate-400"> Nationality </p>
             <p className="text-md font-mono capitalize">
               {initialData?.nationality}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Location</p>
+            <p className="text-md min-w-40 text-slate-400"> Location</p>
             <p className="text-md font-mono capitalize">
               {initialData?.currentLocation}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Date of Birth </p>
+            <p className="text-md min-w-40 text-slate-400"> Date of Birth </p>
             <p className="text-md font-mono capitalize">
               {initialData?.dateOfBirth?.toLocaleDateString()}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Marital Status </p>
+            <p className="text-md min-w-40 text-slate-400"> Marital Status </p>
             <p className="text-md font-mono capitalize">
               {initialData?.maritalStatus}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Driving License </p>
+            <p className="text-md min-w-40 text-slate-400"> Driving License </p>
             <p className="text-md font-mono capitalize">
               {initialData?.drivingLicense ? "Yes" : "No"}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Languages Known </p>
+            <p className="text-md min-w-40 text-slate-400"> Languages Known </p>
             <p className="text-md font-mono capitalize">
               {initialData?.gender}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Visa status </p>
+            <p className="text-md min-w-40 text-slate-400"> Visa status </p>
             <p className="text-md font-mono capitalize">
               {initialData?.visaStatus}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400">Religion </p>
+            <p className="text-md min-w-40 text-slate-400">Religion </p>
             <p className="text-md font-mono capitalize">
               {initialData?.religion}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400"> Alternate Email </p>
+            <p className="text-md min-w-40 text-slate-400"> Alternate Email </p>
             <p className="text-md font-mono capitalize">
               {initialData?.alternateEmail}
             </p>
           </span>
           <span className="flex gap-8 py-2">
-            <p className="text-md min-w-32 text-slate-400">
+            <p className="text-md min-w-40 text-slate-400">
               Alternate Phone Number
             </p>
             <p className="text-md font-mono capitalize">

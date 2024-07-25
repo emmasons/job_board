@@ -83,7 +83,7 @@ const DesiredJobsForm = ({
           }),     
         },
       );
-       console.log(values);
+      //  console.log(values);
       const response = await res.json();
       if (!res.ok) {
         toast({
@@ -112,8 +112,8 @@ const DesiredJobsForm = ({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between p-6">
+    <div className="p-4">
+      <div className="flex items-center justify-between py-4">
         <div className="">
           <p className="font-sans text-xl font-semibold">{title}</p>
           <p className="py-2 text-sm text-zinc-500">
@@ -133,20 +133,32 @@ const DesiredJobsForm = ({
         )}
       </div>
       {!isEditing && (
-        <div className="relative mt-2">
-          <div className="p-6">
-            <p className="mb-3 text-sm text-slate-500">
-              <span className="font-semibold">Preferred Designation:</span>{" "}
-              {initialData?.designation}
-            </p>
-            <p className="mb-3 text-sm text-slate-500">
-              <span className="font-semibold">Preferred Location:</span>{" "}
-              {initialData?.location}
-            </p>
-            <p className="mb-3 text-sm text-slate-500">
-              <span className="font-semibold">Preferred Industry:</span>{" "}
-              {initialData?.industry}
-            </p>
+        <div className="relative">
+          <div className="">
+            <span className="flex gap-8">
+              <p className="mb-3 min-w-40 text-sm text-slate-500">
+                Preferred Designation:
+              </p>
+              <p className="text-md font-mono capitalize">
+                {initialData?.designation}
+              </p>
+            </span>
+            <span className="flex gap-8">
+              <p className="mb-3 min-w-40 text-sm text-slate-500">
+                Preferred Location:
+              </p>
+              <p className="text-md font-mono capitalize">
+                {initialData?.location}
+              </p>
+            </span>
+            <span className="flex gap-8">
+              <p className="mb-3 min-w-40 text-sm text-slate-500">
+                Preferred Industry:
+              </p>
+              <p className="text-md font-mono capitalize">
+                {initialData?.industry}
+              </p>
+            </span>
           </div>
         </div>
       )}

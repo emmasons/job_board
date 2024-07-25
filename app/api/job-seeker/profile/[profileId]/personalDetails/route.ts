@@ -7,7 +7,7 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const body = await req.json();  // Parse the body as JSON
+    // const body = await req.json();  // Parse the body as JSON
 
     const { profilePercentage, ...values } = await req.json();
     // console.log("Request Body:", values);
@@ -31,7 +31,7 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
         data: { ...values },
       });
     } else {
-      // Create new personal details
+      // Create new under paris parispersonal details
       personalDetails = await db.personalDetails.create({
         data: {
           ...values,
@@ -40,6 +40,7 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       });
     }
 
+    // handle percentage
     if (profilePercentage) {
       const percentage = parseInt(profilePercentage, 10);
       await db.jobSeekerProfilePercentage.upsert({
