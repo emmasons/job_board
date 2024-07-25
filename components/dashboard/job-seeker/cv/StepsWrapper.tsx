@@ -121,6 +121,7 @@ const StepsWrapper = ({
       location={employmentDetails?.location || ""}
       description={employmentDetails?.description || ""}
       profilePercentage={20}
+      // initialData={employmentDetails}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 

@@ -60,7 +60,7 @@ const DesiredJobsForm = ({
     },
   });
 
-
+  console.log("Initial Data", initialData)
   const percentage =
     initialData?.designation && initialData?.designation.trim() !== ""
       ? 0

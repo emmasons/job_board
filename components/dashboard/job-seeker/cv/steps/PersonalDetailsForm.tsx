@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { date, z } from "zod";
+import {  z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -34,11 +34,11 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersonalDetails } from "@prisma/client";
-import { init } from "@paralleldrive/cuid2";
+
 
 type Props = {
   profileId: string;
@@ -57,9 +57,16 @@ type Props = {
     alternateEmail: string | null | undefined;
     alternateContactNumber: string | null | undefined;
   };
+  isJobSeekerComponent: Boolean;
 };
 
-const PersonalDetailsForm = ({ title, profileId, profilePercentage, initialData }: Props) => {
+const PersonalDetailsForm = ({
+  title,
+  profileId,
+  profilePercentage,
+  initialData,
+  isJobSeekerComponent = true,
+}: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   // const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -80,7 +87,6 @@ const PersonalDetailsForm = ({ title, profileId, profilePercentage, initialData 
     alternateContactNumber: z.string().optional(),
   });
 
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -97,7 +103,7 @@ const PersonalDetailsForm = ({ title, profileId, profilePercentage, initialData 
       alternateContactNumber: initialData?.alternateContactNumber || "",
     },
   });
-
+  console.log("initial Data", initialData);
   const percentage =
     initialData?.gender && initialData?.gender.trim() !== ""
       ? 0
@@ -156,17 +162,18 @@ const PersonalDetailsForm = ({ title, profileId, profilePercentage, initialData 
             Outline your professional career to Employers
           </p>
         </div>
-
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            "Cancel"
-          ) : (
-            <>
-              <Pencil className="mr-2 h-4 w-4" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              "Cancel"
+            ) : (
+              <>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <div className="flex basis-0 flex-col font-serif">
