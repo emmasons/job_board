@@ -285,11 +285,18 @@ async function createOccupations() {
   }
 }
 
+async function clearTable(tableName) {
+  // await database.$executeRawUnsafe(`DELETE FROM ${tableName} CASCADE;`);
+  await database.address.deleteMany();
+  console.log(`Table ${tableName} cleared`);
+}
+
 async function main() {
-  await createEducationLevels();
-  await createExperienceLevels();
-  await createSectors();
-  await createOccupations();
+  // await createEducationLevels();
+  // await createExperienceLevels();
+  // await createSectors();
+  // await createOccupations();
+  await clearTable("company");
 }
 
 main();
