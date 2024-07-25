@@ -277,6 +277,61 @@ const ActionsComponent = ({
             </li>
             <li>
               {loggedInEmployer ? (
+                <a
+                  href="mailto:${candidate?.email}"
+                  target="_blank"
+                  className="flex items-center gap-2"
+                >
+                  <Mail className="h-4 w-4 text-primary" />
+                  <p className="text-sm"> Contact candidate</p>
+                </a>
+              ) : (
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="flex items-center gap-2">
+                      <PlusCircle className="h-4 w-4 text-primary" />
+                      <p className="text-sm">Add CV to folder</p>
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        <div className="text-center">
+                          <CircleSlash2 className="h-8 w-8 text-red-500" />
+                        </div>
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        <div>
+                          <p>You are currently not logged in</p>
+                          <p>
+                            Please{" "}
+                            <Link
+                              href="/auth/signin?callbackUrl=/find-candidates"
+                              className="text-primary"
+                            >
+                              login
+                            </Link>{" "}
+                            or{" "}
+                            <Link
+                              href="/auth/signup/employer"
+                              className="text-primary"
+                            >
+                              register
+                            </Link>{" "}
+                            as an employer to view CV
+                          </p>
+                        </div>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Close</AlertDialogCancel>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
+            </li>
+            <li>
+              {loggedInEmployer ? (
                 <>
                   {candidateIds?.some(
                     ({ candidateId }) => candidateId === candidate?.id,
