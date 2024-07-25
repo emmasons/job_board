@@ -7,10 +7,10 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    // const body = await req.json();  // Parse the body as JSON
+    const body = await req.json();  // Parse the body as JSON
 
     const { profilePercentage, ...values } = await req.json();
-    console.log("Request Body:", values);
+    // console.log("Request Body:", values);
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -48,7 +48,7 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
         },
         update: {
           percentage: {
-            increment: percentage, // console.log("Request Body:", body);
+            increment: percentage,
           },
         },
         create: {

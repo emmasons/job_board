@@ -1,4 +1,5 @@
 import {
+  DesiredJob,
   EducationLevel,
   Experience,
   JobSeekerProfile,
@@ -15,4 +16,5 @@ export type JobSeekerProfileProps = JobSeekerProfile & {
   profilePercentage: JobSeekerProfilePercentage;
   skills: Skill[];
   personalDetails: PersonalDetails;
+  desiredJob: DesiredJob;
 };

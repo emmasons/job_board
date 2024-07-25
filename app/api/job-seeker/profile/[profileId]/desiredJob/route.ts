@@ -8,7 +8,8 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    const values = await req.json();
+    const { profilePercentage, ...values } = await req.json();
+    console.log("Request Body:", values);
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -21,12 +22,14 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
     });
 
     let desiredJob;
+    // update existing desired job content
     if (existingJob) {
       desiredJob = await db.desiredJob.update({
         where: { id: existingJob.id },
         data: { ...values },
       });
     } else {
+      // create a new desired job
       desiredJob = await db.desiredJob.create({
         data: {
           ...values,
@@ -35,6 +38,26 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       });
     }
 
+    // handle percentage
+    if (profilePercentage) {
+      const percentage = parseInt(profilePercentage, 10);
+      await db.jobSeekerProfilePercentage.upsert({
+        where: {
+          jobSeekerProfileId: params.profileId,
+        },
+        update: {
+          percentage: {
+            increment: percentage,
+          },
+        },
+        create: {
+          jobSeekerProfileId: params.profileId,
+          percentage: percentage,
+        },
+      });
+    }
+
+
     return NextResponse.json(desiredJob, { status: 200 });
   } catch (error) {
     console.log("[PROFILE_ID]", error);
@@ -42,17 +65,4 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
   }
 }
 
-// GET handler for fetching employment details
-export async function GET(req: Request, { params }: { params: { profileId: string } }) {
-  try {
-    const desiredJob = await db.desiredJob.findFirst({
-      where: {
-        jobSeekerProfileId: params.profileId,
-      },
-    });
-    return NextResponse.json(desiredJob, { status: 200 });
-  } catch (error) {
-    console.log("[PROFILE_ID]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
-  }
-}
+

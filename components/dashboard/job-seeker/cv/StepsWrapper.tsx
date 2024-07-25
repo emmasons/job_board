@@ -127,13 +127,14 @@ const StepsWrapper = ({
     <DesiredJobsForm
       key={7}
       title="Desired job"
-      description="Add your desired jobs"
       profileId={jobSeekerProfile.id}
-      designation={desiredJob?.designation || ""}
-      location={desiredJob?.location || ""}
-      industry={desiredJob?.industry || ""}
       profilePercentage={10}
-      isJobSeekerComponent={isJobSeekerComponent}
+      initialData={desiredJob}
+      // description="Add your desired jobs"
+      // designation={desiredJob?.designation || ""}
+      // location={desiredJob?.location || ""}
+      // industry={desiredJob?.industry || ""}
+      // isJobSeekerComponent={isJobSeekerComponent}
     />,
 
     <PersonalDetailsForm
