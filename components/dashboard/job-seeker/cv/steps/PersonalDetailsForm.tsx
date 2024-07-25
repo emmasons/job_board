@@ -43,8 +43,9 @@ import { init } from "@paralleldrive/cuid2";
 type Props = {
   profileId: string;
   title: string;
+  profilePercentage: Number;
   initialData: {
-    dateOfBirth: Date | null | undefined;
+    dateOfBirth: Date;
     gender: string | null | undefined;
     nationality: string | null | undefined;
     maritalStatus: string | null | undefined;
@@ -58,9 +59,9 @@ type Props = {
   };
 };
 
-const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
+const PersonalDetailsForm = ({ title, profileId, profilePercentage, initialData }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
+  // const [editingItem, setEditingItem] = useState<PersonalDetails | null>(null);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
@@ -79,47 +80,30 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
     alternateContactNumber: z.string().optional(),
   });
 
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dateOfBirth: initialData.dateOfBirth,
-      gender: initialData.gender || "",
-      nationality: initialData.nationality || "",
-      maritalStatus: initialData.maritalStatus || "",
-      drivingLicense: initialData.drivingLicense || false,
-      currentLocation: initialData.currentLocation || "",
-      languagesKnown: initialData.languagesKnown || "",
-      visaStatus: initialData.visaStatus || "",
-      religion: initialData.religion || "",
-      alternateEmail: initialData.alternateEmail || "",
-      alternateContactNumber: initialData.alternateContactNumber || "",
+      dateOfBirth: initialData?.dateOfBirth || new Date(),
+      gender: initialData?.gender || "",
+      nationality: initialData?.nationality || "",
+      maritalStatus: initialData?.maritalStatus || "",
+      drivingLicense: initialData?.drivingLicense || false,
+      currentLocation: initialData?.currentLocation || "",
+      languagesKnown: initialData?.languagesKnown || "",
+      visaStatus: initialData?.visaStatus || "",
+      religion: initialData?.religion || "",
+      alternateEmail: initialData?.alternateEmail || "",
+      alternateContactNumber: initialData?.alternateContactNumber || "",
     },
   });
 
-  const handleEdit = (personal: PersonalDetails) => {
-    setEditingItem(personal);
-    form.reset({
-      dateOfBirth: personal.dateOfBirth,
-      gender: personal.gender,
-      nationality: personal.nationality || "",
-      maritalStatus: personal.maritalStatus || "",
-      drivingLicense: personal.drivingLicense,
-      currentLocation: personal.currentLocation || "",
-      languagesKnown: personal.languagesKnown || "",
-      visaStatus: personal.visaStatus || "",
-      religion: personal.religion || "",
-      alternateEmail: personal.alternateEmail || "",
-      alternateContactNumber: personal.alternateContactNumber || "",
-    });
-    setIsEditing(true);
-  };
+  const percentage =
+    initialData?.gender && initialData?.gender.trim() !== ""
+      ? 0
+      : profilePercentage;
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting, isValid, errors },
-  } = form;
-  const [loading, setLoading] = useState(false);
-
+  const { isSubmitting, isValid, errors } = form.formState;
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const res = await fetch(
@@ -132,6 +116,7 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
           body: JSON.stringify({
             ...values,
             dateOfBirth: values.dateOfBirth.toISOString(),
+            profilePercentage: percentage,
           }),
         },
       );
@@ -163,7 +148,7 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
   }
 
   return (
-    <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
+    <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-6">
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
           <p className="font-sans text-xl font-semibold">{title}</p>
@@ -185,52 +170,72 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
       </div>
       {!isEditing && (
         <div className="flex basis-0 flex-col font-serif">
-          <span className="gap-8text-center grid w-48 basis-0 grid-cols-2">
-            <p className="text-md justify-between text-slate-400"> Gender </p>
-            <p className="font-mono text-xl capitalize">{initialData.gender}</p>
-          </span>
-          <span className="grid w-48 grid-cols-2 justify-between items-baseline gap-8 py-4">
-            <p className="text-md text-slate-400"> Nationality </p>
-            <p className="text-xl font-mono capitalize">
-              {initialData.nationality}
+          <span className="flex gap-8 py-2">
+            <p className="text-md  min-w-32 text-slate-400"> Gender </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.gender}
             </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Location</p>
-            <p className="text-md capitalize">{initialData.currentLocation}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Nationality </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.nationality}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Date of Birth </p>
-            {/* <p className="text-lg capitalize">{initialData.dateOfBirth}</p> */}
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Location</p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.currentLocation}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Marital Status </p>
-            <p className="text-lg capitalize">{initialData.maritalStatus}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Date of Birth </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.dateOfBirth?.toLocaleDateString()}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Driving License </p>
-            <p className="text-lg capitalize">{initialData.drivingLicense}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Marital Status </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.maritalStatus}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Languages Known </p>
-            <p className="text-lg capitalize">{initialData.gender}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Driving License </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.drivingLicense ? "Yes" : "No"}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Visa </p>
-            <p className="text-lg capitalize">{initialData.visaStatus}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Languages Known </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.gender}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400">Religion </p>
-            <p className="text-lg capitalize">{initialData.religion}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Visa status </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.visaStatus}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400"> Gender </p>
-            <p className="text-lg capitalize">{initialData.alternateEmail}</p>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400">Religion </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.religion}
+            </p>
           </span>
-          <span className="flex gap-8 py-4 text-center">
-            <p className="text-md text-slate-400">Alternate Phone Number</p>
-            <p className="text-lg capitalize">
-              {initialData.alternateContactNumber}
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400"> Alternate Email </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.alternateEmail}
+            </p>
+          </span>
+          <span className="flex gap-8 py-2">
+            <p className="text-md min-w-32 text-slate-400">
+              Alternate Phone Number
+            </p>
+            <p className="text-md font-mono capitalize">
+              {initialData?.alternateContactNumber}
             </p>
           </span>
         </div>
@@ -238,7 +243,6 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* date of birth */}mt-2
             <FormField
               control={form.control}
               name="dateOfBirth"
@@ -434,21 +438,21 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="visit">
+                      <SelectItem value="Visit Visa / Transit Visa">
                         Visit Visa / Transit Visa
                       </SelectItem>
-                      <SelectItem value="student">Student Visa</SelectItem>
-                      <SelectItem value="employment">
+                      <SelectItem value="Student Visa">Student Visa</SelectItem>
+                      <SelectItem value="Employment Visa - Mainland">
                         Employment Visa - Mainland
                       </SelectItem>
-                      <SelectItem value="freezone">
+                      <SelectItem value="Employment Visa - Freezone">
                         Employment Visa - Freezone
                       </SelectItem>
-                      <SelectItem value="golden">Golden Visa</SelectItem>
-                      <SelectItem value="dependent">
+                      <SelectItem value="Golden Visa">Golden Visa</SelectItem>
+                      <SelectItem value="Dependent Visa / Family Visa">
                         Dependent Visa / Family Visa
                       </SelectItem>
-                      <SelectItem value="national">
+                      <SelectItem value="GCC National Visa">
                         GCC National Visa
                       </SelectItem>
                       <SelectItem value="other">Other</SelectItem>
@@ -524,7 +528,7 @@ const PersonalDetailsForm = ({ title, profileId, initialData }: Props) => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              {loading ? (
+              {isSubmitting ? (
                 <Button type="submit" disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Saving...

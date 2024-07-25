@@ -35,7 +35,7 @@ type Props = {
   educationLevels: EducationLevel[];
   employmentDetails: EmploymentDetails | null;
   desiredJob: DesiredJob | null;
-  personalDetails: PersonalDetails | null;
+  personalDetails: PersonalDetails | null | undefined;
   experience: Experience[];
   isJobSeekerComponent: boolean;
 };
