@@ -40,9 +40,14 @@ import { candidate } from "@/actions/get-all-candidates";
 type Props = {
   candidates: candidate[] | null;
   candidateIds: Candidate[] | null;
+  loggedInEmployer: boolean;
 };
 
-const CandidateList = ({ candidates, candidateIds }: Props) => {
+const CandidateList = ({
+  candidates,
+  candidateIds,
+  loggedInEmployer,
+}: Props) => {
   return (
     <div className="flex flex-col gap-4 bg-slate-100">
       {candidates?.map((candidate) => (
@@ -56,10 +61,11 @@ const CandidateList = ({ candidates, candidateIds }: Props) => {
               {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
                 candidate?.email}
             </p>
-           
+
             <ActionsComponent
               candidateIds={candidateIds}
               candidate={candidate}
+              loggedInEmployer={loggedInEmployer}
             />
 
             {/* <Dialog>

@@ -29,7 +29,7 @@ const CandidateFilters = async ({
   const levels = await getEducationLevels();
 
   return (
-    <div className={cn("space-y-4 px-8", className)}>
+    <div className={cn("space-y-4", className)}>
       <div className={cn("space-y-2", formClasses)}>
         <KeywordSearch />
       </div>
