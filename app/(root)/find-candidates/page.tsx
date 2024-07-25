@@ -66,7 +66,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
   return (
     <MaxWidthWrapper className="py-4">
       <div className="flex flex-col items-center justify-between gap-4 rounded-md bg-sky-100 py-20">
-        <h1>CV Search</h1>
+        <h1 className="text-xl font-bold">CV Search For Employers</h1>
         <p>
           Search for the perfect candidate. Please enter one or more keywords
           that will help us find relevant CVs.
@@ -75,54 +75,40 @@ const page = async ({ searchParams }: SearchPageProps) => {
           <SearchInput />
         </div>
         <RemoveSearchParam />
-        {!hasParams && (
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="inline-flex px-8">Show more search options</AccordionTrigger>
-              <AccordionContent>
-                <CandidateFilters
-                  className="grid-cols-3 gap-4 md:grid"
-                  showFilterByCountry={false}
-                  formClasses="col-span-3"
-                />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )}
+      </div>
+
+      <div className="space-y-4">
+        <Suspense fallback={<CandidatesSkeleton />}>
+          <section className="mt-6 flex gap-4">
+            <div className="md:w-1/3">
+              <CandidateFilters />
+            </div>
+            <div className="md:w-2/3">
+              <CandidateList candidates={items} candidateIds={candidateIds} />
+            </div>
+          </section>
+        </Suspense>
+        <PaginationControls
+          hasNextPage={end < candidates.length}
+          hasPrevPage={start > 0}
+          totalPages={totalPages}
+        />
       </div>
       {!hasParams && (
-        <div className="md:w-2/3">
-          <h2 className="my-6 text-2xl">Frequently Asked Questions</h2>
-          <Accordion type="single" collapsible defaultValue={cvFaqs[0].title}>
-            {cvFaqs.map((faq) => (
-              <AccordionItem value={faq.title} key={faq.title}>
-                <AccordionTrigger className="text-lg font-semibold text-primary">
-                  {faq.title}
-                </AccordionTrigger>
-                <AccordionContent>{faq.description}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      )}
-
-      {hasParams && (
-        <div className="space-y-4">
-          <Suspense fallback={<CandidatesSkeleton />}>
-            <section className="mt-6 flex gap-4">
-              <div className="md:w-1/3">
-                <CandidateFilters />
-              </div>
-              <div className="md:w-2/3">
-                <CandidateList candidates={items} candidateIds={candidateIds} />
-              </div>
-            </section>
-          </Suspense>
-          <PaginationControls
-            hasNextPage={end < candidates.length}
-            hasPrevPage={start > 0}
-            totalPages={totalPages}
-          />
+        <div className="flex items-center justify-center bg-sky-100 md:p-20">
+          <div className="basis-2/3">
+            <h2 className="my-6 text-2xl">Frequently Asked Questions</h2>
+            <Accordion type="single" collapsible defaultValue={cvFaqs[0].title}>
+              {cvFaqs.map((faq) => (
+                <AccordionItem value={faq.title} key={faq.title}>
+                  <AccordionTrigger className="text-lg font-semibold text-primary">
+                    {faq.title}
+                  </AccordionTrigger>
+                  <AccordionContent>{faq.description}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       )}
     </MaxWidthWrapper>

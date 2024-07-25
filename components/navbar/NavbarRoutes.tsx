@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Session } from "next-auth";
 import { Logo } from "./Logo";
-import Home from "./home";
+import Common from "./Common";
 import JobsDropdown from "./jobs-dropdown";
 import BlogsDropdown from "./blogs-dropdown";
 import ServicesDropdown from "./services-dropdown";
@@ -22,7 +22,7 @@ export default function NavbarRoutes({ user }: Props) {
           </Link>
           <div className="text-sm ml-auto flex items-center mr-auto gap-x-2">
             <div className="relative group">
-              <Home />
+              <Common />
             </div>
             <div className="relative group">
               <JobsDropdown />
