@@ -10,6 +10,7 @@ import {
 } from "@prisma/client";
 import {
   Briefcase,
+  CalendarDaysIcon,
   CheckCircle,
   File,
   FileText,
@@ -32,18 +33,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import PDFViewer from "../PDFViewer";
-
-type candidate =
-  | (User & {
-      profile: Profile;
-      jobSeekerProfile: JobSeekerProfile & {
-        sector: Sector;
-        education: EducationLevel;
-        experience: Experience;
-        skills: Skill[];
-      };
-    })
-  | null;
+import { format } from "date-fns";
+import ActionsComponent from "./ActionsComponent";
+import { candidate } from "@/actions/get-all-candidates";
 
 type Props = {
   candidates: candidate[] | null;
@@ -64,14 +56,109 @@ const CandidateList = ({ candidates, candidateIds }: Props) => {
               {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
                 candidate?.email}
             </p>
-         
+           
+            <ActionsComponent
+              candidateIds={candidateIds}
+              candidate={candidate}
+            />
+
+            {/* <Dialog>
+              <DialogTrigger>
+                <FileText className="h-8 w-8 text-primary" />
+              </DialogTrigger>
+              <DialogContent className="max-w-[75%]">
+                <DialogHeader>
+                  <DialogTitle>
+                    <div className="flex justify-between bg-sky-100 p-4">
+                      <div>
+                        <Dialog>
+                          <DialogTrigger>
+                            <div className="flex flex-col gap-2">
+                              <p>Contact</p>
+                              <Button className="inline-flex items-center justify-center">
+                                <UserSquareIcon className="h-4 w-4 text-white" />
+                              </Button>
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
+                                  "Candidate Name"}
+                              </DialogTitle>
+                              <DialogDescription>
+                                <a
+                                  href="mailto:{candidate?.email}"
+                                  className="flex items-center gap-2"
+                                >
+                                  Email
+                                  {candidate?.email && (
+                                    <Mail className="h-4 w-4 text-secondary" />
+                                  )}
+                                </a>
+                                <a
+                                  href="tel:{candidate?.profile?.phoneNumber}"
+                                  className="flex items-center gap-2"
+                                >
+                                  Phone
+                                  {candidate?.profile?.phoneNumber && (
+                                    <Phone className="h-4 w-4 text-secondary" />
+                                  )}
+                                </a>
+                              </DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p>Reachability</p>
+                        <div className="flex flex-1 items-center justify-center gap-2">
+                          {candidate?.email && (
+                            <Mail className="h-6 w-6 text-secondary" />
+                          )}
+                          {candidate?.profile.phoneNumber && (
+                            <Phone className="h-6 w-6 text-secondary" />
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p>Save CV</p>
+                        <AddCandidateForm candidateId={candidate?.id} />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <p>Print</p>
+                        <div className="flex flex-1 items-center justify-center gap-2">
+                          <Printer className="h-8 w-8 text-secondary" />
+                        </div>
+                      </div>
+                    </div>
+                  </DialogTitle>
+                  <DialogDescription>
+                    <PDFViewer pdfUrl={candidate.cvFile.downloadUrl} />
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog> */}
+            {/* </>
+            )} */}
           </div>
-          <div className="flex justify-between gap-4 ">
+          <div className="">
             <div className="">
-              <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
-                <UserSquareIcon className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile.cvHeadLine}
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
+                  <UserSquareIcon className="h-4 w-4 text-primary" />
+                  {candidate?.jobSeekerProfile.cvHeadLine}
+                </p>
+                <div className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                  <CalendarDaysIcon className="h-4 w-4 text-primary" />
+                  {candidate?.jobSeekerProfile.updatedAt
+                    ? format(
+                        new Date(candidate.jobSeekerProfile.updatedAt),
+                        "MMM d, yyyy",
+                      )
+                    : "N/A"}
+                </div>
+              </div>
               <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
                 <Flag className="h-4 w-4 text-primary" />
                 {candidate?.jobSeekerProfile?.country || "N/A"}
@@ -91,7 +178,7 @@ const CandidateList = ({ candidates, candidateIds }: Props) => {
                     {candidate?.jobSeekerProfile.skills.map((skill) => (
                       <span
                         key={skill.id}
-                        className="rounde d-[0.7rem] py-1text-primary bg-primary/10 px-2"
+                        className="py-1text-primary rounded-[0.7rem] bg-primary/10 px-2"
                       >
                         {skill.skill}
                       </span>
@@ -100,96 +187,7 @@ const CandidateList = ({ candidates, candidateIds }: Props) => {
                 )}
               </div>
             </div>
-            <div>
-              {candidateIds?.some(
-                ({ candidateId }) => candidateId === candidate?.id,
-              ) ? (
-                <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                  <CheckCircle className="h-4 w-4 text-primary" />
-                  Added to your folder
-                </p>
-              ) : (
-                <>
-                  <Dialog>
-                    <DialogTrigger>
-                      <FileText className="h-8 w-8 text-primary" />
-                    </DialogTrigger>
-                    <DialogContent className="max-w-[75%]">
-                      <DialogHeader>
-                        <DialogTitle>
-                          <div className="flex justify-between bg-sky-100 p-4">
-                            <div>
-                              <Dialog>
-                                <DialogTrigger>
-                                  <div className="flex flex-col gap-2">
-                                    <p>Contact</p>
-                                    <Button className="inline-flex items-center justify-center">
-                                      <UserSquareIcon className="h-4 w-4 text-white" />
-                                    </Button>
-                                  </div>
-                                </DialogTrigger>
-                                <DialogContent>
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
-                                        "Candidate Name"}
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                      <a
-                                        href="mailto:{candidate?.email}"
-                                        className="flex items-center gap-2"
-                                      >
-                                        Email
-                                        {candidate?.email && (
-                                          <Mail className="h-4 w-4 text-secondary" />
-                                        )}
-                                      </a>
-                                      <a
-                                        href="tel:{candidate?.profile?.phoneNumber}"
-                                        className="flex items-center gap-2"
-                                      >
-                                        Phone
-                                        {candidate?.profile?.phoneNumber && (
-                                          <Phone className="h-4 w-4 text-secondary" />
-                                        )}
-                                      </a>
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                </DialogContent>
-                              </Dialog>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <p>Reachability</p>
-                              <div className="flex flex-1 items-center justify-center gap-2">
-                                {candidate?.email && (
-                                  <Mail className="h-6 w-6 text-secondary" />
-                                )}
-                                {candidate?.profile.phoneNumber && (
-                                  <Phone className="h-6 w-6 text-secondary" />
-                                )}
-                              </div>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <p>Save CV</p>
-                              <AddCandidateForm candidateId={candidate?.id} />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                              <p>Print</p>
-                              <div className="flex flex-1 items-center justify-center gap-2">
-                                <Printer className="h-8 w-8 text-secondary" />
-                              </div>
-                            </div>
-                          </div>
-                        </DialogTitle>
-                        <DialogDescription>
-                          <PDFViewer pdfUrl={candidate.cvFile.downloadUrl} />
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
-            </div>
+            <div></div>
           </div>
         </div>
       ))}

@@ -8,11 +8,12 @@ import {
   EducationLevel,
   Experience,
   Skill,
+  GCPData,
 } from "@prisma/client";
 import { getLatestFileMetaData } from "./get-latest-file-metadata";
 import { getUserCv } from "./get-user-cv";
 
-type candidate =
+export type candidate =
   | (User & {
       profile: Profile;
       jobSeekerProfile: JobSeekerProfile & {
@@ -21,6 +22,7 @@ type candidate =
         experience: Experience;
         skills: Skill[];
       };
+      cvFile: GCPData | null;
     })
   | null;
 

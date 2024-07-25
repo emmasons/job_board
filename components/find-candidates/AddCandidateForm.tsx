@@ -4,12 +4,14 @@ import { useState } from "react";
 import { Loader2, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 type Props = {
   candidateId: string;
+  iconColor?: string;
 };
 
-const AddCandidateForm = ({ candidateId }: Props) => {
+const AddCandidateForm = ({ candidateId, iconColor }: Props) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -46,17 +48,19 @@ const AddCandidateForm = ({ candidateId }: Props) => {
     }
   };
   return (
-    <div>
-      <Button
-        onClick={onClick}
-        className="inline-flex items-center justify-center"
-      >
+    <div className="inline-block cursor-pointer">
+      <div onClick={onClick}>
         {isLoading ? (
-          <Loader2 className="h-6 w-6 animate-spin" />
+          <Loader2
+            className={cn(
+              "animate-spin",
+              iconColor ? "h-4 w-4" : `h-${iconColor} w-${iconColor}`,
+            )}
+          />
         ) : (
-          <PlusCircle className="h-6 w-6" />
+          <PlusCircle className={cn("h-4 w-4", iconColor)} />
         )}
-      </Button>
+      </div>
     </div>
   );
 };
