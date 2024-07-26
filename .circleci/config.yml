@@ -81,21 +81,21 @@ workflows:
     jobs:
       - push_service_image:
           context:
-            - infinite_gcp
+            - infinite_context
       - deploy_service_cloud_run:
           context:
-            - infinite_gcp
+            - infinite_context
           requires:
             - push_service_image
       - production_deploy_hold:
           context:
-            - infinite_gcp
+            - infinite_context
           type: approval
           requires:
             - push_service_image
       - deploy_service_cloud_run:
           context:
-            - infinite_gcp
+            - infinite_context
           environment: production
           service-account-name: production@infinite-419910.iam.gserviceaccount.com
           requires:
