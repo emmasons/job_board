@@ -19,6 +19,8 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import Link from "next/link";
+
 
 // Example image import, replace with the actual image paths
 // import leadershipImage from 'index/cv-services/board_production_ckeditor_uploads_images_cvwriting.jpg';
@@ -57,7 +59,7 @@ const ProfessionalCvWriting: React.FC = () => {
                 Why Choose <br /> Jobs Connect's <br /> Professional CV Writing
                 Service
               </h3>
-              <ul className="list-none space-y-2  text-gray-800">
+              <ul className="mb-5 list-none space-y-2  text-gray-800">
                 <li className="flex items-center gap-4">
                   {" "}
                   <span className="text-primary">
@@ -94,13 +96,16 @@ const ProfessionalCvWriting: React.FC = () => {
                   Tailoring Content for Your Target Job Market.
                 </li>
               </ul>
-              <button className="mt-6 rounded-lg bg-blue-500 px-4 py-2 text-white shadow-md hover:bg-blue-700">
-                Our Services
-              </button>
+              <Link
+                href="#contact"
+                
+                className=" rounded-lg bg-blue-500 px-4 py-2 text-white shadow-md hover:bg-blue-700"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
         </div>
-
         {/* Statistics Section */}
         <h2 className="text-center text-3xl">
           How do I get my Professional CV
@@ -290,7 +295,7 @@ const ProfessionalCvWriting: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="w-full max-w-96 p-4">
+          <div id="contact" className="w-full max-w-96 p-4">
             <h2 className="mb-4 text-xl ">Schedule A Free Consultation</h2>
             <form className="rounded-lg bg-gray-50 p-6 text-sm shadow-md">
               <div className="mb-4">

@@ -30,7 +30,7 @@ const ServicesDropdown: React.FC = () => {
         SERVICES
       </Link>
       <div className="absolute left-0 mt-7 hidden w-52 bg-white pt-2 shadow-lg group-hover:block group-hover:border-t-4 group-hover:border-indigo-400">
-        <ul className="py-2">
+        {/* <ul className="py-2">
           {services.map((service) => (
             <li key={service.slug}>
               <Link
@@ -41,6 +41,16 @@ const ServicesDropdown: React.FC = () => {
               </Link>
             </li>
           ))}
+        </ul> */}
+        <ul className="py-2">
+          <li>
+            <Link
+              href={"cv-services/"}
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+            >
+              Professinal Cv writing
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
