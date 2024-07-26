@@ -33,7 +33,7 @@ type Props = {
   cvFile: GCPData | null;
   sectors: Sector[];
   educationLevels: EducationLevel[];
-  employmentDetails: EmploymentDetails | null;
+  employmentDetails: EmploymentDetails[] | null;
   desiredJob: DesiredJob | null;
   personalDetails: PersonalDetails | null | undefined;
   experience: Experience[];
@@ -116,12 +116,9 @@ const StepsWrapper = ({
       key={6}
       title="Employment Details"
       profileId={jobSeekerProfile.id}
-      designation={employmentDetails?.designation || ""}
-      company={employmentDetails?.company || ""}
-      location={employmentDetails?.location || ""}
-      description={employmentDetails?.description || ""}
+
       profilePercentage={20}
-      // initialData={employmentDetails}
+      initialData={employmentDetails}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 

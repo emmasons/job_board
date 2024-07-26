@@ -23,21 +23,21 @@ import { EmploymentDetails } from "@prisma/client";
 type Props = {
   title: string;
   profileId: string;
-  designation?: string;
-  company?: string;
-  location?: string;
-  description?: string;
+  initialData: {
+    designation?: string;
+    company?: string;
+    location?: string;
+    description?: string;
+  };
   profilePercentage: number;
+
   isJobSeekerComponent: Boolean;
 };
 
 const EmploymentDetailsForm = ({
   title,
   profileId,
-  designation,
-  company,
-  location,
-  description,
+  initialData,
   profilePercentage,
   isJobSeekerComponent = true,
 }: Props) => {
@@ -52,28 +52,28 @@ const EmploymentDetailsForm = ({
   const { toast } = useToast();
   const currentYear = new Date().getFullYear();
 
-  useEffect(() => {
-    async function fetchEmployments() {
-      try {
-        const res = await fetch(
-          `/api/job-seeker/profile/${profileId}/employmentDetails`,
-        );
-        if (!res.ok) {
-          throw new Error("Failed to fetch employment details");
-        }
-        const data = await res.json();
-        setEmploymentList(data);
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: error.message,
-        });
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchEmployments() {
+  //     try {
+  //       const res = await fetch(
+  //         `/api/job-seeker/profile/${profileId}/employmentDetails`,
+  //       );
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch employment details");
+  //       }
+  //       const data = await res.json();
+  //       setEmploymentList(data);
+  //     } catch (error) {
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Error",
+  //         description: error.message,
+  //       });
+  //     }
+  //   }
 
-    fetchEmployments();
-  }, [profileId, toast]);
+  //   fetchEmployments();
+  // }, [profileId, toast]);
 
   const formSchema = z.object({
     designation: z.string().min(2, "Designation is required"),
@@ -149,7 +149,6 @@ const EmploymentDetailsForm = ({
         `/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`,
         {
           method: "DELETE",
-         
         },
       );
 
@@ -168,7 +167,8 @@ const EmploymentDetailsForm = ({
           className: "bg-green-500",
         });
         setEmploymentList((prev) =>
-          prev.filter((item) => item.id !== employmentId));
+          prev.filter((item) => item.id !== employmentId),
+        );
         router.refresh();
       }
     } catch (error) {
@@ -192,17 +192,15 @@ const EmploymentDetailsForm = ({
         ...values,
         profilePercentage: percentage,
       };
-      
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),
       });
 
-
-
       const response = await res.json();
-      console.log(response)
+      console.log(response);
       if (!res.ok) {
         toast({
           variant: "destructive",
