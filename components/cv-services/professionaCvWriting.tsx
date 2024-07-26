@@ -37,7 +37,7 @@ const ProfessionalCvWriting: React.FC = () => {
             and we’re here to help you present your best self to potential
             employers.
           </p>
-          <div className="flex flex-wrap lg:flex-nowrap gap-16 rounded-2xl bg-amber-50 p-4 md:p-12">
+          <div className="flex flex-wrap gap-16 rounded-2xl bg-amber-50 p-4 md:p-12 lg:flex-nowrap">
             <div className="w-full max-w-2xl">
               <p className="mt-4 py-4 text-2xl text-gray-800">
                 Jobs Connect Your Gateway to <br /> A Successful Career in the
@@ -190,18 +190,19 @@ const ProfessionalCvWriting: React.FC = () => {
             <CardHeader className="">
               <h3 className="text-xl">Gold</h3>
               <span className="flex items-center">
-                <p className="text-3xl font-semibold text-primary">$1149.00</p>
-                <p className="text-sm text-gray-600">/ per month</p>
+                <p className="text-3xl font-semibold text-primary">$279.00</p>
+                <p className="text-sm text-gray-600">/ per CV</p>
               </span>
             </CardHeader>
             <CardContent>
               <ul className="list-disc space-y-2 pl-5 text-sm text-gray-800">
-                <li>60 keywords</li>
-                <li>6,000 monthly website visitors</li>
-                <li>8 blogs / month</li>
-                <li>10 quality backlinks / month</li>
-                <li>Dedicated expert team</li>
-                <li>Monitoring & reporting</li>
+                <li>In-depth consultation</li>
+                <li>Personalized CV tailored to your career goals</li>
+                <li>Professional layout and design</li>
+                <li>Cover letter included</li>
+                <li>Unlimited revisions within 30 days</li>
+                <li>Dedicated career expert</li>
+                <li>Satisfaction guarantee</li>
               </ul>
             </CardContent>
             <CardFooter className="text-center">
@@ -213,20 +214,24 @@ const ProfessionalCvWriting: React.FC = () => {
 
           <Card className="mb-8 w-full max-w-80 rounded-lg bg-white shadow-md">
             <CardHeader className="">
-              <h3 className="text-xl">Gold</h3>
+              <h3 className="text-xl">Platinum</h3>
               <span className="flex items-center">
-                <p className="text-3xl font-semibold text-gray-700">$1149.00</p>
-                <p className="text-sm text-gray-600">/ per month</p>
+                <p className="text-3xl font-semibold text-gray-700">$379.00</p>
+                <p className="text-sm text-gray-600">/ per CV</p>
               </span>
             </CardHeader>
             <CardContent>
               <ul className="list-disc space-y-2 pl-5 text-sm text-gray-800">
-                <li>60 keywords</li>
-                <li>6,000 monthly website visitors</li>
-                <li>8 blogs / month</li>
-                <li>10 quality backlinks / month</li>
-                <li>Dedicated expert team</li>
-                <li>Monitoring & reporting</li>
+                <li>Comprehensive consultation</li>
+                <li>
+                  Customized CV tailored to your industry and career goals
+                </li>
+                <li>Professional layout and design</li>
+                <li>Cover letter and LinkedIn profile update included</li>
+                <li>Unlimited revisions within 60 days</li>
+                <li>Personalized career advice and guidance</li>
+                <li>Dedicated career expert</li>
+                <li>Satisfaction guarantee</li>
               </ul>
             </CardContent>
             <CardFooter className="text-center">
