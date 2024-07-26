@@ -570,7 +570,7 @@ const EmploymentDetailsForm = ({
                     )
                   </p>
                   <p className="pt-4 text-sm text-zinc-700">
-                    {employment.description}
+                    {/* {employment.description} */}
                   </p>
                 </div>
               </div>
