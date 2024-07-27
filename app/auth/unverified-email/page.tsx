@@ -19,8 +19,8 @@ const page = async (props: Props) => {
     return notFound();
   }
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+    <div className="flex h-full w-full flex-col items-center justify-center ">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-slate-50 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <MailWarning className="h-16 w-16 text-white" />
         <h2 className="text-2xl font-bold text-secondary">
           Verify your email address
