@@ -1,9 +1,19 @@
 import { db } from "@/lib/db";
-import { User } from "@prisma/client";
+import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
+import { Profile, User, JobSeekerProfile, Experience } from "@prisma/client";
+
+export type CandidateProps = User & {
+  profile: Profile | null;
+  jobSeekerProfile:
+    | (JobSeekerProfile & {
+        experience: Experience | null;
+      })
+    | null;
+};
 
 export const getEmployerCandidates = async (
   employerId: string,
-): Promise<User & { profile: { firstName: string; lastName: string } }> => {
+): Promise<CandidateProps[] | null> => {
   try {
     const candidateIds = await db.candidate.findMany({
       where: {
@@ -18,11 +28,10 @@ export const getEmployerCandidates = async (
         id: { in: candidateIds.map(({ candidateId }) => candidateId) },
       },
       include: {
-        profile: {
-          select: {
-            firstName: true,
-            lastName: true,
-            phoneNumber: true,
+        profile: true,
+        jobSeekerProfile: {
+          include: {
+            experience: true,
           },
         },
       },

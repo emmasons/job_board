@@ -13,38 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { CandidateProps } from "@/actions/get-employer-candidates";
 
-export const columns: ColumnDef<
-  User & { profile: { firstName: string; lastName: string } }
->[] = [
-  {
-    accessorKey: "profile.firstName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          First Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "profile.lastName",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Last Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
+export const columns: ColumnDef<CandidateProps>[] = [
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -54,6 +25,34 @@ export const columns: ColumnDef<
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "jobSeekerProfile.country",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Country
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "jobSeekerProfile.cvHeadline",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Job Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

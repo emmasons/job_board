@@ -134,22 +134,22 @@ export const getAllCandidates = async ({
               },
             },
           },
-          {
-            jobSeekerProfile: {
-              desiredJob: {
-                some: {
-                  designation: {
-                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                    mode: "insensitive",
-                  },
-                  industry: {
-                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                    mode: "insensitive",
-                  },
-                },
-              },
-            },
-          },
+          // {
+          //   jobSeekerProfile: {
+          //     desiredJob: {
+          //       some: {
+          //         designation: {
+          //           contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+          //           mode: "insensitive",
+          //         },
+          //         industry: {
+          //           contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+          //           mode: "insensitive",
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
           {
             jobSeekerProfile: {
               employmentDetails: {
