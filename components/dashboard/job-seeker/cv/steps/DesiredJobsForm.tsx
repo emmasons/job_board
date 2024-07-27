@@ -60,7 +60,7 @@ const DesiredJobsForm = ({
     },
   });
 
-  console.log("Initial Data", initialData)
+  console.log("Initial Data", initialData);
   const percentage =
     initialData?.designation && initialData?.designation.trim() !== ""
       ? 0
@@ -78,9 +78,9 @@ const DesiredJobsForm = ({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ...values, 
+            ...values,
             profilePercentage: percentage,
-          }),     
+          }),
         },
       );
       //  console.log(values);
@@ -139,25 +139,19 @@ const DesiredJobsForm = ({
               <p className="mb-3 min-w-40 text-sm text-slate-500">
                 Preferred Designation:
               </p>
-              <p className="text-md font-mono capitalize">
-                {initialData?.designation}
-              </p>
+              <p className="text-md capitalize">{initialData?.designation}</p>
             </span>
             <span className="flex gap-8">
               <p className="mb-3 min-w-40 text-sm text-slate-500">
                 Preferred Location:
               </p>
-              <p className="text-md font-mono capitalize">
-                {initialData?.location}
-              </p>
+              <p className="text-md capitalize">{initialData?.location}</p>
             </span>
             <span className="flex gap-8">
               <p className="mb-3 min-w-40 text-sm text-slate-500">
                 Preferred Industry:
               </p>
-              <p className="text-md font-mono capitalize">
-                {initialData?.industry}
-              </p>
+              <p className="text-md capitalize">{initialData?.industry}</p>
             </span>
           </div>
         </div>

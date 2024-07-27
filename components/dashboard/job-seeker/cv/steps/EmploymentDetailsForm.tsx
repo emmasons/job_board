@@ -23,12 +23,7 @@ import { EmploymentDetails } from "@prisma/client";
 type Props = {
   title: string;
   profileId: string;
-  initialData: {
-    designation?: string;
-    company?: string;
-    location?: string;
-    description?: string;
-  };
+  initialData: EmploymentDetails;
   profilePercentage: number;
 
   isJobSeekerComponent: Boolean;
@@ -52,28 +47,7 @@ const EmploymentDetailsForm = ({
   const { toast } = useToast();
   const currentYear = new Date().getFullYear();
 
-  // useEffect(() => {
-  //   async function fetchEmployments() {
-  //     try {
-  //       const res = await fetch(
-  //         `/api/job-seeker/profile/${profileId}/employmentDetails`,
-  //       );
-  //       if (!res.ok) {
-  //         throw new Error("Failed to fetch employment details");
-  //       }
-  //       const data = await res.json();
-  //       setEmploymentList(data);
-  //     } catch (error) {
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Error",
-  //         description: error.message,
-  //       });
-  //     }
-  //   }
 
-  //   fetchEmployments();
-  // }, [profileId, toast]);
 
   const formSchema = z.object({
     designation: z.string().min(2, "Designation is required"),
@@ -90,15 +64,15 @@ const EmploymentDetailsForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      designation: "",
-      company: "",
-      location: "",
+      designation: initialData.designation || "",
+      company: initialData.company || "",
+      location: initialData.location || "",
       currentlyWorking: false,
-      startMonth: "",
-      startYear: "",
-      endMonth: "",
-      endYear: "",
-      description: "",
+      startMonth: initialData.startMonth,
+      startYear: initialData.startYear,
+      endMonth: initialData.startMonth,
+      endYear: initialData.endMonth || "",
+      description: initialData.description || "",
     },
   });
 
@@ -181,11 +155,10 @@ const EmploymentDetailsForm = ({
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const url = editingItem
-      ? `/api/job-seeker/profile/${profileId}/employmentDetails/${editingItem.id}`
-      : `/api/job-seeker/profile/${profileId}/employmentDetails`;
+    const url = 
+      // ? `/api/job-seeker/profile/${profileId}/employmentDetails/${editingItem.id}`
+    `/api/job-seeker/profile/${profileId}/employmentDetails`;
 
-    const method = editingItem ? "PUT" : "POST";
 
     try {
       const requestBody = {
@@ -194,8 +167,8 @@ const EmploymentDetailsForm = ({
       };
 
       const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
+        method: "PATCH",
+        
         body: JSON.stringify(requestBody),
       });
 
@@ -214,15 +187,9 @@ const EmploymentDetailsForm = ({
           description: "Employment details saved successfully.",
           className: "bg-green-500",
         });
-        if (editingItem) {
-          setEmploymentList((prev) =>
-            prev.map((item) => (item.id === response.id ? response : item)),
-          );
-        } else {
-          setEmploymentList([...employmentList, response]);
-        }
+  
         toggleEdit();
-        setEditingItem(null);
+        
         router.refresh();
       }
     } catch (error) {
@@ -277,25 +244,15 @@ const EmploymentDetailsForm = ({
     <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
         <div className="mb-4">
-          <p className="font-sans text-xl font-semibold">{title}</p>
-          {isJobSeekerComponent && (
+          <p className="text-lg capitalize">
+            {initialData.company}: {initialData.designation}
+          </p>
+          {/* {isJobSeekerComponent && (
             <p className="py-2 text-sm text-zinc-500">
               Outline your professional career to Employers
             </p>
-          )}
+          )} */}
         </div>
-        {isJobSeekerComponent && (
-          <Button onClick={toggleEdit} variant="ghost">
-            {isEditing ? (
-              "Cancel"
-            ) : (
-              <>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Add
-              </>
-            )}
-          </Button>
-        )}
       </div>
       {isEditing && (
         <Form {...form}>
@@ -517,12 +474,12 @@ const EmploymentDetailsForm = ({
                 {isSubmitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {editingItem ? "Save" : "Add Employment"}
+                Save
               </Button>
-              {editingItem && (
+              {isEditing && (
                 <Button
                   variant="ghost"
-                  onClick={() => handleDelete(editingItem.id)}
+                  onClick={() => handleDelete(initialData.jobSeekerProfileId)}
                 >
                   Remove this Employment
                 </Button>
@@ -532,67 +489,65 @@ const EmploymentDetailsForm = ({
         </Form>
       )}
       <div className="my-4">
-        <p className="mb-4 text-lg font-semibold">Employment History</p>
-        {employmentList.length > 0 ? (
-          employmentList.map((employment) => (
-            <div
-              key={employment.id}
-              className="mb-2 flex justify-between border-b py-4 "
-            >
-              <div className="flex items-center gap-6">
-                <div className="rounded-full bg-blue-50 p-4 ">
-                  <Briefcase className="h-6 " />
-                </div>
+        {/* <p className="mb-4 text-lg ">Employment History</p> */}
 
-                <div>
-                  <p className="font-medium">{employment.designation}</p>
-                  <span className="flex gap-2">
-                    <p className="text-sm text-zinc-700">
-                      {employment.company},
-                    </p>
-                    <p className="text-sm text-zinc-700">
-                      {employment.location}
-                    </p>
-                  </span>
-                  <p className="text-sm text-gray-600">
-                    {employment.startMonth} {employment.startYear} -{" "}
-                    {employment.currentlyWorking
-                      ? "Present"
-                      : `${employment.endMonth} ${employment.endYear}`}{" "}
-                    (
-                    {calculateTotalMonths(
-                      `${employment.startMonth} 1, ${employment.startYear}`,
-                      employment.currentlyWorking
-                        ? null
-                        : `${employment.endMonth} 1, ${employment.endYear}`,
-                      employment.currentlyWorking,
-                    )}
-                    )
-                  </p>
-                  <p className="pt-4 text-sm text-zinc-700">
-                    {/* {employment.description} */}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2">
-                {isJobSeekerComponent && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleEdit(employment)}
-                  >
-                    Edit
-                    <Pencil className="h-3" />
-                  </Button>
-                )}
-              </div>
+        <div
+          key={initialData.jobSeekerProfileId}
+          className="mb-2 flex justify-between  "
+        >
+          <div className="flex items-center flex-wrap gap-6">
+            <div className="rounded-full bg-blue-50 p-4 ">
+              <Briefcase className="h-6 " />
             </div>
-          ))
-        ) : (
-          <p className="text-sm text-zinc-500">
-            No employment history available.
-          </p>
-        )}
+
+            <div>
+              <p className="font-medium">{initialData.designation}</p>
+              <span className="flex gap-2">
+                <p className="text-sm text-zinc-700">{initialData.company},</p>
+                <p className="text-sm text-zinc-700">{initialData.location}</p>
+              </span>
+              <p className="text-sm text-gray-600">
+                {initialData.startMonth} {initialData.startYear} -{" "}
+                {initialData.currentlyWorking
+                  ? "Present"
+                  : `${initialData.endMonth} ${initialData.endYear}`}{" "}
+                (
+                {calculateTotalMonths(
+                  `${initialData.startMonth} 1, ${initialData.startYear}`,
+                  initialData.currentlyWorking
+                    ? null
+                    : `${initialData.endMonth} 1, ${initialData.endYear}`,
+                  initialData.currentlyWorking,
+                )}
+                )
+              </p>
+              <p className="pt-4 text-sm text-zinc-700">
+                {/* {employment.description} */}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-2">
+           
+              <Button onClick={toggleEdit} variant="ghost">
+                {isEditing ? (
+                  "Cancel"
+                ) : (
+                  <>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </>
+                )}
+              </Button>
+            
+            {/* {isJobSeekerComponent && (
+              <Button variant="ghost" onClick={() => handleEdit(initialData)}>
+                Edit
+                <Pencil className="h-3" />
+              </Button>
+            )} */}
+          </div>
+        </div>
       </div>
     </div>
   );

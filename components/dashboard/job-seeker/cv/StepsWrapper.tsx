@@ -26,6 +26,7 @@ import { useState } from "react";
 import EmploymentDetailsForm from "./steps/EmploymentDetailsForm";
 import PersonalDetailsForm from "./steps/PersonalDetailsForm";
 import DesiredJobsForm from "./steps/DesiredJobsForm";
+import EmploymentHistory, { employmentHistory } from "./EmploymentHistory";
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
@@ -112,14 +113,11 @@ const StepsWrapper = ({
       }}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
-    <EmploymentDetailsForm
-      key={6}
-      title="Employment Details"
-      profileId={jobSeekerProfile.id}
 
-      profilePercentage={20}
-      initialData={employmentDetails}
-      isJobSeekerComponent={isJobSeekerComponent}
+    <EmploymentHistory
+      key={9}
+      title="Employment History"
+      employmentHistory={jobSeekerProfile.employmentDetails}
     />,
 
     <DesiredJobsForm
@@ -128,11 +126,6 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       profilePercentage={10}
       initialData={desiredJob}
-      // description="Add your desired jobs"
-      // designation={desiredJob?.designation || ""}
-      // location={desiredJob?.location || ""}
-      // industry={desiredJob?.industry || ""}
-      // isJobSeekerComponent={isJobSeekerComponent}
     />,
 
     <PersonalDetailsForm
@@ -141,18 +134,6 @@ const StepsWrapper = ({
       profilePercentage={25}
       profileId={jobSeekerProfile.id}
       initialData={personalDetails}
-      // dateOfBirth={personalDetails?.dateOfBirth}
-      // gender={personalDetails?.gender || ""}
-      // nationality={personalDetails?.nationality || ""}
-      // maritalStatus={personalDetails?.maritalStatus || ""}
-      // drivingLicense={personalDetails?.drivingLicense || false}
-      // currentLocation={personalDetails?.currentLocation || ""}
-      // languagesKnown={personalDetails?.languagesKnown || ""}
-      // visaStatus={personalDetails?.visaStatus || ""}
-      // religion={personalDetails?.religion || ""}
-      // alternateEmail={personalDetails?.alternateEmail || ""}
-      // alternateContactNumber={personalDetails?.alternateContactNumber || ""}
-      // isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);
   console.log(personalDetails);

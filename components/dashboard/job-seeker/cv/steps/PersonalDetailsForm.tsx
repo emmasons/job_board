@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import {  z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -34,11 +34,10 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
-import {  useState } from "react";
+import { useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersonalDetails } from "@prisma/client";
-
 
 type Props = {
   profileId: string;
@@ -175,40 +174,32 @@ const PersonalDetailsForm = ({
         )}
       </div>
       {!isEditing && (
-        <div className="flex basis-0 flex-col font-serif">
+        <div className="flex basis-0 flex-col">
           <span className="flex gap-8 py-2">
             <p className="text-md  min-w-40 text-slate-400"> Gender </p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.gender}
-            </p>
+            <p className="text-md capitalize">{initialData?.gender}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Nationality </p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.nationality}
-            </p>
+            <p className="text-md capitalize">{initialData?.nationality}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Location</p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.currentLocation}
-            </p>
+            <p className="text-md capitalize">{initialData?.currentLocation}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Date of Birth </p>
-            <p className="text-md font-mono capitalize">
+            <p className="text-md  capitalize">
               {initialData?.dateOfBirth?.toLocaleDateString()}
             </p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Marital Status </p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.maritalStatus}
-            </p>
+            <p className="text-md  capitalize">{initialData?.maritalStatus}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Driving License </p>
-            <p className="text-md font-mono capitalize">
+            <p className="text-md  capitalize">
               {initialData?.drivingLicense ? "Yes" : "No"}
             </p>
           </span>
@@ -220,9 +211,7 @@ const PersonalDetailsForm = ({
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Visa status </p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.visaStatus}
-            </p>
+            <p className="text-md capitalize">{initialData?.visaStatus}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400">Religion </p>
@@ -232,15 +221,13 @@ const PersonalDetailsForm = ({
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Alternate Email </p>
-            <p className="text-md font-mono capitalize">
-              {initialData?.alternateEmail}
-            </p>
+            <p className="text-md capitalize">{initialData?.alternateEmail}</p>
           </span>
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400">
               Alternate Phone Number
             </p>
-            <p className="text-md font-mono capitalize">
+            <p className="text-md capitalize">
               {initialData?.alternateContactNumber}
             </p>
           </span>
