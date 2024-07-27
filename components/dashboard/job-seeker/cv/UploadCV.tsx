@@ -5,6 +5,17 @@ import { DropZoneDocumentFileTypes } from "@/constants";
 import { FilePlus, Link, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import PDFViewer from "@/components/PDFViewer";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type Props = {
   cv: CV;
@@ -46,15 +57,26 @@ const UploadCV = ({ cv, cvFile, isJobSeekerComponent = true }: Props) => {
         ) : (
           <div className="relative mt-2 h-auto">
             <div className="p-6">
-              <a
-                href={cvFile.downloadUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-pes-red flex items-center text-sm font-semibold underline"
-              >
-                View current CV
-                <Link className="ml-2 h-4 w-4" />
-              </a>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline">View CV</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-[75%]">
+                  <DialogHeader>
+                    <DialogTitle>CV</DialogTitle>
+                  </DialogHeader>
+                  <div>
+                    <PDFViewer pdfUrl={cvFile.downloadUrl} />
+                  </div>
+                  <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                      <Button type="button" variant="secondary">
+                        Close
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         ))}
