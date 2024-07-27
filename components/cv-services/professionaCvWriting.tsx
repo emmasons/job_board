@@ -56,8 +56,8 @@ const ProfessionalCvWriting: React.FC = () => {
             </div>
             <div className="w-full max-w-lg rounded-md bg-white p-4 shadow-md  md:p-9">
               <h3 className="mb-3 p-2 text-xl">
-                Why Choose <br /> Jobs Connect's <br /> Professional CV Writing
-                Service
+                Why Choose <br /> Jobs Connect&apos;s <br /> Professional CV
+                Writing Service
               </h3>
               <ul className="mb-5 list-none space-y-2  text-gray-800">
                 <li className="flex items-center gap-4">
@@ -98,7 +98,6 @@ const ProfessionalCvWriting: React.FC = () => {
               </ul>
               <Link
                 href="#contact"
-                
                 className=" rounded-lg bg-blue-500 px-4 py-2 text-white shadow-md hover:bg-blue-700"
               >
                 Contact Us
