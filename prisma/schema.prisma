@@ -36,8 +36,8 @@ model DesiredJob {
   designation        String
   location           String
   industry           String
-  jobSeekerProfileId      String    @unique
-  jobSeekerProfile        JobSeekerProfile      @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+  jobSeekerProfileId String           @unique
+  jobSeekerProfile   JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
 }
@@ -187,10 +187,10 @@ model Address {
 }
 
 model Company {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   companyEmail String? @unique
-  companyName  String @unique
-  Job          Job[]
+  companyName  String  @unique
+  jobs         Job[]
 
   employerProfileId String          @unique
   employerProfile   EmployerProfile @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
@@ -226,6 +226,12 @@ enum JOBTYPE {
   WALK_IN_INTERVIEW
 }
 
+enum JOBSTATUS {
+  OPEN
+  CLOSED
+  DRAFT
+}
+
 model Job {
   id                String          @id @default(cuid())
   title             String
@@ -258,6 +264,7 @@ model Job {
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
+  status            JOBSTATUS       @default(DRAFT)
 }
 
 enum ApplicationStatus {
