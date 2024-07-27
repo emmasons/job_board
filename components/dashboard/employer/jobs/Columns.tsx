@@ -1,6 +1,6 @@
 "use client";
 
-import { Job, User } from "@prisma/client";
+import { Job, JOBSTATUS, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import Link from "next/link";
@@ -44,24 +44,37 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
-    accessorKey: "published",
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Published
+          Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const published = row.getValue("published");
+      const status = row.getValue("status");
 
       return (
-        <Badge className={cn(published ? "bg-green-300" : "bg-slate-500")}>
-          {published ? "Published" : "Draft"}
+        <Badge
+          className={cn(
+            "rounded-full",
+            status === JOBSTATUS.OPEN
+              ? "bg-green-300"
+              : status === JOBSTATUS.CLOSED
+                ? "bg-red-300"
+                : "bg-slate-500",
+          )}
+        >
+          {status === JOBSTATUS.OPEN
+            ? "Open"
+            : status === JOBSTATUS.CLOSED
+              ? "Closed"
+              : "Draft"}
         </Badge>
       );
     },
@@ -80,7 +93,7 @@ export const columns: ColumnDef<Job>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href="#">
+            <Link href={`/profile/dashboard/employer/jobs/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil className="mr-2 h-4 w-4 " />
                 Manage
