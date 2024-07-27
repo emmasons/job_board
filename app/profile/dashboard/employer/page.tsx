@@ -78,11 +78,11 @@ const page = async () => {
               Open Jobs
             </h2>
             <p className="text-[1.2rem] font-bold text-primary">
-              {
-                employer.employerProfile?.company?.jobs?.filter(
-                  (job) => job.status === JOBSTATUS.OPEN,
-                ).length
-              }
+              {employer.employerProfile?.company?.jobs?.reduce(
+                (total, job) =>
+                  job.status === JOBSTATUS.OPEN ? total + 1 : total,
+                0,
+              )}
             </p>
           </div>
           <div className="flex w-full flex-col items-center rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
@@ -90,11 +90,11 @@ const page = async () => {
               Closed Jobs
             </h2>
             <p className="text-[1.2rem] font-bold text-primary">
-              {
-                employer.employerProfile?.company?.jobs?.filter(
-                  (job) => job.status === JOBSTATUS.OPEN,
-                ).length
-              }
+              {employer.employerProfile?.company?.jobs?.reduce(
+                (total, job) =>
+                  job.status === JOBSTATUS.CLOSED ? total + 1 : total,
+                0,
+              )}
             </p>
           </div>
         </div>
