@@ -142,6 +142,7 @@ model User {
   Post                      Post[]
   profile                   Profile?
   employerProfile           EmployerProfile?
+  address                   Address?
 
   @@map("users")
 }
@@ -170,31 +171,32 @@ model EmployerProfile {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   company Company?
-  address Address?
 }
 
 model Address {
   id         String @id @default(cuid())
   city       String
-  state      String
   postalCode String
   country    String
 
   addressLineOne String
   addressLineTwo String?
 
-  employerProfileId String?          @unique
-  employerProfile   EmployerProfile? @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Company {
   id           String @id @default(cuid())
-  companyEmail String @unique
+  companyEmail String? @unique
   companyName  String @unique
   Job          Job[]
 
-  employerProfileId String?          @unique
-  employerProfile   EmployerProfile? @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
+  employerProfileId String          @unique
+  employerProfile   EmployerProfile @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
+
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id])
 }
 
 model EducationLevel {
@@ -216,6 +218,7 @@ model Sector {
   label            String             @unique
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
+  Company          Company[]
 }
 
 enum JOBTYPE {
@@ -242,7 +245,6 @@ model Job {
   datePosted        DateTime?
   educationLevelId  String?
   experienceId      String?
-  sectorId          String?
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   isFeatured        Boolean         @default(false)
@@ -252,6 +254,7 @@ model Job {
   education         EducationLevel? @relation(fields: [educationLevelId], references: [id])
   experience        Experience?     @relation(fields: [experienceId], references: [id])
   owner             User?           @relation(fields: [ownerId], references: [id])
+  sectorId          String?
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)

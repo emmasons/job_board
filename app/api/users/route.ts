@@ -9,17 +9,38 @@ import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
-    const { email, password, role, firstName, lastName, phoneNumber, cvFile } =
-      Object.fromEntries(formData) as {
-        email: string;
-        password: string;
-        role: Role;
-        firstName: string;
-        lastName: string;
-        phoneNumber: string;
-        cvId: string;
-        cvFile: File;
-      };
+    const {
+      email,
+      password,
+      role,
+      firstName,
+      lastName,
+      phoneNumber,
+      cvFile,
+      city,
+      country,
+      addressLineOne,
+      addressLineTwo,
+      companyName,
+      sectorId,
+      postalCode,
+    } = Object.fromEntries(formData) as {
+      email: string;
+      password: string;
+      role: Role;
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      cvId: string;
+      cvFile: File;
+      city: string;
+      country: string;
+      postalCode: string;
+      addressLineOne: string;
+      addressLineTwo: string;
+      companyName: string;
+      sectorId: string;
+    };
 
     if (!email || !password || !role) {
       return NextResponse.json(
@@ -33,10 +54,6 @@ export async function POST(req: NextRequest) {
         { message: "All fields are required." },
         { status: 400 },
       );
-    }
-
-    if (role === Role.EMPLOYER) {
-      //  create employer profile
     }
 
     const duplicate = await db.user.findUnique({ where: { email: email } });
@@ -57,6 +74,30 @@ export async function POST(req: NextRequest) {
         role,
       },
     });
+    if (role === Role.EMPLOYER) {
+      const employerProfile = await db.employerProfile.create({
+        data: {
+          userId: user.id,
+        },
+      });
+      await db.address.create({
+        data: {
+          city,
+          country,
+          postalCode,
+          addressLineOne,
+          addressLineTwo,
+          userId: user.id,
+        },
+      });
+      await db.company.create({
+        data: {
+          companyName,
+          sectorId: sectorId,
+          employerProfileId: employerProfile.id,
+        },
+      });
+    }
     await db.profile.create({
       data: { userId: user.id, firstName, lastName, phoneNumber },
     });

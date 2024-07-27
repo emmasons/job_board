@@ -119,32 +119,36 @@ const Signup = ({ role }: Props) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex justify-between gap-4">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-secondary">First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g Jason" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-secondary">Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g Bourne" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-secondary">First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g Jason" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-secondary">Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g Bourne" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
           <FormField
             control={form.control}
@@ -172,7 +176,9 @@ const Signup = ({ role }: Props) => {
               </FormItem>
             )}
           />
-          <FileDrop setFiles={setCvFile} />
+          <div>
+            <FileDrop setFiles={setCvFile} />
+          </div>
           {/* <p className="text-red-500">
             {cvFile?.length === 0 && "Please upload your cv"}
           </p> */}

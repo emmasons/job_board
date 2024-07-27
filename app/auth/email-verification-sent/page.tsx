@@ -19,7 +19,7 @@ const page = async (props: Props) => {
   }
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+      <div className="flex flex-col items-center justify-center gap-2 rounded-md bg-slate-50 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <Mail className="h-16 w-16 text-green-400" />
         <h2 className="text-2xl font-bold text-secondary">
           Verify your email address
@@ -31,7 +31,10 @@ const page = async (props: Props) => {
         </p>
         <div className="flex gap-4">
           <ResendEmail toEmail={user.email} />
-          <Link href="/" className="bg-secondary px-4 rounded-md flex items-center justify-center">
+          <Link
+            href="/"
+            className="flex items-center justify-center rounded-md bg-secondary px-4"
+          >
             <HomeIcon className="h-5 w-5 text-primary" />
           </Link>
         </div>
