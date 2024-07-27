@@ -14,20 +14,23 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const company = await db.company.findFirst({
+    const employerProfile = await db.employerProfile.findFirst({
       where: {
-        ownerId: user.id,
+        userId,
+      },
+      include: {
+        company: true,
       },
     });
 
-    if (!company) {
+    if (!employerProfile?.company) {
       return new NextResponse("Bad request", { status: 400 });
     }
 
     const job = await db.job.create({
       data: {
         ownerId: userId,
-        companyId: company.id,
+        companyId: employerProfile.company.id,
         numberOfPositions: parseInt(numberOfPositions),
         published: true,
         ...remainingValues,
