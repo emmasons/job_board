@@ -1,4 +1,5 @@
 import { getJob } from "@/actions/employer/get-job";
+import { getMatchingJobsCvs } from "@/actions/employer/get-matching-job-cvs";
 import { getAllSectors } from "@/actions/get-all-sectors";
 import { getContractTypes } from "@/actions/get-contract-types";
 import { getEducationLevels } from "@/actions/get-education-levels";
@@ -7,18 +8,32 @@ import { getWorkSchedules } from "@/actions/get-work-schedules";
 import EditJobForm from "@/components/dashboard/employer/jobs/edit/EditJob";
 import { SwitchJobStatusForm } from "@/components/dashboard/employer/jobs/edit/SwitchJobStatusForm";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, ChevronRight, Hammer } from "lucide-react";
+import { ArrowLeft, ChevronRight, FileText, Hammer } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
+import PaginationControls from "@/components/search/PaginationControls";
+import CandidatesSkeleton from "@/components/find-candidates/CandidatesSkeleton";
+import { Suspense } from "react";
+import CandidateFilters from "@/components/find-candidates/CandidateFilters";
+import CandidateList from "@/components/find-candidates/CandidateList";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { Role } from "@prisma/client";
+import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
 
 type Props = {
   params: {
     id: string;
   };
+  searchParams: Record<string, string | string[] | undefined>;
 };
 
-const page = async ({ params }: Props) => {
+const page = async ({ params, searchParams }: Props) => {
+  const user = await getCurrentSessionUser();
+  if (!user || !(user.role === Role.EMPLOYER)) {
+    return redirect(
+      `/auth/signup/employer?callBack=/profile/dashboard/employer/jobs/${params.id}`,
+    );
+  }
   const jobId = params.id;
   const job = await getJob(jobId);
   if (!job) {
@@ -30,6 +45,22 @@ const page = async ({ params }: Props) => {
   const workSchedules = await getWorkSchedules();
   const educationLevels = await getEducationLevels();
   const experience = await getExperience();
+
+  const candidates = await getMatchingJobsCvs({
+    jobTitle: job.title,
+    occupation: job.occupation || "",
+  });
+
+  const page = searchParams?.page ? searchParams?.page : "1";
+  const pageSize = searchParams?.pageSize ? searchParams?.pageSize : "10";
+  const start = (Number(page) - 1) * Number(pageSize); // 0, 5, 10 ...
+  const end = start + Number(pageSize); // 5, 10, 15 ...
+  const items = candidates.slice(start, end);
+  const totalPages = Math.ceil(candidates.length / Number(pageSize));
+  const loggedInEmployer = user?.id && user?.role === Role.EMPLOYER;
+  const candidateIds =
+    loggedInEmployer && (await getEmployerCandidatesIds(user.id));
+
   return (
     <div className="space-y-4 p-6">
       <Link
@@ -113,6 +144,32 @@ const page = async ({ params }: Props) => {
           value: exp.id,
         }))}
       />
+      <div className="rounded-md bg-slate-100 p-4">
+        <h2 className="my-4 flex items-center gap-4 border-b text-lg font-bold text-zinc-600">
+          <FileText className="h-6 w-6 text-primary" />
+          Similar CVs
+        </h2>
+        <div className="space-y-4">
+          <Suspense fallback={<CandidatesSkeleton />}>
+            <section className="mt-6">
+              <div className="space-y-4 md:w-2/3">
+                <CandidateList
+                  candidates={items}
+                  candidateIds={candidateIds}
+                  loggedInEmployer={loggedInEmployer || false}
+                  hasBackground={false}
+                  cardBg="bg-white"
+                />
+                <PaginationControls
+                  hasNextPage={end < candidates.length}
+                  hasPrevPage={start > 0}
+                  totalPages={totalPages}
+                />
+              </div>
+            </section>
+          </Suspense>
+        </div>
+      </div>
     </div>
   );
 };

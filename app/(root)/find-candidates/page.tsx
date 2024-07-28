@@ -48,9 +48,7 @@ interface SearchPageProps {
 const page = async ({ searchParams }: SearchPageProps) => {
   const hasParams = Object.keys(searchParams).length > 0;
   const user = await getCurrentSessionUser();
-  // if (!user || !(user.role === Role.EMPLOYER)) {
-  //   return redirect("/auth/signup/employer?callBack=/find-candidates");
-  // }
+
   const loggedInEmployer = user?.id && user?.role === Role.EMPLOYER;
   const candidates = await getAllCandidates({
     ...searchParams,
@@ -89,7 +87,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
               <CandidateList
                 candidates={items}
                 candidateIds={candidateIds}
-                loggedInEmployer={loggedInEmployer || false}  
+                loggedInEmployer={loggedInEmployer || false}
               />
             </div>
           </section>
@@ -101,7 +99,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
         />
       </div>
       {!hasParams && (
-        <div className="flex items-center justify-center bg-sky-100 md:p-20 mt-4">
+        <div className="mt-4 flex items-center justify-center bg-sky-100 md:p-20">
           <div className="basis-2/3">
             <h2 className="my-6 text-2xl">Frequently Asked Questions</h2>
             <Accordion type="single" collapsible defaultValue={cvFaqs[0].title}>
