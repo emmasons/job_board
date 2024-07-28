@@ -141,7 +141,7 @@ export default function CreateJobForm({
           variant: "default",
           className: "bg-green-300 border-0",
         });
-        router.push("/profile/dashboard/employer/jobs");
+        router.push(`/profile/dashboard/employer/jobs/${data.id}`);
       } else {
         toast({
           variant: "destructive",

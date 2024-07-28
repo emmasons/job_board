@@ -287,7 +287,7 @@ async function createOccupations() {
 
 async function clearTable(tableName) {
   // await database.$executeRawUnsafe(`DELETE FROM ${tableName} CASCADE;`);
-  await database.address.deleteMany();
+  await database.job.deleteMany();
   console.log(`Table ${tableName} cleared`);
 }
 

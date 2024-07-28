@@ -1,8 +1,6 @@
 import { getEmployerProfile } from "@/actions/employer/get-profile";
-import { getCompanyForUser } from "@/actions/get-company-for-user";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { JOBSTATUS, Role } from "@prisma/client";
+import { Role } from "@prisma/client";
 import {
   BriefcaseIcon,
   ChevronRight,
@@ -20,7 +18,7 @@ const page = async () => {
   if (!user || !(user.role === Role.EMPLOYER)) {
     return redirect("/");
   }
-  // const company = await getCompanyForUser(user.id);
+
   const employer = await getEmployerProfile(user.id);
   if (!employer) {
     return <div>Profile not found</div>;
@@ -79,8 +77,7 @@ const page = async () => {
             </h2>
             <p className="text-[1.2rem] font-bold text-primary">
               {employer.employerProfile?.company?.jobs?.reduce(
-                (total, job) =>
-                  job.status === JOBSTATUS.OPEN ? total + 1 : total,
+                (total, job) => (job.isOpen ? total + 1 : total),
                 0,
               )}
             </p>
@@ -91,8 +88,7 @@ const page = async () => {
             </h2>
             <p className="text-[1.2rem] font-bold text-primary">
               {employer.employerProfile?.company?.jobs?.reduce(
-                (total, job) =>
-                  job.status === JOBSTATUS.CLOSED ? total + 1 : total,
+                (total, job) => (!job.isOpen ? total + 1 : total),
                 0,
               )}
             </p>

@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
         <Link href="/profile/dashboard/employer/jobs/create/">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
-            New Job
+            Post Job
           </Button>
         </Link>
       </div>

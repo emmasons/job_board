@@ -254,6 +254,7 @@ model Job {
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
   isFeatured        Boolean         @default(false)
+  isOpen            Boolean         @default(true)
   salary            String?
   applications      Application[]
   company           Company?        @relation(fields: [companyId], references: [id])
@@ -264,7 +265,6 @@ model Job {
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
-  status            JOBSTATUS       @default(DRAFT)
 }
 
 enum ApplicationStatus {
