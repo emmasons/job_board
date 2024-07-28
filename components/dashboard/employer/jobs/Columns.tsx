@@ -1,6 +1,6 @@
 "use client";
 
-import { Job, JOBSTATUS, User } from "@prisma/client";
+import { Job } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 import Link from "next/link";
@@ -44,7 +44,7 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: "isOpen",
     header: ({ column }) => {
       return (
         <Button
@@ -57,24 +57,16 @@ export const columns: ColumnDef<Job>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status = row.getValue("isOpen");
 
       return (
         <Badge
           className={cn(
             "rounded-full",
-            status === JOBSTATUS.OPEN
-              ? "bg-green-300"
-              : status === JOBSTATUS.CLOSED
-                ? "bg-red-300"
-                : "bg-slate-500",
+            status ? "bg-green-300" : "bg-orange-500",
           )}
         >
-          {status === JOBSTATUS.OPEN
-            ? "Open"
-            : status === JOBSTATUS.CLOSED
-              ? "Closed"
-              : "Draft"}
+          {status ? "Open" : "Closed"}
         </Badge>
       );
     },

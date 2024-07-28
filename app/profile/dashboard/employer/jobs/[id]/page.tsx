@@ -4,10 +4,9 @@ import { getContractTypes } from "@/actions/get-contract-types";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import { getExperience } from "@/actions/get-experience";
 import { getWorkSchedules } from "@/actions/get-work-schedules";
-import { ChangeJobStatusForm } from "@/components/dashboard/employer/jobs/edit/ChangeStatus";
 import EditJobForm from "@/components/dashboard/employer/jobs/edit/EditJob";
+import { SwitchJobStatusForm } from "@/components/dashboard/employer/jobs/edit/SwitchJobStatusForm";
 import { cn } from "@/lib/utils";
-import { JOBSTATUS } from "@prisma/client";
 import { ArrowLeft, ChevronRight, Hammer } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -25,6 +24,7 @@ const page = async ({ params }: Props) => {
   if (!job) {
     return redirect("/profile/dashboard/employer/jobs");
   }
+
   const sectors = await getAllSectors();
   const contractTypeList = await getContractTypes();
   const workSchedules = await getWorkSchedules();
@@ -54,20 +54,17 @@ const page = async ({ params }: Props) => {
             <p
               className={cn(
                 "rounded-br-sm rounded-tr-sm p-2 text-white",
-                job.status === JOBSTATUS.OPEN
-                  ? "bg-green-500"
-                  : job.status === JOBSTATUS.CLOSED
-                    ? "bg-yellow-500"
-                    : "bg-red-500",
+                job.isOpen ? "bg-green-500" : "bg-red-500",
               )}
             >
-              {job.status}
+              {job.isOpen ? "Open" : "Closed"}
             </p>
           </div>
-          <ChangeJobStatusForm
+
+          <SwitchJobStatusForm
             jobId={jobId}
             initialData={{
-              status: job.status,
+              isOpen: job.isOpen,
             }}
           />
         </div>
