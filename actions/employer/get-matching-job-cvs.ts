@@ -57,6 +57,18 @@ export const getMatchingJobsCvs = async ({
                   mode: "insensitive",
                 },
               },
+              {
+                cvHeadLine: {
+                  contains: jobTitle ? jobTitle.toLowerCase() : undefined,
+                  mode: "insensitive",
+                },
+              },
+              {
+                cvHeadLine: {
+                  contains: occupation ? occupation.toLowerCase() : undefined,
+                  mode: "insensitive",
+                },
+              },
             ],
           },
         },
