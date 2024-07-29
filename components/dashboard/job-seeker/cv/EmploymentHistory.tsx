@@ -51,7 +51,7 @@ const EmploymentHistory = ({ profileId, employmentHistory }: Props) => {
       description: "",
     },
   });
-  
+
   const { isSubmitting, isValid, errors } = form.formState;
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const router = useRouter();
@@ -153,6 +153,7 @@ const EmploymentHistory = ({ profileId, employmentHistory }: Props) => {
         </div>
       ) : (
         <div>
+          <p>Fill the required fields</p>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
