@@ -11,12 +11,31 @@ export async function POST(
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
-    // const values = await req.json();
-    const { profilePercentage, ...values } = await req.json();
 
     if (!userId || user.role !== Role.JOB_SEEKER) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    const { profilePercentage, ...values } = await req.json();
+
+    // Check if the profileId exists
+    const profile = await db.jobSeekerProfile.findUnique({
+      where: { id: params.profileId },
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { message: "Profile not found" },
+        { status: 404 },
+      );
+    }
+
+    // Check if this is the first employment detail
+    const existingDetails = await db.employmentDetails.findMany({
+      where: { jobSeekerProfileId: params.profileId },
+    });
+
+    const isFirstDetail = existingDetails.length === 0;
 
     const employmentDetails = await db.employmentDetails.create({
       data: {
@@ -25,50 +44,29 @@ export async function POST(
       },
     });
 
-    if (profilePercentage !== undefined) {
-      const percentage = parseInt(profilePercentage, 10);
-
-      if (isNaN(percentage)) {
-        return new NextResponse("Invalid percentage value", { status: 400 });
-      }
-
+    if (isFirstDetail) {
       await db.jobSeekerProfilePercentage.upsert({
         where: {
           jobSeekerProfileId: params.profileId,
         },
         update: {
           percentage: {
-            increment: percentage,
+            increment: 20,
           },
         },
         create: {
           jobSeekerProfileId: params.profileId,
-          percentage: percentage,
+          percentage: 20,
         },
       });
     }
 
     return NextResponse.json(employmentDetails, { status: 201 });
   } catch (error) {
-    console.log("[PROFILE_ID]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
-  }
-}
-
-// GET handler for fetching employment details
-export async function GET(
-  req: Request,
-  { params }: { params: { profileId: string } },
-) {
-  try {
-    const employmentDetails = await db.employmentDetails.findMany({
-      where: {
-        jobSeekerProfileId: params.profileId,
-      },
-    });
-    return NextResponse.json(employmentDetails, { status: 200 });
-  } catch (error) {
-    console.log("[PROFILE_ID]", error);
-    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
+    console.error("[PROFILE_ID] Error:", error);
+    return NextResponse.json(
+      { message: "Internal Error", error: error.message },
+      { status: 500 },
+    );
   }
 }
