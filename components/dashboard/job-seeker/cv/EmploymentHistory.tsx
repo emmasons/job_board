@@ -138,9 +138,8 @@ const EmploymentHistory = ({ profileId, employmentHistory }: Props) => {
       {!isEditing ? (
         <div>
           {employmentHistory.map((history) => (
-            <div>
+            <div key={history.id}>
               <EmploymentDetailsForm
-                key={6}
                 title="Employment Details"
                 profileId={history.jobSeekerProfileId}
                 profilePercentage={20}
