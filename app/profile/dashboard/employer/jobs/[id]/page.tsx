@@ -78,20 +78,6 @@ const page = async ({ params, searchParams }: Props) => {
           {job.sector.label}
         </p>
         <div className="flex flex-col gap-2">
-          <div className="inline-flex rounded-md">
-            <p className="rounded-bl-sm rounded-tl-sm bg-zinc-500 p-2 text-white">
-              Status
-            </p>
-            <p
-              className={cn(
-                "rounded-br-sm rounded-tr-sm p-2 text-white",
-                job.isOpen ? "bg-green-500" : "bg-red-500",
-              )}
-            >
-              {job.isOpen ? "Open" : "Closed"}
-            </p>
-          </div>
-
           <SwitchJobStatusForm
             jobId={jobId}
             initialData={{
