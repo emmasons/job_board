@@ -23,7 +23,7 @@ const page = async () => {
   if (!employer) {
     return <div>Profile not found</div>;
   }
-  console.log("employerProfile?", employer.employerProfile);
+
   return (
     <div className="h-full bg-slate-50 p-6">
       <div className="space-y-4 md:w-2/3">
