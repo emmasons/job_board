@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -37,17 +37,12 @@ const EmploymentDetailsForm = ({
   isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingItem, setEditingItem] = useState<EmploymentDetails | null>(
-    null,
-  );
-  const [employmentList, setEmploymentList] = useState<EmploymentDetails[]>([]);
+
   const [currentlyWorking, setCurrentlyWorking] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
   const currentYear = new Date().getFullYear();
-
-
 
   const formSchema = z.object({
     designation: z.string().min(2, "Designation is required"),
@@ -96,79 +91,27 @@ const EmploymentDetailsForm = ({
     (_, index) => currentYear - index,
   );
 
-  const percentage = employmentList.length > 0 ? 0 : profilePercentage;
+  // const percentage = employmentList.length > 0 ? 0 : profilePercentage;
 
   const { isSubmitting, isValid, errors } = form.formState;
 
-  const handleEdit = (employment: EmploymentDetails) => {
-    setEditingItem(employment);
-    form.reset({
-      designation: employment.designation || "",
-      company: employment.company || "",
-      location: employment.location || "",
-      currentlyWorking: employment.currentlyWorking,
-      startMonth: employment.startMonth,
-      startYear: employment.startYear,
-      endMonth: employment.endMonth || "",
-      endYear: employment.endYear || "",
-      description: employment.description || "",
-    });
-    setCurrentlyWorking(employment.currentlyWorking);
-    setIsEditing(true);
-  };
-
-  const handleDelete = async (employmentId: string) => {
-    try {
-      const res = await fetch(
-        `/api/job-seeker/profile/${profileId}/employmentDetails/${employmentId}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (!res.ok) {
-        const response = await res.json();
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: response.message,
-        });
-      } else {
-        toast({
-          variant: "default",
-          title: "Success",
-          description: "Employment detail deleted successfully.",
-          className: "bg-green-500",
-        });
-        setEmploymentList((prev) =>
-          prev.filter((item) => item.id !== employmentId),
-        );
-        router.refresh();
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
-    }
-  };
+  const url = `/api/job-seeker/profile/${profileId}/employmentDetails/${initialData.id}`;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const url = 
-      // ? `/api/job-seeker/profile/${profileId}/employmentDetails/${editingItem.id}`
-    `/api/job-seeker/profile/${profileId}/employmentDetails`;
-
-
+    // const url = `/api/job-seeker/profile/${profileId}/employmentDetails/${initialData.id}`;
+    // `/api/job-seeker/profile/${profileId}/employmentDetails`;
+    console.log(profileId);
     try {
       const requestBody = {
         ...values,
-        profilePercentage: percentage,
+        // profilePercentage: percentage,
       };
 
       const res = await fetch(url, {
         method: "PATCH",
-        
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(requestBody),
       });
 
@@ -187,9 +130,9 @@ const EmploymentDetailsForm = ({
           description: "Employment details saved successfully.",
           className: "bg-green-500",
         });
-  
+
         toggleEdit();
-        
+
         router.refresh();
       }
     } catch (error) {
@@ -201,6 +144,35 @@ const EmploymentDetailsForm = ({
     }
   }
 
+  async function deleteEmploymentDetails() {
+    // `/api/job-seeker/profile/${profileId}/employmentDetails`;
+
+    try {
+      const res = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete employment details");
+      } else {
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "Employment details deleted successfully.",
+          className: "bg-green-500",
+        });
+
+        toggleEdit();
+
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // Function to calculate total months between two dates and format as "x Years, y Months"
   const calculateTotalMonths = (
     startDate: string,
@@ -471,16 +443,14 @@ const EmploymentDetailsForm = ({
                 disabled={isSubmitting || !isValid}
                 className="rounded-3xl"
               >
-                {isSubmitting && (
+                {isSubmitting ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Update Details"
                 )}
-                Save
               </Button>
               {isEditing && (
-                <Button
-                  variant="ghost"
-                  onClick={() => handleDelete(initialData.jobSeekerProfileId)}
-                >
+                <Button variant="ghost" onClick={deleteEmploymentDetails}>
                   Remove this Employment
                 </Button>
               )}
@@ -495,7 +465,7 @@ const EmploymentDetailsForm = ({
           key={initialData.jobSeekerProfileId}
           className="mb-2 flex justify-between  "
         >
-          <div className="flex items-center flex-wrap gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <div className="rounded-full bg-blue-50 p-4 ">
               <Briefcase className="h-6 " />
             </div>
@@ -528,18 +498,17 @@ const EmploymentDetailsForm = ({
           </div>
 
           <div className="flex items-start gap-2">
-           
-              <Button onClick={toggleEdit} variant="ghost">
-                {isEditing ? (
-                  "Cancel"
-                ) : (
-                  <>
-                    <Pencil className="mr-2 h-4 w-4" />
-                    Edit
-                  </>
-                )}
-              </Button>
-            
+            <Button onClick={toggleEdit} variant="ghost">
+              {isEditing ? (
+                "Cancel"
+              ) : (
+                <>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Edit
+                </>
+              )}
+            </Button>
+
             {/* {isJobSeekerComponent && (
               <Button variant="ghost" onClick={() => handleEdit(initialData)}>
                 Edit

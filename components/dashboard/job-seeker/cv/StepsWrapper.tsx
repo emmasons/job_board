@@ -117,6 +117,8 @@ const StepsWrapper = ({
     <EmploymentHistory
       key={9}
       title="Employment History"
+      profileId={jobSeekerProfile.id}
+      profilPercentage={20}
       employmentHistory={jobSeekerProfile.employmentDetails}
     />,
 
@@ -146,15 +148,15 @@ const StepsWrapper = ({
         My Profile
       </h4>
       {/* top bar  */}
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
           <Badge
             key={index}
             variant={index === currentStepIndex ? "default" : "outline"}
             className={cn(
               currentStepIndex === index &&
-                "w-2 bg-sky-500/20 p-0 text-zinc-100 hover:bg-sky-500/20",
-              "text-xshover:text-slate-500 flex-1 cursor-pointer justify-center border-none py-2 text-center text-zinc-700",
+                "w-2 p-2 bg-sky-500/20 text-zinc-100 hover:bg-sky-500/20",
+              "text-xshover:text-slate-500 flex-1 cursor-pointer justify-center border-none  text-center text-zinc-700",
             )}
             onClick={() => goTo(index)}
           >
