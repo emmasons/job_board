@@ -21,6 +21,7 @@ const page = async () => {
   const cv = await getUserCv(user.id);
 
   const cvFile = await getLatestFileMetaData(cv?.id);
+  
 
   const educationLevels = await getEducationLevels();
   const experience = await getExperience();

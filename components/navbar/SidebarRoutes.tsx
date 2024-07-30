@@ -20,19 +20,25 @@ import { usePathname } from "next/navigation";
 import { SidebarItem } from "./SidebarItem";
 
 const guestRoutes = [
-  {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    href: "/profile/main-dashboard",
-  },
+  // {
+  //   icon: LayoutDashboard,
+  //   label: "Dashboard",
+  //   href: "/profile/main-dashboard",
+  // },
+
   {
     icon: Users2,
     label: "My Profile",
     href: "/profile/dashboard",
   },
   {
+    icon: LayoutDashboard,
+    label: "Profile Public view",
+    href: "/profile/profile-view",
+  },
+  {
     icon: Bookmark,
-    label: "Saved Job",
+    label: "Saved Jobs",
     href: "/profile/saved",
   },
   {
