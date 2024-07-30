@@ -3,26 +3,31 @@
 import React from "react";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Briefcase, Mail, MapPin, Phone } from "lucide-react";
+import { Profile, User } from "@prisma/client";
+import { getCurrentSessionUser } from "@/lib/auth";
 
 type Props = {
   profileId: string;
   initialData: JobSeekerProfileProps;
+  user: Profile;
 };
 
-const ProfileView = ({ profileId, initialData }: Props) => {
-  const calculateAge = (dateString: string) => {
-    const birthDate = new Date(dateString);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-    return age;
-  };
+const ProfileView = ({ profileId, initialData, user }: Props) => {
+  console.log("user",user);
+   const calculateAge = (dateString: string) => {
+     const birthDate = new Date(dateString);
+     const today = new Date();
+     let age = today.getFullYear() - birthDate.getFullYear();
+     const monthDiff = today.getMonth() - birthDate.getMonth();
+     if (
+       monthDiff < 0 ||
+       (monthDiff === 0 && today.getDate() < birthDate.getDate())
+     ) {
+       age--;
+     }
+     return age;
+   };
+
   return (
     <div className="w-full md:py-10">
       <div className="m-9 mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
@@ -35,7 +40,9 @@ const ProfileView = ({ profileId, initialData }: Props) => {
             />
           </div>
           <div>
-            <h1 className="text-3xl font-bold">Richard Sanchez</h1>
+            <h1 className="text-3xl font-bold">
+              {user.firstName} {user.lastName}
+            </h1>
             <p className="text-gray-600">{initialData.cvHeadLine}</p>
           </div>
         </div>
@@ -47,11 +54,11 @@ const ProfileView = ({ profileId, initialData }: Props) => {
               <div className="mt-4">
                 <p className="flex items-center gap-2 py-1">
                   <Phone className="h-4 w-4" />
-                  +123-456-7890
+                  {user.phoneNumber}
                 </p>
                 <p className="flex items-center gap-2 py-1">
                   <Mail className="h-4 w-4" />
-                  hello@reallygreatsite.com
+                  {user?.email}
                 </p>
                 <p className="flex items-center gap-2 py-1">
                   <MapPin className="h-4 w-4" />
@@ -111,11 +118,8 @@ const ProfileView = ({ profileId, initialData }: Props) => {
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Education</h2>
-            <p>Borcelle University</p>
-            <p>Bachelor of Business Management</p>
-            <p>2014-2023</p>
-            <p>Master of Business Management</p>
-            <p>2014-2018</p>
+            <p>{initialData.educationLevelId}</p>
+            
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Desired Job</h2>
@@ -130,9 +134,7 @@ const ProfileView = ({ profileId, initialData }: Props) => {
             <p>Gender: {initialData.personalDetails.gender}</p>
             <p>
               Age:{" "}
-              {calculateAge(
-                initialData.personalDetails.dateOfBirth.toLocaleDateString(),
-              )}
+              {calculateAge(initialData.personalDetails.dateOfBirth.toString())} years
             </p>
             <p>Marital Status: {initialData.personalDetails.maritalStatus}</p>
             <p>Religion: {initialData.personalDetails.religion}</p>

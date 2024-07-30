@@ -17,6 +17,7 @@ const page = async () => {
     <>
       <ProfileView
         initialData={jobSeekerProfile}
+        user={user}
 
       />
     </>
