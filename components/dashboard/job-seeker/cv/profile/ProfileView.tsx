@@ -10,22 +10,24 @@ type Props = {
 };
 
 const ProfileView = ({ profileId, initialData }: Props) => {
- 
-    const calculateAge = (dateString: string) => {
+  const calculateAge = (dateString: string) => {
     const birthDate = new Date(dateString);
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
-  }
+  };
   return (
-    <div className="w-full bg-slate-100 md:py-10">
+    <div className="w-full md:py-10">
       <div className="m-9 mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
         <div className="mb-6 flex items-center">
-          <div className="mr-4 h-24 w-24 overflow-hidden rounded-full">
+          <div className="mr-4 h-32 w-32 overflow-hidden">
             <img
               src="https://via.placeholder.com/100"
               alt="Profile Picture"
@@ -34,7 +36,7 @@ const ProfileView = ({ profileId, initialData }: Props) => {
           </div>
           <div>
             <h1 className="text-3xl font-bold">Richard Sanchez</h1>
-            <p className="text-gray-600">Product Designer</p>
+            <p className="text-gray-600">{initialData.cvHeadLine}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -69,7 +71,7 @@ const ProfileView = ({ profileId, initialData }: Props) => {
 
           <div>
             <h2 className=" text-xl font-semibold">Experience</h2>
-            {initialData.employmentDetails.map((job) => (
+            {initialData.employmentDetails.slice(0, 2).map((job) => (
               <div
                 key={job.id}
                 className="flex flex-wrap items-center gap-2 py-4"
@@ -78,7 +80,7 @@ const ProfileView = ({ profileId, initialData }: Props) => {
                   <Briefcase className="h-6 " />
                 </div> */}
 
-                <div className="max-w-64">
+                <div className="">
                   <p className="font-medium">{job.designation}</p>
                   <span className="flex gap-2">
                     <p className="text-sm text-zinc-700">{job.company},</p>
