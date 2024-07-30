@@ -1,4 +1,5 @@
 import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -9,11 +10,11 @@ const page = async (props: Props) => {
     return notFound();
   }
   return (
-    <div className="flex h-full w-full flex-col justify-center">
-      <div className="gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+    <MaxWidthWrapper className="flex h-full w-full flex-col justify-center">
+      <div className="gap-2 rounded-md bg-slate-50 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <ResetPasswordForm email={props.searchParams.email} />
       </div>
-    </div>
+    </MaxWidthWrapper>
   );
 };
 
