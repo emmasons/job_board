@@ -155,7 +155,7 @@ const StepsWrapper = ({
             variant={index === currentStepIndex ? "default" : "outline"}
             className={cn(
               currentStepIndex === index &&
-                "w-2 p-2 bg-sky-500/20 text-zinc-100 hover:bg-sky-500/20",
+                " p-2 bg-sky-500/20 text-zinc-100 hover:bg-sky-500/20",
               "text-xshover:text-slate-500 flex-1 cursor-pointer justify-center border-none  text-center text-zinc-700",
             )}
             onClick={() => goTo(index)}
