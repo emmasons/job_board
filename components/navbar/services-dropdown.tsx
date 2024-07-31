@@ -6,19 +6,7 @@ import Link from 'next/link';
 const ServicesDropdown: React.FC = () => {
   const [services, setServices] = useState<{ title: string; slug: string }[]>([]);
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch('/api/services');
-        const data = await response.json();
-        setServices(data);
-      } catch (error) {
-        console.error('Error fetching services:', error);
-      }
-    };
-
-    fetchServices();
-  }, []);
+ 
 
   return (
     <div className="group relative">

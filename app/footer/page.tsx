@@ -3,6 +3,7 @@ import { getCurrentSessionUser } from "@/lib/auth";
 
 import { Role } from "@prisma/client";
 
+
 const page = async () => {
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {

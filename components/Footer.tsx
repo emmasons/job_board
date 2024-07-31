@@ -32,7 +32,7 @@ const Footer = (props: Props) => {
           <ul>
             <li>
               <Link
-                href="https://twitter.com/InfiniteTalent1/" 
+                href="https://twitter.com/InfiniteTalent1/"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -52,7 +52,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://web.facebook.com/profile.php?id=100092599658225" 
+                href="https://web.facebook.com/profile.php?id=100092599658225"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -66,19 +66,19 @@ const Footer = (props: Props) => {
           <h2 className="text-lg font-bold">About us</h2>
           <div className="flex flex-col">
             <Link
-              href="#"
+              href="/footer-links/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               About Jobs connect
             </Link>
             <Link
-              href="#"
+              href="/footer-links/privacy-policy"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#"
+              href="/footer-links/terms"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               Terms and Conditions
