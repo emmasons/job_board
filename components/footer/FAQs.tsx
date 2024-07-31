@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SearchInput } from "../find-candidates/SearchInput";
 
 const FAQs: React.FC = () => {
   return (
@@ -23,9 +24,10 @@ const FAQs: React.FC = () => {
       </div>
       <div className="m-auto my-4 flex w-full max-w-4xl items-center space-x-2 rounded-md bg-white p-4 shadow-md">
         <h3 className="text-xl font-semibold">Have any doubts? </h3>
-        <div className="flex gap-2">
-          <Input type="email" placeholder="Search..." />
-          <Button type="submit">Search</Button>
+        <div className="w-2/3">
+          <SearchInput />
+          {/* <Input type="email" placeholder="Search..." /> */}
+          {/* <Button type="submit">Search</Button> */}
         </div>
       </div>
       <div className="container mx-auto  max-w-4xl bg-white p-8 text-base shadow-lg">
