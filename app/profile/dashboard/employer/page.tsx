@@ -9,6 +9,7 @@ import {
   MapPin,
   Pencil,
   PhoneIcon,
+  UserCogIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -48,6 +49,13 @@ const page = async () => {
             </p>
           </div>
           <div className="flex-1">
+            <Link
+              href={`/profile/settings`}
+              className="my-4 flex items-center gap-4 text-lg font-bold hover:text-zinc-500"
+            >
+              <UserCogIcon className="h-6 w-6 text-primary" />
+              {employer.profile?.firstName} {employer.profile?.lastName}
+            </Link>
             <p className="my-4 flex items-center gap-4 text-sm">
               <PhoneIcon className="h-6 w-6 text-primary" />
               {employer.profile?.phoneNumber}
