@@ -30,11 +30,10 @@ const TermsAndConditions: React.FC = () => {
         <p className="mb-4">
           By using our platform, you agree to use it only for lawful purposes
           and in a way that does not infringe the rights of, restrict, or
-          inhibit anyone else use and enjoyment of the platform.
-          Prohibited behavior includes harassing or causing distress or
-          inconvenience to any other user, transmitting obscene or offensive
-          content, or disrupting the normal flow of dialogue within our
-          platform.
+          inhibit anyone else use and enjoyment of the platform. Prohibited
+          behavior includes harassing or causing distress or inconvenience to
+          any other user, transmitting obscene or offensive content, or
+          disrupting the normal flow of dialogue within our platform.
         </p>
 
         <h2 className="mb-4 text-2xl font-semibold">
@@ -53,7 +52,7 @@ const TermsAndConditions: React.FC = () => {
 
         <h2 className="mb-4 text-2xl font-semibold">Revisions and Errata</h2>
         <p className="mb-4">
-          The materials appearing on JobsConnect's website could include
+          The materials appearing on JobsConnect~ website could include
           technical, typographical, or photographic errors. JobsConnect does not
           warrant that any of the materials on its website are accurate,
           complete, or current. JobsConnect may make changes to the materials
