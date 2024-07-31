@@ -3,11 +3,8 @@ import React from "react";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex h-full w-full flex-1 flex-col rounded-md bg-[url('/auth/ladylogin.jpg')] bg-cover bg-center bg-no-repeat shadow sm:flex-row ">
-      {/* <div className="basis-1/2">
-        <AuthHero />
-      </div> */}
-      <div className="flex w-full flex-col items-end bg-[rgba(64,64,64,0.5)] p-8">
+    <div className="flex min-h-full items-stretch justify-center bg-[url('/auth/ladylogin.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className="flex-1 bg-[rgba(64,64,64,0.5)] p-8 w-full min-h-full">
         {children}
       </div>
     </div>
