@@ -45,7 +45,7 @@ export const columns: ColumnDef<CandidateProps>[] = [
     },
   },
   {
-    accessorKey: "jobSeekerProfile.cvHeadline",
+    accessorKey: "jobSeekerProfile.cvHeadLine",
     header: ({ column }) => {
       return (
         <Button
@@ -59,9 +59,9 @@ export const columns: ColumnDef<CandidateProps>[] = [
     },
   },
   {
-    accessorKey: "phoneNumber",
+    accessorKey: "profile.phoneNumber",
     header: ({ column }) => {
-      return <p>Phone Number</p>;
+      return <p className="px-4 py-2">Phone Number</p>;
     },
   },
   {
