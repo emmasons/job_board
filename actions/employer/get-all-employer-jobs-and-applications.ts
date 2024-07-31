@@ -1,11 +1,13 @@
 import { db } from "@/lib/db";
 import { Application, Job, Profile, User } from "@prisma/client";
 
-type JobProp = Application & { user: User & { profile: Profile } };
+type ApplicationProp =
+  | (Application & { user: User & { profile: Profile | null }; job: Job })
+  | null;
 
 export const getAllEmployerJobsAndApplications = async (
   ownerId: string,
-): Promise<JobProp[]> => {
+): Promise<ApplicationProp[]> => {
   try {
     const applicants = await db.application.findMany({
       where: {
@@ -14,7 +16,7 @@ export const getAllEmployerJobsAndApplications = async (
         },
       },
       include: {
-        // job: true,
+        job: true,
         user: {
           include: {
             profile: true,
@@ -22,28 +24,6 @@ export const getAllEmployerJobsAndApplications = async (
         },
       },
     });
-
-    // const jobs = await db.job.findMany({
-    //   where: {
-    //     ownerId,
-    //   },
-    //   include: {
-    //     applications: {
-    //       where: {
-    //         id: {
-    //           in: applicants.map((applicant) => applicant.id),
-    //         },
-    //       },
-    //       include: {
-    //         user: {
-    //           include: {
-    //             profile: true,
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
 
     return applicants;
   } catch (error) {
