@@ -9,6 +9,7 @@ import ChangePasswordForm from "@/components/dashboard/profile/ChangePasswordFor
 import { getCurrentSessionUser } from "@/lib/auth";
 import AvatarForm from "@/components/dashboard/profile/AvatarForm";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
+import { GCProfiler } from "v8";
 
 const page = async () => {
   const user = await getCurrentSessionUser();

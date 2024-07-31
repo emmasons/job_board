@@ -1,60 +1,69 @@
-"use client";
-
-import React from "react";
-import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
-import { Briefcase, Mail, MapPin, Phone } from "lucide-react";
-import { Profile, User } from "@prisma/client";
+import { redirect } from "next/navigation";
 import { getCurrentSessionUser } from "@/lib/auth";
 
-type Props = {
-  profileId: string;
-  initialData: JobSeekerProfileProps;
-  user: Profile;
-};
+import { Role } from "@prisma/client";
+import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
+import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
+import { Mail, MapPin, Phone } from "lucide-react";
+import AvatarForm from "@/components/dashboard/profile/AvatarForm";
+import { db } from "@/lib/db";
 
-const ProfileView = ({ profileId, initialData, user }: Props) => {
-  console.log("user",user);
-   const calculateAge = (dateString: string) => {
-     const birthDate = new Date(dateString);
-     const today = new Date();
-     let age = today.getFullYear() - birthDate.getFullYear();
-     const monthDiff = today.getMonth() - birthDate.getMonth();
-     if (
-       monthDiff < 0 ||
-       (monthDiff === 0 && today.getDate() < birthDate.getDate())
-     ) {
-       age--;
-     }
-     return age;
-   };
-
+const page = async () => {
+  const user = await getCurrentSessionUser();
+  if (!user || !(user.role === Role.JOB_SEEKER)) {
+    return redirect("/");
+  }
+  const currentUser = await db.user.findUnique({
+    where: { id: user.id },
+    include: { profile: true },
+  });
+  const imageMetaData = await getLatestFileMetaData(user.id);
+  const jobSeekerProfile = await getJobSeekerProfile(user.id);
+  const calculateAge = (dateString: string) => {
+    const birthDate = new Date(dateString);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
   return (
-    <div className="w-full md:py-10">
-      <div className="m-9 mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
+    <div className="w-full md:py-10 bg-slate-100">
+      <div className="mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
         <div className="mb-6 flex items-center">
-          <div className="mr-4 h-32 w-32 overflow-hidden">
-            <img
-              src="https://via.placeholder.com/100"
-              alt="Profile Picture"
-              className="h-full w-full object-cover"
-            />
+          <div className="mr-4">
+            <img src="{imageMetaData}" alt="" />
+            {user.registeredUser && (
+              <div className="h-60 w-60 overflow-hidden ">
+                <AvatarForm
+                  userId={user.id}
+                  isDeleting={false}
+                  gcpData={imageMetaData}
+                />
+              </div>
+            )}
           </div>
           <div>
             <h1 className="text-3xl font-bold">
-              {user.firstName} {user.lastName}
+              {currentUser?.profile?.firstName} {currentUser?.profile?.lastName}
             </h1>
-            <p className="text-gray-600">{initialData.cvHeadLine}</p>
+            <p className="text-gray-600">{jobSeekerProfile?.cvHeadLine}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <div className="py-2">
               <h2 className="mb-2 text-xl font-semibold">About Me</h2>
-              <p className="text-sm">{initialData.profileSummary}</p>
+              <p className="text-sm">{jobSeekerProfile?.profileSummary}</p>
               <div className="mt-4">
                 <p className="flex items-center gap-2 py-1">
                   <Phone className="h-4 w-4" />
-                  {user.phoneNumber}
+                  {currentUser?.profile?.phoneNumber}
                 </p>
                 <p className="flex items-center gap-2 py-1">
                   <Mail className="h-4 w-4" />
@@ -62,23 +71,20 @@ const ProfileView = ({ profileId, initialData, user }: Props) => {
                 </p>
                 <p className="flex items-center gap-2 py-1">
                   <MapPin className="h-4 w-4" />
-                  {initialData.personalDetails.currentLocation}
+                  {jobSeekerProfile?.personalDetails.currentLocation}
                 </p>
               </div>
               <div className="py-4">
                 <h2 className="mb-2 text-xl font-semibold">Languages</h2>
-                <ul>
-                  <li>English</li>
-                  <li>Swahili</li>
-                  <li>Arabic</li>
-                </ul>
+
+                <p>*Get Languages known here</p>
               </div>
             </div>
           </div>
 
           <div>
             <h2 className=" text-xl font-semibold">Experience</h2>
-            {initialData.employmentDetails.slice(0, 2).map((job) => (
+            {jobSeekerProfile?.employmentDetails.slice(0, 2).map((job) => (
               <div
                 key={job.id}
                 className="flex flex-wrap items-center gap-2 py-4"
@@ -118,30 +124,36 @@ const ProfileView = ({ profileId, initialData, user }: Props) => {
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Education</h2>
-            <p>{initialData.educationLevelId}</p>
-            
+            <p>{jobSeekerProfile?.educationLevelId}</p>
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Desired Job</h2>
 
-            <p>Designation: {initialData.desiredJob.designation}</p>
-            <p>Industry: {initialData.desiredJob.industry}</p>
+            <p>Designation: {jobSeekerProfile?.desiredJob.designation}</p>
+            <p>Industry: {jobSeekerProfile?.desiredJob.industry}</p>
           </div>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <h2 className="mb-2 text-xl font-semibold">Personal Details</h2>
-            <p>Gender: {initialData.personalDetails.gender}</p>
+            <p>Gender: {jobSeekerProfile?.personalDetails.gender}</p>
             <p>
               Age:{" "}
-              {calculateAge(initialData.personalDetails.dateOfBirth.toString())} years
+              {calculateAge(
+                jobSeekerProfile?.personalDetails.dateOfBirth.toString() || "",
+              )}{" "}
+              years
             </p>
-            <p>Marital Status: {initialData.personalDetails.maritalStatus}</p>
-            <p>Religion: {initialData.personalDetails.religion}</p>
+            <p>
+              Marital Status: {jobSeekerProfile?.personalDetails.maritalStatus}
+            </p>
+            <p>Religion: {jobSeekerProfile?.personalDetails.religion}</p>
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Skills</h2>
-            <p>{initialData.skills.map((skill) => skill.skill).join(", ")}</p>
+            <p>
+              {jobSeekerProfile?.skills.map((skill) => skill.skill).join(", ")}
+            </p>
           </div>
         </div>
       </div>
@@ -149,4 +161,4 @@ const ProfileView = ({ profileId, initialData, user }: Props) => {
   );
 };
 
-export default ProfileView;
+export default page;
