@@ -8,7 +8,7 @@ const TermsAndConditions: React.FC = () => {
           Terms and Conditions
         </h2>
       </div>
-      <div className="container text-sm  mx-auto max-w-3xl bg-white p-8 shadow-lg">
+      <div className="container mx-auto  max-w-3xl bg-white p-8 text-sm shadow-lg">
         <p className="mb-4">
           Welcome to JobsConnect. These terms and conditions outline the rules
           and regulations for the use of our platform. By accessing this
@@ -30,10 +30,11 @@ const TermsAndConditions: React.FC = () => {
         <p className="mb-4">
           By using our platform, you agree to use it only for lawful purposes
           and in a way that does not infringe the rights of, restrict, or
-          inhibit anyone else's use and enjoyment of the platform. Prohibited
-          behavior includes harassing or causing distress or inconvenience to
-          any other user, transmitting obscene or offensive content, or
-          disrupting the normal flow of dialogue within our platform.
+          inhibit anyone else use and enjoyment of the platform.
+          Prohibited behavior includes harassing or causing distress or
+          inconvenience to any other user, transmitting obscene or offensive
+          content, or disrupting the normal flow of dialogue within our
+          platform.
         </p>
 
         <h2 className="mb-4 text-2xl font-semibold">
