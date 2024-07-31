@@ -104,7 +104,7 @@ const FAQs: React.FC = () => {
             <AccordionContent>
               If you are not currently employed, you can leave the Current
               Designation and Current Employer fields blank or mention
-              'Unemployed' or 'Job Seeker'. This provides clarity to potential
+              Unemployed or Job Seeker. This provides clarity to potential
               employers about your current employment status.
             </AccordionContent>
           </AccordionItem>
