@@ -2,6 +2,7 @@ import React from "react";
 
 const PrivacyPolicy: React.FC = () => {
   return (
+    
     <div className="bg-slate-50 pb-8">
       <div className="rounded-bl-3xl bg-primary/50">
         <h2 className="mx-auto max-w-3xl p-4 py-12 text-4xl font-semibold text-white ">
