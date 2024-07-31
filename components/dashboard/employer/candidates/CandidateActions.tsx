@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/ConfirmModal";
 
-interface JobActionsProps {
-  jobId: string;
+interface CandidateActionsProps {
+  candidateId: string;
 }
 
-export const JobActions = ({ jobId }: JobActionsProps) => {
+export const CandidateActions = ({ candidateId }: CandidateActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,12 +20,12 @@ export const JobActions = ({ jobId }: JobActionsProps) => {
     try {
       setIsLoading(true);
 
-      const response = await fetch(`/api/jobs/${jobId}/`, {
+      const response = await fetch(`/api/candidates/${candidateId}/`, {
         method: "DELETE",
       });
       const { message, status } = await response.json();
-
-      if (status === 200) {
+      console.log(message, status, "---------------------------");
+      if (response.status === 200) {
         toast({
           title: "Success",
           description: "Resource deleted successfuly.",
@@ -39,7 +39,7 @@ export const JobActions = ({ jobId }: JobActionsProps) => {
           variant: "destructive",
         });
       }
-      router.push("/profile/dashboard/employer/jobs/");
+      router.push("/profile/dashboard/employer/candidates/");
     } catch {
       toast({
         title: "Error",
