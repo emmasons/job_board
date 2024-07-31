@@ -10,16 +10,23 @@ export const getApplicationById = async (id: string) => {
         job: {
           include: {
             company: true,
+            education: true,
           },
         },
         user: {
           include: {
             profile: true,
+            jobSeekerProfile: {
+              include: {
+                education: true,
+                skills: true,
+              },
+            },
           },
         },
       },
     });
-
+    console.log("application", application);
     return application;
   } catch (error) {
     console.log("GET_USER_APPLICATION_BY_ID", error);

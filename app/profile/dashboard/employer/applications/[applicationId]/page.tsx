@@ -3,7 +3,17 @@ import { ChangeApplicationStatusForm } from "@/components/dashboard/employer/app
 import { Badge } from "@/components/ui/badge";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { ApplicationStatus, Role } from "@prisma/client";
-import { BriefcaseIcon, ChevronRight } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  BriefcaseIcon,
+  ChevronRight,
+  Flag,
+  GraduationCap,
+  Hammer,
+  MapPin,
+  ReceiptTextIcon,
+  UserSquareIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -19,7 +29,7 @@ const page = async ({ params }: Props) => {
     return redirect("/");
   }
   const application = await getApplicationById(params.applicationId);
-  console.log(application?.status, "**********");
+
   if (!application) {
     return redirect("/profile/dashboard/employer/applications");
   }
@@ -30,45 +40,136 @@ const page = async ({ params }: Props) => {
           Job Application
           <BriefcaseIcon className="h-6 w-6 text-primary" />
         </h1>
-        <p className="text-lg font-medium text-zinc-700">
-          {application?.job?.title}
-        </p>
-        <p className="text-lg font-medium text-zinc-700">
-          Company Name: {application?.job?.company?.companyName || "N/A"}
-        </p>
-        <p className="text-lg font-medium text-zinc-700">
-          Location: {application?.job?.city || "N/A"}
-        </p>
-        <p className="text-lg font-medium text-zinc-700">
-          Status:{" "}
-          {application?.status === ApplicationStatus.ACCEPTED ? (
-            <Badge variant="default" className="bg-green-600">
-              Accepted
-            </Badge>
-          ) : application?.status === ApplicationStatus.REJECTED ? (
-            <Badge variant="default" className="bg-orange-600">
-              Rejected
-            </Badge>
-          ) : (
-            <Badge variant="default" className="bg-zinc-600">
-              Pending
-            </Badge>
-          )}
-        </p>
-        <Link
-          href={`/profile/dashboard/employer/candidates/${application?.user?.id}`}
-          className="flex items-center text-lg font-medium text-sky-700"
-        >
-          Applicant: {application?.user?.profile?.firstName || "N/A"}{" "}
-          {application?.user?.profile?.lastName || "N/A"}
-          <ChevronRight />
-        </Link>
+        <div className="space-y-4">
+          <div className="rounded-md bg-sky-100 p-4">
+            <Link
+              href={`/profile/dashboard/employer/candidates/${application?.user?.id}`}
+              className="mb-2 flex items-center text-[0.9rem] font-medium text-sky-700"
+              target="_blank"
+            >
+              Job Summary: {application?.job.title || "N/A"}
+            </Link>
+            <div className="flex items-center gap-2">
+              <Flag className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Country: {application?.job?.country || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                City: {application?.job?.city || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Edication: {application?.job.education?.label || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <ReceiptTextIcon className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Contract: {application?.job.contractType || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <BriefcaseBusiness className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Positions: {application?.job?.numberOfPositions || "N/A"}
+              </p>
+            </div>
+            <Link
+              href={`/profile/dashboard/employer/jobs/${application?.job?.id}`}
+              className="flex items-center text-[0.9rem] font-medium text-sky-700"
+              target="_blank"
+            >
+              View full job profile
+              <ChevronRight />
+            </Link>
+          </div>
+          <div className="rounded-md bg-sky-100 p-4">
+            <Link
+              href={`/profile/dashboard/employer/candidates/${application?.user?.id}`}
+              className="mb-2 flex items-center text-[0.9rem] font-medium text-sky-700"
+              target="_blank"
+            >
+              Applicant Summary:{" "}
+              {application?.user?.profile?.firstName || "N/A"}{" "}
+              {application?.user?.profile?.lastName || "N/A"}
+            </Link>
+            <div className="flex items-center gap-2">
+              <UserSquareIcon className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                {application?.user?.jobSeekerProfile?.cvHeadLine || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Flag className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Country: {application?.user?.jobSeekerProfile?.country || "N/A"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-primary" />
+              <p className="text-[0.9rem] font-medium text-zinc-700">
+                Edication:{" "}
+                {application?.user?.jobSeekerProfile?.education?.label || "N/A"}
+              </p>
+            </div>
+
+            <div className="text-[0.9rem] font-medium text-zinc-700">
+              Status:{" "}
+              {application?.status === ApplicationStatus.ACCEPTED ? (
+                <Badge variant="default" className="bg-green-600">
+                  Accepted
+                </Badge>
+              ) : application?.status === ApplicationStatus.REJECTED ? (
+                <Badge variant="default" className="bg-orange-600">
+                  Rejected
+                </Badge>
+              ) : (
+                <Badge variant="default" className="bg-zinc-600">
+                  Pending
+                </Badge>
+              )}
+            </div>
+            <div className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+              <span className="flex items-center gap-2 text-[0.9rem] font-medium">
+                <Hammer className="h-4 w-4 text-primary" />
+                Skills
+              </span>
+              {application.user?.jobSeekerProfile?.skills && (
+                <div className="space-x-2">
+                  {application.user?.jobSeekerProfile.skills.map((skill) => (
+                    <span
+                      key={skill.id}
+                      className="py-1text-primary rounded-[0.7rem] bg-primary/10 px-2"
+                    >
+                      {skill.skill}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <Link
+              href={`/profile/dashboard/employer/candidates/${application?.user?.id}`}
+              className="flex items-center text-[0.9rem] font-medium text-sky-700"
+              target="_blank"
+            >
+              View full applicant profile
+              <ChevronRight />
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className="shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] md:p-20">
-        <ChangeApplicationStatusForm
-          applicationId={params.applicationId}
-          initialData={{ status: application?.status }}
-        />
+      <div className="rounded-md bg-sky-100 md:p-8">
+        <div className="rounded-md bg-white p-4">
+          <ChangeApplicationStatusForm
+            applicationId={params.applicationId}
+            initialData={{ status: application?.status }}
+          />
+        </div>
       </div>
     </div>
   );
