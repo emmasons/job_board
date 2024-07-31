@@ -8,7 +8,7 @@ const page = async () => {
   const sectors = await getAllSectors();
 
   return (
-    <MaxWidthWrapper className="flex w-full justify-between rounded-md">
+    <MaxWidthWrapper className="flex h-full w-full justify-between rounded-md">
       <SignupMessage />
       <div className="w-full basis-1/2 rounded-md bg-slate-50 shadow md:p-8">
         <EmployerSignup
