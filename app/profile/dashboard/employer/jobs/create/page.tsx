@@ -1,5 +1,5 @@
 import { getAllSectors } from "@/actions/get-all-sectors";
-import { getCompanyForUser } from "@/actions/get-company-for-user";
+import { getCompanyForUser } from "@/actions/employer/get-company-for-user";
 import { getContractTypes } from "@/actions/get-contract-types";
 import { getEducationLevels } from "@/actions/get-education-levels";
 import { getExperience } from "@/actions/get-experience";
