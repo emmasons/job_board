@@ -45,3 +45,32 @@ export async function PATCH(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const user = await getCurrentSessionUser();
+    if (!user || user.role !== Role.EMPLOYER) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const { id } = params;
+    await db.job.delete({
+      where: {
+        id: id,
+      },
+    });
+    return NextResponse.json(
+      { message: "Internal Error", status: 200 },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("[USER_ID]", error);
+    return NextResponse.json(
+      { message: "Internal Error", status: 500 },
+      { status: 500 },
+    );
+  }
+}

@@ -19,6 +19,7 @@ import CandidateList from "@/components/find-candidates/CandidateList";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
+import { JobActions } from "@/components/dashboard/employer/jobs/JobActions";
 
 type Props = {
   params: {
@@ -63,12 +64,15 @@ const page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className="space-y-4 p-6">
-      <Link
-        href="/profile/dashboard/employer/jobs"
-        className="text-primary hover:text-sky-500 "
-      >
-        <ArrowLeft className="h-6 w-6" />
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/profile/dashboard/employer/jobs"
+          className="text-primary hover:text-sky-500 "
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </Link>
+        <JobActions jobId={jobId} />
+      </div>
       <div className="justify-between gap-4 rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
         <h1 className="my-4 flex items-center gap-4 text-2xl font-bold">
           {job.title}
