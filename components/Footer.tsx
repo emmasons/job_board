@@ -84,6 +84,12 @@ const Footer = (props: Props) => {
               Terms and Conditions
             </Link>
             <Link
+              href="/FAQs"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              FAQs
+            </Link>
+            <Link
               href="/blog"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
