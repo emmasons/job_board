@@ -35,7 +35,7 @@ const page = async () => {
   return (
     <div className="w-full md:py-10 bg-slate-100">
       <div className="mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
-        <div className="mb-6 flex items-center">
+        <div className="mb-6 flex flex-wrap items-center">
           <div className="mr-4">
             <img src="{imageMetaData}" alt="" />
             {user.registeredUser && (
