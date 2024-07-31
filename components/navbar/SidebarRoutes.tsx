@@ -14,17 +14,20 @@ import {
   LayoutDashboardIcon,
   Users,
   BarChart2Icon,
+  Bell,
+  BriefcaseBusiness,
+  Eye,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
 import { SidebarItem } from "./SidebarItem";
 
 const guestRoutes = [
-  // {
-  //   icon: LayoutDashboard,
-  //   label: "Dashboard",
-  //   href: "/profile/main-dashboard",
-  // },
+  {
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    href: "/profile/dashboard/job-seeker/main-dashboard",
+  },
 
   {
     icon: Users2,
@@ -32,14 +35,19 @@ const guestRoutes = [
     href: "/profile/dashboard",
   },
   {
-    icon: LayoutDashboard,
-    label: "Profile Public view",
-    href: "/profile/profile-view",
+    icon: Eye,
+    label: "Public Profile view",
+    href: "/profile/dashboard/job-seeker/profile-view",
   },
   {
-    icon: Bookmark,
-    label: "Saved Jobs",
-    href: "/profile/saved",
+    icon: BriefcaseBusiness,
+    label: "Applied Jobs",
+    href: "/profile/dashboard/job-seeker/applied-jobs",
+  },
+  {
+    icon: Bell,
+    label: "My Job alerts",
+    href: "/profile/dashboard/job-seeker/job-alerts",
   },
   {
     icon: Settings,
@@ -47,6 +55,7 @@ const guestRoutes = [
     href: "/profile/settings",
   },
 ];
+
 
 const staffRoutes = [
   {
