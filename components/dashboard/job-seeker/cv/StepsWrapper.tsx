@@ -145,7 +145,7 @@ const StepsWrapper = ({
   return (
     <div className="space-y-8 bg-slate-100/30 p-12">
       <h4 className="scroll-m-20 py-2 text-4xl  tracking-tight first:mt-0">
-        My Profile
+        Profile
       </h4>
       {/* top bar  */}
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
@@ -155,7 +155,7 @@ const StepsWrapper = ({
             variant={index === currentStepIndex ? "default" : "outline"}
             className={cn(
               currentStepIndex === index &&
-                " p-2 bg-sky-500/20 text-zinc-100 hover:bg-sky-500/20",
+                " bg-sky-500/20 p-2 text-zinc-100 hover:bg-sky-500/20",
               "text-xshover:text-slate-500 flex-1 cursor-pointer justify-center border-none  text-center text-zinc-700",
             )}
             onClick={() => goTo(index)}
