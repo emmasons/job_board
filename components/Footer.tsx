@@ -66,19 +66,19 @@ const Footer = (props: Props) => {
           <h2 className="text-lg font-bold">About us</h2>
           <div className="flex flex-col">
             <Link
-              href="/footer-links/about"
+              href="/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               About Jobs connect
             </Link>
             <Link
-              href="/footer-links/privacy-policy"
+              href="/privacy-policy"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/footer-links/terms"
+              href="/terms-and-conditions"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
               Terms and Conditions
