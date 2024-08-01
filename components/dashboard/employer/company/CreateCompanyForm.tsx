@@ -6,13 +6,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import {
-          Form,
-          FormControl,
-          FormField,
-          FormItem,
-          FormMessage,
-        } 
-from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -55,8 +54,6 @@ export default function CreateCompanyForm({
       });
       const data = await response.json();
 
-      console.log(data, response, "data");
-
       if (response.ok) {
         toast({
           title: "Success",
@@ -77,7 +74,7 @@ export default function CreateCompanyForm({
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong!",
+        description: "Internal server error!",
       });
     }
   };
