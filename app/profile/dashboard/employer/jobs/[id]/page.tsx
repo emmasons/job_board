@@ -79,7 +79,7 @@ const page = async ({ params, searchParams }: Props) => {
         </h1>
         <p className="my-4 flex items-center gap-4 text-lg capitalize">
           <Hammer className="h-6 w-6 text-primary" />
-          {job.sector.label}
+          {job?.sector?.label}
         </p>
         <div className="flex flex-col gap-2">
           <SwitchJobStatusForm
@@ -107,7 +107,9 @@ const page = async ({ params, searchParams }: Props) => {
           <h2 className="my-4 flex items-center gap-4 border-b text-lg font-bold text-zinc-600">
             Views
           </h2>
-          <p className="text-[1.2rem] font-bold text-primary">0</p>
+          <p className="text-[1.2rem] font-bold text-primary">
+            {job.metrics.reduce((acc, curr) => acc + curr.view, 0)}
+          </p>
         </div>
         <div className="flex w-full flex-col items-center rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
           <h2 className="my-4 flex items-center gap-4 border-b text-lg font-bold text-zinc-600">

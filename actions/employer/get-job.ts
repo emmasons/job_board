@@ -1,9 +1,11 @@
 import { db } from "@/lib/db";
-import { Application, Job } from "@prisma/client";
+import { Sector } from "@/types";
+import { Application, Job, JobMetrics } from "@prisma/client";
 
 type JobType = Job & {
   applications: Application[];
-  sector: Sector;
+  sector: Sector | null;
+  metrics: JobMetrics[];
 };
 
 export const getJob = async (jobId: string): Promise<JobType | null> => {
@@ -15,6 +17,7 @@ export const getJob = async (jobId: string): Promise<JobType | null> => {
       include: {
         applications: true,
         sector: true,
+        metrics: true,
       },
     });
     return job;

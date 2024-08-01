@@ -272,6 +272,19 @@ model Job {
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
   source            JOBSOURCE       @default(COMPANY)
+  metrics           JobMetrics[]
+}
+
+model JobMetrics {
+  id                String   @id @default(cuid())
+  totalApplications Int      @default(0)
+  view              Int      @default(0)
+  share             Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  jobId             String
+  job               Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  visitorId         String   @unique
 }
 
 enum ApplicationStatus {

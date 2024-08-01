@@ -64,7 +64,7 @@ export const getAllJobs = async ({
     const jobs = await db.job.findMany({
       where: {
         isOpen: true,
-        isScraped: false,
+        published: true,
         ...countryCondition, // Use the determined country condition
         ...(formattedTitle
           ? {
