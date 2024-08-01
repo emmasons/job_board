@@ -10,10 +10,9 @@ export async function PATCH(
   try {
     const user = await getCurrentSessionUser();
 
-    if (!user || user.role !== Role.EMPLOYER) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!user || (user.role !== Role.ADMIN && user.role !== Role.EMPLOYER)) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-
     const ownJob = await db.job.findFirst({
       where: {
         id: params.id,
@@ -21,7 +20,7 @@ export async function PATCH(
       },
     });
 
-    if (!ownJob) {
+    if (user.role === Role.EMPLOYER && !ownJob) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 

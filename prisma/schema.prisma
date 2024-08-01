@@ -265,6 +265,7 @@ model Job {
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
+  isScraped         Boolean         @default(false)
 }
 
 enum ApplicationStatus {

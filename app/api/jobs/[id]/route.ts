@@ -10,7 +10,7 @@ export async function PATCH(
   try {
     const user = await getCurrentSessionUser();
 
-    if (!user || user.role !== Role.EMPLOYER) {
+    if (!user || (user.role !== Role.ADMIN && user.role !== Role.EMPLOYER)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -21,7 +21,7 @@ export async function PATCH(
       },
     });
 
-    if (!ownJob) {
+    if ( user.role === Role.EMPLOYER && !ownJob) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
