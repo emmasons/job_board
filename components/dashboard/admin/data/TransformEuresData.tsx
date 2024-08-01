@@ -30,7 +30,7 @@ const TransformEuresData = () => {
         toast({
           variant: "default",
           title: "Success",
-          description: "Success",
+          description: response.message,
         });
       }
     } catch (error) {
@@ -51,7 +51,7 @@ const TransformEuresData = () => {
         ) : (
           <span className="inline-flex items-center gap-2 font-semibold">
             <RotateCcw className="mr-2 h-6 w-6" />
-            Transform Eures Data
+            Migrate transformed data to the Database
           </span>
         )}
       </Button>
