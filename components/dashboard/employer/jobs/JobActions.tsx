@@ -10,11 +10,69 @@ import { ConfirmModal } from "@/components/modals/ConfirmModal";
 
 interface JobActionsProps {
   jobId: string;
+  published: boolean;
 }
 
-export const JobActions = ({ jobId }: JobActionsProps) => {
+export const JobActions = ({ jobId, published }: JobActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const onClick = async () => {
+    try {
+      setIsLoading(true);
+      if (published) {
+        const response = await fetch(`/api/jobs/${jobId}/set-publish-status/`, {
+          method: "PUT",
+          body: JSON.stringify({ published: false }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: "This Job is no longer available for applications.",
+            variant: "default",
+            className: "bg-green-300 border-0",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: data,
+            variant: "destructive",
+          });
+        }
+      } else {
+        const response = await fetch(`/api/jobs/${jobId}/set-publish-status/`, {
+          method: "PUT",
+          body: JSON.stringify({ published: true }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+          toast({
+            title: "Success",
+            description: "This Job is now available for applications.",
+            variant: "default",
+            className: "bg-green-300 border-0",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: data,
+            variant: "destructive",
+          });
+        }
+      }
+
+      router.refresh();
+    } catch {
+      toast({
+        title: "Error",
+        description: "Something went wrong.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onDelete = async () => {
     try {
@@ -53,6 +111,14 @@ export const JobActions = ({ jobId }: JobActionsProps) => {
 
   return (
     <div className="flex items-center gap-x-2">
+      <Button
+        onClick={onClick}
+        disabled={isLoading}
+        variant="outline"
+        size="sm"
+      >
+        {published ? "Unpublish" : "Publish"}
+      </Button>
       <ConfirmModal onConfirm={onDelete}>
         <Button size="sm" disabled={isLoading} className="hover:bg-red-700">
           {isLoading ? (

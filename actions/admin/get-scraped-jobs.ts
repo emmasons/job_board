@@ -1,10 +1,11 @@
 import { db } from "@/lib/db";
+import { JOBSOURCE } from "@prisma/client";
 
 export const getScrapedJobs = async () => {
   try {
     const jobs = await db.job.findMany({
       where: {
-        isScraped: true,
+        source: JOBSOURCE.SCRAPPER,
       },
     });
     return jobs;

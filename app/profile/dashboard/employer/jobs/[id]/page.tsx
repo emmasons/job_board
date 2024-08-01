@@ -71,7 +71,7 @@ const page = async ({ params, searchParams }: Props) => {
         >
           <ArrowLeft className="h-6 w-6" />
         </Link>
-        <JobActions jobId={jobId} />
+        <JobActions jobId={jobId} published={job.published} />
       </div>
       <div className="justify-between gap-4 rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
         <h1 className="my-4 flex items-center gap-4 text-2xl font-bold">

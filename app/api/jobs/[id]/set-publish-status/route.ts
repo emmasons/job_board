@@ -16,7 +16,7 @@ export async function PUT(
       { status: 401 },
     );
   }
-  const { isScraped } = await req.json();
+  const { published } = await req.json();
   const { id } = params;
   try {
     const job = await db.job.update({
@@ -24,7 +24,7 @@ export async function PUT(
         id,
       },
       data: {
-        isScraped,
+        published,
       },
     });
     return NextResponse.json(
