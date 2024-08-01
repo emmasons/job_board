@@ -232,6 +232,12 @@ enum JOBSTATUS {
   DRAFT
 }
 
+enum JOBSOURCE {
+  COMPANY
+  JOB_BOARD
+  SCRAPPER
+}
+
 model Job {
   id                String          @id @default(cuid())
   title             String
@@ -265,7 +271,7 @@ model Job {
   sector            Sector?         @relation(fields: [sectorId], references: [id])
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
-  isScraped         Boolean         @default(false)
+  source            JOBSOURCE       @default(COMPANY)
 }
 
 enum ApplicationStatus {

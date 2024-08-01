@@ -21,7 +21,6 @@ import { Role } from "@prisma/client";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
 import { JobActions } from "@/components/dashboard/employer/jobs/JobActions";
 import { Banner } from "@/components/Banner";
-import { Actions } from "@/components/dashboard/admin/jobs/Actions";
 
 type Props = {
   params: {
@@ -62,7 +61,7 @@ const page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className="space-y-4 p-6">
-      {job.isScraped && (
+      {!job.published && (
         <Banner
           label={
             "Please note, this job will not be available to job seekers until you set it to PUBLISHED and the status is OPEN. Also make sure all the required fields are provided."
@@ -76,7 +75,7 @@ const page = async ({ params, searchParams }: Props) => {
         >
           <ArrowLeft className="h-6 w-6" />
         </Link>
-        <Actions isScraped={job.isScraped} jobId={jobId} />
+        <JobActions published={job.published} jobId={jobId} />
       </div>
       <div className="justify-between gap-4 rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
         <Link

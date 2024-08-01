@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { Role, WorkSchedule, ContractType } from "@prisma/client";
+import { Role, WorkSchedule, ContractType, JOBSOURCE } from "@prisma/client";
 import countries from "country-list";
 
 function prepareWorkSchedule(scrapedSchedule) {
@@ -181,7 +181,11 @@ export async function POST(req: Request) {
   }
   try {
     await db.job.createMany({
-      data: { ...tranformedData, isScraped: true, isOpen:false },
+      data: {
+        ...tranformedData,
+        isOpen: false,
+        source: JOBSOURCE.SCRAPPER,
+      },
       skipDuplicates: true,
     });
 

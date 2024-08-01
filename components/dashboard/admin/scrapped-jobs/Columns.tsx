@@ -72,7 +72,7 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
-    accessorKey: "isScraped",
+    accessorKey: "published",
     header: ({ column }) => {
       return (
         <Button
@@ -85,7 +85,7 @@ export const columns: ColumnDef<Job>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.getValue("isScraped");
+      const status = row.getValue("published");
 
       return (
         <Badge
@@ -94,8 +94,22 @@ export const columns: ColumnDef<Job>[] = [
             status ? "bg-green-300" : "bg-orange-500",
           )}
         >
-          {status ? "Scraped" : "Posted"}
+          {status ? "published" : "unpublished"}
         </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "source",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Source
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
