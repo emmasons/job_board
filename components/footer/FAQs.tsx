@@ -23,7 +23,7 @@ const FAQs: React.FC = () => {
         </p>
       </div>
       <div className="m-auto my-4 flex w-full max-w-4xl items-center space-x-2 rounded-md bg-white p-4 shadow-md">
-        <h3 className="text-xl font-semibold">Have any doubts? </h3>
+        <h3 className="text-xl font-semibold">Having doubts? </h3>
         <div className="w-2/3">
           <SearchInput />
           {/* <Input type="email" placeholder="Search..." /> */}
@@ -34,78 +34,185 @@ const FAQs: React.FC = () => {
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>
-              <span className="flex-1 text-left">
-                How will creating a profile on JobsConnect help me? Do I need to
-                create a profile if I am only interested in applying to some
-                jobs?
-              </span>
+              <span className="flex-1 text-left">1. What is Jobs Connect?</span>
             </AccordionTrigger>
             <AccordionContent>
-              Creating a profile on JobsConnect allows you to apply for jobs
-              more efficiently. It also makes it easier for employers to find
-              and contact you for relevant opportunities. Even if you are only
-              interested in applying to some jobs, having a profile will
-              streamline your job application process.
+              Jobs Connect is a leading job placement company specializing in
+              providing professional job placement services to job seekers and
+              employers in Gulf countries, including UAE, Saudi Arabia, Kuwait,
+              Oman, and Qatar. Our experienced job placement team is dedicated
+              to delivering top-rated job placement solutions and expert job
+              placement advice.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-2">
             <AccordionTrigger>
               <span className="flex-1 text-left">
-                Do I need to pay any amount for registering with JobsConnect or
-                applying to jobs?
+                2. How can Jobs Connect help me find a job in the Gulf
+                countries?
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              Registering with JobsConnect and creating a profile is absolutely
-              free. There is no charge for creating your profile or for applying
-              to jobs. Once you register with JobsConnect, you are automatically
-              added to the JobsConnect CV database and can apply to unlimited
-              jobs.
+              Jobs Connect utilizes innovative job placement techniques and best
+              job placement practices to match job seekers with suitable
+              employment opportunities in the Gulf region. Our certified job
+              placement specialists and skilled job placement consultants work
+              closely with you to understand your career goals and provide
+              custom job placement services tailored to your needs.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-3">
             <AccordionTrigger>
               <span className="flex-1 text-left">
-                What should I fill as my Current Location if I shuttle between
-                my home country and my current location? Or I might not be
-                residing at my current location after a few weeks or months.
+                3. What types of jobs are available through Jobs Connect?
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              You should fill in the location where you are currently residing
-              or the location where you will be residing for the majority of
-              your job search period. You can update your profile as your
-              location changes.
+              We offer a wide range of job placement opportunities across
+              various industries, including healthcare, engineering, IT,
+              finance, hospitality, and more. Our comprehensive job placement
+              solutions ensure that we cater to diverse career preferences and
+              skill sets.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-4">
             <AccordionTrigger>
               <span className="flex-1 text-left">
-                What should I mention as my Nationality?
+                4. How do I register with Jobs Connect?
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              You should mention the nationality as per your passport or legal
-              documentation. This helps in compliance with job eligibility and
-              visa requirements for various positions.
+              To register with Jobs Connect, visit our website and fill out the
+              registration form with your personal information, employment
+              history, and job preferences. Our team of job placement
+              professionals will review your application and contact you with
+              suitable job opportunities.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-5">
             <AccordionTrigger>
               <span className="flex-1 text-left">
-                I am not currently employed. What should I enter as my Current
-                Designation and Current Employer?
+                5. What makes Jobs Connect different from other job placement
+                companies?
               </span>
             </AccordionTrigger>
             <AccordionContent>
-              If you are not currently employed, you can leave the Current
-              Designation and Current Employer fields blank or mention
-              Unemployed or Job Seeker. This provides clarity to potential
-              employers about your current employment status.
+              Jobs Connect stands out due to our commitment to job placement
+              service excellence and our focus on client-focused job placement
+              services. We employ reliable job placement providers and utilize
+              job placement innovation to deliver quality job placement
+              solutions. Our affordable job placement services and trusted job
+              placement partner status make us the premier job placement
+              solutions provider in the Gulf region.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-6">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                6. How does Jobs Connect ensure the quality of job placements?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              We follow best job placement practices and leverage our job
+              placement expertise to ensure high-quality placements. Our job
+              placement project management and thorough job placement consulting
+              process help us deliver top-rated job placement services that meet
+              the needs of both job seekers and employers.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-7">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                7. Is there a fee for using Jobs Connect services?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Our fees vary depending on the specific services required. We
+              offer affordable job placement services and provide a clear
+              breakdown of any costs involved. Contact us for more detailed
+              information about our pricing structure.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-8">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                8. Can Jobs Connect help with relocation to Gulf countries?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Yes, Jobs Connect offers job placement support and assistance with
+              relocation. Our team provides expert job placement advice and
+              helps you navigate the process of moving to Gulf countries such as
+              UAE, Saudi Arabia, Kuwait, Oman, and Qatar.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-9">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                9. How do I contact Jobs Connect for further assistance?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              You can contact Jobs Connect through the following:
+              <ul className="list-disc pl-5">
+                <li>Email: hello@infinitetalent.co.ke</li>
+                <li>Phone: +971 50 398 4645</li>
+                <li>Address: Dubai</li>
+              </ul>
+              Our customer service team is available to assist you with any
+              questions or concerns regarding our job placement services.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-10">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                10. What should I do if I forgot my Jobs Connect account
+                password?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              If you have forgotten your password, go to the login page on our
+              website and click on the &quot;Forgot Password&quot; link. Follow
+              the instructions to reset your password. If you encounter any
+              issues, please contact our support team for assistance.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-11">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                11. How does Jobs Connect handle my personal information?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Jobs Connect is committed to protecting your privacy. We collect,
+              use, and safeguard your personal information in accordance with
+              our Privacy Policy. Please review our Privacy Policy to understand
+              how we manage your data.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-12">
+            <AccordionTrigger>
+              <span className="flex-1 text-left">
+                12. Can employers also register with Jobs Connect?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent>
+              Yes, employers looking to hire talented professionals can register
+              with Jobs Connect. We provide comprehensive job placement
+              solutions for employers, including job placement strategy,
+              development, and support. Contact us to learn more about our
+              employer services.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

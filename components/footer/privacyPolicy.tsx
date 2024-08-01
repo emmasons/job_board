@@ -2,7 +2,6 @@ import React from "react";
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    
     <div className="bg-slate-50 pb-8">
       <div className="rounded-bl-3xl bg-primary/50">
         <h2 className="mx-auto max-w-3xl p-4 py-12 text-4xl font-semibold text-white ">
@@ -11,56 +10,144 @@ const PrivacyPolicy: React.FC = () => {
       </div>
       <div className="container  mx-auto max-w-3xl bg-white p-8 shadow-lg">
         <p className="mb-4">
-          At JobsConnect, we value your privacy and are committed to protecting
-          your personal information. This Privacy Policy outlines how we
-          collect, use, and safeguard your information when you use our
-          platform.
+          Welcome to Jobs Connect. We are committed to protecting your privacy
+          and ensuring that your personal information is handled in a safe and
+          responsible manner. This Privacy Policy outlines how we collect, use,
+          disclose, and safeguard your information when you visit our website or
+          use our job placement services.
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Information Collection</h2>
+        <h2 className="mb-4 text-lg font-semibold">
+          1. Information Collection
+        </h2>
         <p className="mb-4">
-          We collect personal information that you voluntarily provide to us
-          when you register on the platform, express interest in obtaining
-          information about us or our products and services, participate in
-          activities on the platform, or contact us.
+          We collect information that you voluntarily provide to us, including:
+          <ul className="list-disc pl-5" >
+            <li>
+              Personal Information: Name, email address, phone number, and any
+              other contact details.
+            </li>
+            <li>
+              Employment Information: Resume, job preferences, employment
+              history, educational background.
+            </li>
+            <li>
+              Technical Information: IP address, browser type, operating system,
+              and other technical information collected through cookies and
+              similar technologies.
+            </li>
+          </ul>
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Use of Information</h2>
+        <h2 className="mb-4 text-lg font-semibold">2. Use of Information</h2>
         <p className="mb-4">
-          The personal information we collect is used to provide and improve our
-          services, communicate with you, process transactions, and enhance your
-          experience on our platform. We may also use your information for
-          marketing purposes with your consent.
+          Jobs Connect uses your information for the following purposes:
+          <ul className="list-disc pl-5">
+            <li>
+              Job Placement Services: To provide professional job placement
+              services, match you with potential employers, and facilitate
+              employment opportunities in Gulf countries such as UAE, Saudi
+              Arabia, Kuwait, Oman, and Qatar.
+            </li>
+            <li>
+              Improvement of Services: To analyze and improve our website,
+              services, and user experience through innovative job placement
+              techniques.
+            </li>
+            <li>
+              Compliance: To comply with legal obligations and protect our
+              rights.
+            </li>
+          </ul>
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Information Sharing</h2>
+        <h2 className="mb-4 text-lg font-semibold">
+          3. Disclosure of Your Information
+        </h2>
         <p className="mb-4">
-          We do not share your personal information with third parties except as
-          necessary to provide our services, comply with the law, or protect our
-          rights. We may share anonymized data with partners for analytics and
-          research purposes.
+          We may share your information with:
+          <ul className="list-disc pl-5">
+            <li>
+              Employers and Partners: Potential employers and business partners
+              for job placement solutions.
+            </li>
+            <li>
+              Service Providers: Third-party vendors who perform services on our
+              behalf, such as data analysis, marketing support, and technical
+              assistance.
+            </li>
+            <li>
+              Legal Requirements: When required by law, regulation, or legal
+              process.
+            </li>
+          </ul>
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Security</h2>
+        <h2 className="mb-4 text-lg font-semibold">4. Data Security</h2>
         <p className="mb-4">
-          We implement appropriate technical and organizational measures to
-          protect your personal information against unauthorized access, loss,
-          or misuse. However, please be aware that no method of transmission
-          over the Internet or method of electronic storage is completely
-          secure.
+          We implement best job placement practices and take reasonable measures
+          to protect your information from unauthorized access, use, or
+          disclosure. Our security measures include:
+          <ul className="list-disc pl-5">
+            <li>
+              Data Encryption: Protecting your personal information through
+              encryption technologies.
+            </li>
+            <li>
+              Access Controls: Restricting access to your information to
+              authorized personnel only.
+            </li>
+            <li>
+              Regular Audits: Conducting regular security audits and
+              assessments.
+            </li>
+          </ul>
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Your Rights</h2>
+        <h2 className="mb-4 text-lg font-semibold">5. Your Rights</h2>
         <p className="mb-4">
-          You have the right to access, correct, or delete your personal
-          information at any time. You can also object to the processing of your
-          personal information or request that we restrict the processing of
-          your personal information.
+          You have the right to:
+          <ul className="list-disc pl-5">
+            <li>
+              Access: Request access to the personal information we hold about
+              you.
+            </li>
+            <li>
+              Correction: Request corrections to any inaccuracies in your
+              information.
+            </li>
+            <li>
+              Deletion: Request the deletion of your personal information,
+              subject to certain legal exceptions.
+            </li>
+            <li>
+              Objection: Object to the processing of your information under
+              certain circumstances.
+            </li>
+            <li>
+              Data Portability: Request a copy of your information in a
+              structured, commonly used format.
+            </li>
+          </ul>
         </p>
-
+        <h2 className="mb-4 text-lg font-semibold">
+          6. Cookies and Tracking Technologies
+        </h2>
         <p className="mb-4">
-          If you have any questions or concerns about our Privacy Policy, please
-          contact us at privacy@jobsconnect.com.
+          Our website uses cookies and similar tracking technologies to enhance
+          your browsing experience and provide personalized job placement
+          services. You can control the use of cookies through your browser
+          settings.
+        </p>
+        <h2 className="mb-4 text-lg font-semibold">
+          7. Changes to This Privacy Policy
+        </h2>
+        <p className="mb-4">
+          Jobs Connect reserves the right to update this Privacy Policy as
+          needed. We will notify you of any significant changes by posting the
+          new policy on our website and updating the effective date at the top
+          of this page. By using our website and services, you consent to the
+          terms of this Privacy Policy.
         </p>
       </div>
     </div>

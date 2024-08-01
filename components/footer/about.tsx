@@ -10,33 +10,38 @@ const About: React.FC = () => {
       </div>
       <div className="container mx-auto  max-w-3xl bg-white p-8 text-base shadow-lg">
         <p className="mb-4">
-          JobsConnect is an online platform designed to connect quality talent
-          with employers across the Gulf region. Our mission is to bridge the
-          gap between job seekers and employers, facilitating quick, effective,
-          and cost-efficient communication. Since our launch, we have become one
-          of the fastest-growing job sites in the Gulf, attracting thousands of
-          visitors daily from UAE, Saudi Arabia, Bahrain, Kuwait, Oman, Qatar,
-          and more.
+          Welcome to Jobs Connect, your premier job placement expert
+          specializing in connecting talented professionals with top
+          opportunities in the Gulf countries, including UAE, Saudi Arabia,
+          Kuwait, Oman, and Qatar. As a leading job placement company, we are
+          dedicated to providing professional job placement services that cater
+          to the unique needs of both job seekers and employers.
         </p>
 
-        <h2 className="mb-4 text-2xl font-semibold">Our Offerings</h2>
+        <h2 className="mb-4 text-lg font-semibold">Our Offerings</h2>
         <p className="mb-4">
-          JobsConnect provides job seekers with a variety of services to enhance
-          their job search experience. Users can browse through listed jobs,
-          apply online, and register to be contacted by recruiters for relevant
-          opportunities. For employers, we offer a comprehensive suite of
-          products including Resume Database Access, Job Postings, and Response
-          Management Tools. Our platform boasts a diverse database of CVs
-          spanning industries such as Construction, Banking, Oil & Gas, IT
-          (Software and Hardware), Hospitality, Healthcare, Education, Telecom,
-          Petrochemicals, Logistics, and more.
+          At Jobs Connect, our comprehensive job placement solutions cover a
+          wide range of industries, ensuring that we meet the diverse needs of
+          our clients. Whether you are seeking expert job placement advice,
+          custom job placement services, or comprehensive job placement support,
+          Jobs Connect is here to help.
         </p>
 
         <p>
-          At JobsConnect, we continually assess the needs of our users and
-          leverage technology to develop solutions that optimize job search and
-          recruitment processes. Join us and experience the future of job
-          searching and talent acquisition in the Gulf region.
+          We pride ourselves on being a trusted job placement partner, offering
+          top-rated job placement services that are both affordable and of the
+          highest quality. Our commitment to job placement service excellence is
+          evident in our client-focused approach, ensuring that both employers
+          and job seekers receive the best possible outcomes. As a premier job
+          placement solutions provider, Jobs Connect is dedicated to driving job
+          placement innovation and development. We utilize cutting-edge job
+          placement strategies and project management techniques to ensure the
+          success of our placements. Our team is always available to provide
+          personalized support and consulting, making the job placement process
+          seamless and efficient. Join us at Jobs Connect and experience the
+          difference of working with a leading job placement company. Let us
+          help you navigate the job market in the Gulf countries with confidence
+          and ease.
         </p>
       </div>
     </div>
