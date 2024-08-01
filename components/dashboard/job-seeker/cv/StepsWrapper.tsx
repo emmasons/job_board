@@ -143,8 +143,8 @@ const StepsWrapper = ({
   const [showSidebar, setShowSidebar] = useState(false);
 
   return (
-    <div className="space-y-8 bg-slate-100/30 p-12">
-      <h4 className="scroll-m-20 py-2 text-4xl  tracking-tight first:mt-0">
+    <div className="space-y-8 bg-slate-100/30 p-2 md:p-12">
+      <h4 className="scroll-m-20 py-2 text-3xl  tracking-tight first:mt-0">
         Profile
       </h4>
       {/* top bar  */}

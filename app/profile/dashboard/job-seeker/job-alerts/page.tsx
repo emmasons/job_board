@@ -60,13 +60,13 @@ const page = async () => {
         <Label htmlFor="airplane-mode">Job Alerts</Label>
       </div>
       <Table>
-        <TableCaption>A list of your recently applied jobs</TableCaption>
+        <TableCaption>A list of your recent jobs alerts</TableCaption>
         <TableHeader className="bg-slate-100">
           <TableRow>
             <TableHead className="w-[300px]">Keyword</TableHead>
             <TableHead className="text-right">Location</TableHead>
-            <TableHead className="text-right">Functional Area</TableHead>
-            <TableHead className="text-right">Create on</TableHead>
+            <TableHead className="text-right">Sector</TableHead>
+            <TableHead className="text-right">Posted on</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>

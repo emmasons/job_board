@@ -36,82 +36,104 @@ const Dashboard = async (props: Props) => {
 
  
   return (
-    <div className="p-6 space-y-8 bg-slate-100">
-      <h1 className="my-6 flex items-center gap-4 text-2xl">
-        Dashboard
-      </h1>
+    <div className="space-y-8 bg-slate-100 p-6">
+      <h1 className="my-6 flex items-center gap-4 text-2xl">Dashboard</h1>
 
       {/* Summary Boxes */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6">
-        <div className="flex justify-between bg-white shadow rounded-3xl p-4">
+      <div className="grid grid-cols-2 gap-4 pb-6 md:grid-cols-4">
+        <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
-            <h2 className="text-3xl">{percentage?.profilePercentage.percentage} %</h2>
+            <h2 className="text-3xl">
+              {percentage?.profilePercentage.percentage} %
+            </h2>
             <p className="text-gray-600">Profile Strength</p>
           </div>
-          <User className="bg-sky-300 rounded-full p-2 h-10 w-10"/>
+          <User className="h-10 w-10 rounded-full bg-sky-300 p-2" />
         </div>
-        <div className="flex justify-between bg-white shadow rounded-3xl p-4">
+        <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
             <h2 className="text-3xl">0</h2>
             <p className="text-gray-600">Job Alerts</p>
           </div>
-          <Bookmark className="bg-sky-300 rounded-full p-2 h-10 w-10"/>
+          <Bookmark className="h-10 w-10 rounded-full bg-sky-300 p-2" />
         </div>
-        <div className="flex justify-between bg-white shadow rounded-3xl p-4">
+        <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
             <h2 className="text-3xl">0</h2>
             <p className="text-gray-600">Views</p>
           </div>
-          <Eye className="bg-sky-300 rounded-full p-2 h-10 w-10"/>
+          <Eye className="h-10 w-10 rounded-full bg-sky-300 p-2" />
         </div>
-        <div className="flex justify-between bg-white shadow rounded-3xl p-4">
+        <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
             <h2 className="text-3xl">0</h2>
             <p className="text-gray-600">Applied Jobs</p>
           </div>
-          <PencilLine className="bg-sky-300 rounded-full p-2 h-10 w-10"/>
+          <PencilLine className="h-10 w-10 rounded-full bg-sky-300 p-2" />
         </div>
       </div>
 
       {/* Profile Views and Recent Applied Jobs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white shadow rounded-lg mb-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="mb-8 rounded-lg bg-white shadow">
           <div className="border-b">
-            <h2 className="text-lg text-justify p-3">Profile Views</h2>
+            <h2 className="p-3 text-justify text-lg">Recommended jobs</h2>
           </div>
           <div className="p-5">
-            <ProfileViewsGraph />
+            <h2 className="text-primary">Workshop supervicor</h2>
+            <p className="text-sm">
+              •Amenable to identify car malfunctions and other mechanical works
+              in the workshop. •Supervises the team regarding mechanical,
+              electrical, painting...
+            </p>
+          </div>
+          <div className="p-5">
+            <h2 className="text-primary">Workshop supervicor</h2>
+            <p className="text-sm">
+              •Amenable to identify car malfunctions and other mechanical works
+              in the workshop. •Supervises the team regarding mechanical,
+              electrical, painting...
+            </p>
+          </div>
+          <div className="p-5">
+            <h2 className="text-primary">Workshop supervicor</h2>
+            <p className="text-sm">
+              •Amenable to identify car malfunctions and other mechanical works
+              in the workshop. •Supervises the team regarding mechanical,
+              electrical, painting...
+            </p>
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg">
+        <div className="rounded-lg bg-white shadow">
           <div className="border-b">
-            <h2 className="text-lg text-justify p-3">Recently applied</h2>
+            <h2 className="p-3 text-justify text-lg">Recently applied</h2>
           </div>
           <div className="space-y-4 p-4">
             {jobs.map((job) => (
-              <div key={job.id} className="flex justify-between items-center">
+              <div key={job.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                <Building2/>
-                <div>
-                  <h3 className="">{job.title}</h3>
-                  <p className="text-gray-600">{job.city} . {job.country}</p>
-                </div>
+                  <Building2 />
+                  <div>
+                    <h3 className="">{job.title}</h3>
+                    <p className="text-gray-600">
+                      {job.city} . {job.country}
+                    </p>
+                  </div>
                 </div>
                 <div className="relative">
-                <Select>
+                  <Select>
                     <SelectTrigger className=" border-none focus:outline-none">
-                        <SelectValue placeholder="" />
+                      <SelectValue placeholder="" />
                     </SelectTrigger>
                     <SelectContent className="focus:outline-none">
-                        <SelectGroup>
+                      <SelectGroup>
                         <SelectItem value="view">View job</SelectItem>
                         <SelectItem value="archive">Archive</SelectItem>
                         <SelectItem value="delete">Delete</SelectItem>
-                
-                        </SelectGroup>
+                      </SelectGroup>
                     </SelectContent>
-                </Select>
+                  </Select>
                 </div>
               </div>
             ))}
