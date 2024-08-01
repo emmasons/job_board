@@ -18,6 +18,7 @@ import {
   BriefcaseBusiness,
   Eye,
   FolderOutput,
+  FolderInput,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -94,11 +95,7 @@ const adminRoutes = [
     label: "Users",
     href: "/profile/dashboard/admin/users",
   },
-  // {
-  //   icon: BarChart2Icon,
-  //   label: "Data",
-  //   href: "/profile/dashboard/admin/data",
-  // },
+
   {
     icon: Files,
     label: "Blogs",
@@ -113,6 +110,11 @@ const adminRoutes = [
     icon: FolderOutput,
     label: "Scraped Jobs",
     href: "/profile/dashboard/admin/scraped-jobs",
+  },
+  {
+    icon: FolderInput,
+    label: "All Jobs",
+    href: "/profile/dashboard/admin/all-jobs",
   },
 ];
 
