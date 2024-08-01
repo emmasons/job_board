@@ -92,7 +92,7 @@ export function SwitchJobStatusForm({ jobId, initialData }: Props) {
 
   return (
     <Form {...form}>
-      <div className="inline-flex items-center rounded-md">
+      <div className="inline-flex items-center rounded-md mb-4">
         <p className="min-h-full min-w-[70px] rounded-bl-sm rounded-tl-sm bg-zinc-500 p-2 text-white">
           {isSubmitting ? (
             <Loader2 className="h-6 w-6 animate-spin" />

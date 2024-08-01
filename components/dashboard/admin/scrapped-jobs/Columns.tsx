@@ -72,6 +72,34 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
+    accessorKey: "isScraped",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Scraped
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = row.getValue("isScraped");
+
+      return (
+        <Badge
+          className={cn(
+            "rounded-full",
+            status ? "bg-green-300" : "bg-orange-500",
+          )}
+        >
+          {status ? "Scraped" : "Posted"}
+        </Badge>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;
