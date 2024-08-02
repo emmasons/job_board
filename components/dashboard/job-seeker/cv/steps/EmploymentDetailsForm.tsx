@@ -509,12 +509,8 @@ const EmploymentDetailsForm = ({
               )}
             </Button>
 
-            {/* {isJobSeekerComponent && (
-              <Button variant="ghost" onClick={() => handleEdit(initialData)}>
-                Edit
-                <Pencil className="h-3" />
-              </Button>
-            )} */}
+          
+          
           </div>
         </div>
       </div>
