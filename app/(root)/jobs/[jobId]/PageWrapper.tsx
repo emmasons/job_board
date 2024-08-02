@@ -3,7 +3,7 @@ import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Link from "next/link";
 import { setCookie, getCookie } from "cookies-next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Company, Job } from "@prisma/client";
 
 type Props = {
@@ -16,26 +16,22 @@ type Props = {
 };
 
 const PageWrapper = ({ job, jobId }: Props) => {
-  const [viewCount, setViewCount] = useState(0);
-
   useEffect(() => {
     const fetchJobMetrics = async () => {
       try {
         let visitorId = getCookie("visitorId");
-        console.log(visitorId);
+
         if (!visitorId) {
           const newVisitorId = Math.floor(Math.random() * 1000000000);
           setCookie("visitorId", `${newVisitorId}`);
         }
-        const response = await fetch("/api/metrics/job", {
+        await fetch("/api/metrics/job", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ jobId, visitorId: visitorId }),
         });
-        const data = await response.json();
-        console.log(data);
       } catch (error) {
         console.error("Error fetching job metrics:", error);
       }
@@ -76,9 +72,7 @@ const PageWrapper = ({ job, jobId }: Props) => {
             {job?.company?.companyName || job?.companyName || "N/A"}
           </p>
         </div>
-        {/* <div className="border-l-[0.3em] border-zinc-400 bg-zinc-100 pl-4">
-          <Preview value={job?.howToApply} />
-        </div> */}
+
         <div>
           <Link
             href={`/jobs/${job?.id}/apply`}
