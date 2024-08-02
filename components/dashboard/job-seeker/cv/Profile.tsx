@@ -71,7 +71,10 @@ export default function Profile({
     label: country.name,
     value: country.name,
   }));
-
+  // Debugging: Log the lists to check their contents
+  // console.log("Sector List: ", sectorList);
+  // console.log("Education Level List: ", educationLevelList);
+  // console.log("Experience List: ", experienceList);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
