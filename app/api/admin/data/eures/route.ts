@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { Role, WorkSchedule, ContractType } from "@prisma/client";
-import similarity from "string-similarity";
+import { Role, WorkSchedule, ContractType, JOBSOURCE } from "@prisma/client";
 import countries from "country-list";
-
 
 function prepareWorkSchedule(scrapedSchedule) {
   if (!scrapedSchedule) WorkSchedule.NOT_SPECIFIED;
@@ -108,7 +106,7 @@ function transformCountry(country) {
   } else {
     return "Not specified";
   }
- }
+}
 
 function transformDatePosted(datePosted) {
   let date = new Date(datePosted);
@@ -121,6 +119,8 @@ function transformDatePosted(datePosted) {
 
 async function transformEurosData() {
   const scrapedJobs = await db.scrapedJob.findMany();
+
+  if (!scrapedJobs || !scrapedJobs.length) return;
   const sectors = await db.sector.findMany();
   const educationLevels = await db.educationLevel.findMany();
   const experienceLevels = await db.experience.findMany();
@@ -175,12 +175,19 @@ export async function POST(req: Request) {
   if (!userId || !(user.role === Role.ADMIN)) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
+  const tranformedData = await transformEurosData();
+  if (!tranformedData || !tranformedData.length) {
+    return NextResponse.json({ message: "No data" }, { status: 200 });
+  }
   try {
-    const tranformedData = await transformEurosData();
     await db.job.createMany({
-      data: tranformedData,
+      data: {
+        ...tranformedData,
+        isOpen: false,
+        source: JOBSOURCE.SCRAPPER,
+      },
+      skipDuplicates: true,
     });
-
 
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
