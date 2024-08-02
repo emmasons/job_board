@@ -1,86 +1,33 @@
 import { redirect } from "next/navigation";
 import { getCurrentSessionUser } from "@/lib/auth";
+import { columns } from "@/components/dashboard/job-seeker/alerts/columns";
+import { DataTable } from "@/components/dashboard/job-seeker/alerts/data-table";
+import { Role } from "@prisma/client";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Role } from "@prisma/client";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
+
+import { getAllJobAlerts } from "@/actions/jobseeker/get-all-job-alerts";
+
 const page = async () => {
+
+
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {
-    return redirect("/auth/signin?callbackUrl=/profile/dashboard/job-seeker");
+    return redirect("/");
   }
-    const invoices = [
-      {
-        title: "Territory Sales Officer",
-        status: "open",
-        date: "13/7/2024",
-        process: "Appplied",
-      },
-      {
-        title: "Tailor",
-        status: "Open",
-        date: "1/2/2024",
-        process: "shortlisted",
-      },
-      {
-        title: "UAE National - Internal Audit Assistant Manager",
-        status: "closed",
-        date: "7/5/2024",
-        process: " Hired ",
-      },
-      {
-        title: "Mechanical Helper",
-        status: "open",
-        date: "9/5/2024",
-        process: "Interview",
-      },
-      {
-        title: "Accountant",
-        status: "closed",
-        date: "12/12/2023",
-        process: "Hired",
-      },
-    ];
+  const alerts = await getAllJobAlerts(user.id);
 
   return (
     <MaxWidthWrapper>
-      <div className="flex items-center space-x-2 py-16">
+      <div className="flex items-center py-16 gap-4 text-3xl">
         <Switch id="airplane-mode" />
-        <Label htmlFor="airplane-mode">Job Alerts</Label>
+        <Label className="text-lg" htmlFor="airplane-mode">Notifications</Label>
       </div>
-      <Table>
-        <TableCaption>A list of your recent jobs alerts</TableCaption>
-        <TableHeader className="bg-slate-100">
-          <TableRow>
-            <TableHead className="w-[300px]">Keyword</TableHead>
-            <TableHead className="text-right">Location</TableHead>
-            <TableHead className="text-right">Sector</TableHead>
-            <TableHead className="text-right">Posted on</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.title}>
-              <TableCell className="font-medium">{invoice.title}</TableCell>
-              <TableCell className="text-right">{invoice.status}</TableCell>
-              <TableCell className="text-right">{invoice.process}</TableCell>
-              <TableCell className="text-right">{invoice.date}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+
+      <DataTable columns={columns} data={alerts} />
     </MaxWidthWrapper>
   );
 };

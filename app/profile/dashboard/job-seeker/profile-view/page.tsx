@@ -77,7 +77,7 @@ const page = async () => {
               <div className="py-4">
                 <h2 className="mb-2 text-xl font-semibold">Languages</h2>
 
-                <p>*Get Languages known here</p>
+                <p>{jobSeekerProfile?.personalDetails.languagesKnown}</p>
               </div>
             </div>
           </div>
@@ -89,9 +89,7 @@ const page = async () => {
                 key={job.id}
                 className="flex flex-wrap items-center gap-2 py-4"
               >
-                {/* <div className="rounded-full bg-blue-50 p-4 ">
-                  <Briefcase className="h-6 " />
-                </div> */}
+               
 
                 <div className="">
                   <p className="font-medium">{job.designation}</p>

@@ -328,9 +328,7 @@ const PersonalDetailsForm = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="kenya">Kenya</SelectItem>
-                      <SelectItem value="saudi">Saudi Arabia</SelectItem>
-                      <SelectItem value="tanzania">Tanzania</SelectItem>
+                     
                     </SelectContent>
                   </Select>
                   <FormMessage />
