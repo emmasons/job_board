@@ -78,6 +78,9 @@ export const getAllJobs = async ({
         ...workScheduleCondition,
         ...sectorCondition,
         ...jobTypeCondition,
+        createdAt: {
+          lte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+        },
       },
       include: {
         company: true,

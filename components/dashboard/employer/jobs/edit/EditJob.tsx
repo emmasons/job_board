@@ -285,7 +285,7 @@ export default function EditJobForm({
                               !field.value && "text-muted-foreground",
                             )}
                           >
-                            {field.value ? (
+                            {field.value && field.value.toString() !== "N/A" ? (
                               format(field.value, "PPP")
                             ) : (
                               <span>Pick a date</span>
