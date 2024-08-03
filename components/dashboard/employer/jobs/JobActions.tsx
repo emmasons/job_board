@@ -25,7 +25,7 @@ export const JobActions = ({ jobId, published }: JobActionsProps) => {
           method: "PUT",
           body: JSON.stringify({ published: false }),
         });
-        const data = await response.json();
+        const { message } = await response.json();
         if (response.status === 200) {
           toast({
             title: "Success",
@@ -36,7 +36,7 @@ export const JobActions = ({ jobId, published }: JobActionsProps) => {
         } else {
           toast({
             title: "Error",
-            description: data,
+            description: `${message}`,
             variant: "destructive",
           });
         }
@@ -45,7 +45,7 @@ export const JobActions = ({ jobId, published }: JobActionsProps) => {
           method: "PUT",
           body: JSON.stringify({ published: true }),
         });
-        const data = await response.json();
+        const { message } = await response.json();
         if (response.status === 200) {
           toast({
             title: "Success",
@@ -56,7 +56,7 @@ export const JobActions = ({ jobId, published }: JobActionsProps) => {
         } else {
           toast({
             title: "Error",
-            description: data,
+            description: `${message}`,
             variant: "destructive",
           });
         }
