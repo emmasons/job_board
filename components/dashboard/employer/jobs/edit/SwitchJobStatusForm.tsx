@@ -30,7 +30,7 @@ export function SwitchJobStatusForm({ jobId, initialData }: Props) {
     defaultValues: initialData,
   });
   const router = useRouter();
-
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {

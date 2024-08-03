@@ -27,6 +27,9 @@ export async function PUT(
         published,
       },
     });
+    if(job.published){
+      // notify subs
+    }
     return NextResponse.json(
       { message: "Job updated", status: 200 },
       { status: 200 },

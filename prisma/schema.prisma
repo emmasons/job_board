@@ -143,6 +143,8 @@ model User {
   profile                   Profile?
   employerProfile           EmployerProfile?
   address                   Address?
+  Notification              Notification[]
+  jobAlerts                 JobAlert[]
 
   @@map("users")
 }
@@ -195,8 +197,9 @@ model Company {
   employerProfileId String          @unique
   employerProfile   EmployerProfile @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
 
-  sectorId String?
-  sector   Sector? @relation(fields: [sectorId], references: [id])
+  sectorId  String?
+  sector    Sector?    @relation(fields: [sectorId], references: [id])
+  jobAlerts JobAlert[]
 }
 
 model EducationLevel {
@@ -204,6 +207,7 @@ model EducationLevel {
   label            String             @unique
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
+  jobAlerts        JobAlert[]
 }
 
 model Experience {
@@ -219,6 +223,7 @@ model Sector {
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
   Company          Company[]
+  jobAlerts        JobAlert[]
 }
 
 enum JOBTYPE {
@@ -415,4 +420,59 @@ enum ContractType {
 enum PurchaseStatus {
   PENDING
   COMPLETED
+}
+
+enum NOTIFICATION_TYPES {
+  NEW_JOB_POSTING
+  JOB_APPLICATION_SUBMITTED
+  JOB_APPLICATION_ACCEPTED
+  JOB_APPLICATION_REJECTED
+  INTERVIEW_SCHEDULED
+  INTERVIEW_RESCHEDULED
+  INTERVIEW_CANCELLED
+  JOB_OFFER_MADE
+  JOB_OFFER_ACCEPTED
+  JOB_OFFER_REJECTED
+}
+
+model Notification {
+  id         String             @id @default(cuid())
+  type       NOTIFICATION_TYPES
+  read       Boolean            @default(false)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  userId     String
+  user       User               @relation(fields: [userId], references: [id])
+  resourceId String
+  fromId     String
+}
+
+model JobAlert {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  city    String?
+  country String?
+
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  educationLevelId String?
+  educationLevel   EducationLevel? @relation(fields: [educationLevelId], references: [id])
+
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id])
+
+  jobType JOBTYPE @default(NORMAL)
+
+  workSchedule WorkSchedule? @default(NOT_SPECIFIED)
+
+  contractType ContractType @default(NOT_SPECIFIED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  occupation String?
+  jobId      String?
 }
