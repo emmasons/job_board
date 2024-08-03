@@ -180,13 +180,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "No data" }, { status: 200 });
   }
   try {
-    await db.job.createMany({
-      data: {
-        ...tranformedData,
-        isOpen: false,
-        source: JOBSOURCE.SCRAPPER,
-      },
-      skipDuplicates: true,
+    console.log(tranformedData[0]);
+    // await db.job.createMany({
+    //   data: {
+    //     ...tranformedData,
+    //     isOpen: false,
+    //     source: JOBSOURCE.SCRAPPER,
+    //   },
+    //   skipDuplicates: true,
+    // });
+    tranformedData.forEach(async (job) => {
+      if ((job.title, job.description)) {
+        await db.job.create({
+          data: {
+            ...job,
+            isOpen: false,
+            source: JOBSOURCE.SCRAPPER,
+          },
+        });
+      }
     });
 
     return NextResponse.json({ message: "success" }, { status: 200 });
