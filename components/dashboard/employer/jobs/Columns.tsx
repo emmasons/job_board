@@ -51,7 +51,7 @@ export const columns: ColumnDef<Job>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          Open to Applications
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -72,6 +72,35 @@ export const columns: ColumnDef<Job>[] = [
     },
   },
   {
+    accessorKey: "published",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Availability to applicants
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = row.getValue("published");
+
+      return (
+        <Badge
+          className={cn(
+            "rounded-full",
+            status ? "bg-green-300" : "bg-orange-500",
+          )}
+        >
+          {status ? "Available" : "Not available"}
+        </Badge>
+      );
+    },
+  },
+
+  {
     id: "actions",
     cell: ({ row }) => {
       const { id } = row.original;
@@ -85,7 +114,7 @@ export const columns: ColumnDef<Job>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/profile/dashboard/employer/jobs/${id}`}>
+            <Link href={`/profile/dashboard/admin/jobs/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil className="mr-2 h-4 w-4 " />
                 Manage
