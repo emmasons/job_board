@@ -49,7 +49,7 @@ const guestRoutes = [
   {
     icon: Bell,
     label: "My Job alerts",
-    href: "/profile/dashboard/job-seeker/job-alerts",
+    href: "/notifications",
   },
   {
     icon: Settings,
