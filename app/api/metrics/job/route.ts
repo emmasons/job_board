@@ -5,15 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: Request) {
   cookies().set("cookieName", "value");
   const { jobId, visitorId } = await req.json();
-  // let visitorId = cookies().get("visitorId")?.value;
-  // if (!visitorId) {
-  //   const newVisitorId = crypto.randomUUID();
-  //   cookies().set("visitorId", newVisitorId, {
-  //     maxAge: 60 * 60 * 24 * 365,
-  //   });
-  //   visitorId = newVisitorId;
-  // }
-  console.log(visitorId, "*********");
 
   if (!jobId) {
     return new NextResponse("Bad request", { status: 400 });

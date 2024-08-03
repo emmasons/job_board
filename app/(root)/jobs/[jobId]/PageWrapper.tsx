@@ -5,6 +5,7 @@ import Link from "next/link";
 import { setCookie, getCookie } from "cookies-next";
 import React, { useEffect } from "react";
 import { Company, Job } from "@prisma/client";
+import { JobAlertSwitch } from "@/components/job/AlertSwitch";
 
 type Props = {
   job:
@@ -13,9 +14,26 @@ type Props = {
       })
     | null;
   jobId: string;
+  createAlert: (
+    userId: string,
+    args: Record<string, string | string[] | undefined>,
+  ) => Promise<boolean>;
+  userId: string | undefined;
+  alert: boolean;
+  deleteAlert: (
+    userId: string,
+    args: Record<string, string | string[] | undefined>,
+  ) => Promise<boolean>;
 };
 
-const PageWrapper = ({ job, jobId }: Props) => {
+const PageWrapper = ({
+  job,
+  jobId,
+  createAlert,
+  userId,
+  alert,
+  deleteAlert,
+}: Props) => {
   useEffect(() => {
     const fetchJobMetrics = async () => {
       try {
@@ -41,6 +59,20 @@ const PageWrapper = ({ job, jobId }: Props) => {
   }, [jobId]);
   return (
     <MaxWidthWrapper className="py-4">
+      <div className="flex items-center justify-between bg-sky-100 p-2">
+        <p className="text-[1rem] font-semibold text-zinc-600">
+          {alert
+            ? "You have set alerts for similar job"
+            : "Create a job alert for similar jobs"}
+        </p>
+        <JobAlertSwitch
+          createAlert={createAlert}
+          args={{ ...job, jobId: job?.id }}
+          userId={userId}
+          deleteAlert={deleteAlert}
+          alert={alert}
+        />
+      </div>
       <div className="mt-6">
         <h1 className="text-3xl font-bold text-zinc-700">{job?.title}</h1>
         <p className="text-xl">Company: {job?.company?.companyName}</p>

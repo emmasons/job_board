@@ -1,7 +1,9 @@
 import { getJobById } from "@/actions/get-job-by-id";
-import React from "react";
 
 import PageWrapper from "./PageWrapper";
+import { createAlert, deleteAlert } from "../actions";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { getUserAlerts } from "@/actions/get-user-alerts";
 
 type Props = {
   params: {
@@ -11,7 +13,25 @@ type Props = {
 
 const page = async (props: Props) => {
   const job = await getJobById(props.params.jobId);
-  return <PageWrapper job={job} jobId={props.params.jobId} />;
+  const user = await getCurrentSessionUser();
+  let alert = false;
+  if (user) {
+    const alerts = await getUserAlerts(user?.id);
+    alert = alerts.find((alert) => alert.jobId === props.params.jobId)
+      ? true
+      : false;
+  }
+
+  return (
+    <PageWrapper
+      job={job}
+      jobId={props.params.jobId}
+      createAlert={createAlert}
+      deleteAlert={deleteAlert}
+      userId={user?.id}
+      alert={alert}
+    />
+  );
 };
 
 export default page;
