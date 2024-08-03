@@ -190,6 +190,7 @@ export default function EditJobForm({
                 name="title"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Job Title</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isSubmitting}
@@ -207,6 +208,7 @@ export default function EditJobForm({
                 name="occupation"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Occupation</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isSubmitting}
