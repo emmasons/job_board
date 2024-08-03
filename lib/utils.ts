@@ -1,3 +1,4 @@
+import { NOTIFICATION_TYPES } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -32,3 +33,27 @@ export const popularCities = [
   "Muscat",
   "Umm Al Quwain",
 ];
+
+export const fetcher = async (url: string) => {
+  const res = await fetch(url);
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const error = new Error(data.message);
+    throw error;
+  }
+
+  return data;
+};
+
+export const getNotificationHeading = (type: string) => {
+  switch (type) {
+    case NOTIFICATION_TYPES.NEW_JOB_POSTING:
+      return "New job posted";
+    case NOTIFICATION_TYPES.JOB_APPLICATION_ACCEPTED:
+      return "Application success";
+    default:
+      return "New Notification";
+  }
+};

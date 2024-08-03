@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Session } from "next-auth";
 import { Logo } from "./Logo";
@@ -7,6 +6,7 @@ import JobsDropdown from "./jobs-dropdown";
 import BlogsDropdown from "./blogs-dropdown";
 import ServicesDropdown from "./services-dropdown";
 import UserMenuButton from "./UserMenuButton";
+import Notifications from "../notifications/Notifications";
 
 interface Props {
   user: Session["user"] | undefined;
@@ -20,28 +20,33 @@ export default function NavbarRoutes({ user }: Props) {
           <Link href="/">
             <Logo />
           </Link>
-          <div className="text-sm ml-auto flex items-center mr-auto gap-x-2">
-            <div className="relative group">
+          <div className="ml-auto mr-auto flex items-center gap-x-2 text-sm">
+            <div className="group relative">
               <Common />
             </div>
-            <div className="relative group">
+            <div className="group relative">
               <JobsDropdown />
             </div>
-            <div className="relative group">
+            <div className="group relative">
               <BlogsDropdown />
             </div>
-            <div className="relative group">
-              <ServicesDropdown/>
+            <div className="group relative">
+              <ServicesDropdown />
             </div>
           </div>
         </div>
-
       </div>
 
       <div className="ml-auto flex items-center gap-x-2">
-
         <UserMenuButton user={user} />
-    
+        <div className="">
+          <Link
+            href="/notifications"
+            className="px-4 pb-7 text-sm font-medium text-gray-700 hover:text-orange-500"
+          >
+            <Notifications userId={user?.id} />
+          </Link>
+        </div>
       </div>
     </>
   );
