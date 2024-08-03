@@ -445,6 +445,7 @@ model Notification {
   user       User               @relation(fields: [userId], references: [id])
   resourceId String?
   fromId     String
+  message    String?
 }
 
 model JobAlert {

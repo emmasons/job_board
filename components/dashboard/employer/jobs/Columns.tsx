@@ -114,7 +114,7 @@ export const columns: ColumnDef<Job>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/profile/dashboard/admin/jobs/${id}`}>
+            <Link href={`/profile/dashboard/employer/jobs/${id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Pencil className="mr-2 h-4 w-4 " />
                 Manage
