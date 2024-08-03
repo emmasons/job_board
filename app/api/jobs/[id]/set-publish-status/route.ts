@@ -59,7 +59,7 @@ export async function PUT(
             type: NOTIFICATION_TYPES.NEW_JOB_POSTING,
             resourceId: job.id,
             fromId: user.id,
-            message: `A new job posting has been published for ${job.occupation}! by ${job.companyName}`,
+            message: `A new job posting has been published for ${job.occupation}!`,
           },
         });
       }
