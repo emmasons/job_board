@@ -33,7 +33,7 @@ const page = async () => {
     return age;
   };
   return (
-    <div className="w-full md:py-10 bg-slate-100">
+    <div className="w-full bg-slate-100 md:py-10">
       <div className="mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
         <div className="mb-6 flex flex-wrap items-center">
           <div className="mr-4">
@@ -71,13 +71,13 @@ const page = async () => {
                 </p>
                 <p className="flex items-center gap-2 py-1">
                   <MapPin className="h-4 w-4" />
-                  {jobSeekerProfile?.personalDetails.currentLocation}
+                  {jobSeekerProfile?.personalDetails?.currentLocation}
                 </p>
               </div>
               <div className="py-4">
                 <h2 className="mb-2 text-xl font-semibold">Languages</h2>
 
-                <p>{jobSeekerProfile?.personalDetails.languagesKnown}</p>
+                <p>{jobSeekerProfile?.personalDetails?.languagesKnown}</p>
               </div>
             </div>
           </div>
@@ -89,20 +89,18 @@ const page = async () => {
                 key={job.id}
                 className="flex flex-wrap items-center gap-2 py-4"
               >
-               
-
                 <div className="">
-                  <p className="font-medium">{job.designation}</p>
+                  <p className="font-medium">{job?.designation}</p>
                   <span className="flex gap-2">
-                    <p className="text-sm text-zinc-700">{job.company},</p>
+                    <p className="text-sm text-zinc-700">{job?.company},</p>
 
-                    <p className="text-sm text-zinc-700">{job.location}</p>
+                    <p className="text-sm text-zinc-700">{job?.location}</p>
                   </span>
                   <p className="text-sm text-gray-600">
-                    {job.startMonth} {job.startYear} -{" "}
+                    {job?.startMonth} {job?.startYear} -{" "}
                     {job.currentlyWorking
                       ? "Present"
-                      : `${job.endMonth} ${job.endYear}`}{" "}
+                      : `${job?.endMonth} ${job?.endYear}`}{" "}
                     {/* (
                       {calculateTotalMonths(
                         `${initialData.startMonth} 1, ${initialData.startYear}`,
@@ -114,7 +112,7 @@ const page = async () => {
                       ) */}
                   </p>
                   <p className="pt-2 text-sm text-zinc-700">
-                    {job.description}
+                    {job?.description}
                   </p>
                 </div>
               </div>
@@ -122,30 +120,33 @@ const page = async () => {
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Education</h2>
-            <p>{jobSeekerProfile?.educationLevelId}</p>
+            <p>{jobSeekerProfile?.education.label}</p>
+            <p>{jobSeekerProfile?.education?.course}</p>
+            <p>{jobSeekerProfile?.education?.college}</p>
+            <p>{jobSeekerProfile?.education?.colegeLocation}</p>
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Desired Job</h2>
 
-            <p>Designation: {jobSeekerProfile?.desiredJob.designation}</p>
-            <p>Industry: {jobSeekerProfile?.desiredJob.industry}</p>
+            <p>Designation: {jobSeekerProfile?.desiredJob?.designation}</p>
+            <p>Industry: {jobSeekerProfile?.desiredJob?.industry}</p>
           </div>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <h2 className="mb-2 text-xl font-semibold">Personal Details</h2>
-            <p>Gender: {jobSeekerProfile?.personalDetails.gender}</p>
+            <p>Gender: {jobSeekerProfile?.personalDetails?.gender}</p>
             <p>
               Age:{" "}
               {calculateAge(
-                jobSeekerProfile?.personalDetails.dateOfBirth.toString() || "",
+                jobSeekerProfile?.personalDetails?.dateOfBirth.toString() || "",
               )}{" "}
               years
             </p>
             <p>
-              Marital Status: {jobSeekerProfile?.personalDetails.maritalStatus}
+              Marital Status: {jobSeekerProfile?.personalDetails?.maritalStatus}
             </p>
-            <p>Religion: {jobSeekerProfile?.personalDetails.religion}</p>
+            <p>Religion: {jobSeekerProfile?.personalDetails?.religion}</p>
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Skills</h2>

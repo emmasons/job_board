@@ -32,8 +32,8 @@ const page = async () => {
 
   return (
     <MaxWidthWrapper>
-      <div className="py-16">
-        <h2 className="text-2xl ">Applied jobs</h2>
+      <div className="py-5">
+        <h2 className="text-xl font-light">Applied jobs</h2>
       </div>
 
    

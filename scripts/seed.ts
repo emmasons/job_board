@@ -36,9 +36,14 @@ async function createExperienceLevels() {
       data: [
         { label: "None required" },
         { label: "Upto 1 year" },
-        { label: "1-2 years" },
-        { label: "2-5 years" },
-        { label: "More than 5 years" },
+        { label: "1-3 years" },
+        { label: "4-7 years" },
+        { label: "8-12 years" },
+        { label: "13-18 years" },
+        { label: "19-22 years" },
+        { label: "8-12 years" },
+
+        { label: "More than 23 years" },
         { label: "Not specified" },
       ],
     });
@@ -48,7 +53,9 @@ async function createExperienceLevels() {
     await database.$disconnect();
   }
 }
-
+async function createIndustries() {
+  const industries = await database.
+}
 async function createSectors() {
   const sectors = await database.sector.findMany();
   if (sectors.length > 0) return;
@@ -292,11 +299,11 @@ async function clearTable(tableName) {
 }
 
 async function main() {
-  // await createEducationLevels();
-  // await createExperienceLevels();
-  // await createSectors();
-  // await createOccupations();
-  await clearTable("company");
+  await createEducationLevels();
+  await createExperienceLevels();
+  await createSectors();
+  await createOccupations();
+  // await clearTable("company");
 }
 
 main();

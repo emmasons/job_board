@@ -26,6 +26,9 @@ interface ProfileProps {
     country: string | null;
     occupation: string | null;
     educationLevelId: string | null;
+    // course: string | null;
+    // college: string | null;
+    // collegeLocation: string | null;
     experienceId: string | null;
     sectorId: string | null;
     id: string | null;
@@ -48,7 +51,9 @@ const formSchema = z.object({
   educationLevelId: z.string().min(1, {
     message: "Education level is required",
   }),
-
+  // course: z.string().optional(),
+  // college: z.string().optional(),
+  // collegeLocation: z.string().optional(),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -71,10 +76,7 @@ export default function Profile({
     label: country.name,
     value: country.name,
   }));
-  // Debugging: Log the lists to check their contents
-  // console.log("Sector List: ", sectorList);
-  // console.log("Education Level List: ", educationLevelList);
-  // console.log("Experience List: ", experienceList);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
@@ -139,13 +141,27 @@ export default function Profile({
           >
             <FormField
               control={form.control}
+              name="experienceId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Experience</FormLabel>
+                  <FormControl>
+                    <Combobox options={experienceList} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="occupation"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Industry</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="Occupation: e.g. 'Sales'"
+                      placeholder="Add the department you worked in"
                       {...field}
                     />
                   </FormControl>
@@ -180,6 +196,7 @@ export default function Profile({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="educationLevelId"
@@ -193,19 +210,8 @@ export default function Profile({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="experienceId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Experience</FormLabel>
-                  <FormControl>
-                    <Combobox options={experienceList} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+           
+
             <div className="flex items-center gap-x-2">
               {loading ? (
                 <Button type="submit" disabled>

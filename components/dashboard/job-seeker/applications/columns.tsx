@@ -57,7 +57,7 @@ export const columns: ColumnDef<ApplicationProp>[] = [
     },
   },
   {
-    accessorKey: "job.company",
+    accessorKey: "job.companyName",
     header: ({ column }) => {
       return (
         <Button
