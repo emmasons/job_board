@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { Combobox } from "@/components/ui/combobox";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -46,6 +47,7 @@ interface EditJobFormProps {
     experienceId: string;
     sectorId: string;
     salary: string;
+    confidential: boolean;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -98,6 +100,7 @@ const formSchema = z.object({
   jobType: z.string().min(1, {
     message: "Job type is required",
   }),
+  confidential: z.boolean().optional(),
 });
 
 const jobTypes = Object.values(JOBTYPE).map((type) => ({
@@ -413,6 +416,25 @@ export default function EditJobForm({
                       <Combobox options={experienceList} {...field} />
                     </FormControl>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confidential"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Whether to display the company details
+                      </FormLabel>
+                    </div>
                   </FormItem>
                 )}
               />
