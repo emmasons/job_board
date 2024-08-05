@@ -263,6 +263,7 @@ model Job {
   companyId         String?
   companyName       String?
   published         Boolean         @default(false)
+  confidential      Boolean         @default(true)
   numberOfPositions Int             @default(1)
   datePosted        DateTime?
   educationLevelId  String?

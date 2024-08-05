@@ -201,6 +201,8 @@ export async function POST(req: Request) {
       }
     });
 
+    await db.scrapedJob.deleteMany();
+
     return NextResponse.json({ message: "success" }, { status: 200 });
   } catch (error) {
     console.log("[EURES DATA]", error);
