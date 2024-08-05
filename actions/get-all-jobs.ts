@@ -82,9 +82,9 @@ export const getAllJobs = async ({
         ...workScheduleCondition,
         ...sectorCondition,
         ...jobTypeCondition,
-        createdAt: {
-          gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
-        },
+        // createdAt: {
+        //   gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+        // },
       },
       include: {
         company: true,
