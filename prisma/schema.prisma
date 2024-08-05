@@ -144,6 +144,8 @@ model User {
   profile                   Profile?
   employerProfile           EmployerProfile?
   address                   Address?
+  Notification              Notification[]
+  jobAlerts                 JobAlert[]
 
   @@map("users")
 }
@@ -196,8 +198,9 @@ model Company {
   employerProfileId String          @unique
   employerProfile   EmployerProfile @relation(fields: [employerProfileId], references: [id], onDelete: Cascade)
 
-  sectorId String?
-  sector   Sector? @relation(fields: [sectorId], references: [id])
+  sectorId  String?
+  sector    Sector?    @relation(fields: [sectorId], references: [id])
+  jobAlerts JobAlert[]
 }
 
 model EducationLevel {
@@ -208,6 +211,7 @@ model EducationLevel {
   colegeLocation   String?
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
+  jobAlerts        JobAlert[]
 }
 
 
@@ -224,6 +228,7 @@ model Sector {
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
   Company          Company[]
+  jobAlerts        JobAlert[]
 }
 
 enum JOBTYPE {
@@ -277,6 +282,19 @@ model Job {
   Purchase          Purchase[]
   jobType           JOBTYPE         @default(NORMAL)
   source            JOBSOURCE       @default(COMPANY)
+  metrics           JobMetrics[]
+}
+
+model JobMetrics {
+  id                String   @id @default(cuid())
+  totalApplications Int      @default(0)
+  view              Int      @default(0)
+  share             Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  jobId             String
+  job               Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  visitorId         String   @unique
 }
 
 enum ApplicationStatus {
@@ -407,4 +425,60 @@ enum ContractType {
 enum PurchaseStatus {
   PENDING
   COMPLETED
+}
+
+enum NOTIFICATION_TYPES {
+  NEW_JOB_POSTING
+  JOB_APPLICATION_SUBMITTED
+  JOB_APPLICATION_ACCEPTED
+  JOB_APPLICATION_REJECTED
+  INTERVIEW_SCHEDULED
+  INTERVIEW_RESCHEDULED
+  INTERVIEW_CANCELLED
+  JOB_OFFER_MADE
+  JOB_OFFER_ACCEPTED
+  JOB_OFFER_REJECTED
+}
+
+model Notification {
+  id         String             @id @default(cuid())
+  type       NOTIFICATION_TYPES
+  read       Boolean            @default(false)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  userId     String
+  user       User               @relation(fields: [userId], references: [id])
+  resourceId String?
+  fromId     String
+  message    String?
+}
+
+model JobAlert {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  city    String?
+  country String?
+
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  educationLevelId String?
+  educationLevel   EducationLevel? @relation(fields: [educationLevelId], references: [id])
+
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id])
+
+  jobType JOBTYPE @default(NORMAL)
+
+  workSchedule WorkSchedule? @default(NOT_SPECIFIED)
+
+  contractType ContractType @default(NOT_SPECIFIED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  occupation String?
+  jobId      String?
 }

@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { Role, WorkSchedule, ContractType } from "@prisma/client";
+import {
+  Role,
+  WorkSchedule,
+  ContractType,
+  NOTIFICATION_TYPES,
+} from "@prisma/client";
 
 export async function PUT(
   req: Request,
@@ -10,7 +15,7 @@ export async function PUT(
   const user = await getCurrentSessionUser();
   const userId = user?.id;
 
-  if (!userId || !(user.role === Role.ADMIN)) {
+  if (!user || (user.role !== Role.ADMIN && user.role !== Role.EMPLOYER)) {
     return NextResponse.json(
       { message: "Unauthorized", status: 401 },
       { status: 401 },
@@ -27,6 +32,38 @@ export async function PUT(
         published,
       },
     });
+    if (job.published) {
+      // notify subs
+
+      const noJobAlerts = await db.jobAlert.findMany({
+        where: {
+          AND: [
+            { city: job.city },
+            { country: job.country },
+            { companyId: job.companyId },
+            { educationLevelId: job.educationLevelId },
+            { sectorId: job.sectorId },
+            { workSchedule: job.workSchedule },
+            { contractType: job.contractType },
+            { occupation: job.occupation },
+            {
+              OR: [{ jobId: null }, { jobId: job.id }],
+            },
+          ],
+        },
+      });
+      for (const alert of noJobAlerts) {
+        await db.notification.create({
+          data: {
+            userId: alert.userId,
+            type: NOTIFICATION_TYPES.NEW_JOB_POSTING,
+            resourceId: job.id,
+            fromId: user.id,
+            message: `A new job posting has been published for ${job.occupation}!`,
+          },
+        });
+      }
+    }
     return NextResponse.json(
       { message: "Job updated", status: 200 },
       { status: 200 },

@@ -88,7 +88,7 @@ const page = async ({ params, searchParams }: Props) => {
         </Link>
         <p className="my-4 flex items-center gap-4 text-lg capitalize">
           <Hammer className="h-6 w-6 text-primary" />
-          {job.sector.label}
+          {job.sector?.label}
         </p>
         <SwitchJobStatusForm
           jobId={jobId}

@@ -51,7 +51,7 @@ export const columns: ColumnDef<Job>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          Open to Applications
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -71,6 +71,35 @@ export const columns: ColumnDef<Job>[] = [
       );
     },
   },
+  {
+    accessorKey: "published",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Availability to applicants
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = row.getValue("published");
+
+      return (
+        <Badge
+          className={cn(
+            "rounded-full",
+            status ? "bg-green-300" : "bg-orange-500",
+          )}
+        >
+          {status ? "Available" : "Not available"}
+        </Badge>
+      );
+    },
+  },
+
   {
     id: "actions",
     cell: ({ row }) => {
