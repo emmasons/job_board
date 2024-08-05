@@ -9,6 +9,10 @@ type Params = {
   sectorFilter?: string;
   jobTypeFilter?: string;
 };
+
+const ninetyDaysAgo = new Date();
+ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
 export const getAllJobs = async ({
   title,
   location,
@@ -79,7 +83,7 @@ export const getAllJobs = async ({
         ...sectorCondition,
         ...jobTypeCondition,
         createdAt: {
-          lte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+          gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
         },
       },
       include: {
