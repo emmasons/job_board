@@ -55,13 +55,14 @@ const page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className="space-y-4 p-6">
-      {!job.published && (
-        <Banner
-          label={
-            "Please note, this job will not be available to job seekers until you set it to PUBLISHED and the status is OPEN. Also make sure all the required fields are provided."
-          }
-        />
-      )}
+      {!job.published ||
+        (!job.isOpen && (
+          <Banner
+            label={
+              "Please note, this job will not be available to job seekers until you set it to PUBLISHED and the status is OPEN. Also make sure all the required fields are provided."
+            }
+          />
+        ))}
       <div className="flex items-center justify-between">
         <Link
           href="/profile/dashboard/employer/jobs"
