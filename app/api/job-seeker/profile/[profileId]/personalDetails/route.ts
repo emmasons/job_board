@@ -31,7 +31,7 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
         data: { ...values },
       });
     } else {
-      // Create new under paris parispersonal details
+      // Create new under personal details
       personalDetails = await db.personalDetails.create({
         data: {
           ...values,

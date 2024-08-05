@@ -42,6 +42,7 @@ model DesiredJob {
   updatedAt          DateTime         @updatedAt
 }
 
+
 model EmploymentDetails {
   id                 String           @id @default(cuid())
   designation        String?
@@ -202,9 +203,13 @@ model Company {
 model EducationLevel {
   id               String             @id @default(cuid())
   label            String             @unique
+  course           String?
+  college          String?
+  colegeLocation   String?
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
 }
+
 
 model Experience {
   id               String             @id @default(cuid())

@@ -22,6 +22,7 @@ import {
   } from "@/components/ui/select"
 
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
+import { getAllJobsApplications } from "@/actions/jobseeker/get-all-applications";
 
 type Props = {
 };
@@ -33,7 +34,7 @@ const Dashboard = async (props: Props) => {
   }
   const jobs = await getUserJobs(user.id);
   const percentage =  await getJobSeekerProfile(user.id)
-
+ const applications = await getAllJobsApplications(user.id);
  
   return (
     <div className="space-y-8 bg-slate-100 p-6">
@@ -44,7 +45,7 @@ const Dashboard = async (props: Props) => {
         <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
             <h2 className="text-3xl">
-              {percentage?.profilePercentage.percentage} %
+              {percentage?.profilePercentage?.percentage || 0} %
             </h2>
             <p className="text-gray-600">Profile Strength</p>
           </div>
@@ -66,7 +67,7 @@ const Dashboard = async (props: Props) => {
         </div>
         <div className="flex justify-between rounded-3xl bg-white p-4 shadow">
           <div>
-            <h2 className="text-3xl">0</h2>
+            <h2 className="text-3xl">{applications.length}</h2>
             <p className="text-gray-600">Applied Jobs</p>
           </div>
           <PencilLine className="h-10 w-10 rounded-full bg-sky-300 p-2" />
@@ -110,14 +111,14 @@ const Dashboard = async (props: Props) => {
             <h2 className="p-3 text-justify text-lg">Recently applied</h2>
           </div>
           <div className="space-y-4 p-4">
-            {jobs.map((job) => (
-              <div key={job.id} className="flex items-center justify-between">
+            {applications.slice(0, 5).map((application) => (
+              <div key={application.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Building2 />
                   <div>
-                    <h3 className="">{job.title}</h3>
+                    <h3 className="">{application.job.title}</h3>
                     <p className="text-gray-600">
-                      {job.city} . {job.country}
+                      {application.job.city} . {application.job.country}
                     </p>
                   </div>
                 </div>

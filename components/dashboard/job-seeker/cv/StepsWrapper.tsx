@@ -81,6 +81,7 @@ const StepsWrapper = ({
       description="An updated CV increases your chances of getting job offers by 60%"
       isJobSeekerComponent={isJobSeekerComponent}
     />,
+    
 
     <JobSeekerProfileUpdate
       profilePercentage={20}
