@@ -2,6 +2,14 @@
 import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  LinkedinShareButton,
+  EmailShareButton,
+} from "react-share";
 import { setCookie, getCookie } from "cookies-next";
 import React, { useEffect } from "react";
 import { Company, Job } from "@prisma/client";
@@ -20,6 +28,7 @@ type Props = {
   ) => Promise<boolean>;
   userId: string | undefined;
   alert: boolean;
+  url: string;
   deleteAlert: (
     userId: string,
     args: Record<string, string | string[] | undefined>,
@@ -29,6 +38,7 @@ type Props = {
 const PageWrapper = ({
   job,
   jobId,
+  url,
   createAlert,
   userId,
   alert,
@@ -57,6 +67,8 @@ const PageWrapper = ({
 
     fetchJobMetrics();
   }, [jobId]);
+
+  const titleToShare = `Check out this amazing job: ${job?.title}`;
   return (
     <MaxWidthWrapper className="py-4">
       <div className="flex items-center justify-between bg-sky-100 p-2">
@@ -105,13 +117,63 @@ const PageWrapper = ({
           </p>
         </div>
 
-        <div>
+        <div className="flex justify-between">
           <Link
             href={`/jobs/${job?.id}/apply`}
             className="mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
           >
             Apply
           </Link>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-light">Share this job: </p>
+            {/* Facebook Share Button */}
+            <FacebookShareButton url={url} hashtag={titleToShare}>
+              <Icon
+                icon="akar-icons:facebook-fill"
+                className="h-7 w-7 text-blue-600"
+              />
+            </FacebookShareButton>
+            {/* Twitter Share Button */}
+            <TwitterShareButton url={url} title={titleToShare}>
+              <Icon
+                icon="akar-icons:twitter-fill"
+                className="h-7 w-7 text-blue-400"
+              />
+            </TwitterShareButton>
+            {/* LinkedIn Share Button */}
+            <LinkedinShareButton url={url} title={titleToShare}>
+              <Icon
+                icon="akar-icons:linkedin-fill"
+                className="h-7 w-7 text-blue-700"
+              />
+            </LinkedinShareButton>
+            {/* WhatsApp Share Button */}
+            <WhatsappShareButton url={url} title={titleToShare}>
+              <Icon
+                icon="akar-icons:whatsapp-fill"
+                className="h-7 w-7 text-green-500"
+              />
+            </WhatsappShareButton>
+            {/* Email Share Button */}
+            <EmailShareButton
+              url={url}
+              subject={titleToShare}
+              body={titleToShare}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="2em"
+                height="2em"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="blue"
+                  d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m-2.2 2L16 14.78L6.2 8ZM4 24V8.91l11.43 7.91a1 1 0 0 0 1.14 0L28 8.91V24Z"
+                />
+              </svg>
+            </EmailShareButton>
+           
+          </div>
         </div>
       </div>
     </MaxWidthWrapper>
