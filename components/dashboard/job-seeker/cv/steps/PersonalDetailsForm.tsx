@@ -68,6 +68,11 @@ const PersonalDetailsForm = ({
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
+  const { countries } = useCountries();
+  const countryList = countries.map((country) => ({
+    label: country.name,
+    value: country.name,
+  }));
   const router = useRouter();
   const { toast } = useToast();
 
@@ -323,9 +328,8 @@ const PersonalDetailsForm = ({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your nationality" />
-                      </SelectTrigger>
+                        <Combobox options={countryList} {...field} />
+
                     </FormControl>
                     <SelectContent>
                      
