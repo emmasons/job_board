@@ -10,6 +10,7 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Calendar } from "@/components/ui/calendar";
+import { useCountries } from "use-react-countries";
 import {
   Form,
   FormControl,
@@ -38,6 +39,7 @@ import { useState } from "react";
 import { Loader2, Pencil } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PersonalDetails } from "@prisma/client";
+import { Combobox } from "@/components/ui/combobox";
 
 type Props = {
   profileId: string;
@@ -70,6 +72,11 @@ const PersonalDetailsForm = ({
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
+  const { countries } = useCountries();
+  const countryList = countries.map((country) => ({
+    label: country.name,
+    value: country.name,
+  }));
 
   const formSchema = z.object({
     dateOfBirth: z.date({ required_error: "A date of birth is required." }),
@@ -323,13 +330,14 @@ const PersonalDetailsForm = ({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <Combobox options={countryList} {...field} />
+                      {/* <SelectTrigger>
                         <SelectValue placeholder="Select your nationality" />
-                      </SelectTrigger>
+                      </SelectTrigger> */}
                     </FormControl>
-                    <SelectContent>
-                     
-                    </SelectContent>
+                    {/* <SelectContent>
+
+                    </SelectContent> */}
                   </Select>
                   <FormMessage />
                 </FormItem>
