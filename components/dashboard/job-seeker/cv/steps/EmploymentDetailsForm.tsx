@@ -498,19 +498,18 @@ const EmploymentDetailsForm = ({
           </div>
 
           <div className="flex items-start gap-2">
-            <Button onClick={toggleEdit} variant="ghost">
-              {isEditing ? (
-                "Cancel"
-              ) : (
-                <>
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Edit
-                </>
-              )}
-            </Button>
-
-          
-          
+            {isJobSeekerComponent && (
+              <Button onClick={toggleEdit} variant="ghost">
+                {isEditing ? (
+                  "Cancel"
+                ) : (
+                  <>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </>
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </div>

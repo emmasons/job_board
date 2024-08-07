@@ -63,7 +63,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <DropdownMenuItem className="py-2">
                 <Link
                   href="/profile/dashboard/admin/users"
-                  className="hover:cursor-pointer"
+                  className="block w-full hover:cursor-pointer"
                 >
                   Dashboard
                 </Link>
@@ -72,7 +72,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <DropdownMenuItem className="py-2">
                 <Link
                   href="/profile/dashboard/"
-                  className="hover:cursor-pointer"
+                  className="block w-full hover:cursor-pointer"
                 >
                   Profile
                 </Link>
@@ -82,18 +82,18 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             {/* job seeker options */}
             {user?.role === Role.JOB_SEEKER ? (
               <>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link
                     href="/profile/main-dashboard"
                     className="h-full w-full hover:cursor-pointer"
                   >
                     Dashboard
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
                   <Link
                     href="/search"
-                    className="h-full w-full hover:cursor-pointer"
+                    className="block w-full hover:cursor-pointer"
                   >
                     Find a Job
                   </Link>
@@ -101,7 +101,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 <DropdownMenuItem>
                   <Link
                     href="/profile/dashboard/job-seeker/jobs"
-                    className="h-full w-full hover:cursor-pointer"
+                    className="block w-full hover:cursor-pointer"
                   >
                     My Jobs
                   </Link>
@@ -121,7 +121,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 <DropdownMenuItem>
                   <Link
                     href="/profile/dashboard/employer/jobs"
-                    className=" hover:cursor-pointer "
+                    className="block w-full hover:cursor-pointer "
                   >
                     Advertise
                   </Link>
@@ -129,7 +129,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 <DropdownMenuItem>
                   <Link
                     href="/find-candidates"
-                    className="hover:cursor-pointer"
+                    className="block w-full hover:cursor-pointer"
                   >
                     Find Candidates
                   </Link>
@@ -137,7 +137,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                 <DropdownMenuItem>
                   <Link
                     href="/profile/dashboard/employer/candidates"
-                    className="hover:cursor-pointer"
+                    className="block w-full hover:cursor-pointer"
                   >
                     My candidates
                   </Link>

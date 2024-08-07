@@ -210,7 +210,7 @@ const ProfessionalCvWriting: React.FC = () => {
               </ul>
             </CardContent>
             <CardFooter className="text-center">
-              <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-white shadow-md hover:bg-blue-700">
+              <button className="mt-4 rounded-lg bg-primary px-4 py-2 text-white shadow-md hover:bg-blue-700">
                 Choose Plan
               </button>
             </CardFooter>
@@ -239,7 +239,7 @@ const ProfessionalCvWriting: React.FC = () => {
               </ul>
             </CardContent>
             <CardFooter className="text-center">
-              <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-white shadow-md hover:bg-blue-700">
+              <button className="mt-4 rounded-lg bg-primary px-4 py-2 text-white shadow-md hover:bg-blue-700">
                 Choose Plan
               </button>
             </CardFooter>

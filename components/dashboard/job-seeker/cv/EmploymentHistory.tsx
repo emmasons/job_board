@@ -21,9 +21,14 @@ import { useRouter } from "next/navigation";
 type Props = {
   profileId: string;
   employmentHistory: EmploymentDetails[];
+  isJobSeekerComponent: Boolean;
 };
 
-const EmploymentHistory = ({ profileId, employmentHistory }: Props) => {
+const EmploymentHistory = ({
+  profileId,
+  employmentHistory,
+  isJobSeekerComponent = true,
+}: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const formSchema = z.object({
@@ -124,16 +129,18 @@ const EmploymentHistory = ({ profileId, employmentHistory }: Props) => {
     <div className="p-7">
       <div className="flex items-center justify-between font-medium">
         Add History
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add
-            </>
-          )}
-        </Button>
+        {isJobSeekerComponent && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing ? (
         <div>

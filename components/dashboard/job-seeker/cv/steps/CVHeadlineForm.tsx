@@ -140,6 +140,7 @@ const CVHeadlineForm = ({
                 </FormItem>
               )}
             />
+          {isJobSeekerComponent && (
 
             <Button type="submit" disabled={!isValid || isSubmitting}>
               {isSubmitting ? (
@@ -148,6 +149,7 @@ const CVHeadlineForm = ({
                 "Update Profile"
               )}
             </Button>
+          )}
           </form>
         </Form>
       )}
