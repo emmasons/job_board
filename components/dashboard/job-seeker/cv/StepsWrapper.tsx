@@ -81,7 +81,6 @@ const StepsWrapper = ({
       description="An updated CV increases your chances of getting job offers by 60%"
       isJobSeekerComponent={isJobSeekerComponent}
     />,
-    
 
     <JobSeekerProfileUpdate
       profilePercentage={20}
@@ -121,6 +120,7 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       profilPercentage={20}
       employmentHistory={jobSeekerProfile.employmentDetails}
+      isJobSeekerComponent={isJobSeekerComponent}
     />,
 
     <DesiredJobsForm
@@ -129,6 +129,7 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       profilePercentage={10}
       initialData={desiredJob}
+      isJobSeekerComponent={isJobSeekerComponent}
     />,
 
     <PersonalDetailsForm
@@ -137,6 +138,7 @@ const StepsWrapper = ({
       profilePercentage={25}
       profileId={jobSeekerProfile.id}
       initialData={personalDetails}
+      isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);
   console.log(personalDetails);
