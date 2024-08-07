@@ -10,6 +10,7 @@ import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Calendar } from "@/components/ui/calendar";
+import { useCountries } from "use-react-countries";
 import {
   Form,
   FormControl,
@@ -70,6 +71,11 @@ const PersonalDetailsForm = ({
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
   const { toast } = useToast();
+  const { countries } = useCountries();
+  const countryList = countries.map((country) => ({
+    label: country.name,
+    value: country.name,
+  }));
 
   const formSchema = z.object({
     dateOfBirth: z.date({ required_error: "A date of birth is required." }),
@@ -323,9 +329,7 @@ const PersonalDetailsForm = ({
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your nationality" />
-                      </SelectTrigger>
+                         <Combobox options={countryList} {...field} />
                     </FormControl>
                     <SelectContent>
                      
