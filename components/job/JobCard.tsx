@@ -1,14 +1,13 @@
 "use client";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { 
+import {
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
   LinkedinShareButton,
-  
-
-} from 'react-share';
+  EmailShareButton,
+} from "react-share";
 
 import { formatDistanceToNow } from "date-fns";
 type Props = {
@@ -40,37 +39,40 @@ const JobCard = ({
   const titleToShare = `Check out this amazing job: ${title}`;
   return (
     <Link href={`/jobs/${id}`} className="group block">
-      <div className="h-full overflow-hidden rounded-lg border border-gray-200 p-4 bg-white transition-shadow duration-200 hover:shadow-lg">
-        <div className="flex justify-between items-start mb-2">
+      <div className="h-full overflow-hidden rounded-lg border border-gray-200 bg-white p-4 transition-shadow duration-200 hover:shadow-lg">
+        <div className="mb-2 flex items-start justify-between">
           <div>
-            <h2 className="truncate text-primary text-start text-lg font-semibold group-hover:text-orange-600">
+            <h2 className="truncate text-start text-lg font-semibold text-primary group-hover:text-orange-600">
               {title}
             </h2>
             {companyName && (
-                  <div className="text-sm text-gray-600">
-                    <div className="flex items-center gap-1">
-                      <Icon icon="mdi:office-building" className="text-gray-500" />
-                      <span>{companyName}</span>
-                    </div>
-                  </div>
+              <div className="text-sm text-gray-600">
+                <div className="flex items-center gap-1">
+                  <Icon icon="mdi:office-building" className="text-gray-500" />
+                  <span>{companyName}</span>
+                </div>
+              </div>
             )}
           </div>
-          <Icon icon="mdi:office-building" className="w-16 h-16 text-gray-500" />
+          <Icon
+            icon="mdi:office-building"
+            className="h-16 w-16 text-gray-500"
+          />
         </div>
-        <div className="text-sm text-gray-600 mb-4">
-          <div className="flex items-center gap-1 mb-1">
+        <div className="mb-4 text-sm text-gray-600">
+          <div className="mb-1 flex items-center gap-1">
             <Icon icon="mdi:location" className="text-gray-500" />
             <span>
               {country}, {city}
             </span>
           </div>
         </div>
-        <div className="text-sm text-gray-600 mb-4">
-          <div className="flex items-center gap-1 mb-1">
+        <div className="mb-4 text-sm text-gray-600">
+          <div className="mb-1 flex items-center gap-1">
             <Icon icon="maki:industry" className="text-gray-500" />
             <span>{sector}</span>
           </div>
-          <div className="flex items-center gap-1 mb-1">
+          <div className="mb-1 flex items-center gap-1">
             <Icon icon="mdi:file-edit-outline" className="text-gray-500" />
             <span>{workSchedule}</span>
           </div>
@@ -79,31 +81,59 @@ const JobCard = ({
             <span>{occupation}</span>
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
-              {/* Facebook Share Button */}
-            <FacebookShareButton 
-              url={url} 
-              hashtag={titleToShare}>
-              <Icon icon="akar-icons:facebook-fill" className="text-blue-600 w-4 h-4" />
+            {/* Facebook Share Button */}
+            <FacebookShareButton url={url} hashtag={titleToShare}>
+              <Icon
+                icon="akar-icons:facebook-fill"
+                className="h-4 w-4 text-blue-600"
+              />
             </FacebookShareButton>
             {/* Twitter Share Button */}
             <TwitterShareButton url={url} title={titleToShare}>
-              <Icon icon="akar-icons:twitter-fill" className="text-blue-400 w-4 h-4" />
+              <Icon
+                icon="akar-icons:twitter-fill"
+                className="h-4 w-4 text-blue-400"
+              />
             </TwitterShareButton>
             {/* LinkedIn Share Button */}
             <LinkedinShareButton url={url} title={titleToShare}>
-              <Icon icon="akar-icons:linkedin-fill" className="text-blue-700 w-4 h-4" />
+              <Icon
+                icon="akar-icons:linkedin-fill"
+                className="h-4 w-4 text-blue-700"
+              />
             </LinkedinShareButton>
-
-                
-            <span className="px-2 py-1 bg-blue-100 text-primary text-xs font-semibold rounded">
-          
-            Easy Apply
+            {/* WhatsApp Share Button */}
+            <WhatsappShareButton url={url} title={titleToShare}>
+              <Icon
+                icon="akar-icons:whatsapp-fill"
+                className="h-4 w-4 text-green-500"
+              />
+            </WhatsappShareButton>
+            {/* Email Share Button */}
+            <EmailShareButton
+              url={url}
+              subject={titleToShare}
+              body={titleToShare}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="blue"
+                  d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m-2.2 2L16 14.78L6.2 8ZM4 24V8.91l11.43 7.91a1 1 0 0 0 1.14 0L28 8.91V24Z"
+                />
+              </svg>
+            </EmailShareButton>
+            <span className="rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-primary">
+              Easy Apply
             </span>
           </div>
-          
         </div>
       </div>
     </Link>
