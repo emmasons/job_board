@@ -507,7 +507,23 @@ const PersonalDetailsForm = ({
                     </label>
                   </FormControl>
                   <FormMessage />
+                </FormItem>   <FormField
+              control={form.control}
+              name="colegeLocation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>College Location</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Enter the college location"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
+              )}
+            />
               )}
             />
             {/* Alternate Phone Number */}

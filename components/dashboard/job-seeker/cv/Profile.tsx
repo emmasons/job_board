@@ -26,9 +26,9 @@ interface ProfileProps {
     country: string | null;
     occupation: string | null;
     educationLevelId: string | null;
-    // course: string | null;
-    // college: string | null;
-    // collegeLocation: string | null;
+    course: string | null;
+    college: string | null;
+    colegeLocation: string | null;
     experienceId: string | null;
     sectorId: string | null;
     id: string | null;
@@ -51,9 +51,9 @@ const formSchema = z.object({
   educationLevelId: z.string().min(1, {
     message: "Education level is required",
   }),
-  // course: z.string().optional(),
-  // college: z.string().optional(),
-  // collegeLocation: z.string().optional(),
+  course: z.string().optional(),
+  college: z.string().optional(),
+  colegeLocation: z.string().optional(),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -139,6 +139,7 @@ export default function Profile({
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-4 w-full space-y-4"
           >
+            {/* experience */}
             <FormField
               control={form.control}
               name="experienceId"
@@ -152,6 +153,8 @@ export default function Profile({
                 </FormItem>
               )}
             />
+
+            {/* industry */}
             <FormField
               control={form.control}
               name="occupation"
@@ -170,6 +173,7 @@ export default function Profile({
               )}
             />
 
+              {/* country */}
             <FormField
               control={form.control}
               name="country"
@@ -183,6 +187,8 @@ export default function Profile({
                 </FormItem>
               )}
             />
+
+            {/* sector */}
             <FormField
               control={form.control}
               name="sectorId"
@@ -197,6 +203,7 @@ export default function Profile({
               )}
             />
 
+            {/* Education details */}
             <FormField
               control={form.control}
               name="educationLevelId"
@@ -210,7 +217,61 @@ export default function Profile({
                 </FormItem>
               )}
             />
-           
+
+
+            {/* <FormField
+              control={form.control}
+              name="course"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Course</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Enter the name of the course"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+
+            {/* <FormField
+              control={form.control}
+              name="college"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>College</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Enter the name of college you attended"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+
+            {/* <FormField
+              control={form.control}
+              name="colegeLocation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>College Location</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Enter the college location"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
 
             <div className="flex items-center gap-x-2">
               {loading ? (
