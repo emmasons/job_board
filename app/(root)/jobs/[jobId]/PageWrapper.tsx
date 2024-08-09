@@ -69,6 +69,8 @@ const PageWrapper = ({
   }, [jobId]);
 
   const titleToShare = `Check out this amazing job: ${job?.title}`;
+  // get the url
+  
   return (
     <MaxWidthWrapper className="py-4">
       <div className="flex items-center justify-between bg-sky-100 p-2">
