@@ -49,10 +49,20 @@ const UploadCV = ({ cv, cvFile, isJobSeekerComponent = true }: Props) => {
         </Button>
       )}
 
-      {!isEditing &&
+      {isJobSeekerComponent &&
+        !isEditing &&
         (!cvFile ? (
-          <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
-            <FilePlus className="h-10 w-10 text-slate-500" />
+          <div>
+            <FileUpload
+              assetId={cv.id}
+              fileMessage={"Upload your CV"}
+              acceptedFileTypes={DropZoneDocumentFileTypes}
+              bucketFileDirectory={`users/${cv.userId}/cv`}
+              toggleEdit={toggleEdit}
+            />
+            <div className="mt-4 text-xs text-muted-foreground">
+              PDF or docx recommended.
+            </div>
           </div>
         ) : (
           <div className="relative mt-2 h-auto">

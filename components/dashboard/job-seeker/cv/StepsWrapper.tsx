@@ -76,7 +76,7 @@ const StepsWrapper = ({
       cv={cv}
       cvFile={cvFile}
       key={3}
-      title="Resume/CV"
+      title="CV"
       profilePercentage={10}
       description="An updated CV increases your chances of getting job offers by 60%"
       isJobSeekerComponent={isJobSeekerComponent}
@@ -86,7 +86,7 @@ const StepsWrapper = ({
       profilePercentage={20}
       description="Your sector, education level, experience and country of origin."
       key={4}
-      title="Professional Summary"
+      title="Professional"
       profile={jobSeekerProfile}
       sectorList={sectors.map((sector) => ({
         label: sector.label,
@@ -116,7 +116,7 @@ const StepsWrapper = ({
 
     <EmploymentHistory
       key={9}
-      title="Employment History"
+      title="Employment"
       profileId={jobSeekerProfile.id}
       profilPercentage={20}
       employmentHistory={jobSeekerProfile.employmentDetails}
@@ -134,7 +134,7 @@ const StepsWrapper = ({
 
     <PersonalDetailsForm
       key={8} // Make sure the key is unique if you're rendering this within a list
-      title="Personal Details"
+      title="Personal"
       profilePercentage={25}
       profileId={jobSeekerProfile.id}
       initialData={personalDetails}
