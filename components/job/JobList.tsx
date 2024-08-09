@@ -37,7 +37,7 @@ const JobList = async ({
 
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
-      <div className=" mt-12 basis-1/3 border p-4">
+      <div className=" mt-12 basis-1/3 h-fit border p-4">
         <div className="flex-wrap max-sm:flex gap-3">
           <FilterByCountry countryList={countryList} />
           <FilterByWorkSchedule workSchedules={workSchedules} />
