@@ -11,6 +11,7 @@ const page = async () => {
     return redirect("/");
   }
   const jobs = await getUserJobs(user.id);
+
   return (
     <div className="p-6">
       <DataTable columns={columns} data={jobs} />
