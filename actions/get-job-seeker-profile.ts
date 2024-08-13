@@ -16,6 +16,7 @@ export const getJobSeekerProfile = async (
         personalDetails: true,
         desiredJob: true,
         employmentDetails: true,
+        educationDetails: true,
       },
     });
     console.log("profile", profile);

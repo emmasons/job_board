@@ -58,13 +58,13 @@ export async function DELETE(
         return new NextResponse("Not Found", { status: 404 });
       }
       
-      // Count the remaining skills
+      // Count the remaining employemnts
     const employmentCount = await db.employmentDetails.count({
       where: { jobSeekerProfileId: params.profileId },
     });
 
     // Define the deduction percentage
-    const additionalDeductionPercentage = 20; // Deduct an additional 25% if all employment are removed
+    const additionalDeductionPercentage = 20; // Deduct 20% if all employment are removed
 
     // Get the previous profile percentage
     const previousPercentage = await db.jobSeekerProfilePercentage.findUnique({
@@ -74,7 +74,7 @@ export async function DELETE(
     if (previousPercentage) {
       let newPercentage = previousPercentage.percentage;
 
-      // If no skills are remaining, add an additional 3% deduction
+      // If no employments are remaining, add 20% deduction
       if (employmentCount === 0) {
         newPercentage -= additionalDeductionPercentage;
       }

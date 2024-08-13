@@ -65,6 +65,7 @@ const page = async () => {
           sectors={sectors}
           educationLevels={educationLevels}
           experience={experience} 
+          educationDetails={jobSeekerProfile.education}
           personalDetails={jobSeekerProfile.personalDetails}
           desiredJob={jobSeekerProfile.desiredJob}
           employmentDetails={jobSeekerProfile.employmentDetails}

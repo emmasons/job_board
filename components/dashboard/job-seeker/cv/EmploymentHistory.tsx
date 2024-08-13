@@ -81,7 +81,7 @@ const EmploymentHistory = ({
   );
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const url = `/api/job-seeker/profile/${profileId}/employmentDetails`;
-    console.log("Profile ID:", profileId);
+    // console.log("Profile ID:", profileId);
 
     try {
       const requestBody = {
@@ -98,7 +98,7 @@ const EmploymentHistory = ({
       });
 
       const response = await res.json();
-      console.log(response);
+      // console.log(response);
       if (!res.ok) {
         toast({
           variant: "destructive",
@@ -152,8 +152,8 @@ const EmploymentHistory = ({
                 profilePercentage={20}
                 initialData={history}
                 isJobSeekerComponent={true}
-              />
-              ,
+              />,
+              
             </div>
           ))}
         </div>

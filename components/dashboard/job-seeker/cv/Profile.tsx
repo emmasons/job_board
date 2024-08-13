@@ -204,7 +204,7 @@ export default function Profile({
             />
 
             {/* Education details */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="educationLevelId"
               render={({ field }) => (
@@ -216,7 +216,7 @@ export default function Profile({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
 
             {/* <FormField
