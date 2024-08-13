@@ -47,8 +47,8 @@ const page = async (props: Props) => {
             {/* <h1 className="text-3xl font-bold text-zinc-700">Thank you!</h1> */}
             <CheckCircle className="h-12 w-12 text-green-500" />
             <p className="text-center text-xl md:w-[60%]">
-              You have already applied for this job. You will be contacted
-              shortly to confirm your application.
+              You have applied for this job. You will be contacted shortly to
+              confirm your application.
             </p>
           </div>
         ) : (
