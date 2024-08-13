@@ -260,6 +260,15 @@ enum JOBSOURCE {
   SCRAPPER
 }
 
+enum CURRENCY {
+  AED
+  OMRv
+  OMR
+  BHD
+  KWD
+  SAR
+}
+
 model Job {
   id                String          @id @default(cuid())
   title             String
@@ -285,6 +294,8 @@ model Job {
   isFeatured        Boolean         @default(false)
   isOpen            Boolean         @default(true)
   salary            String?
+  currency          CURRENCY        @default(AED)
+  salaryPeriod      String          @default("Month")
   applications      Application[]
   company           Company?        @relation(fields: [companyId], references: [id])
   education         EducationLevel? @relation(fields: [educationLevelId], references: [id])

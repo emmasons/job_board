@@ -34,6 +34,25 @@ export const popularCities = [
   "Umm Al Quwain",
 ];
 
+export const getGulfCountryCurrencyByCurrencyCode = (countryCode: string) => {
+  switch (countryCode) {
+    case "United Arab Emirates":
+      return "AED";
+    case "Oman":
+      return "OMR";
+    case "Qatar":
+      return "QAR";
+    case "Bahrain":
+      return "BHD";
+    case "Kuwait":
+      return "KWD";
+    case "Saudi Arabia":
+      return "SAR";
+    default:
+      return "AED";
+  }
+};
+
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
 
