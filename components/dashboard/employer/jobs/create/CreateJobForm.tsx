@@ -351,22 +351,7 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="City: e.g. 'Melbourne'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="jobType"
@@ -388,6 +373,23 @@ export default function CreateJobForm({
                   <FormLabel>Country</FormLabel>
                   <FormControl>
                     <Combobox options={countryList} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="City: e.g. 'Melbourne'"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
