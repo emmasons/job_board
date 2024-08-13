@@ -20,7 +20,13 @@ import { Combobox } from "@/components/ui/combobox";
 import { Briefcase, Pencil, BookOpenText, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ComboProps } from "@/types/db";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = {
   title: string;
@@ -55,10 +61,10 @@ const EducationDetailsForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        level: initialData.level || "",
-        course: initialData.course || "",
-        college: initialData.college || "",
-        collegeLocation: initialData.collegeLocation || "",
+      level: initialData.level || "",
+      course: initialData.course || "",
+      college: initialData.college || "",
+      collegeLocation: initialData.collegeLocation || "",
     },
   });
   const { isSubmitting, isValid, errors } = form.formState;
@@ -164,10 +170,10 @@ const EducationDetailsForm = ({
                         Senior Secondary School
                       </SelectItem>
                       <SelectItem value="bachelor">
-                        Bachelor's or Equivalent level
+                        Bachelors or Equivalent level
                       </SelectItem>
                       <SelectItem value="master">
-                        Master's or Equivalent level
+                        Masters or Equivalent level
                       </SelectItem>
                       <SelectItem value="higher">
                         Doctoral or Equivalent level

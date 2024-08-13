@@ -171,10 +171,10 @@ const EducationDetails = ({
                           Senior Secondary School
                         </SelectItem>
                         <SelectItem value="bachelor">
-                          Bachelor's or Equivalent level
+                          Bachelors or Equivalent level
                         </SelectItem>
                         <SelectItem value="master">
-                          Master's or Equivalent level
+                          Masters or Equivalent level
                         </SelectItem>
                         <SelectItem value="higher">
                           Doctoral or Equivalent level
