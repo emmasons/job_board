@@ -14,12 +14,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-type ApplicationProp =
-  | (Application & { user: User & { profile: Profile | null }; job: Job })
-  | null;
+type ApplicationProp = {
+  id: string;
+  city: string;
+  jobTitle: string;
+  email: string;
+  applicantName: string;
+  status: ApplicationStatus;
+};
 export const columns: ColumnDef<ApplicationProp>[] = [
   {
-    accessorKey: "job.title",
+    accessorKey: "jobTitle",
     header: ({ column }) => {
       return (
         <Button
@@ -33,7 +38,7 @@ export const columns: ColumnDef<ApplicationProp>[] = [
     },
   },
   {
-    accessorKey: "job.city",
+    accessorKey: "city",
     header: ({ column }) => {
       return (
         <Button
@@ -47,7 +52,7 @@ export const columns: ColumnDef<ApplicationProp>[] = [
     },
   },
   {
-    accessorKey: "user.email",
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
@@ -61,15 +66,9 @@ export const columns: ColumnDef<ApplicationProp>[] = [
     },
   },
   {
-    accessorKey: "user",
+    accessorKey: "applicantName",
     header: ({ column }) => {
       return <p className="px-4 py-2">Applicant</p>;
-    },
-    cell: ({ row }) => {
-      const user = row.getValue("user");
-      const fullName = `${user?.profile?.firstName} ${user?.profile?.lastName}`;
-
-      return <p className="">{fullName}</p>;
     },
   },
   {

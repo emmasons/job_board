@@ -13,10 +13,22 @@ const page = async (props: Props) => {
     return redirect("/");
   }
   const applicants = await getAllEmployerJobsAndApplications(user.id);
+  let tableApplications = [];
+
+  if (applicants && applicants.length > 0) {
+    tableApplications = applicants.map((applicant) => ({
+      id: applicant.id,
+      city: applicant.job.city,
+      jobTitle: applicant.job.title,
+      email: applicant.user.email,
+      applicantName: `${applicant.user.profile.firstName} ${applicant.user.profile.lastName}`,
+      status: applicant.status,
+    }));
+  }
 
   return (
     <div className="p-6">
-      <DataTable columns={columns} data={applicants} />
+      <DataTable columns={columns} data={tableApplications} />
     </div>
   );
 };
