@@ -1,3 +1,4 @@
+"use client";
 import {
   Popover,
   PopoverContent,
@@ -28,6 +29,7 @@ import {
   EllipsisVertical,
   FileText,
   Mail,
+  MessageCircleMore,
   Phone,
   PlusCircle,
   Printer,
@@ -49,6 +51,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
+import ContactCandidateWhatsApp from "@/components/find-candidates/ContactCandidateWhatsapp";
+import { Icon } from "@iconify/react";
 
 type Props = {
   candidate: candidate;
@@ -264,19 +268,69 @@ const ActionsComponent = ({
             <li>
               {loggedInEmployer ? (
                 <a
-                  href="mailto:${candidate?.email}"
+                  href={`mailto:${candidate?.email}`}
                   target="_blank"
                   className="flex items-center gap-2"
                 >
                   <Mail className="h-4 w-4 text-primary" />
-                  <p className="text-sm"> Contact candidate</p>
+                  <p className="text-sm"> Email candidate</p>
                 </a>
               ) : (
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <div className="flex items-center gap-2">
-                      <PlusCircle className="h-4 w-4 text-primary" />
-                      <p className="text-sm">Add CV to folder</p>
+                      <Mail className="h-4 w-4 text-primary" />
+                      <p className="text-sm"> Contact candidate</p>
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        <div className="text-center">
+                          <CircleSlash2 className="h-8 w-8 text-red-500" />
+                        </div>
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        <div>
+                          <p>You are currently not logged in</p>
+                          <p>
+                            Please{" "}
+                            <Link
+                              href="/auth/signin?callbackUrl=/find-candidates"
+                              className="text-primary"
+                            >
+                              login
+                            </Link>{" "}
+                            or{" "}
+                            <Link
+                              href="/auth/signup/employer"
+                              className="text-primary"
+                            >
+                              register
+                            </Link>{" "}
+                            as an employer to view CV
+                          </p>
+                        </div>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Close</AlertDialogCancel>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
+            </li>
+            <li>
+              {loggedInEmployer ? (
+                <ContactCandidateWhatsApp
+                  phoneNumber={candidate?.profile?.phoneNumber}
+                />
+              ) : (
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div className="flex items-center gap-2">
+                      <Icon icon="logos:whatsapp-icon" className="h-4 w-4" />
+                      <p className="text-sm">Send whatsapp message</p>
                     </div>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
