@@ -27,7 +27,7 @@ export const getAllEmployerJobsAndApplications = async (
 
     return applicants;
   } catch (error) {
-    console.log("GET_USER_JOBS", error);
+    console.log("GET_USER_APPLICATIONS", error);
     return [];
   }
 };
