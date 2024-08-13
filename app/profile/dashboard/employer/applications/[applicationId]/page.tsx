@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { ApplicationStatus, Role } from "@prisma/client";
 import {
+  ArrowLeft,
   BriefcaseBusiness,
   BriefcaseIcon,
   ChevronRight,
@@ -35,6 +36,13 @@ const page = async ({ params }: Props) => {
   }
   return (
     <div className="space-y-4 p-6">
+      <Link
+        href="/profile/dashboard/employer/applications"
+        className="inline-flex items-center gap-2"
+      >
+        <ArrowLeft className="h-6 w-6 text-primary" />
+        Back
+      </Link>
       <div className="rounded-sm p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
         <h1 className="my-4 flex items-center gap-4 text-2xl font-bold">
           Job Application
