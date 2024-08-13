@@ -318,7 +318,8 @@ model JobMetrics {
   updatedAt         DateTime @updatedAt
   jobId             String
   job               Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
-  visitorId         String   @unique
+  visitorId         String
+  @@unique([visitorId, jobId])
 }
 
 enum ApplicationStatus {

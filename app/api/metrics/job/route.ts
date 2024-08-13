@@ -21,13 +21,23 @@ export async function POST(req: Request) {
     if (metric) {
       return new NextResponse("Success", { status: 200 });
     }
-    await db.jobMetrics.create({
-      data: {
+    const existing = await db.jobMetrics.findFirst({
+      where: {
         visitorId,
         jobId,
-        view: 1,
       },
     });
+
+    if (!existing) {
+      await db.jobMetrics.create({
+        data: {
+          visitorId,
+          jobId,
+          view: 1,
+        },
+      });
+    }
+
     return new NextResponse("Success", { status: 200 });
   } catch (error) {
     console.log(error);
