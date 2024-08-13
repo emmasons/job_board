@@ -69,7 +69,7 @@ const PageWrapper = ({
   }, [jobId]);
 
   const titleToShare = `Check out this amazing job: ${job?.title}`;
-  // get the url
+  
   
   
   return (
