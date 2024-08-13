@@ -26,7 +26,7 @@ export const getApplicationById = async (id: string) => {
         },
       },
     });
-    console.log("application", application);
+
     return application;
   } catch (error) {
     console.log("GET_USER_APPLICATION_BY_ID", error);

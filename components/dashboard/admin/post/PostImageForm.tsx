@@ -1,11 +1,8 @@
 "use client";
 
-import * as z from "zod";
-import axios from "axios";
 import { Pencil, PlusCircle, ImageIcon, Ban } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Course, GCPData, Post } from "@prisma/client";
+import { GCPData } from "@prisma/client";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";

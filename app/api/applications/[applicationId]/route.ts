@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { Role } from "@prisma/client";
+import { ApplicationStatus, Role } from "@prisma/client";
 
 export async function PATCH(
   req: Request,
@@ -32,6 +32,27 @@ export async function PATCH(
         status,
       },
     });
+
+    if (updatedApplication.status === ApplicationStatus.ACCEPTED) {
+      try {
+        const candidate = await db.candidate.findFirst({
+          where: {
+            candidateId: updatedApplication.userId,
+            employerId: user.id,
+          },
+        });
+        if (!candidate) {
+          await db.candidate.create({
+            data: {
+              candidateId: updatedApplication.userId,
+              employerId: user.id,
+            },
+          });
+        }
+      } catch (error) {
+        console.log("[JOBS]", error);
+      }
+    }
 
     return NextResponse.json({
       message: "Update successful",
