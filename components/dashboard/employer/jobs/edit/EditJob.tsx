@@ -79,7 +79,7 @@ const formSchema = z.object({
     message: "Country is required",
   }),
 
-  startDate: z.coerce.date(),
+  startDate: z.coerce.date().optional(),
   occupation: z.string().min(1, {
     message: "Occupation is required",
   }),
