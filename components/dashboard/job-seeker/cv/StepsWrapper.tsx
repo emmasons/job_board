@@ -17,6 +17,7 @@ import {
   Experience,
   GCPData,
   Sector,
+  
 } from "@prisma/client";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Progress } from "@/components/ui/progress";
@@ -26,7 +27,8 @@ import { useState } from "react";
 import EmploymentDetailsForm from "./steps/EmploymentDetailsForm";
 import PersonalDetailsForm from "./steps/PersonalDetailsForm";
 import DesiredJobsForm from "./steps/DesiredJobsForm";
-import EmploymentHistory, { employmentHistory } from "./EmploymentHistory";
+import EducationDetails from "./EducationDetails";
+import EmploymentHistory from "./EmploymentHistory";
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
@@ -34,9 +36,10 @@ type Props = {
   cvFile: GCPData | null;
   sectors: Sector[];
   educationLevels: EducationLevel[];
-  employmentDetails: EmploymentDetails[] | null;
+  employmentDetails: EmploymentDetails[] | null | undefined;
   desiredJob: DesiredJob | null;
   personalDetails: PersonalDetails | null | undefined;
+  educationDetails: EducationDetails[] | null | undefined;
   experience: Experience[];
   isJobSeekerComponent: boolean;
 };
@@ -47,6 +50,7 @@ const StepsWrapper = ({
   cv,
   sectors,
   educationLevels,
+  educationDetails,
   employmentDetails,
   personalDetails,
   desiredJob,
@@ -92,10 +96,10 @@ const StepsWrapper = ({
         label: sector.label,
         value: sector.id,
       }))}
-      educationLevelList={educationLevels.map((level) => ({
-        label: level.label,
-        value: level.id,
-      }))}
+      // educationLevelList={educationLevels.map((level) => ({
+      //   label: level.label,
+      //   value: level.id,
+      // }))}
       experienceList={experience.map((exp) => ({
         label: exp.label,
         value: exp.id,
@@ -113,14 +117,13 @@ const StepsWrapper = ({
       }}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
-
-    <EmploymentHistory
-      key={9}
-      title="Employment"
+    <EducationDetails
+      title="Education"
+      key={6}
+      profilePercentage={10}
       profileId={jobSeekerProfile.id}
-      profilPercentage={20}
-      employmentHistory={jobSeekerProfile.employmentDetails}
       isJobSeekerComponent={isJobSeekerComponent}
+      initialData={jobSeekerProfile.educationDetails}
     />,
 
     <DesiredJobsForm
@@ -137,7 +140,15 @@ const StepsWrapper = ({
       title="Personal"
       profilePercentage={25}
       profileId={jobSeekerProfile.id}
-      initialData={personalDetails}
+      initialData={jobSeekerProfile.personalDetails}
+      isJobSeekerComponent={isJobSeekerComponent}
+    />,
+    <EmploymentHistory
+      key={9}
+      title="Employment"
+      profileId={jobSeekerProfile.id}
+      profilPercentage={20}
+      employmentHistory={jobSeekerProfile.employmentDetails}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);

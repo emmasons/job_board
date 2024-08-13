@@ -22,6 +22,7 @@ type Props = {
   cvFile: GCPData | null;
   title: String;
   description: String;
+  profilePercentage: number;
   isJobSeekerComponent: Boolean;
 };
 

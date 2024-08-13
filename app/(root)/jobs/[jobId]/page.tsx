@@ -26,7 +26,7 @@ const page = async (props: Props) => {
     <PageWrapper
       job={job}
       jobId={props.params.jobId}
-      url={`${URL}`}
+      url={`/jobs/jobId`}
       createAlert={createAlert}
       deleteAlert={deleteAlert}
       userId={user?.id}

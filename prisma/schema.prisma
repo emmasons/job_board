@@ -26,7 +26,7 @@ model JobSeekerProfile {
   skills            Skill[]
   desiredJob        DesiredJob?
   personalDetails   PersonalDetails?
-
+  educationDetails  EducationDetails[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -56,6 +56,18 @@ model EmploymentDetails {
   endYear            String?
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+}
+model EducationDetails {
+  id                 String           @id @default(cuid())
+  level              String
+  course             String
+  college            String
+  collegeLocation    String
+  startYear          String?
+  endYear            String?
+  jobSeekerProfileId String
+  profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
+
 }
 
 model PersonalDetails {
