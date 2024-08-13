@@ -19,7 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ComboProps } from "@/types/db";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import {
+  cn,
+  getGulfCountryCurrencyByCurrencyCode,
+  gulfCountries,
+} from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
@@ -97,6 +101,10 @@ const formSchema = z.object({
   jobType: z.string().min(1, {
     message: "Job type is required",
   }),
+  currency: z.string().min(1, {
+    message: "Currency is required",
+  }),
+  salaryPeriod: z.string().optional(),
 });
 
 const jobTypes = Object.values(JOBTYPE).map((type) => ({
@@ -118,6 +126,30 @@ export default function CreateJobForm({
     label: country.name,
     value: country.name,
   }));
+
+  const currencyList = gulfCountries.map((country) => ({
+    label: `${getGulfCountryCurrencyByCurrencyCode(country)}(${country})`,
+    value: getGulfCountryCurrencyByCurrencyCode(country),
+  }));
+
+  const periodList = [
+    {
+      value: "Day",
+      label: "Per day",
+    },
+    {
+      value: "Week",
+      label: "Per week",
+    },
+    {
+      value: "Month",
+      label: "Per month",
+    },
+    {
+      value: "Year",
+      label: "Per year",
+    },
+  ];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -234,24 +266,53 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="salary"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Salary</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. '$2500/month'"
-                      {...field}
-                      type="number"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="gap-4 md:flex">
+              <FormField
+                control={form.control}
+                name="salary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Salary</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="e.g. 'AED2500'"
+                        {...field}
+                        type="number"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Currency</FormLabel>
+                    <FormControl>
+                      <Combobox options={currencyList} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="salaryPeriod"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Salary Period</FormLabel>
+                    <FormControl>
+                      <Combobox options={periodList} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="startDate"

@@ -20,7 +20,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ComboProps } from "@/types/db";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import {
+  cn,
+  getGulfCountryCurrencyByCurrencyCode,
+  gulfCountries,
+} from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
@@ -29,7 +33,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, Loader2, Pencil } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
-import { JOBTYPE } from "@prisma/client";
+import { CURRENCY, JOBTYPE } from "@prisma/client";
 import { useState } from "react";
 
 interface EditJobFormProps {
@@ -48,6 +52,8 @@ interface EditJobFormProps {
     sectorId: string;
     salary: string;
     confidential: boolean;
+    currency: CURRENCY;
+    salaryPeriod: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -83,11 +89,14 @@ const formSchema = z.object({
   contractType: z.string().min(1, {
     message: "Contract type is required",
   }),
-  numberOfPositions: z
-    .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    }),
+  // numberOfPositions: z
+  //   .string()
+  //   .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+  //     message: "Expected number, received a string",
+  //   }),
+  numberOfPositions: z.number().min(1, {
+    message: "Number of positions is required",
+  }),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -101,6 +110,10 @@ const formSchema = z.object({
     message: "Job type is required",
   }),
   confidential: z.boolean().optional(),
+  currency: z.string().min(1, {
+    message: "Currency is required",
+  }),
+  salaryPeriod: z.string().optional(),
 });
 
 const jobTypes = Object.values(JOBTYPE).map((type) => ({
@@ -132,6 +145,30 @@ export default function EditJobForm({
 
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
+
+  const currencyList = gulfCountries.map((country) => ({
+    label: `${getGulfCountryCurrencyByCurrencyCode(country)}(${country})`,
+    value: getGulfCountryCurrencyByCurrencyCode(country),
+  }));
+
+  const periodList = [
+    {
+      value: "Day",
+      label: "Per day",
+    },
+    {
+      value: "Week",
+      label: "Per week",
+    },
+    {
+      value: "Month",
+      label: "Per month",
+    },
+    {
+      value: "Year",
+      label: "Per year",
+    },
+  ];
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -256,24 +293,52 @@ export default function EditJobForm({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="salary"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Salary</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="e.g. '$2500/month'"
-                        {...field}
-                        type="number"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="gap-4 md:flex">
+                <FormField
+                  control={form.control}
+                  name="salary"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="e.g. 'AED2500'"
+                          {...field}
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="currency"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Currency</FormLabel>
+                      <FormControl>
+                        <Combobox options={currencyList} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="salaryPeriod"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary Period</FormLabel>
+                      <FormControl>
+                        <Combobox options={periodList} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="startDate"
