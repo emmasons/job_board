@@ -4,9 +4,13 @@ import "./globals.css";
 import SessionProvider from "@/providers/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import WhatsAppButton from "@/components/integrations/Whatsapp";
 
 const inter = Inter({ subsets: ["latin"] });
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600", "700"] }); // Define Poppins font with weights
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+}); // Define Poppins font with weights
 
 export const metadata: Metadata = {
   title: "Infinite Talent Job Board",
@@ -19,7 +23,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
- 
   return (
     <html lang="en" className="h-full">
       <body className={cn(poppins.className, "h-full")}>
@@ -27,6 +30,10 @@ export default function RootLayout({
           <Toaster />
           {children}
         </SessionProvider>
+        <WhatsAppButton
+          phoneNumber={"+254712428640"}
+          message={"Hello Infinite!"}
+        />
       </body>
     </html>
   );
