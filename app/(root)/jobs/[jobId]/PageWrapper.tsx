@@ -69,9 +69,11 @@ const PageWrapper = ({
   }, [jobId]);
 
   const titleToShare = `Check out this amazing job: ${job?.title}`;
-  
-  
-  
+
+
+
+  // get the url
+
   return (
     <MaxWidthWrapper className="py-4">
       <div className="flex items-center justify-between bg-sky-100 p-2">
@@ -90,7 +92,9 @@ const PageWrapper = ({
       </div>
       <div className="mt-6">
         <h1 className="text-3xl font-bold text-zinc-700">{job?.title}</h1>
-        <p className="text-xl">Company: {job?.company?.companyName}</p>
+        {job?.confidential && (
+          <p className="text-xl">Company: {job?.company?.companyName}</p>
+        )}
       </div>
       <div className="mt-6">
         <h2 className="text-2xl font-semibold text-zinc-700">Job Overview</h2>
@@ -114,10 +118,12 @@ const PageWrapper = ({
             <span className="font-semibold">Location:</span> {job?.city},{" "}
             {job?.country}
           </p>
-          <p className="text-lg">
-            <span className="font-semibold">Employer:</span>{" "}
-            {job?.company?.companyName || job?.companyName || "N/A"}
-          </p>
+          {job?.confidential && (
+            <p className="text-lg">
+              <span className="font-semibold">Employer:</span>{" "}
+              {job?.company?.companyName || job?.companyName || "N/A"}
+            </p>
+          )}
         </div>
 
         <div className="flex justify-between">
@@ -175,7 +181,6 @@ const PageWrapper = ({
                 />
               </svg>
             </EmailShareButton>
-           
           </div>
         </div>
       </div>
