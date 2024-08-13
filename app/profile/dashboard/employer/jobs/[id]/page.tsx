@@ -148,7 +148,7 @@ const page = async ({ params, searchParams }: Props) => {
       <div className="rounded-md bg-slate-100 p-4">
         <h2 className="my-4 flex items-center gap-4 border-b text-lg font-bold text-zinc-600">
           <FileText className="h-6 w-6 text-primary" />
-          Similar CVs
+          Matching CVs from Database
         </h2>
         <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
