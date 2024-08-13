@@ -9,6 +9,8 @@ import {
   Sector,
   Skill,
   EducationDetails,
+  User,
+  Profile,
 } from "@prisma/client";
 
 export type JobSeekerProfileProps = JobSeekerProfile & {
@@ -21,4 +23,5 @@ export type JobSeekerProfileProps = JobSeekerProfile & {
   educationDetails: EducationDetails[];
   personalDetails: PersonalDetails;
   desiredJob: DesiredJob;
+  user: User & { profile: Profile | null };
 };
