@@ -377,22 +377,7 @@ export default function EditJobForm({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="City: e.g. 'Melbourne'"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="jobType"
@@ -414,6 +399,23 @@ export default function EditJobForm({
                     <FormLabel>Country</FormLabel>
                     <FormControl>
                       <Combobox options={countryList} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="City: e.g. 'Melbourne'"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
