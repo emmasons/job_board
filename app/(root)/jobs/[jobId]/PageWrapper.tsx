@@ -100,14 +100,22 @@ const PageWrapper = ({
         <h2 className="text-2xl font-semibold text-zinc-700">Job Overview</h2>
         <p className="text-lg">
           <span className="font-semibold">Work Schedule:</span>{" "}
-          {job?.workSchedule}
+          <span className="capitalize">
+            {job?.workSchedule.toLocaleLowerCase().replace("_", " ")}
+          </span>
         </p>
         <p className="text-lg">
           <span className="font-semibold">Occupation:</span> {job?.occupation}
         </p>
         <p className="text-lg">
           <span className="font-semibold">Contract Type:</span>{" "}
-          {job?.contractType}
+          <span className="capitalize">{job?.contractType.toLowerCase()}</span>
+        </p>
+        <p className="text-lg ">
+          <span className="font-semibold">Preferred candidate:</span>{" "}
+          <span className="capitalize">
+            {job?.preferredApplicantGender.toLocaleLowerCase()}
+          </span>
         </p>
         <h3 className="mb-4 mt-6 text-xl font-semibold text-zinc-700">
           Job Description

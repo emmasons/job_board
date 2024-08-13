@@ -6,7 +6,7 @@ import { getExperience } from "@/actions/get-experience";
 import { getWorkSchedules } from "@/actions/get-work-schedules";
 import CreateJobForm from "@/components/dashboard/employer/jobs/create/CreateJobForm";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { Role } from "@prisma/client";
+import { PREFERRED_APPLICANT_GENDER, Role } from "@prisma/client";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -53,6 +53,7 @@ const page = async () => {
           experienceId: "",
           sectorId: "",
           salary: "",
+          preferredApplicantGender: PREFERRED_APPLICANT_GENDER.ALL,
         }}
         sectorList={sectors.map((sector) => ({
           label: sector.label,

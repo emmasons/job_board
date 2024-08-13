@@ -33,7 +33,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon, Loader2, Pencil } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
-import { CURRENCY, JOBTYPE } from "@prisma/client";
+import { CURRENCY, JOBTYPE, PREFERRED_APPLICANT_GENDER } from "@prisma/client";
 import { useState } from "react";
 
 interface EditJobFormProps {
@@ -54,6 +54,7 @@ interface EditJobFormProps {
     confidential: boolean;
     currency: CURRENCY;
     salaryPeriod: string;
+    preferredApplicantGender: PREFERRED_APPLICANT_GENDER;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -114,6 +115,7 @@ const formSchema = z.object({
     message: "Currency is required",
   }),
   salaryPeriod: z.string().optional(),
+  preferredApplicantGender: z.string().optional(),
 });
 
 const jobTypes = Object.values(JOBTYPE).map((type) => ({
@@ -140,6 +142,13 @@ export default function EditJobForm({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
+
+  const preferredApplicantGenderList = Object.values(
+    PREFERRED_APPLICANT_GENDER,
+  ).map((gender) => ({
+    value: gender,
+    label: gender.toLowerCase().replace("_", " "),
+  }));
 
   const { isSubmitting, isValid, errors } = form.formState;
 
@@ -502,6 +511,22 @@ export default function EditJobForm({
                         Whether to display the company details
                       </FormLabel>
                     </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="preferredApplicantGender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Currency</FormLabel>
+                    <FormControl>
+                      <Combobox
+                        options={preferredApplicantGenderList}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
