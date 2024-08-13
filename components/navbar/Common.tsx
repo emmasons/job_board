@@ -13,9 +13,9 @@ const Common: React.FC = () => {
       </Link>
       <Link
         href="/find-candidates"
-        className="flex items-center rounded-lg p-4 text-sm font-medium text-gray-700 hover:text-orange-500 uppercase"
+        className="flex items-center rounded-lg p-4 text-sm font-medium uppercase text-gray-700 hover:text-orange-500"
       >
-        Find candidates
+        Search cv
       </Link>
     </div>
   );

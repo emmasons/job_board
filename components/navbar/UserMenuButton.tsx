@@ -107,7 +107,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  {/* 
+                  {/*
                     add more dropdown items if needed
                    */}
                 </DropdownMenuItem>
@@ -131,7 +131,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                     href="/find-candidates"
                     className="block w-full hover:cursor-pointer"
                   >
-                    Find Candidates
+                    Search cv
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
@@ -143,7 +143,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  {/* 
+                  {/*
                     add more dropdown items if needed
                    */}
                 </DropdownMenuItem>
