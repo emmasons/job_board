@@ -269,6 +269,12 @@ enum CURRENCY {
   SAR
 }
 
+enum PREFERRED_APPLICANT_GENDER {
+  MALE
+  FEMALE
+  ALL
+}
+
 model Job {
   id                String          @id @default(cuid())
   title             String
@@ -286,6 +292,7 @@ model Job {
   published         Boolean         @default(false)
   confidential      Boolean         @default(true)
   numberOfPositions Int             @default(1)
+  preferredApplicantGender PREFERRED_APPLICANT_GENDER @default(ALL)
   datePosted        DateTime?
   educationLevelId  String?
   experienceId      String?
