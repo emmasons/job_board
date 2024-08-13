@@ -86,26 +86,26 @@ const StepsWrapper = ({
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 
-    <JobSeekerProfileUpdate
-      profilePercentage={20}
-      description="Your sector, education level, experience and country of origin."
-      key={4}
-      title="Professional"
-      profile={jobSeekerProfile}
-      sectorList={sectors.map((sector) => ({
-        label: sector.label,
-        value: sector.id,
-      }))}
-      // educationLevelList={educationLevels.map((level) => ({
-      //   label: level.label,
-      //   value: level.id,
-      // }))}
-      experienceList={experience.map((exp) => ({
-        label: exp.label,
-        value: exp.id,
-      }))}
-      isJobSeekerComponent={isJobSeekerComponent}
-    />,
+    // <JobSeekerProfileUpdate
+    //   profilePercentage={20}
+    //   description="Your sector, education level, experience and country of origin."
+    //   key={4}
+    //   title="Professional"
+    //   profile={jobSeekerProfile}
+    //   sectorList={sectors.map((sector) => ({
+    //     label: sector.label,
+    //     value: sector.id,
+    //   }))}
+    //   educationLevelList={educationLevels.map((level) => ({
+    //     label: level.label,
+    //     value: level.id,
+    //   }))}
+    //   experienceList={experience.map((exp) => ({
+    //     label: exp.label,
+    //     value: exp.id,
+    //   }))}
+    //   isJobSeekerComponent={isJobSeekerComponent}
+    // />,
     <ProfileSummaryForm
       key={5}
       title="Profile Summary"
@@ -120,7 +120,7 @@ const StepsWrapper = ({
     <EducationDetails
       title="Education"
       key={6}
-      profilePercentage={10}
+      profilePercentage={20}
       profileId={jobSeekerProfile.id}
       isJobSeekerComponent={isJobSeekerComponent}
       initialData={jobSeekerProfile.educationDetails}

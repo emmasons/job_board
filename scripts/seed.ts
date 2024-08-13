@@ -54,7 +54,7 @@ async function createExperienceLevels() {
   }
 }
 async function createIndustries() {
-  const industries = await database.
+  const industries = await database.industries.findMany();
 }
 async function createSectors() {
   const sectors = await database.sector.findMany();
@@ -300,7 +300,7 @@ async function clearTable(tableName) {
 
 async function main() {
   // await createEducationLevels();
-  // await createExperienceLevels();
+  // await createExperienceLevels();z
   // await createSectors();
   // await createOccupations();
   // await clearTable("scrapedJob");

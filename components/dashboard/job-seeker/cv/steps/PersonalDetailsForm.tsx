@@ -108,6 +108,26 @@ const PersonalDetailsForm = ({
       alternateContactNumber: initialData?.alternateContactNumber || "",
     },
   });
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const currentYear = new Date().getFullYear();
+
+  const years = Array.from(
+    { length: currentYear - 1990 + 1 },
+    (_, index) => currentYear - index,
+  );
   // console.log("initial Data", initialData);
   const percentage =
     initialData?.gender && initialData?.gender.trim() !== ""
