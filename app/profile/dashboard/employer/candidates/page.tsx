@@ -14,9 +14,20 @@ const page = async (props: Props) => {
     return redirect("/");
   }
   const candidates = await getEmployerCandidates(user.id);
+  let tableCandidates;
+  if (candidates && candidates.length > 0) {
+    tableCandidates = candidates.map((candidate) => ({
+      id: candidate.id,
+      country: candidate.jobSeekerProfile?.country,
+      jobTitle: candidate.jobSeekerProfile?.cvHeadLine,
+      phoneNumber: candidate.profile?.phoneNumber,
+      email: candidate.email,
+    }));
+  }
+
   return (
     <div className="p-6">
-      <DataTable columns={columns} data={candidates} />
+      <DataTable columns={columns} data={tableCandidates} />
     </div>
   );
 };

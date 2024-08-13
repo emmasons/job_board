@@ -13,8 +13,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CandidateProps } from "@/actions/get-employer-candidates";
-
+// import { CandidateProps } from "@/actions/get-employer-candidates";
+type CandidateProps = {
+  id: string;
+  email: string;
+  country: string;
+  cvHeadLine: string;
+  phoneNumber: string;
+};
 export const columns: ColumnDef<CandidateProps>[] = [
   {
     accessorKey: "email",
@@ -31,7 +37,7 @@ export const columns: ColumnDef<CandidateProps>[] = [
     },
   },
   {
-    accessorKey: "jobSeekerProfile.country",
+    accessorKey: "country",
     header: ({ column }) => {
       return (
         <Button
@@ -45,7 +51,7 @@ export const columns: ColumnDef<CandidateProps>[] = [
     },
   },
   {
-    accessorKey: "jobSeekerProfile.cvHeadLine",
+    accessorKey: "cvHeadLine",
     header: ({ column }) => {
       return (
         <Button
@@ -59,7 +65,7 @@ export const columns: ColumnDef<CandidateProps>[] = [
     },
   },
   {
-    accessorKey: "profile.phoneNumber",
+    accessorKey: "phoneNumber",
     header: ({ column }) => {
       return <p className="px-4 py-2">Phone Number</p>;
     },
