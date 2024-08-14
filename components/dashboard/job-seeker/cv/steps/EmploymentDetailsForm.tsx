@@ -498,7 +498,7 @@ const EmploymentDetailsForm = ({
           </div>
 
           <div className="flex items-start gap-2">
-            {isJobSeekerComponent && (
+            {!isJobSeekerComponent && (
               <Button onClick={toggleEdit} variant="ghost">
                 {isEditing ? (
                   "Cancel"

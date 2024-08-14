@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,7 +79,11 @@ const PersonalDetailsForm = ({
   }));
 
   const formSchema = z.object({
-    dateOfBirth: z.date({ required_error: "A date of birth is required." }),
+    dateOfBirth: z
+      .date({ required_error: "A date of birth is required." })
+      .refine((date) => date <= new Date(), {
+        message: "Date of birth cannot be in the future.",
+      }),
     gender: z.string().nonempty("Gender is required"),
     nationality: z.string().nonempty("Nationality is required"),
     maritalStatus: z.string().nonempty("Marital Status is required"),
@@ -108,27 +112,30 @@ const PersonalDetailsForm = ({
       alternateContactNumber: initialData?.alternateContactNumber || "",
     },
   });
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const currentYear = new Date().getFullYear();
 
-  const years = Array.from(
-    { length: currentYear - 1990 + 1 },
-    (_, index) => currentYear - index,
-  );
+  const { control, handleSubmit, setValue, watch } = form;
+
+  const dateOfBirth = watch("dateOfBirth");
+  const selectedDate = new Date(dateOfBirth);
+  const currentDay = selectedDate.getDate();
+  const currentMonth = selectedDate.getMonth() + 1;
+  const currentYear = selectedDate.getFullYear();
+
+  // Generate dropdown options
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const years = Array.from({ length: 2025 - 1900 }, (_, i) => 1900 + i);
+
   // console.log("initial Data", initialData);
+  const updateDateOfBirth = (day, month, year) => {
+    if (day && month && year) {
+      const newDate = new Date(year, month - 1, day);
+      setValue("dateOfBirth", newDate, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  };
   const percentage =
     initialData?.gender && initialData?.gender.trim() !== ""
       ? 0
@@ -263,7 +270,7 @@ const PersonalDetailsForm = ({
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
@@ -306,7 +313,90 @@ const PersonalDetailsForm = ({
                   <FormMessage />
                 </FormItem>
               )}
+            /> */}
+
+            {/* New date of birth */}
+            <Controller
+              control={control}
+              name="dateOfBirth"
+              render={({ field }) => (
+                <div className="flex flex-col">
+                  <label className="block text-sm font-medium text-gray-700 pb-2">
+                    Date of Birth
+                  </label>
+                  <div className="flex space-x-8 pb-2">
+                    <div className="flex flex-col">
+                      <label className="text-xs text-gray-500">Month</label>
+                      <select
+                        className="rounded border px-2 py-1 bg-white"
+                        value={currentMonth}
+                        onChange={(e) =>
+                          updateDateOfBirth(
+                            currentDay,
+                            e.target.value,
+                            currentYear,
+                          )
+                        }
+                      >
+                        <option value="">Month</option>
+                        {months.map((month) => (
+                          <option key={month} value={month}>
+                            {month}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-xs text-gray-500">Day</label>
+
+                      <select
+                        className="rounded border px-2 py-1 bg-white"
+                        value={currentDay}
+                        onChange={(e) =>
+                          updateDateOfBirth(
+                            e.target.value,
+                            currentMonth,
+                            currentYear,
+                          )
+                        }
+                      >
+                        <option value="">Day</option>
+                        {days.map((day) => (
+                          <option key={day} value={day}>
+                            {day}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-xs text-gray-500">Year</label>
+                      <select
+                        className="rounded border px-2 py-1 bg-white"
+                        value={currentYear}
+                        onChange={(e) =>
+                          updateDateOfBirth(
+                            currentDay,
+                            currentMonth,
+                            e.target.value,
+                          )
+                        }
+                      >
+                        <option value="">Year</option>
+                        {years.map((year) => (
+                          <option key={year} value={year}>
+                            {year}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    Your date of birth is used to calculate your age.
+                  </p>
+                </div>
+              )}
             />
+
             {/* Gender fields */}
             <FormField
               control={form.control}
