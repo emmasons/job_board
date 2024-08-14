@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentSessionUser } from "@/lib/auth";
+import Image from "next/image";
+import profilePicPlaceholder from "@/public/assets/profile-pic-placeholder.png";
 
 import { Role } from "@prisma/client";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
@@ -37,13 +39,15 @@ const page = async () => {
       <div className="mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
         <div className="mb-6 flex flex-wrap items-center">
           <div className="mr-4">
-            <img src="{imageMetaData}" alt="" />
+            {/* <img src="{imageMetaData}" alt="" /> */}
             {user.registeredUser && (
-              <div className="h-60 w-60 overflow-hidden ">
-                <AvatarForm
-                  userId={user.id}
-                  isDeleting={false}
-                  gcpData={imageMetaData}
+              <div className="h-120 w-120 overflow-hidden ">
+                <Image
+                  src={user?.image || profilePicPlaceholder}
+                  alt="Profile picture"
+                  width={120}
+                  height={120}
+                  className=" rounded-full p-1"
                 />
               </div>
             )}
@@ -120,10 +124,22 @@ const page = async () => {
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Education</h2>
-            <p>{jobSeekerProfile?.education.label}</p>
-            <p>{jobSeekerProfile?.education?.course}</p>
-            <p>{jobSeekerProfile?.education?.college}</p>
-            <p>{jobSeekerProfile?.education?.colegeLocation}</p>
+            {jobSeekerProfile?.educationDetails.slice(0, 2).map((education) => (
+              <div
+                key={education.id}
+                className="flex flex-wrap items-center gap-2 py-4"
+              >
+                <div>
+                  <p className="font-medium capitalize">
+                    {education.level} of {education.course}
+                  </p>
+                  <span className="flex gap-2">
+                    <p className="font-medium">{education.college}</p>
+                    <p className="font-medium">{education.collegeLocation}</p>
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
           <div>
             <h2 className="mb-2 text-xl font-semibold">Desired Job</h2>
