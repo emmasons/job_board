@@ -131,7 +131,7 @@ const StepsWrapper = ({
       title="Desired job"
       profileId={jobSeekerProfile.id}
       profilePercentage={10}
-      initialData={desiredJob}
+      initialData={jobSeekerProfile.desiredJob}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 

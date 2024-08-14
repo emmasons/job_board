@@ -32,7 +32,6 @@ type Props = {
   title: string;
   initialData: EducationDetails;
   profileId: string;
-
   profilePercentage: number;
   isJobSeekerComponent: Boolean;
 };
@@ -40,7 +39,6 @@ type Props = {
 const EducationDetailsForm = ({
   title,
   initialData,
-
   profileId,
   profilePercentage,
   isJobSeekerComponent = true,
@@ -258,7 +256,7 @@ const EducationDetailsForm = ({
             </div>
           </div>
           <div>
-            {!isJobSeekerComponent && (
+            {isJobSeekerComponent && (
               <Button onClick={toggleEdit} variant="ghost">
                 {isEditing ? (
                   "cancel"

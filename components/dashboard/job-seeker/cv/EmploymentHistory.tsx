@@ -152,7 +152,7 @@ const EmploymentHistory = ({
                 profilePercentage={20}
                 initialData={history}
                 isJobSeekerComponent={true}
-              />,
+              />
               
             </div>
           ))}

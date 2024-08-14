@@ -496,9 +496,8 @@ const EmploymentDetailsForm = ({
               </p>
             </div>
           </div>
-
-          <div className="flex items-start gap-2">
-            {!isJobSeekerComponent && (
+          {isJobSeekerComponent && (
+            <div className="flex items-start gap-2">
               <Button onClick={toggleEdit} variant="ghost">
                 {isEditing ? (
                   "Cancel"
@@ -509,8 +508,8 @@ const EmploymentDetailsForm = ({
                   </>
                 )}
               </Button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

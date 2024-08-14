@@ -35,7 +35,6 @@ const EducationDetails = ({
   title,
   profilePercentage,
   profileId,
-  
   initialData, 
   isJobSeekerComponent = true,
 }: Props) => {
@@ -125,10 +124,11 @@ const EducationDetails = ({
           </Button>
         )}
       </div>
+     
       {!isEditing ? (
         <div>
           {initialData.map((education) => (
-              <div key={education.id} className="mb-4">
+              <div key={education.id} className="mb-2">
                 <EducationDetailsForm
                   title="Education Details"
                   profileId={education.jobSeekerProfileId}
