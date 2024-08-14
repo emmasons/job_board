@@ -141,6 +141,7 @@ const EducationDetailsForm = ({
           </p>
         </div>
       </div>
+      
       {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -257,7 +258,7 @@ const EducationDetailsForm = ({
             </div>
           </div>
           <div>
-            {isJobSeekerComponent && (
+            {!isJobSeekerComponent && (
               <Button onClick={toggleEdit} variant="ghost">
                 {isEditing ? (
                   "cancel"
