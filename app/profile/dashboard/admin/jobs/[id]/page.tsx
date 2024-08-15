@@ -7,6 +7,8 @@ import { getExperience } from "@/actions/get-experience";
 import { getWorkSchedules } from "@/actions/get-work-schedules";
 import EditJobForm from "@/components/dashboard/employer/jobs/edit/EditJob";
 import { SwitchJobStatusForm } from "@/components/dashboard/employer/jobs/edit/SwitchJobStatusForm";
+import { SwitchJobFeatureForm } from "@/components/dashboard/employer/jobs/edit/SwitchJobFeatureForm";
+
 import { ArrowLeft, ChevronRight, Hammer } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -85,12 +87,25 @@ const page = async ({ params, searchParams }: Props) => {
           <Hammer className="h-6 w-6 text-primary" />
           {job.sector?.label}
         </p>
-        <SwitchJobStatusForm
-          jobId={jobId}
-          initialData={{
-            isOpen: job.isOpen,
-          }}
-        />
+        <div className="flex gap-10">
+          <div>
+            <SwitchJobStatusForm
+              jobId={jobId}
+              initialData={{
+                isOpen: job.isOpen,
+              }}
+            />
+          </div>
+
+          <div>
+            <SwitchJobFeatureForm
+              jobId={jobId}
+              initialData={{
+                isFeatured: job.isFeatured,
+              }}
+            />
+          </div>
+        </div>
       </div>
       <div className="grid-cols-3 justify-between  gap-2 md:grid ">
         <div className="flex w-full flex-col items-center rounded-md bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
