@@ -140,7 +140,8 @@ const EducationDetailsForm = ({
         </div>
       </div>
       
-      {isEditing && (
+      {isEditing &&(
+        
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* Education level */}
