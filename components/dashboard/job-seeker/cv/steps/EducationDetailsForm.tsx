@@ -92,7 +92,7 @@ const EducationDetailsForm = ({
         toast({
           variant: "default",
           title: "Success",
-          description: "Employment details saved successfully.",
+          description: "Education details saved successfully.",
           className: "bg-green-500",
         });
         toggleEdit();
@@ -162,20 +162,20 @@ const EducationDetailsForm = ({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="pre-primary">Pre primary</SelectItem>
-                      <SelectItem value="primary">Primary School</SelectItem>
-                      <SelectItem value="junior">
+                      <SelectItem value="primary school">Primary School</SelectItem>
+                      <SelectItem value="junior secondary">
                         Junior Secondary School
                       </SelectItem>
-                      <SelectItem value="senior">
+                      <SelectItem value="senior secondary">
                         Senior Secondary School
                       </SelectItem>
-                      <SelectItem value="bachelor">
+                      <SelectItem value="bachelors">
                         Bachelors or Equivalent level
                       </SelectItem>
-                      <SelectItem value="master">
+                      <SelectItem value="masters">
                         Masters or Equivalent level
                       </SelectItem>
-                      <SelectItem value="higher">
+                      <SelectItem value="higher education">
                         Doctoral or Equivalent level
                       </SelectItem>
                       <SelectItem value="higher">Not Specified</SelectItem>
