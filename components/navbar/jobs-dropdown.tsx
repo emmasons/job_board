@@ -92,47 +92,7 @@ const JobsDropdown: React.FC = () => {
             </ul>
           </div>
 
-          {/* More Jobs */}
-          {/* <div>
-                        <h4 className="font-bold text-sm px-4 text-gray-700 mb-2">More Jobs <span className="text-red-500"></span></h4>
-                        <ul className="flex flex-col w-max items-start">
-                            <li>
-                                <Link href="/search?filter=industry" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Jobs by Industry
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search?filter=executives" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Jobs for Executives
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search?filter=freshGraduates" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Jobs for Fresh Graduates
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search?filter=gulfNationals" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Jobs for Gulf Nationals
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search?filter=topEmployers" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Top Employers
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search?filter=topRecruiters" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Top Recruiters
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/search" className="block text-sm px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-orange-500">
-                                    Search Jobs
-                                </Link>
-                            </li>
-                        </ul>
-                    </div> */}
+
         </div>
       </div>
     </div>
