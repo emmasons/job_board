@@ -31,7 +31,7 @@ export default function RootLayout({
           {children}
         </SessionProvider>
         <WhatsAppButton
-          phoneNumber={"+254712428640"}
+          phoneNumber={"+254700659888"}
           message={"Hello Infinite!"}
         />
       </body>
