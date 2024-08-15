@@ -240,7 +240,7 @@ const PersonalDetailsForm = ({
           <span className="flex gap-8 py-2">
             <p className="text-md min-w-40 text-slate-400"> Languages Known </p>
             <p className="text-md font-mono capitalize">
-              {initialData?.gender}
+              {initialData?.languagesKnown}
             </p>
           </span>
           <span className="flex gap-8 py-2">
@@ -523,7 +523,7 @@ const PersonalDetailsForm = ({
                   <FormControl>
                     <label className="flex w-80 flex-col gap-2 text-sm">
                       Languages known
-                      <Input {...field} />
+                      <Input {...field} placeholder="Eg. English, Arabic, Spanish"/>
                     </label>
                   </FormControl>
                   <FormMessage />
