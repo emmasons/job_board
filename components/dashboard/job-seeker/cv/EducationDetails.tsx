@@ -124,126 +124,132 @@ const EducationDetails = ({
           </Button>
         )}
       </div>
-     
+
       {!isEditing ? (
         <div>
           {initialData.map((education) => (
-              <div key={education.id} className="mb-2">
-                <EducationDetailsForm
-                  title="Education Details"
-                  profileId={education.jobSeekerProfileId}
-                  profilePercentage={10}
-                  initialData={education}
-                  isJobSeekerComponent={true}
-                />
-              </div>
-            ))
-        }
+            <div key={education.id} className="mb-2">
+              <EducationDetailsForm
+                title="Education Details"
+                profileId={education.jobSeekerProfileId}
+                profilePercentage={10}
+                initialData={education}
+                isJobSeekerComponent={isJobSeekerComponent}
+              />
+            </div>
+          ))}
         </div>
       ) : (
         <div>
-          <p className="py-2">Fill the required fields.</p>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              {/* Education level */}
-              <FormField
-                control={form.control}
-                name="level"
-                render={({ field }) => (
-                  <FormItem className="w-80">
-                    <FormLabel>Education Level</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+          {isJobSeekerComponent && (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                {/* Education level */}
+                <FormField
+                  control={form.control}
+                  name="level"
+                  render={({ field }) => (
+                    <FormItem className="w-80">
+                      <FormLabel>Education Level</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your education level" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="pre-primary">
+                            Pre primary
+                          </SelectItem>
+                          <SelectItem value="primary">
+                            Primary School
+                          </SelectItem>
+                          <SelectItem value="junior">
+                            Junior Secondary School
+                          </SelectItem>
+                          <SelectItem value="senior">
+                            Senior Secondary School
+                          </SelectItem>
+                          <SelectItem value="bachelor">
+                            Bachelors or Equivalent level
+                          </SelectItem>
+                          <SelectItem value="master">
+                            Masters or Equivalent level
+                          </SelectItem>
+                          <SelectItem value="higher">
+                            Doctoral or Equivalent level
+                          </SelectItem>
+                          <SelectItem value="higher">Not Specified</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="course"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Course</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your education level" />
-                        </SelectTrigger>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="Tell us the course you studied"
+                          {...field}
+                        />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="pre-primary">Pre primary</SelectItem>
-                        <SelectItem value="primary">Primary School</SelectItem>
-                        <SelectItem value="junior">
-                          Junior Secondary School
-                        </SelectItem>
-                        <SelectItem value="senior">
-                          Senior Secondary School
-                        </SelectItem>
-                        <SelectItem value="bachelor">
-                          Bachelors or Equivalent level
-                        </SelectItem>
-                        <SelectItem value="master">
-                          Masters or Equivalent level
-                        </SelectItem>
-                        <SelectItem value="higher">
-                          Doctoral or Equivalent level
-                        </SelectItem>
-                        <SelectItem value="higher">
-                          Not Specified
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="course"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Course</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="Tell us the course you studied"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="college"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>College</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="Indicate the college you attended"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="collegeLocation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>College Location</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="Indicate the location of the institution you studied"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isSubmitting}>
-                Save
-              </Button>
-            </form>
-          </Form>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="college"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>College</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="Indicate the college you attended"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="collegeLocation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>College Location</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="Indicate the location of the institution you studied"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isSubmitting}>
+                  Save
+                </Button>
+              </form>
+            </Form>
+          )}
+        
         </div>
       )}
     </div>

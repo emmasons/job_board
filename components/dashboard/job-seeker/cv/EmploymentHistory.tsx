@@ -151,7 +151,7 @@ const EmploymentHistory = ({
                 profileId={history.jobSeekerProfileId}
                 profilePercentage={20}
                 initialData={history}
-                isJobSeekerComponent={true}
+                isJobSeekerComponent={isJobSeekerComponent}
               />
               
             </div>
