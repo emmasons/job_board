@@ -61,24 +61,24 @@ async function createSectors() {
   try {
     await database.sector.createMany({
       data: [
-        { label: "Education, Science, &amp; Research" },
-        { label: "Hospitality &amp; Tourism" },
-        { label: "Medical &amp; Health care" },
-        { label: "IT &amp; Telecom Building &amp; construction" },
+        { label: "Education, Science, & Research" },
+        { label: "Hospitality & Tourism" },
+        { label: "Medical & Health care" },
+        { label: "IT & Telecom Building & construction" },
         { label: "Agriculture and farming" },
         { label: "Sales and marketing" },
-        { label: "Transport &amp; logistic" },
+        { label: "Transport & logistic" },
         {
-          label: "Manufacturing, Consumer Goods &amp; Industrial",
+          label: "Manufacturing, Consumer Goods & Industrial",
         },
         { label: "Facility management" },
         { label: "Retail and whole sale" },
         {
-          label: "Energy &amp; mining",
+          label: "Energy & mining",
         },
         { label: "Beauty and wellness" },
-        { label: "Engineering &amp; Technical Services" },
-        { label: "Finance, Insurance, &amp; Legal" },
+        { label: "Engineering & Technical Services" },
+        { label: "Finance, Insurance, & Legal" },
   
       ],
     });
