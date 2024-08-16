@@ -61,40 +61,25 @@ async function createSectors() {
   try {
     await database.sector.createMany({
       data: [
-        { label: "ADMINISTRATIVE AND SUPPORT SERVICE ACTIVITIES" },
-        { label: "INFORMATION AND COMMUNICATION" },
-        { label: "EDUCATION" },
-        { label: "PROFESSIONAL, SCIENTIFIC AND TECHNICAL ACTIVITIES" },
-        { label: "HUMAN HEALTH AND SOCIAL WORK ACTIVITIES" },
-        { label: "MANUFACTURING" },
-        { label: "FINANCIAL AND INSURANCE ACTIVITIES" },
+        { label: "Education, Science, &amp; Research" },
+        { label: "Hospitality &amp; Tourism" },
+        { label: "Medical &amp; Health care" },
+        { label: "IT &amp; Telecom Building &amp; construction" },
+        { label: "Agriculture and farming" },
+        { label: "Sales and marketing" },
+        { label: "Transport &amp; logistic" },
         {
-          label:
-            "WHOLESALE AND RETAIL TRADE; REPAIR OF MOTOR VEHICLES AND MOTORCYCLES",
+          label: "Manufacturing, Consumer Goods &amp; Industrial",
         },
-        { label: "CONSTRUCTION" },
-        { label: "OTHER SERVICE ACTIVITIES" },
+        { label: "Facility management" },
+        { label: "Retail and whole sale" },
         {
-          label:
-            "PUBLIC ADMINISTRATION AND DEFENCE; COMPULSORY SOCIAL SECURITY",
+          label: "Energy &amp; mining",
         },
-        { label: "REAL ESTATE ACTIVITIES" },
-        { label: "TRANSPORTATION AND STORAGE" },
-        { label: "ARTS, ENTERTAINMENT AND RECREATION" },
-        { label: "ACCOMMODATION AND FOOD SERVICE ACTIVITIES" },
-        { label: "ELECTRICITY, GAS, STEAM AND AIR CONDITIONING SUPPLY" },
-        { label: "Not Specified" },
-        {
-          label:
-            "WATER SUPPLY; SEWERAGE, WASTE MANAGEMENT AND REMEDIATION ACTIVITIES",
-        },
-        { label: "MINING AND QUARRYING" },
-        { label: "AGRICULTURE, FORESTRY AND FISHING" },
-        {
-          label:
-            "ACTIVITIES OF HOUSEHOLDS AS EMPLOYERS; UNDIFFERENTIATED GOODS- AND SERVICES-PRODUCING ACTIVITIES OF HOUSEHOLDS FOR OWN USE",
-        },
-        { label: "ACTIVITIES OF EXTRATERRITORIAL ORGANISATIONS AND BODIES" },
+        { label: "Beauty and wellness" },
+        { label: "Engineering &amp; Technical Services" },
+        { label: "Finance, Insurance, &amp; Legal" },
+  
       ],
     });
     console.log("Success");
@@ -299,7 +284,7 @@ async function clearTable(tableName) {
 
 async function main() {
   // await createEducationLevels();
-  await createExperienceLevels();
+  // await createExperienceLevels();
   // await createSectors();
   // await createOccupations();
   // await clearTable("scrapedJob");
