@@ -83,7 +83,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
             <div className="md:w-1/3">
               <CandidateFilters />
             </div>
-            <div className="md:w-2/3">
+            <div className="m-2 md:w-2/3">
               <CandidateList
                 candidates={items}
                 candidateIds={candidateIds}

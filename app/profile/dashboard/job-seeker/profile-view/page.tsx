@@ -6,7 +6,20 @@ import profilePicPlaceholder from "@/public/assets/profile-pic-placeholder.png";
 import { Role } from "@prisma/client";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
-import { Mail, MapPin, Phone } from "lucide-react";
+import {
+  BadgeDollarSign,
+  Church,
+  Gem,
+  GraduationCap,
+  Hourglass,
+  Mail,
+  MapPin,
+  MessagesSquare,
+  Phone,
+  Receipt,
+  School,
+  UserCog,
+} from "lucide-react";
 import AvatarForm from "@/components/dashboard/profile/AvatarForm";
 import { db } from "@/lib/db";
 
@@ -35,77 +48,107 @@ const page = async () => {
     return age;
   };
   return (
-    <div className="w-full bg-slate-100 md:py-10">
-      <div className="mx-auto max-w-4xl rounded-md bg-white p-6  shadow-md">
-        <div className="mb-6 flex flex-wrap items-center">
-          <div className="mr-4">
-            {/* <img src="{imageMetaData}" alt="" /> */}
-            {user.registeredUser && (
-              <div className="h-120 w-120 overflow-hidden ">
-                <Image
-                  src={user?.image || profilePicPlaceholder}
-                  alt="Profile picture"
-                  width={120}
-                  height={120}
-                  className=" rounded-full p-1"
-                />
+    <div className="">
+      <div className="mx-auto rounded-md bg-white">
+        <div className="bg-slate-50 p-4">
+          <div className="flex flex-wrap items-center justify-between m-auto max-w-screen-lg">
+            <div className="flex flex-wrap items-center">
+              <div className="mr-4 md:py-10 ">
+                {/* <img src="{imageMetaData}" alt="" /> */}
+                {user.registeredUser && (
+                  <div className="h-70 w-70 overflow-hidden ">
+                    <Image
+                      src={user?.image || profilePicPlaceholder}
+                      alt="Profile picture"
+                      width={70}
+                      height={70}
+                      className=" rounded-full p-1"
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold">
-              {currentUser?.profile?.firstName} {currentUser?.profile?.lastName}
-            </h1>
-            <p className="text-gray-600">{jobSeekerProfile?.cvHeadLine}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div>
-            <div className="py-2">
-              <h2 className="mb-2 text-xl font-semibold">About Me</h2>
-              <p className="text-sm">{jobSeekerProfile?.profileSummary}</p>
-              <div className="mt-4">
-                <p className="flex items-center gap-2 py-1">
-                  <Phone className="h-4 w-4" />
-                  {currentUser?.profile?.phoneNumber}
-                </p>
-                <p className="flex items-center gap-2 py-1">
-                  <Mail className="h-4 w-4" />
-                  {user?.email}
-                </p>
-                <p className="flex items-center gap-2 py-1">
-                  <MapPin className="h-4 w-4" />
-                  {jobSeekerProfile?.personalDetails?.currentLocation}
-                </p>
-              </div>
-              <div className="py-4">
-                <h2 className="mb-2 text-xl font-semibold">Languages</h2>
+              <div>
+                <h1 className="text-xl font-semibold">
+                  {currentUser?.profile?.firstName}{" "}
+                  {currentUser?.profile?.lastName}
+                </h1>
+                <div className="flex gap-3 text-xs text-gray-600">
+                  <p className="">{jobSeekerProfile?.cvHeadLine}</p>
 
-                <p>{jobSeekerProfile?.personalDetails?.languagesKnown}</p>
+                  <p className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    {jobSeekerProfile?.personalDetails?.currentLocation}
+                  </p>
+                </div>
               </div>
             </div>
+            <div>
+              <p>download cv</p>
+            </div>
           </div>
+        </div>
+        <div className="flex flex-wrap justify-center gap-12 p-4 py-6">
+          <div className="flex flex-col md:w-2/4 ">
+            <div>
+              <div className="py-2">
+                {/* <h2 className="mb-2 text-xl font-semibold">About Me</h2> */}
+                <p className="text-sm text-zinc-700">
+                  {jobSeekerProfile?.profileSummary}
+                </p>
+              </div>
+            </div>
 
-          <div>
-            <h2 className=" text-xl font-semibold">Experience</h2>
-            {jobSeekerProfile?.employmentDetails.slice(0, 2).map((job) => (
-              <div
-                key={job.id}
-                className="flex flex-wrap items-center gap-2 py-4"
-              >
-                <div className="">
-                  <p className="font-medium">{job?.designation}</p>
-                  <span className="flex gap-2">
-                    <p className="text-sm text-zinc-700">{job?.company},</p>
+            <div className="py-4">
+              <h2 className="font-semibold">Education</h2>
+              <div className="flex items-center gap-6 py-4">
+                <div className="h-6 w-6 rounded-full bg-amber-100 text-center">
+                  <h2 className="text-sm text-red-500">E</h2>
+                </div>
+                {/* <School /> */}
+                {jobSeekerProfile?.educationDetails
+                  .slice(0, 2)
+                  .map((education) => (
+                    <div
+                      key={education.id}
+                      className="flex flex-wrap items-center gap-2"
+                    >
+                      <div className="text-sm">
+                        <p className="font-medium capitalize">
+                          {education.level} of {education.course}
+                        </p>
+                        <span className="flex gap-2">
+                          <p className="text-sm font-medium text-red-500">
+                            {education.college}
+                          </p>
+                          {/* <p className="font-medium">
+                            {education.collegeLocation}
+                          </p> */}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
 
-                    <p className="text-sm text-zinc-700">{job?.location}</p>
-                  </span>
-                  <p className="text-sm text-gray-600">
-                    {job?.startMonth} {job?.startYear} -{" "}
-                    {job.currentlyWorking
-                      ? "Present"
-                      : `${job?.endMonth} ${job?.endYear}`}{" "}
-                    {/* (
+            <div>
+              <h2 className=" font-semibold">Work & Experience</h2>
+              <div className="gap-6 py-4">
+                {jobSeekerProfile?.employmentDetails.slice(0, 2).map((job) => (
+                  <div key={job.id} className="flex gap-6 py-4">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-center">
+                      <h2 className="p-4 text-center text-sm text-primary">
+                        W
+                      </h2>
+                    </div>
+                    <div>
+                      <span className="flex gap-4">
+                        <p className="font-medium">{job?.designation}</p>
+                        <p className="rounded-md bg-sky-100 p-1 text-xs text-primary">
+                          {job?.startMonth} {job?.startYear} -{" "}
+                          {job.currentlyWorking
+                            ? "Present"
+                            : `${job?.endMonth} ${job?.endYear}`}{" "}
+                          {/* (
                       {calculateTotalMonths(
                         `${initialData.startMonth} 1, ${initialData.startYear}`,
                         initialData.currentlyWorking
@@ -114,61 +157,119 @@ const page = async () => {
                         initialData.currentlyWorking,
                       )}
                       ) */}
-                  </p>
-                  <p className="pt-2 text-sm text-zinc-700">
-                    {job?.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h2 className="mb-2 text-xl font-semibold">Education</h2>
-            {jobSeekerProfile?.educationDetails.slice(0, 2).map((education) => (
-              <div
-                key={education.id}
-                className="flex flex-wrap items-center gap-2 py-4"
-              >
-                <div>
-                  <p className="font-medium capitalize">
-                    {education.level} of {education.course}
-                  </p>
-                  <span className="flex gap-2">
-                    <p className="font-medium">{education.college}</p>
-                    <p className="font-medium">{education.collegeLocation}</p>
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h2 className="mb-2 text-xl font-semibold">Desired Job</h2>
+                        </p>
+                      </span>
 
-            <p>Designation: {jobSeekerProfile?.desiredJob?.designation}</p>
-            <p>Industry: {jobSeekerProfile?.desiredJob?.industry}</p>
+                      <span className="flex gap-2">
+                        <p className="text-sm text-primary">{job?.company},</p>
+
+                        <p className="text-xs text-zinc-700">{job?.location}</p>
+                      </span>
+
+                      <p className="pt-4 text-xs text-zinc-700">
+                        {job?.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="mb-2 font-semibold">Desired Job</h2>
+
+              <p>Designation: {jobSeekerProfile?.desiredJob?.designation}</p>
+              <p>Industry: {jobSeekerProfile?.desiredJob?.industry}</p>
+            </div>
+            <div className=""></div>
           </div>
-        </div>
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div>
-            <h2 className="mb-2 text-xl font-semibold">Personal Details</h2>
-            <p>Gender: {jobSeekerProfile?.personalDetails?.gender}</p>
-            <p>
-              Age:{" "}
-              {calculateAge(
-                jobSeekerProfile?.personalDetails?.dateOfBirth.toString() || "",
-              )}{" "}
-              years
-            </p>
-            <p>
-              Marital Status: {jobSeekerProfile?.personalDetails?.maritalStatus}
-            </p>
-            <p>Religion: {jobSeekerProfile?.personalDetails?.religion}</p>
-          </div>
-          <div>
-            <h2 className="mb-2 text-xl font-semibold">Skills</h2>
-            <p>
-              {jobSeekerProfile?.skills.map((skill) => skill.skill).join(", ")}
-            </p>
+          <div className="flex w-80 flex-col gap-6">
+            <div className="bg-slate-50 p-4">
+              <div className="flex items-center gap-4 py-3">
+                <Hourglass className=" font-thin text-primary" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Age</h2>
+                  <p>
+                    {calculateAge(
+                      jobSeekerProfile?.personalDetails?.dateOfBirth.toString() ||
+                        "",
+                    )}{" "}
+                    years
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <Receipt className=" font-thin text-primary" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Current Salary</h2>
+
+                  <p>get expected salary</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <BadgeDollarSign className=" font-thin text-primary" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Expected Salary</h2>
+
+                  <p>Get expected salary</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <UserCog className="font-thin text-primary" />
+                <div className="text-xs">
+                  <h2 className="text-md font-semibold">Gender</h2>
+                  <p>{jobSeekerProfile?.personalDetails?.gender}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <Gem className="font-thin text-primary text-xs" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Marital status</h2>
+
+                  <p>{jobSeekerProfile?.personalDetails?.maritalStatus}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <Church className=" font-thin text-primary text-xs" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Religion</h2>
+                  <p>{jobSeekerProfile?.personalDetails?.religion}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <MessagesSquare className=" font-thin text-primary text-xs" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Languages</h2>
+                  <p>{jobSeekerProfile?.personalDetails?.languagesKnown}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 py-3">
+                <GraduationCap className="font-thin text-primary text-xs" />
+                <div className="text-xs">
+                  <h2 className="font-semibold">Education level</h2>
+                  <p>get education level</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-slate-50 p-4">
+              <h2 className="py-4 font-semibold">Contact Details</h2>
+              <p className="flex items-center gap-2 py-1 text-sm">
+                <Phone className="h-4 w-4" />
+                {currentUser?.profile?.phoneNumber}
+              </p>
+              <p className="flex items-center gap-2 py-1 text-sm">
+                <Mail className="h-4 w-4" />
+                {user?.email}
+              </p>
+            </div>
+            <div className="bg-slate-50 p-4">
+              <h2 className="py-4 font-semibold">Professional Skills</h2>
+              <p className="w-auto rounded-md bg-white p-2 text-xs">
+                {jobSeekerProfile?.skills
+                  .map((skill) => skill.skill)
+                  .join(", ")}
+              </p>
+            </div>
           </div>
         </div>
       </div>
