@@ -29,7 +29,7 @@ const CandidateList = ({
   cardBg,
 }: Props) => {
   return (
-    <div className={cn("flex flex-col gap-4", hasBackground && "bg-slate-100")}>
+    <div className={cn("flex flex-col gap-4 mb-2 hover:shadow-md", hasBackground && "bg-white")}>
       {candidates?.map((candidate) => (
         <div
           key={candidate?.id}
@@ -40,7 +40,7 @@ const CandidateList = ({
         >
           <div className="flex justify-between border-b border-b-slate-400 py-4">
             <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
-              <UserSquareIcon className="h-4 w-4 text-primary" />
+              <UserSquareIcon className="h-4 w-4 text-primary " />
               {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
                 candidate?.email}
             </p>
@@ -59,6 +59,7 @@ const CandidateList = ({
                   {candidate?.jobSeekerProfile?.cvHeadLine}
                 </p>
                 <div className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                  Profile Updated at
                   <CalendarDaysIcon className="h-4 w-4 text-primary" />
                   {candidate?.jobSeekerProfile?.updatedAt
                     ? format(
