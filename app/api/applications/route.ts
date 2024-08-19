@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
+import { NOTIFICATION_TYPES } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -42,6 +43,25 @@ export async function POST(req: Request) {
       subject,
       message,
     });
+
+    const admin = await db.user.findFirst({
+      where: {
+        email: env.ADMIN_EMAIL,
+      },
+    });
+
+    const notificationMessage = `New job application received from ${user.email}. For job title: ${job.title}. Please login to view and respond.`;
+
+    if (admin || job.owner) {
+      await db.notification.create({
+        data: {
+          fromId: user.id,
+          message: notificationMessage,
+          userId: job.owner?.id || admin?.id,
+          type: NOTIFICATION_TYPES.JOB_APPLICATION_SUBMITTED,
+        },
+      });
+    }
 
     return NextResponse.json(application);
   } catch (error) {
