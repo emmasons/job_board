@@ -49,7 +49,7 @@ const page = async (props: Props) => {
             href={cvFile?.downloadUrl}
             download
             target="_blank"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 "
           >
             <Download className="h-4 w-4 text-primary" />
             <p className="text-sm">Download CV</p>

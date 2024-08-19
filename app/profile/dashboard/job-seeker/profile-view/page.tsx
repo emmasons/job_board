@@ -9,6 +9,7 @@ import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import {
   BadgeDollarSign,
   Church,
+  Download,
   Gem,
   GraduationCap,
   Hourglass,
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 import AvatarForm from "@/components/dashboard/profile/AvatarForm";
 import { db } from "@/lib/db";
+import { getUserCv } from "@/actions/get-user-cv";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
@@ -33,6 +35,9 @@ const page = async () => {
     include: { profile: true },
   });
   const imageMetaData = await getLatestFileMetaData(user.id);
+  const cv = await getUserCv(user.id);
+
+  const cvFile = await getLatestFileMetaData(cv?.id);
   const jobSeekerProfile = await getJobSeekerProfile(user.id);
   const calculateAge = (dateString: string) => {
     const birthDate = new Date(dateString);
@@ -51,7 +56,7 @@ const page = async () => {
     <div className="">
       <div className="mx-auto rounded-md bg-white">
         <div className="bg-slate-50 p-4">
-          <div className="flex flex-wrap items-center justify-between m-auto max-w-screen-lg">
+          <div className="m-auto flex max-w-screen-lg flex-wrap items-center justify-between">
             <div className="flex flex-wrap items-center">
               <div className="mr-4 md:py-10 ">
                 {/* <img src="{imageMetaData}" alt="" /> */}
@@ -83,7 +88,17 @@ const page = async () => {
               </div>
             </div>
             <div>
-              <p>download cv</p>
+              <p>
+                <a
+                  href={cvFile?.downloadUrl}
+                  download
+                  target="_blank"
+                  className="flex items-center gap-2 bg-primary p-3 rounded-md cursor-pointer"
+                >
+                  <Download className="h-4 w-7 text-white" />
+                  <p className="text-xs text-white">Download CV</p>
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -222,7 +237,7 @@ const page = async () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
-                <Gem className="font-thin text-primary text-xs" />
+                <Gem className="text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Marital status</h2>
 
@@ -230,21 +245,21 @@ const page = async () => {
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
-                <Church className=" font-thin text-primary text-xs" />
+                <Church className=" text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Religion</h2>
                   <p>{jobSeekerProfile?.personalDetails?.religion}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
-                <MessagesSquare className=" font-thin text-primary text-xs" />
+                <MessagesSquare className=" text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Languages</h2>
                   <p>{jobSeekerProfile?.personalDetails?.languagesKnown}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
-                <GraduationCap className="font-thin text-primary text-xs" />
+                <GraduationCap className="text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Education level</h2>
                   <p>get education level</p>
