@@ -519,13 +519,7 @@ export default function EditJobForm({
                 name="preferredApplicantGender"
                 render={({ field }) => (
                   <FormItem>
-<<<<<<< HEAD
-
                     <FormLabel>Gender</FormLabel>
-
-=======
-                    <FormLabel>Gender</FormLabel>
->>>>>>> 97e973b (```)
                     <FormControl>
                       <Combobox
                         options={preferredApplicantGenderList}
