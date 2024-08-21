@@ -39,7 +39,7 @@ const FilterByCountry = ({ countryList = [] }: Props) => {
 
   return (
     <div className="text-left">
-      <h3 className="mb-2 font-bold">Filter by country</h3>
+      <h3 className="mb-2 font-semibold">Filter by country</h3>
       <CheckboxGroupForm
         items={countryList.slice(0, filtersLimit)}
         defaultValues={defaultValues}
@@ -47,14 +47,14 @@ const FilterByCountry = ({ countryList = [] }: Props) => {
       />
       {!showAll ? (
         <p
-          className="cursor-pointer text-sky-600 underline hover:text-slate-500"
+          className="mt-2 cursor-pointer text-sky-600 underline hover:text-slate-500"
           onClick={handleChangeFiltersLimit}
         >
           Show all
         </p>
       ) : (
         <p
-          className="cursor-pointer text-sky-600 underline hover:text-slate-500"
+          className="mt-2 cursor-pointer text-sky-600 underline hover:text-slate-500"
           onClick={handleChangeFiltersLimit}
         >
           Collapse

@@ -29,16 +29,16 @@ const CandidateFilters = async ({
   const levels = await getEducationLevels();
 
   return (
-    <div className={cn("space-y-4", className)}>
-      <div className={cn("space-y-2", formClasses)}>
+    <div
+      className={cn("space-y-4 rounded-md border bg-slate-100/20 p-4 text-sm", className)}
+    >
+      <div className={cn("space-y-2 ", formClasses)}>
         <KeywordSearch />
       </div>
-      <div className="md:block flex flex-wrap gap-8 border rounded-md p-3">
-        {showFilterByCountry && <FilterByCountry countryList={countryList} />}
-        <FilterBySector sectors={sectors} />
-        <FilterByExperience experienceLevels={experienceLevels} />
-        <FilterByEducationLevel levels={levels} />
-      </div>
+      {showFilterByCountry && <FilterByCountry countryList={countryList} />}
+      <FilterBySector sectors={sectors} />
+      <FilterByExperience experienceLevels={experienceLevels} />
+      <FilterByEducationLevel levels={levels} />
     </div>
   );
 };
