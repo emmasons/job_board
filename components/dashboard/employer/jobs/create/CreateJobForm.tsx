@@ -327,7 +327,7 @@ export default function CreateJobForm({
               name="startDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Start Date</FormLabel>
+                  <FormLabel>Start Date (optional)</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -474,7 +474,7 @@ export default function CreateJobForm({
               name="preferredApplicantGender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Currency</FormLabel>
+                  <FormLabel>Preferred Gender</FormLabel>
                   <FormControl>
                     <Combobox
                       options={preferredApplicantGenderList}

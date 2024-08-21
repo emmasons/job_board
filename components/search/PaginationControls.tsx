@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   ChevronLeft,
@@ -28,15 +28,18 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const pageSize = searchParams.get("pageSize") ?? "5";
   const [loading, setLoading] = useState(false);
 
+  const pathname = usePathname();
+  console.log(pathname, "*****");
+
   const handleNext = () => {
-    router.push(`/search/?page=${Number(page) + 1}&pageSize=${pageSize}`);
+    router.push(`${pathname}/?page=${Number(page) + 1}&pageSize=${pageSize}`);
   };
   const handlePrev = () => {
-    router.push(`/search/?page=${Number(page) - 1}&pageSize=${pageSize}`);
+    router.push(`${pathname}/?page=${Number(page) - 1}&pageSize=${pageSize}`);
   };
 
   return (
-    <div className="flex items-center gap-2 w-full justify-end">
+    <div className="flex w-full items-center justify-end gap-2">
       <Button
         variant="ghost"
         className="bg-slate-200 p-1 px-4 py-1 "

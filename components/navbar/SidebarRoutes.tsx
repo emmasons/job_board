@@ -1,19 +1,14 @@
 "use client";
 
 import {
-  BarChart,
   Files,
   FileBarChart,
-  Layout,
   Settings,
-  Settings2,
-  Bookmark,
   Users2,
   BriefcaseIcon,
   LayoutDashboard,
   LayoutDashboardIcon,
   Users,
-  BarChart2Icon,
   Bell,
   BriefcaseBusiness,
   Eye,
@@ -74,7 +69,7 @@ const employerRoutes = [
   },
   {
     icon: BriefcaseIcon,
-    label: "Jobs",
+    label: "Jobs Posted",
     href: "/profile/dashboard/employer/jobs",
   },
   {

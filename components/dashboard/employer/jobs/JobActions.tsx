@@ -97,7 +97,7 @@ export const JobActions = ({ jobId, published }: JobActionsProps) => {
           variant: "destructive",
         });
       }
-      router.push("/profile/dashboard/employer/jobs/");
+      router.push("/profile/dashboard/");
     } catch {
       toast({
         title: "Error",

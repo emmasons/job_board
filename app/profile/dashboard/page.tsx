@@ -16,6 +16,9 @@ const Dashboard = async () => {
   if (user.role === Role.JOB_SEEKER) {
     return redirect("/profile/dashboard/job-seeker");
   }
+  if (user.role === Role.ADMIN) {
+    return redirect("/profile/dashboard/admin/users");
+  }
   return <div className="p-6">Dashboard</div>;
 };
 

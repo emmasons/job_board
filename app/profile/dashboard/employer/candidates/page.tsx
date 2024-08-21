@@ -22,6 +22,7 @@ const page = async (props: Props) => {
       jobTitle: candidate.jobSeekerProfile?.cvHeadLine,
       phoneNumber: candidate.profile?.phoneNumber,
       email: candidate.email,
+      name: `${candidate.profile?.firstName} ${candidate.profile?.lastName}`,
     }));
   }
 
