@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 // import { CandidateProps } from "@/actions/get-employer-candidates";
 type CandidateProps = {
   id: string;
+  name: string;
   email: string;
   country: string;
   cvHeadLine: string;
