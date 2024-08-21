@@ -29,7 +29,7 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
     <>
       <button
         onClick={openModal}
-        className="fixed bottom-16 right-4 z-10 rounded-full bg-green-500 p-3 text-center font-bold text-white shadow-lg transition-colors duration-200 ease-in-out hover:bg-green-600"
+        className="fixed bottom-24 right-4 z-10 rounded-full bg-green-500 p-3 text-center font-bold text-white shadow-lg transition-colors duration-200 ease-in-out hover:bg-green-600"
       >
         <Icon icon="mdi:whatsapp" className="h-8 w-8" />
       </button>
@@ -37,7 +37,9 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
       {isModalOpen && (
         <div className="fixed bottom-20 right-4 z-50 translate-y-0 transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300">
           <div className="mb-4 flex items-center justify-between gap-12">
-            <h2 className="text-xl font-semibold">Infinite Talent Limited Support</h2>
+            <h2 className="text-xl font-semibold">
+              Infinite Talent Limited Support
+            </h2>
             <button
               onClick={closeModal}
               className="text-gray-700 hover:text-gray-900"
