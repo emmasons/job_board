@@ -84,7 +84,7 @@ export function CheckboxGroupForm({
 
   return (
     <Form {...form}>
-      <form className="space-y-8">
+      <form className="space-y-8 ">
         <FormField
           control={form.control}
           name="items"

@@ -1,3 +1,4 @@
+
 import { getAllCandidates } from "@/actions/get-all-candidates";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
 import CandidateList from "@/components/find-candidates/CandidateList";
@@ -101,7 +102,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
       {!hasParams && (
         <div className="mt-4 flex items-center justify-center bg-sky-100 md:p-20">
           <div className="basis-2/3">
-            <h2 className="my-6 text-2xl">Frequently Asked Questions</h2>
+            <h2 className="my-6 text-xl">Frequently Asked Questions</h2>
             <Accordion type="single" collapsible defaultValue={cvFaqs[0].title}>
               {cvFaqs.map((faq) => (
                 <AccordionItem value={faq.title} key={faq.title}>

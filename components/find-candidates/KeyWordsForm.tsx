@@ -45,7 +45,7 @@ export default function KeywordForm({
   });
 
   return (
-    <div className="rounded-md border bg-slate-100/20 p-4">
+    <div className="p-4">
       <div className="flex items-center justify-between font-medium">
         <Form {...form}>
           <form className="mt-4 space-y-4">
