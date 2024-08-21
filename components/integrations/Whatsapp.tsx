@@ -55,7 +55,7 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
       </div>
       <button
         onClick={openModal}
-        className="fixed bottom-16 right-4 z-10 rounded-full bg-green-500 p-3 text-center font-bold text-white shadow-lg transition-colors duration-200 ease-in-out hover:bg-green-600"
+        className="fixed bottom-24 right-4 z-10 rounded-full bg-green-500 p-3 text-center font-bold text-white shadow-lg transition-colors duration-200 ease-in-out hover:bg-green-600"
       >
         <Icon icon="mdi:whatsapp" className="h-8 w-8" />
       </button>
