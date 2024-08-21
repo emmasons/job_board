@@ -38,7 +38,7 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
         <div className="fixed bottom-20 right-4 z-50 translate-y-0 transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300">
           <div className="mb-4 flex items-center justify-between gap-12">
             <h2 className="text-xl font-semibold">
-              Infinite Talent Limited Support
+              Jobs Connect Limited Support
             </h2>
             <button
               onClick={closeModal}
