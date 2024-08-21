@@ -43,7 +43,7 @@ const CandidateList = ({
             cardBg,
           )}
         >
-          <div className="flex justify-between border-b border-b-slate-400 py-4">
+          <div className="flex justify-between border-b border-b-slate-400 py-3">
             <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
               <UserSquareIcon className="h-4 w-4 text-primary " />
               {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
@@ -57,7 +57,7 @@ const CandidateList = ({
             />
           </div>
           <div className="">
-            <div className="">
+            <div className="mb-4">
               <div className="flex items-center justify-between">
                 <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
                   <UserSquareIcon className="h-4 w-4 text-primary" />
