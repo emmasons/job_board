@@ -33,10 +33,12 @@ const CandidateFilters = async ({
       <div className={cn("space-y-2", formClasses)}>
         <KeywordSearch />
       </div>
-      {showFilterByCountry && <FilterByCountry countryList={countryList} />}
-      <FilterBySector sectors={sectors} />
-      <FilterByExperience experienceLevels={experienceLevels} />
-      <FilterByEducationLevel levels={levels} />
+      <div className="md:block flex flex-wrap gap-8 border rounded-md p-3">
+        {showFilterByCountry && <FilterByCountry countryList={countryList} />}
+        <FilterBySector sectors={sectors} />
+        <FilterByExperience experienceLevels={experienceLevels} />
+        <FilterByEducationLevel levels={levels} />
+      </div>
     </div>
   );
 };
