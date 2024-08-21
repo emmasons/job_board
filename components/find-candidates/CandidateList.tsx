@@ -1,10 +1,14 @@
 import { Candidate } from "@prisma/client";
+import Image from "next/image";
+import profilePicPlaceholder from "@/public/assets/profile-pic-placeholder.png";
+
 import {
   Briefcase,
   CalendarDaysIcon,
   Flag,
   GraduationCap,
   Hammer,
+  MapPin,
   UserSquareIcon,
 } from "lucide-react";
 
@@ -43,66 +47,82 @@ const CandidateList = ({
             cardBg,
           )}
         >
-          <div className="flex justify-between border-b border-b-slate-400 py-3">
-            <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
-              <UserSquareIcon className="h-4 w-4 text-primary " />
-              {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
-                candidate?.email}
-            </p>
+          <div className="flex flex-wrap justify-between py-3">
+            <div className="flex">
+              <div className="flex flex-wrap gap-3">
+                <div className="flex">
+                  <Image
+                    src={candidate?.image || profilePicPlaceholder}
+                    alt="Profile picture"
+                    width={90}
+                    height={90}
+                    className=" rounded-full p-1"
+                  />
+                </div>
 
-            <ActionsComponent
-              candidateIds={candidateIds}
-              candidate={candidate}
-              loggedInEmployer={loggedInEmployer}
-            />
-          </div>
-          <div className="">
-            <div className="mb-4">
-              <div className="flex items-center justify-between">
-                <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
-                  <UserSquareIcon className="h-4 w-4 text-primary" />
-                  {candidate?.jobSeekerProfile?.cvHeadLine}
-                </p>
-                <div className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                  Profile Updated at
-                  <CalendarDaysIcon className="h-4 w-4 text-primary" />
-                  {candidate?.jobSeekerProfile?.updatedAt
-                    ? format(
-                        new Date(candidate.jobSeekerProfile.updatedAt),
-                        "MMM d, yyyy",
-                      )
-                    : "N/A"}
+                <div className="flex flex-col">
+                  <div>
+                    <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
+                      {/* <UserSquareIcon className="h-4 w-4 text-primary " /> */}
+                      {`${candidate?.profile?.firstName} ${candidate?.profile?.lastName}` ||
+                        candidate?.email}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3 py-2">
+                    <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                      {/* <UserSquareIcon className="h-4 w-4 text-primary" /> */}
+                      {candidate?.jobSeekerProfile?.cvHeadLine || "N/A"}
+                    </p>
+                    <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                      <MapPin className="h-4 w-4 text-primary" />
+                      {candidate?.jobSeekerProfile?.country || "N/A"}
+                    </p>
+                    {/* <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                      <GraduationCap className="h-4 w-4 text-primary" />
+                      {candidate?.jobSeekerProfile?.education?.label || "N/A"}
+                    </p> */}
+                    {/* <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                      <Briefcase className="h-4 w-4 text-primary" />
+                      {candidate?.jobSeekerProfile?.occupation || "N/A"}
+                    </p> */}
+                    <div className="flex items-center gap-1 py-2 text-[0.8rem] text-zinc-700">
+                      <CalendarDaysIcon className="h-4 w-4 text-primary" />
+                      Profile Updated at
+                      {candidate?.jobSeekerProfile?.updatedAt
+                        ? format(
+                            new Date(candidate.jobSeekerProfile.updatedAt),
+                            "MMM d, yyyy",
+                          )
+                        : "N/A"}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap  items-center gap-2 text-[0.7rem] text-zinc-700">
+                    {/* <Hammer className="h-4 w-4 text-primary" /> */}
+                    {candidate?.jobSeekerProfile?.skills && (
+                      <div className=" space-x-2 ">
+                        {candidate?.jobSeekerProfile.skills.map((skill) => (
+                          <span
+                            key={skill.id}
+                            className="rounded-[0.7rem] bg-primary/10 p-1 px-2 text-primary "
+                          >
+                            {skill.skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <Flag className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.country || "N/A"}
-              </p>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <GraduationCap className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.education?.label || "N/A"}
-              </p>
-              <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <Briefcase className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.occupation || "N/A"}
-              </p>
-              <div className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
-                <Hammer className="h-4 w-4 text-primary" />
-                {candidate?.jobSeekerProfile?.skills && (
-                  <div className="space-x-2">
-                    {candidate?.jobSeekerProfile.skills.map((skill) => (
-                      <span
-                        key={skill.id}
-                        className="py-1text-primary rounded-[0.7rem] bg-primary/10 px-2"
-                      >
-                        {skill.skill}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
-            <div></div>
+            <div className="flex flex-col gap-3">
+              <div className="flex "></div>
+              <ActionsComponent
+                candidateIds={candidateIds}
+                candidate={candidate}
+                loggedInEmployer={loggedInEmployer}
+              />
+            </div>
           </div>
         </div>
       ))}
