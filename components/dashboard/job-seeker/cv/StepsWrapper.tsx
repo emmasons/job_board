@@ -17,7 +17,6 @@ import {
   Experience,
   GCPData,
   Sector,
-  
 } from "@prisma/client";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Progress } from "@/components/ui/progress";
@@ -86,26 +85,26 @@ const StepsWrapper = ({
       isJobSeekerComponent={isJobSeekerComponent}
     />,
 
-    // <JobSeekerProfileUpdate
-    //   profilePercentage={20}
-    //   description="Your sector, education level, experience and country of origin."
-    //   key={4}
-    //   title="Professional"
-    //   profile={jobSeekerProfile}
-    //   sectorList={sectors.map((sector) => ({
-    //     label: sector.label,
-    //     value: sector.id,
-    //   }))}
-    //   educationLevelList={educationLevels.map((level) => ({
-    //     label: level.label,
-    //     value: level.id,
-    //   }))}
-    //   experienceList={experience.map((exp) => ({
-    //     label: exp.label,
-    //     value: exp.id,
-    //   }))}
-    //   isJobSeekerComponent={isJobSeekerComponent}
-    // />,
+    <JobSeekerProfileUpdate
+      profilePercentage={20}
+      description="Your sector, education level, experience and country of origin."
+      key={4}
+      title="Professional"
+      profile={jobSeekerProfile}
+      sectorList={sectors.map((sector) => ({
+        label: sector.label,
+        value: sector.id,
+      }))}
+      educationLevelList={educationLevels.map((level) => ({
+        label: level.label,
+        value: level.id,
+      }))}
+      experienceList={experience.map((exp) => ({
+        label: exp.label,
+        value: exp.id,
+      }))}
+      isJobSeekerComponent={isJobSeekerComponent}
+    />,
     <ProfileSummaryForm
       key={5}
       title="Profile Summary"

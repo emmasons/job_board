@@ -20,15 +20,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ComboProps } from "@/types/db";
 import { Loader2 } from "lucide-react";
+import {
+  getGulfCountryCurrencyByCurrencyCode,
+  gulfCountries,
+} from "@/lib/utils";
 
 interface ProfileProps {
   initialData: {
-    country: string | null;
-    occupation: string | null;
+    // country: string | null;
+    // occupation: string | null;
     educationLevelId: string | null;
-    course: string | null;
-    college: string | null;
-    colegeLocation: string | null;
+    // course: string | null;
+    // college: string | null;
+    expectedSalary: string | null;
+    currentSalary: string | null;
+
+    // colegeLocation: string | null;
     experienceId: string | null;
     sectorId: string | null;
     id: string | null;
@@ -37,23 +44,32 @@ interface ProfileProps {
   educationLevelList: ComboProps;
   experienceList: ComboProps;
   isEditing: boolean;
-  percentage: Number;
+  profilePercentage: number;
 }
 
 const formSchema = z.object({
-  country: z.string().min(1, {
-    message: "Country is required",
-  }),
+  // country: z.string().min(1, {
+  //   message: "Country is required",
+  // }),
 
-  occupation: z.string().min(1, {
-    message: "Occupation is required",
-  }),
+  // occupation: z.string().min(1, {
+  //   message: "Occupation is required",
+  // }),
   educationLevelId: z.string().min(1, {
     message: "Education level is required",
   }),
-  course: z.string().optional(),
-  college: z.string().optional(),
-  colegeLocation: z.string().optional(),
+  expectedSalary: z.string().min(1, {
+    message: "Salary expections required",
+  }),
+  currentSalary: z.string().min(1, {
+    message: "current Salary required",
+  }),
+  currency: z.string().min(1, {
+    message: "Currency is required",
+  }),
+  // course: z.string().optional(),
+  // college: z.string().optional(),
+  // colegeLocation: z.string().optional(),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -68,22 +84,30 @@ export default function Profile({
   educationLevelList,
   experienceList,
   isEditing,
-  percentage,
+  profilePercentage,
 }: ProfileProps) {
   const router = useRouter();
-  const { countries } = useCountries();
-  const countryList = countries.map((country) => ({
-    label: country.name,
-    value: country.name,
-  }));
+  // const { countries } = useCountries();
+  // const countryList = countries.map((country) => ({
+  //   label: country.name,
+  //   value: country.name,
+  // }));
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
+  const percentage =
+    initialData.currentSalary && initialData.currentSalary.trim() !== ""
+      ? 0
+      : profilePercentage;
 
   const { isSubmitting, isValid, errors } = form.formState;
   const [loading, setLoading] = useState(false);
+  const currencyList = gulfCountries.map((country) => ({
+    label: `${getGulfCountryCurrencyByCurrencyCode(country)}(${country})`,
+    value: getGulfCountryCurrencyByCurrencyCode(country),
+  }));
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
@@ -155,7 +179,7 @@ export default function Profile({
             />
 
             {/* industry */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="occupation"
               render={({ field }) => (
@@ -171,22 +195,58 @@ export default function Profile({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
-              {/* country */}
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Country</FormLabel>
-                  <FormControl>
-                    <Combobox options={countryList} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* salary */}
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="expectedSalary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Expected Salary</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="What is your salary expectation"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currentSalary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Current Salary</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="What is your current salary"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Currency</FormLabel>
+                    <FormControl>
+                      <Combobox options={currencyList} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {/* sector */}
             <FormField
@@ -194,7 +254,7 @@ export default function Profile({
               name="sectorId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sector</FormLabel>
+                  <FormLabel>Industry</FormLabel>
                   <FormControl>
                     <Combobox options={sectorList} {...field} />
                   </FormControl>
@@ -204,7 +264,7 @@ export default function Profile({
             />
 
             {/* Education details */}
-            {/* <FormField
+            <FormField
               control={form.control}
               name="educationLevelId"
               render={({ field }) => (
@@ -216,8 +276,7 @@ export default function Profile({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-
+            />
 
             {/* <FormField
               control={form.control}

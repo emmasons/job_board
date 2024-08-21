@@ -136,11 +136,21 @@ const ProfileSummaryForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <label className="text-sm">
+                      Description
+                      <textarea
+                        disabled={isSubmitting}
+                        placeholder="Talk about yourself, roles, responsibilities, achievements etc..."
+                        className="mt-1 w-full rounded-md border p-2 outline-none"
+                        rows={4}
+                        {...field}
+                      />
+                    </label>
+                    {/* <Input
                       disabled={isSubmitting}
-                      placeholder="Talk about your roles, responsibilities, achievements etc..."
+                      placeholder="Talk about yourself, roles, responsibilities, achievements etc..."
                       {...field}
-                    />
+                    /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -13,7 +13,7 @@ type Props = {
   educationLevelList: ComboProps;
   experienceList: ComboProps;
   title: String;
-  profilePercentage: Number;
+  profilePercentage: number;
   description: String | null;
   isJobSeekerComponent: Boolean;
 };
@@ -54,15 +54,15 @@ const JobSeekerProfileUpdate = ({
       {!isEditing &&
         (!profile ? (
           <div className="h-auto rounded-md bg-slate-200">
-            <Profile initialData={profile} {...rest} isEditing={false} />
+            <Profile initialData={profile} {...rest} isEditing={false} profilePercentage={10} />
           </div>
         ) : (
           <div className="relative mt-2">
             <div className="p-6">
-              <p className="mb-3 text-sm text-slate-500">
+              {/* <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Occupation:</span>{" "}
                 {profile.occupation}
-              </p>
+              </p> */}
               <p className="mb-3 text-sm text-slate-500">
                 <span className="font-semibold">Sector:</span>{" "}
                 {profile.sector?.label}
@@ -77,8 +77,12 @@ const JobSeekerProfileUpdate = ({
                 {profile.experience?.label}
               </p>
               <p className="mb-3 text-sm text-slate-500">
-                <span className="font-semibold">Country:</span>{" "}
-                {profile.country}
+                <span className="font-semibold">Expected Salary:</span>{" "}
+                {profile?.expectedSalary}
+              </p>
+              <p className="mb-3 text-sm text-slate-500">
+                <span className="font-semibold">Current Salary:</span>{" "}
+                {profile?.currentSalary}
               </p>
             </div>
           </div>

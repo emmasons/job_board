@@ -29,12 +29,17 @@ const CandidateList = ({
   cardBg,
 }: Props) => {
   return (
-    <div className={cn("flex flex-col gap-4 mb-4 hover:shadow-md", hasBackground && "bg-slate-50")}>
+    <div
+      className={cn(
+        "mb-4 flex flex-col gap-4 hover:shadow-md",
+        hasBackground && "bg-white",
+      )}
+    >
       {candidates?.map((candidate) => (
         <div
           key={candidate?.id}
           className={cn(
-            "space-y-4 rounded-md p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
+            "space-y-4 rounded-md bg-slate-50 p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
             cardBg,
           )}
         >
