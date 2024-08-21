@@ -90,14 +90,22 @@ const formSchema = z.object({
   contractType: z.string().min(1, {
     message: "Contract type is required",
   }),
+  numberOfPositions: z
+    .string()
+    .min(1, { message: "Number of positions is required" })
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => !Number.isNaN(val) && val > 0, {
+      message: "Expected a positive number",
+    }),
+
   // numberOfPositions: z
   //   .string()
   //   .refine((val) => !Number.isNaN(parseInt(val, 10)), {
   //     message: "Expected number, received a string",
   //   }),
-  numberOfPositions: z.number().min(1, {
-    message: "Number of positions is required",
-  }),
+  // numberOfPositions: z.number().min(1, {
+  //   message: "Number of positions is required",
+  // }),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -141,6 +149,9 @@ export default function EditJobForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
+    numberOfPositions: initialData.numberOfPositions
+      ? parseInt(initialData.numberOfPositions, 10)
+      : 0,
   });
 
   const preferredApplicantGenderList = Object.values(
