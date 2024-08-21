@@ -16,12 +16,27 @@ import { cn } from "@/lib/utils";
 // import { CandidateProps } from "@/actions/get-employer-candidates";
 type CandidateProps = {
   id: string;
+  name: string;
   email: string;
   country: string;
   cvHeadLine: string;
   phoneNumber: string;
 };
 export const columns: ColumnDef<CandidateProps>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
   {
     accessorKey: "email",
     header: ({ column }) => {

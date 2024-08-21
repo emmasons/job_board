@@ -12,6 +12,10 @@ model JobSeekerProfile {
   userId            String              @unique
   occupation        String?
   country           String?
+  expectedSalary    String?
+  currentSalary     String?
+  currency          CURRENCY        @default(AED)
+
   educationLevelId  String?
   experienceId      String?
   sectorId          String?

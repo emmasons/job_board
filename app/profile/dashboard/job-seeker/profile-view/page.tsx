@@ -93,7 +93,7 @@ const page = async () => {
                   href={cvFile?.downloadUrl}
                   download
                   target="_blank"
-                  className="flex items-center gap-2 bg-primary p-3 rounded-md cursor-pointer"
+                  className="flex cursor-pointer items-center gap-2 rounded-md bg-primary p-3"
                 >
                   <Download className="h-4 w-7 text-white" />
                   <p className="text-xs text-white">Download CV</p>
@@ -106,7 +106,7 @@ const page = async () => {
           <div className="flex flex-col md:w-2/4 ">
             <div>
               <div className="py-2">
-                {/* <h2 className="mb-2 text-xl font-semibold">About Me</h2> */}
+                <h2 className="mb-2  font-semibold">About Job Seeker</h2>
                 <p className="text-sm text-zinc-700">
                   {jobSeekerProfile?.profileSummary}
                 </p>
@@ -115,29 +115,29 @@ const page = async () => {
 
             <div className="py-4">
               <h2 className="font-semibold">Education</h2>
-              <div className="flex items-center gap-6 py-4">
-                <div className="h-6 w-6 rounded-full bg-amber-100 text-center">
-                  <h2 className="text-sm text-red-500">E</h2>
-                </div>
+              <div className="flex flex-col  gap-6 py-4">
                 {/* <School /> */}
                 {jobSeekerProfile?.educationDetails
                   .slice(0, 2)
                   .map((education) => (
                     <div
                       key={education.id}
-                      className="flex flex-wrap items-center gap-2"
+                      className="flex  items-center gap-6"
                     >
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-center">
+                        <h2 className="p-4 text-sm text-red-500">E</h2>
+                      </div>
                       <div className="text-sm">
-                        <p className="font-medium capitalize">
-                          {education.level} of {education.course}
+                        <p className="text-base font-medium capitalize">
+                          {education.level}: {education.course}
                         </p>
                         <span className="flex gap-2">
                           <p className="text-sm font-medium text-red-500">
-                            {education.college}
+                            {education.college},
                           </p>
-                          {/* <p className="font-medium">
+                          <p className="text-xs text-zinc-700">
                             {education.collegeLocation}
-                          </p> */}
+                          </p>
                         </span>
                       </div>
                     </div>
@@ -190,12 +190,6 @@ const page = async () => {
               </div>
             </div>
 
-            <div>
-              <h2 className="mb-2 font-semibold">Desired Job</h2>
-
-              <p>Designation: {jobSeekerProfile?.desiredJob?.designation}</p>
-              <p>Industry: {jobSeekerProfile?.desiredJob?.industry}</p>
-            </div>
             <div className=""></div>
           </div>
           <div className="flex w-80 flex-col gap-6">
@@ -218,7 +212,7 @@ const page = async () => {
                 <div className="text-xs">
                   <h2 className="font-semibold">Current Salary</h2>
 
-                  <p>get expected salary</p>
+                  <p>{jobSeekerProfile?.currentSalary}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
@@ -226,7 +220,7 @@ const page = async () => {
                 <div className="text-xs">
                   <h2 className="font-semibold">Expected Salary</h2>
 
-                  <p>Get expected salary</p>
+                  <p>{jobSeekerProfile?.expectedSalary}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 py-3">
@@ -262,7 +256,7 @@ const page = async () => {
                 <GraduationCap className="text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Education level</h2>
-                  <p>get education level</p>
+                  <p>{jobSeekerProfile?.education.label}</p>
                 </div>
               </div>
             </div>

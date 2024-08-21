@@ -60,6 +60,19 @@ const Footer = (props: Props) => {
                 Facebook
               </Link>
             </li>
+            <li>
+              <Link
+                href="https://web.facebook.com/profile.php?id=100092599658225"
+                target="_blank"
+                className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+              >
+                <Icon
+                  icon="akar-icons:whatsapp-fill"
+                  className="h-4 w-4 text-green-500"
+                />
+                WhatsApp
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="space-y-2 text-white">
