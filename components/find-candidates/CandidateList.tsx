@@ -82,9 +82,9 @@ const CandidateList = ({
                       <Briefcase className="h-4 w-4 text-primary" />
                       {candidate?.jobSeekerProfile?.occupation || "N/A"}
                     </p> */}
-                    <div className="flex items-center gap-1 py-2 text-[0.8rem] text-zinc-700">
+                    <div className="flex items-center gap-1 py-2 text-[0.7rem] text-zinc-700">
                       <CalendarDaysIcon className="h-4 w-4 text-primary" />
-                      Profile Updated at
+                      <p className="pr-[2px]">Profile Updated at:</p>
                       {candidate?.jobSeekerProfile?.updatedAt
                         ? format(
                             new Date(candidate.jobSeekerProfile.updatedAt),
@@ -98,7 +98,7 @@ const CandidateList = ({
                     {candidate?.jobSeekerProfile?.skills && (
                       <div className="flex flex-wrap text-nowrap">
                         {candidate?.jobSeekerProfile.skills
-                          .slice(0, 6)
+                          .slice(0, 3)
                           .map((skill) => (
                             <span
                               key={skill.id}
