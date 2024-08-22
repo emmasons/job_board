@@ -72,7 +72,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
           Search for the perfect candidate. Please enter one or more keywords
           that will help us find relevant CVs.
         </p>
-        <div className="mt-6 w-2/3">
+        <div className="mt-6 w-2/4">
           <SearchInput />
         </div>
         <RemoveSearchParam />
@@ -80,11 +80,15 @@ const page = async ({ searchParams }: SearchPageProps) => {
       <MaxWidthWrapper className="py-4">
         <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
-            <section className="mt-6 flex flex-wrap gap-4 md:flex-nowrap">
+            <section className="mt-6 flex flex-wrap justify-center gap-12 md:flex-nowrap">
               <div className="md:w-1/3">
                 <CandidateFilters />
               </div>
-              <div className="m-2 w-full md:w-2/3">
+              <div className="mb-3 ">
+                <div className="mb-4 flex justify-between text-sm text-slate-700">
+                  <p className="text-sm ">{candidates.length} candidate</p>
+                  <p className="border p-3 rounded-md text-[0.7rem]">Sort By (default)</p>
+                </div>
                 <CandidateList
                   candidates={items}
                   candidateIds={candidateIds}
