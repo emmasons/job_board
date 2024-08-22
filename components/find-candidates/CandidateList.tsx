@@ -34,33 +34,30 @@ const CandidateList = ({
 }: Props) => {
   return (
     <div
-      className={cn(
-        "mb-4 flex flex-col gap-4 hover:shadow-md",
-        hasBackground && "bg-white",
-      )}
+      className={cn("mb-4 flex flex-col gap-4", hasBackground && "bg-white")}
     >
       {candidates?.map((candidate) => (
         <div
           key={candidate?.id}
           className={cn(
-            "space-y-4 rounded-md bg-slate-50 p-4 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
+            "w-fit space-y-4 rounded-md border p-2 hover:shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
             cardBg,
           )}
         >
-          <div className="flex flex-wrap justify-between py-3">
+          <div className="flex flex-wrap justify-between  py-3">
             <div className="flex">
-              <div className="flex flex-wrap gap-3">
-                <div className="flex">
+              <div className="flex flex-wrap justify-between gap-3">
+                <div className="max-h-90 flex">
                   <Image
                     src={candidate?.image || profilePicPlaceholder}
                     alt="Profile picture"
                     width={90}
                     height={90}
-                    className=" rounded-full p-1"
+                    className=" h-fit rounded-full p-1"
                   />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex w-3/4 flex-col">
                   <div>
                     <p className="flex items-center gap-2 text-[0.9rem] font-semibold">
                       {/* <UserSquareIcon className="h-4 w-4 text-primary " /> */}
@@ -70,7 +67,7 @@ const CandidateList = ({
                   </div>
 
                   <div className="flex flex-wrap gap-3 py-2">
-                    <p className="flex items-center gap-2 text-[0.8rem] text-zinc-700">
+                    <p className="flex items-center gap-2 text-[0.8rem] text-primary">
                       {/* <UserSquareIcon className="h-4 w-4 text-primary" /> */}
                       {candidate?.jobSeekerProfile?.cvHeadLine || "N/A"}
                     </p>
@@ -100,28 +97,30 @@ const CandidateList = ({
                   <div className="flex flex-wrap  items-center gap-2 text-[0.7rem] text-zinc-700">
                     {/* <Hammer className="h-4 w-4 text-primary" /> */}
                     {candidate?.jobSeekerProfile?.skills && (
-                      <div className=" space-x-2 ">
-                        {candidate?.jobSeekerProfile.skills.map((skill) => (
-                          <span
-                            key={skill.id}
-                            className="rounded-[0.7rem] bg-primary/10 p-1 px-2 text-primary "
-                          >
-                            {skill.skill}
-                          </span>
-                        ))}
+                      <div className="flex flex-wrap text-nowrap">
+                        {candidate?.jobSeekerProfile.skills
+                          .slice(0, 3)
+                          .map((skill) => (
+                            <span
+                              key={skill.id}
+                              className="m-1 rounded-[0.7rem] bg-slate-50 p-1 px-2 text-zinc-500"
+                            >
+                              {skill.skill}
+                            </span>
+                          ))}
                       </div>
                     )}
                   </div>
                 </div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex "></div>
+                  <ActionsComponent
+                    candidateIds={candidateIds}
+                    candidate={candidate}
+                    loggedInEmployer={loggedInEmployer}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="flex "></div>
-              <ActionsComponent
-                candidateIds={candidateIds}
-                candidate={candidate}
-                loggedInEmployer={loggedInEmployer}
-              />
             </div>
           </div>
         </div>
