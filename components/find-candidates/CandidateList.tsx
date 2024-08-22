@@ -40,13 +40,12 @@ const CandidateList = ({
         <div
           key={candidate?.id}
           className={cn(
-            "w-fit space-y-4 rounded-md border p-2 hover:shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
+            " space-y-4 rounded-md border p-2 hover:shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]",
             cardBg,
           )}
         >
-          <div className="flex flex-wrap justify-between  py-3">
-            <div className="flex">
-              <div className="flex flex-wrap justify-between gap-3">
+          
+              <div className="flex flex-wrap p-3 justify-between gap-3">
                 <div className="max-h-90 flex">
                   <Image
                     src={candidate?.image || profilePicPlaceholder}
@@ -99,7 +98,7 @@ const CandidateList = ({
                     {candidate?.jobSeekerProfile?.skills && (
                       <div className="flex flex-wrap text-nowrap">
                         {candidate?.jobSeekerProfile.skills
-                          .slice(0, 3)
+                          .slice(0, 6)
                           .map((skill) => (
                             <span
                               key={skill.id}
@@ -121,8 +120,7 @@ const CandidateList = ({
                   />
                 </div>
               </div>
-            </div>
-          </div>
+            
         </div>
       ))}
       {candidates && candidates.length === 0 && (

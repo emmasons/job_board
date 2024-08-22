@@ -80,7 +80,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
       <MaxWidthWrapper className="py-4">
         <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
-            <section className="mt-6 flex flex-wrap justify-center gap-12 md:flex-nowrap">
+            <section className="mt-6 flex flex-wrap justify-evenly gap-12 md:flex-nowrap">
               <div className="md:w-1/3">
                 <CandidateFilters />
               </div>
