@@ -7,6 +7,9 @@ export const getScrapedJobs = async () => {
       where: {
         source: JOBSOURCE.SCRAPPER,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return jobs;
   } catch (error) {
