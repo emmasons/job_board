@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import React, { useState, useEffect } from "react";
 
@@ -33,8 +34,6 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
 
   return (
     <>
-      
-
       <div className="relative">
         <button
           onClick={openModal}
