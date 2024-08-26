@@ -59,11 +59,30 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
       >
         <Icon icon="mdi:whatsapp" className="h-8 w-8" />
       </button>
+      <div className="relative">
+        <button
+          onClick={openModal}
+          className={cn(
+            "fixed bottom-4 right-4 z-10 rounded-full bg-green-500 p-3 text-center font-bold text-white shadow-lg transition-colors duration-200 ease-in-out hover:bg-green-600",
+            !isChatIconOpen && "hidden",
+          )}
+        >
+          <Icon icon="mdi:whatsapp" className="h-8 w-8" />
+        </button>
+        <button onClick={closeModal} className="fixed bottom-1 right-4 z-10">
+          <Icon
+            icon={isChatIconOpen ? "mdi:close" : "mdi:plus-circle"}
+            className="h-4 w-4"
+            onClick={toggleChatIcon}
+          />
+        </button>
+      </div>
 
       {isModalOpen && (
         <div className="fixed bottom-20 right-4 z-50 translate-y-0 transform rounded-lg bg-white p-6 shadow-lg transition-transform duration-300">
           <div className="mb-4 flex items-center justify-between gap-12">
             <h2 className="text-xl font-semibold">
+              Jobs Connect Limited Support
               Infinite Talent Limited Support
             </h2>
             <button
