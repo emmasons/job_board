@@ -4,6 +4,9 @@ export const getFeaturedJobs = async () => {
   try {
     const jobs = await db.job.findMany({
       take: 4,
+      orderBy: {
+        createdAt: 'desc',
+      },
       where: {
         isFeatured: true,
       },
