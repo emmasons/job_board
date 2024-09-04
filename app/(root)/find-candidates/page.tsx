@@ -66,18 +66,18 @@ const page = async ({ searchParams }: SearchPageProps) => {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-between gap-4 rounded-md bg-sky-100 p-4 py-16">
-        <h1 className="text-2xl font-semibold">CV Search For Employers</h1>
-        <p className="text-center text-sm">
-          Search for the perfect candidate. Please enter one or more keywords
-          that will help us find relevant CVs.
-        </p>
-        <div className="mt-6 md:w-2/4">
-          <SearchInput />
-        </div>
-        <RemoveSearchParam />
-      </div>
       <MaxWidthWrapper className="py-4">
+        <div className="flex flex-col items-center justify-between gap-4 rounded-md bg-sky-100 p-4 py-16">
+          <h1 className="text-2xl font-semibold">CV Search For Employers</h1>
+          <p className="text-center text-sm">
+            Search for the perfect candidate. Please enter one or more keywords
+            that will help us find relevant CVs.
+          </p>
+          <div className="mt-6 md:w-2/4">
+            <SearchInput />
+          </div>
+          <RemoveSearchParam />
+        </div>
         <div className="space-y-4">
           <Suspense fallback={<CandidatesSkeleton />}>
             <section className="mt-6 flex flex-wrap justify-evenly gap-12 md:flex-nowrap">
@@ -87,7 +87,8 @@ const page = async ({ searchParams }: SearchPageProps) => {
               <div className="mb-3 md:w-3/5">
                 <div className="mb-4 flex justify-between text-sm text-slate-700">
                   <p className="text-sm ">
-                    <span className="font-semibold">{items.length}</span> candidates
+                    <span className="font-semibold">{items.length}</span>{" "}
+                    candidates
                   </p>
                   <p className="rounded-md border p-3 text-[0.7rem]">
                     Sort By (default)
@@ -108,20 +109,27 @@ const page = async ({ searchParams }: SearchPageProps) => {
           />
         </div>
         {!hasParams && (
-          <div className="mt-4 flex items-center justify-center bg-sky-100 md:p-20">
-            <div className="basis-2/3">
-              <h2 className="my-6 text-xl">Frequently Asked Questions</h2>
+          <div className="mt-4 flex items-center justify-center ">
+            <div className="w-full p-4 m-auto">
+              <h2 className="my-6 text-center text-2xl font-semibold">
+                Frequently Asked Questions
+              </h2>
               <Accordion
                 type="single"
                 collapsible
                 defaultValue={cvFaqs[0].title}
+                className="w-full m-auto pr-4"
               >
                 {cvFaqs.map((faq) => (
-                  <AccordionItem value={faq.title} key={faq.title}>
-                    <AccordionTrigger className="text-lg font-semibold text-primary">
+                  <AccordionItem
+                    value={faq.title}
+                    key={faq.title}
+                    className="border border-slate-100 rounded-md m-4 px-4 w-full shadow-md"
+                  >
+                    <AccordionTrigger className="text-md font-semibold">
                       {faq.title}
                     </AccordionTrigger>
-                    <AccordionContent>{faq.description}</AccordionContent>
+                    <AccordionContent className="border-t pt-2 text-sm text-slate-600">{faq.description}</AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
