@@ -1,1 +1,1 @@
-## Infinite Talent Job Board
+## Job Board
