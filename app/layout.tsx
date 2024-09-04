@@ -13,7 +13,7 @@ const poppins = Poppins({
 }); // Define Poppins font with weights
 
 export const metadata: Metadata = {
-  title: "Infinite Talent Job Board",
+  title: "Job Board",
   description:
     "A comprehensive authentication and role based authentication template.",
 };
