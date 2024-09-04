@@ -15,7 +15,7 @@ const services = [
   },
   {
     icon: "wpf:worldwide-location",
-    link: <Link className="font-semibold underline text-secondary" href="/search">Living and working conditions</Link>,
+    link: <Link className="font-semibold underline text-secondary" href="/blog">Living and working conditions</Link>,
     description:
       "Find out more about living and working conditions in Gulf countries",
   },

@@ -33,7 +33,9 @@ const PopularSearches = (props: Props) => {
   ];
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Popular Searches</h1>
+      <h1 className="mb-4 mt-12 text-3xl font-semibold text-gray-900">
+        Popular Searches
+      </h1>
       <div className="space-y-4">
         <SearchByProperty inExternalComponent={true} />
         <div className="flex flex-wrap">
@@ -41,9 +43,11 @@ const PopularSearches = (props: Props) => {
             <Link
               href={`/search?title=${keyword}`}
               key={keyword}
-              className="flex flex-wrap items-center justify-center py-2 px-4"
+              className="flex flex-wrap items-center justify-center px-4 py-2"
             >
-              <p className="w-max break-keep text-center  text-sky-500">{label}</p>
+              <p className="w-max break-keep text-center  text-sky-500">
+                {label}
+              </p>
             </Link>
           ))}
         </div>
