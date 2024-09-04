@@ -39,10 +39,10 @@ const JobCard = ({
   const titleToShare = `Check out this amazing job: ${title}`;
   return (
     <Link href={`/jobs/${id}`} className="group block">
-      <div className="h-full overflow-hidden rounded-lg border border-gray-200 bg-white p-4 transition-shadow duration-200 hover:shadow-lg">
+      <div className="h-full overflow-hidden rounded-lg border border-gray-200 bg-slate-50 p-4 transition-shadow duration-200 hover:shadow-lg">
         <div className="mb-2 flex items-start justify-between">
           <div>
-            <h2 className="truncate text-start text-lg font-semibold text-primary group-hover:text-orange-600">
+            <h2 className="truncate text-start text-lg text-primary font-semibold group-hover:text-orange-600">
               {title}
             </h2>
             {companyName && (

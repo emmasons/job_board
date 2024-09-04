@@ -60,16 +60,16 @@ export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
         onChange={(e) => handleChange(e.target.value)}
         value={value}
         className={cn(
-          "w-full rounded-full shadow-md border py-6 pl-12 focus-visible:ring-slate-200 md:w-full",
+          "w-full py-6 pl-12 border-none md:w-full",
           !inExternalComponent && "md:rounded-br-none md:rounded-tr-none",
         )}
         placeholder="Job title, key words, or company"
       />
-      <Icon
+      {/* <Icon
         icon="mdi:close"
         className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform cursor-pointer text-slate-600"
         onClick={() => handleRemoveParam("title")}
-      />
+      /> */}
     </div>
   );
 };
