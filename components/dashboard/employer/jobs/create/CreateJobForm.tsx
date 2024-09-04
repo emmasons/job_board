@@ -41,7 +41,7 @@ interface CreateJobFormProps {
     city: string;
     workSchedule: string;
     country: string;
-    startDate: Date;
+    startDate: any;
     occupation: string;
     educationLevelId: string;
     contractType: string;
@@ -61,7 +61,7 @@ interface CreateJobFormProps {
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
-  }),
+  }), 
   description: z.string().min(1, {
     message: "Description is required",
   }),
@@ -75,7 +75,7 @@ const formSchema = z.object({
     message: "Country is required",
   }),
 
-  startDate: z.date().optional(),
+  startDate: z.union([z.date(), z.literal(null)]),
   occupation: z.string().min(1, {
     message: "Occupation is required",
   }),
