@@ -33,7 +33,7 @@ const PopularSearches = (props: Props) => {
   ];
   return (
     <div className="space-y-6">
-      <h1 className="mb-4 mt-12 text-3xl font-semibold text-gray-900">
+      <h1 className="mb-4 text-3xl font-semibold text-gray-900">
         Popular Searches
       </h1>
       <div className="space-y-4">

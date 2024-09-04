@@ -37,24 +37,27 @@ const JobList = async ({
 
   return (
     <div className="my-4 flex w-full grid-cols-2 flex-col justify-between gap-4 md:flex-row">
-      <div className=" mt-12 basis-1/3 h-fit border p-4">
-        <div className="flex-wrap max-sm:flex gap-3">
+      <div className="h-fit basis-1/3 rounded-lg border p-4">
+        <div className="flex-wrap gap-3 max-sm:flex">
           <FilterByCountry countryList={countryList} />
           <FilterByWorkSchedule workSchedules={workSchedules} />
           <FilterBySector sectors={sectors} />
         </div>
         <Link
           href="/search/advanced/"
-          className="gap-4 max-sm:flex inline-flex w-full items-center rounded-md  px-4 py-2 text-white"
+          className="inline-flex w-full items-center gap-4 rounded-md px-4  py-2 text-white max-sm:flex"
         >
           Advanced Search <Settings className="h-4 w-4" />
         </Link>
       </div>
       <div className="basis-2/3">
-        <div className="flex justify-end">
+        <div className="flex items-center justify-between border-b py-2 mb-4">
+          <p className="text-xs">
+            Showing page {page} - <span className="text-bold">{totalPages}</span> of <span className="text-semibold">{totalItems}</span> jobs
+          </p>
           <Link
             href="/search/advanced/"
-            className="py-4 text-sm text-blue-700 underline hover:text-blue-400"
+            className=" text-sm text-blue-700 hover:text-blue-400"
           >
             Advanced Search
           </Link>

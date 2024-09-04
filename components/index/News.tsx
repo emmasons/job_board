@@ -13,7 +13,7 @@ const News = async () => {
     );
   return (
     <div className="space-y-6">
-      <h1 className="mb-4 mt-12 text-3xl font-semibold text-gray-900">
+      <h1 className="mb-4 text-3xl font-semibold text-gray-900">
         Latest News
       </h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

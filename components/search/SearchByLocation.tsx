@@ -49,15 +49,15 @@ export const SearchByLocation = () => {
         options={locations}
         onChange={handleComboboxChange}
         value={value}
-        className="mr-6 w-full rounded-full border-0 bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
+        className="mr-6 w-full hover:bg-white border-0 py-6 pl-12 focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
         defaultText="All countries"
       />
 
-      <Icon
+      {/* <Icon
         icon="mdi:close"
         className="absolute right-3 top-1/2 h-6 w-6 -translate-y-1/2 transform cursor-pointer text-slate-600"
         onClick={() => setValue("")}
-      />
+      /> */}
     </div>
   );
 };

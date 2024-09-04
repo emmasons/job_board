@@ -59,8 +59,23 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <main className="">
-      <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center text-center sm:mt-4">
-        <Search />
+      <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center  text-center sm:mt-4">
+        <div className="w-full space-y-8 pb-12 rounded-lg bg-slate-50 p-6">
+          <div className="mb-4">
+            <h1 className="py-4 text-2xl font-semibold">
+              <span className="text-blue-600">{itemsList.length} Jobs</span>{" "}
+              Available Now
+            </h1>
+            
+            <p className="text-xs w-max-1/4">
+              Unlock your future with top-tier job opportunities in the Gulf.
+             
+            </p>
+          </div>
+
+          <Search />
+        </div>
+
         {searchParams && Object.keys(searchParams).length > 0 && (
           <div className="mt-6 w-full rounded-md bg-slate-50 p-4">
             <h2 className="text-left text-xl font-semibold text-primary">
@@ -70,7 +85,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           </div>
         )}
         {searchParams && Object.keys(searchParams).length > 0 && (
-          <div className="flex w-full items-center justify-between bg-sky-100 p-2 my-4">
+          <div className="my-4 flex w-full items-center justify-between bg-sky-100 p-2">
             <p className="text-[1rem] font-semibold text-zinc-600">
               {alert
                 ? "You have set alerts for similar job"
