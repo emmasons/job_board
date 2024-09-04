@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./styles.css";
-import { Navigation, Pagination, Autoplay, EffectFade} from "swiper/modules";
+import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { ChevronRight, LogIn } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -17,14 +17,20 @@ const slideContent = [
     description: "The place where jobs and skilled applicants match.",
     bgImage: "/index/carousel/gulf1.webp",
     content: (
-      <Button size="sm" variant="default" onClick={() => signIn()} className="btn">
+      <Button
+        size="sm"
+        variant="default"
+        onClick={() => signIn()}
+        className="btn"
+      >
         <LogIn className="mr-2 h-4 w-4" /> LogIn
       </Button>
     ),
   },
   {
-    title: "Find a Job",
-    description: "Search for your ideal job opportunity in Dubai and other gulf countries with ease!",
+    title: "Find Your Perfect Job Match",
+    description:
+      "Search for your ideal job opportunity in Dubai and other gulf countries with ease!",
     bgImage: "/index/carousel/gulf2.avif",
     content: (
       <Link className="link" href="/search">
@@ -39,7 +45,7 @@ const slideContent = [
     bgImage: "/index/carousel/gulf3.jpg",
     content: (
       <Link className="link" href="/find-candidates">
-          Begin your search here
+        Begin your search here
         <ChevronRight className="mr-2 h-4 w-4" />
       </Link>
     ),
@@ -49,7 +55,7 @@ const slideContent = [
     description: "Explore further details about the country of your choice.",
     bgImage: "/index/carousel/bg4.jpg",
     content: (
-      <Link className="link" href="/search">
+      <Link className="link justify-start" href="/blog">
         Read more here
         <ChevronRight className="mr-2 h-4 w-4" />
       </Link>
@@ -89,13 +95,13 @@ export default function Hero() {
               style={{ backgroundImage: `url(${slide.bgImage})` }}
               className="h-screen  w-full bg-cover bg-center bg-no-repeat"
             >
-              <div className="flex h-full w-full flex-col items-center justify-center bg-[rgba(0,0,0,0.6)] text-white swiper-slide-content">
-                <div className="space-y-8">
-                  <div className="rounded-md px-4 py-8">
-                    <h1>{slide.title}</h1>
-                    <p>{slide.description}</p>
+              <div className="swiper-slide-content grid h-full w-full flex-col bg-[rgba(0,0,0,0.6)] text-white">
+                <div className="md:w-2/5 space-y-8 md:ml-72">
+                  <div className="rounded-md px-4 text-left">
+                    <h1 className="md:text-left">{slide.title}</h1>
+                    <p className="text-md font-light">{slide.description}</p>
                   </div>
-                  {slide.content}
+                  <div className="w-full flex justify-start">{slide.content}</div>
                 </div>
               </div>
             </div>

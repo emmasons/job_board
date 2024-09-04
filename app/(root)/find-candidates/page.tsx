@@ -124,7 +124,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
                   <AccordionItem
                     value={faq.title}
                     key={faq.title}
-                    className="border border-slate-100 rounded-md m-4 px-4 w-full shadow-md"
+                    className="border rounded-md m-4 px-4 w-full shadow-sm"
                   >
                     <AccordionTrigger className="text-md font-semibold">
                       {faq.title}
