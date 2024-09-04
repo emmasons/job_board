@@ -21,6 +21,7 @@ import { Role } from "@prisma/client";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
 import { JobActions } from "@/components/dashboard/employer/jobs/JobActions";
 import { Banner } from "@/components/Banner";
+import CreateJobForm from "@/components/dashboard/employer/jobs/create/CreateJobForm";
 
 type Props = {
   params: {
@@ -128,7 +129,7 @@ const page = async ({ params, searchParams }: Props) => {
         </div>
       </div>
 
-      <EditJobForm
+      <CreateJobForm
         initialData={job}
         sectorList={sectors.map((sector) => ({
           label: sector.label,
@@ -144,6 +145,7 @@ const page = async ({ params, searchParams }: Props) => {
           label: exp.label,
           value: exp.id,
         }))}
+        isEditingJob={true}
       />
       <div className="rounded-md bg-slate-100 p-4">
         <h2 className="my-4 flex items-center gap-4 border-b text-lg font-bold text-zinc-600">
