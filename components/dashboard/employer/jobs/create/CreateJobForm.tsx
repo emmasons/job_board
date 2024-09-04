@@ -30,7 +30,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
 import { JOBTYPE, PREFERRED_APPLICANT_GENDER } from "@prisma/client";
 
@@ -45,23 +45,25 @@ interface CreateJobFormProps {
     occupation: string;
     educationLevelId: string;
     contractType: string;
-    numberOfPositions: string;
+    numberOfPositions: number;
     experienceId: string;
     sectorId: string;
     salary: string;
     preferredApplicantGender: PREFERRED_APPLICANT_GENDER;
+    id?: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
   workScheduleList: ComboProps;
   educationLevelList: ComboProps;
   experienceList: ComboProps;
+  isEditingJob: boolean;
 }
 
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
-  }), 
+  }),
   description: z.string().min(1, {
     message: "Description is required",
   }),
@@ -75,7 +77,10 @@ const formSchema = z.object({
     message: "Country is required",
   }),
 
-  startDate: z.union([z.date(), z.literal(null)]),
+  startDate: z.preprocess(
+    (val) => (val ? new Date(val) : null),
+    z.union([z.date(), z.literal(null)]),
+  ),
   occupation: z.string().min(1, {
     message: "Occupation is required",
   }),
@@ -85,11 +90,7 @@ const formSchema = z.object({
   contractType: z.string().min(1, {
     message: "Contract type is required",
   }),
-  numberOfPositions: z
-    .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    }),
+  numberOfPositions: z.preprocess((val) => Number(val), z.number()),
   experienceId: z.string().min(1, {
     message: "Experience is required",
   }),
@@ -121,6 +122,7 @@ export default function CreateJobForm({
   workScheduleList,
   educationLevelList,
   experienceList,
+  isEditingJob = false,
 }: CreateJobFormProps) {
   const router = useRouter();
   const { countries } = useCountries();
@@ -167,10 +169,15 @@ export default function CreateJobForm({
 
   const { isSubmitting, isValid, errors } = form.formState;
 
+  const btnText = isEditingJob ? "Save Job" : "Create Job";
+  const url = isEditingJob ? `/api/jobs/${initialData.id}` : "/api/jobs";
+  const httpMethod = isEditingJob ? "PATCH" : "POST";
+  const successMessage = isEditingJob ? "Job Updated" : "Job Created";
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await fetch("/api/jobs/", {
-        method: "POST",
+      const response = await fetch(url, {
+        method: httpMethod,
         body: JSON.stringify(values),
       });
       const data = await response.json();
@@ -178,7 +185,7 @@ export default function CreateJobForm({
       if (response.ok) {
         toast({
           title: "Success",
-          description: "Job Created",
+          description: successMessage,
           variant: "default",
           className: "bg-green-300 border-0",
         });
@@ -487,7 +494,11 @@ export default function CreateJobForm({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={isSubmitting} type="submit">
-                Create
+                {isSubmitting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <span>{btnText}</span>
+                )}
               </Button>
             </div>
           </form>
