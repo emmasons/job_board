@@ -60,7 +60,7 @@ export const SearchByProperty = ({ inExternalComponent = false }: Props) => {
         onChange={(e) => handleChange(e.target.value)}
         value={value}
         className={cn(
-          "w-full rounded-full border-0 bg-slate-100 py-6 pl-12 focus-visible:ring-slate-200 md:w-full",
+          "w-full rounded-full shadow-md border py-6 pl-12 focus-visible:ring-slate-200 md:w-full",
           !inExternalComponent && "md:rounded-br-none md:rounded-tr-none",
         )}
         placeholder="Job title, key words, or company"
