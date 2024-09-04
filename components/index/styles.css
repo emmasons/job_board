@@ -58,19 +58,24 @@ body {
 
 /* Custom styles for slide content */
 .swiper-slide-content {
+  padding: 9rem 10px 10px 10px;
   text-align: center;
   color: #ffffff;
 }
 
 .swiper-slide-content h1 {
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: calc(2vw + 5vh);
+  letter-spacing: 2px;
+  line-height: calc(3vw + 6vh);
+  text-transform: capitalize;
+  font-weight: 400;
   margin-bottom: 1rem;
   color: #fff; /* Set the color to white */
 }
 
 .swiper-slide-content p {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.2rem;
   font-weight: 300;
   margin-bottom: 2rem;
   color: #fff; /* Set the color to white */
