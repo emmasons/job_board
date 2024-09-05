@@ -54,10 +54,8 @@ const JobCard = ({
               </div>
             )}
           </div>
-          <Icon
-            icon="mdi:office-building"
-            className="h-16 w-16 text-gray-500"
-          />
+          {/* add company logo if needed */}
+          
         </div>
         <div className="mb-4 text-sm text-gray-600">
           <div className="mb-1 flex items-center gap-1">
