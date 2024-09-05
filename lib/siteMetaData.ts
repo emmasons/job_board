@@ -1,6 +1,6 @@
 // please update required information
 export const siteMetadata = {
-  title: "My Blog",
+  title: "My Blog1",
   author: "xcixor",
   headerTitle: "Blog",
   description: "A platform to share my thoughts with the world.",
