@@ -52,7 +52,7 @@ const SkillsForm = ({
     },
   });
 
-  const percentage = skillList.length > 0 ? 0 : profilePercentage;
+  const percentage = skillList?.length > 0 ? 0 : profilePercentage;
 
   const { isSubmitting, isValid, errors } = form.formState;
 
