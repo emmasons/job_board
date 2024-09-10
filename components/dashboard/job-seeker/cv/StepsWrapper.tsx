@@ -67,7 +67,7 @@ const StepsWrapper = ({
       description="Highlight your professional career"
       isJobSeekerComponent={isJobSeekerComponent}
     />,
-    <SkillsForm
+    <SkillGenerator
       key={2}
       title="Key Skills"
       profileId={jobSeekerProfile.id}
@@ -149,15 +149,6 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       profilPercentage={20}
       employmentHistory={jobSeekerProfile.employmentDetails}
-      isJobSeekerComponent={isJobSeekerComponent}
-    />,
-    <SkillGenerator
-      key={10}
-      title="Key Skills"
-      profileId={jobSeekerProfile.id}
-      skills={jobSeekerProfile.skills}
-      description="Add your key skills "
-      profilePercentage={5}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);
