@@ -28,6 +28,7 @@ import PersonalDetailsForm from "./steps/PersonalDetailsForm";
 import DesiredJobsForm from "./steps/DesiredJobsForm";
 import EducationDetails from "./EducationDetails";
 import EmploymentHistory from "./EmploymentHistory";
+import SkillGenerator from "./steps/SkillGenerator";
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
@@ -148,6 +149,15 @@ const StepsWrapper = ({
       profileId={jobSeekerProfile.id}
       profilPercentage={20}
       employmentHistory={jobSeekerProfile.employmentDetails}
+      isJobSeekerComponent={isJobSeekerComponent}
+    />,
+    <SkillGenerator
+      key={10}
+      title="Key Skills"
+      profileId={jobSeekerProfile.id}
+      skills={jobSeekerProfile.skills}
+      description="Add your key skills "
+      profilePercentage={5}
       isJobSeekerComponent={isJobSeekerComponent}
     />,
   ]);

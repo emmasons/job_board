@@ -13,6 +13,8 @@ import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
 import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
 import StepsWrapper from "@/components/dashboard/job-seeker/cv/StepsWrapper";
 
+export const revalidate = 0;
+
 const page = async () => {
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {
@@ -21,7 +23,6 @@ const page = async () => {
   const cv = await getUserCv(user.id);
 
   const cvFile = await getLatestFileMetaData(cv?.id);
-  
 
   const educationLevels = await getEducationLevels();
   const experience = await getExperience();
@@ -64,7 +65,7 @@ const page = async () => {
           cv={cv}
           sectors={sectors}
           educationLevels={educationLevels}
-          experience={experience} 
+          experience={experience}
           educationDetails={jobSeekerProfile.education}
           personalDetails={jobSeekerProfile.personalDetails}
           desiredJob={jobSeekerProfile.desiredJob}
