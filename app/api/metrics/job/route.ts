@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!existing) {
+    if (!existing && visitorId) {
       await db.jobMetrics.create({
         data: {
           visitorId,
