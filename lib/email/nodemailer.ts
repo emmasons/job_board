@@ -33,13 +33,12 @@ export const mail = async ({
     <title>Infinite Talent Limited</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        background-color: whitesmoke; 
-        font-family: 'Google Sans', Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+       font-family: Garamond, sans-serif;
+        background-color: whitesmoke;
+        font-family: 'Google Sans', Garamond;
       }
       div {
-        background-color: white; 
-        padding: 20px;
+       background-color: white;
         border-radius: 20px;
       }
       h1 {
@@ -49,21 +48,27 @@ export const mail = async ({
         color: #333333;
         font-size:1rem;
       }
+      address {
+        font-size: 0.7rem;
+        line-height: 1rem;
+      }
     </style>
   </head>
   <body>
       <div>
         <h1>${subject}</h1>
         <p>${message}</p>
+
+        <p style="margin: 0;">Thank you.</p>
+        <p style="margin: 0;"><i>Jobs Connect Limited Team</i></p><br>
+        <address>
+            <p>1st Floor, Muthaiga Square, Thika road, Nairobi</p>
+            <p>Tel: 0203 151 2410</p>
+            <p>Mobile +254712428640</p>
+        </address>
+        <img src="cid:logo" style="background-color:white; max-height:40px; height:auto; width:auto; object-fit:contain">
+
       </div>
-      <p style="margin: 0;">Thank you.</p>
-      <p style="margin: 0;"><i>The Infinite Talent Limited Team</i></p><br>
-      <address style="font-size: 0.6rem; color: #787878;">
-          <p>1st Floor, Muthaiga Square, Thika road, Nairobi</p>
-          <p>Tel: 0203 151 2410</p>
-          <p>Mobile +254712428640</p>
-      </address>
-    <img src="cid:logo" style="background-color:white; max-height:40px; height:auto; width:auto; object-fit:contain">
   </body>
   </html>`;
   const mailOptions = {
