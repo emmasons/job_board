@@ -256,7 +256,7 @@ const page = async () => {
                 <GraduationCap className="text-xs font-thin text-primary" />
                 <div className="text-xs">
                   <h2 className="font-semibold">Education level</h2>
-                  <p>{jobSeekerProfile?.education.label}</p>
+                  <p>{jobSeekerProfile?.education?.label}</p>
                 </div>
               </div>
             </div>

@@ -5,12 +5,13 @@ import { cn, fetcher } from "@/lib/utils";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import NotificationList from "@/components/notifications/NotificationList";
 import { redirect } from "next/navigation";
-import { Ghost, Loader2 } from "lucide-react";
+import { Cog, Ghost, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Notification, NOTIFICATION_TYPES } from "@prisma/client";
 import { getNotificationHeading } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import Link from "next/link";
 
 const NotificationsPage = () => {
   const { data: session } = useSession({
@@ -69,6 +70,13 @@ const NotificationsPage = () => {
           <h1 className="text-2xl font-bold text-primary">
             Notifications ({notifications.length})
           </h1>
+          <Link
+            href="/profile/dashboard/notifications/settings"
+            className="flex items-center gap-2 text-sm text-sky-500 hover:text-sky-700 hover:underline"
+          >
+            Settings
+            <Cog className="h-4 w-4" />
+          </Link>
         </div>
         <div className="space-y-4 bg-slate-100 p-8">
           <div className="flex flex-wrap gap-2">

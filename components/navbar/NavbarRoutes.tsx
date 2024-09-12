@@ -41,7 +41,7 @@ export default function NavbarRoutes({ user }: Props) {
         <UserMenuButton user={user} />
         <div className="">
           <Link
-            href="/notifications"
+            href="/profile/dashboard/notifications"
             className="px-4 pb-7 text-sm font-medium text-gray-700 hover:text-orange-500"
           >
             <Notifications userId={user?.id} />
