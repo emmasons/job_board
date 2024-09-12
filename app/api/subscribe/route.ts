@@ -1,10 +1,8 @@
 import { db } from "@/lib/db";
 import { NextResponse, NextRequest } from "next/server";
-import bcrypt from "bcrypt";
 import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
-import { Role, SUBSCRIPTION_TYPE } from "@prisma/client";
-import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
+import { SUBSCRIPTION_TYPE } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,8 +41,8 @@ export async function POST(req: NextRequest) {
     const toEmail = email;
     const emailVerificationMessage =
       type === SUBSCRIPTION_TYPE.NEWSLETTER
-        ? `Thank you for subscribing to our newsletter. You will be receiving emails from us on all news. You can <a href=${env.BASE_DOMAIN}/unsubscribe>unsubscribe</a> at any time.`
-        : `Thank you for subscribing to our newsletter. You will be receiving emails from us on all news. You can <a href=${env.BASE_DOMAIN}/unsubscribe>unsubscribe</a> at any time.`;
+        ? `Thank you for subscribing to our newsletter. <br/>You will be receiving emails from us on all news. <br/>You can <a href=${env.BASE_DOMAIN}/unsubscribe?email=${email}>unsubscribe</a> at any time.`
+        : `Thank you for subscribing to our newsletter. <br/>You will be receiving emails from us on all news. <br/>You can <a href=${env.BASE_DOMAIN}/unsubscribe?email=${email}>unsubscribe</a> at any time.`;
     const subject = "Subscription Confirmation";
     await sendEmail({
       to_email: toEmail,
