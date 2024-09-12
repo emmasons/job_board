@@ -1,4 +1,4 @@
-import { NOTIFICATION_TYPES } from "@prisma/client";
+import { NOTIFICATION_TYPES, SUBSCRIPTION_TYPE } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -90,5 +90,16 @@ export const getNotificationHeading = (type: NOTIFICATION_TYPES) => {
       return "Job offer rejected";
     default:
       return "New Notification";
+  }
+};
+
+export const getSubscriptionHeading = (type: SUBSCRIPTION_TYPE) => {
+  switch (type) {
+    case SUBSCRIPTION_TYPE.NEWSLETTER:
+      return "Newsletter";
+    case SUBSCRIPTION_TYPE.JOB_POSTINGS:
+      return "Job postings";
+    default:
+      return "Newsletter";
   }
 };
