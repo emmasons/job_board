@@ -66,12 +66,28 @@ export const fetcher = async (url: string) => {
   return data;
 };
 
-export const getNotificationHeading = (type: string) => {
+export const getNotificationHeading = (type: NOTIFICATION_TYPES) => {
   switch (type) {
     case NOTIFICATION_TYPES.NEW_JOB_POSTING:
       return "New job posted";
+    case NOTIFICATION_TYPES.JOB_APPLICATION_SUBMITTED:
+      return "Application submitted";
     case NOTIFICATION_TYPES.JOB_APPLICATION_ACCEPTED:
       return "Application success";
+    case NOTIFICATION_TYPES.JOB_APPLICATION_REJECTED:
+      return "Application rejected";
+    case NOTIFICATION_TYPES.INTERVIEW_SCHEDULED:
+      return "Interview scheduled";
+    case NOTIFICATION_TYPES.INTERVIEW_RESCHEDULED:
+      return "Interview rescheduled";
+    case NOTIFICATION_TYPES.INTERVIEW_CANCELLED:
+      return "Interview cancelled";
+    case NOTIFICATION_TYPES.JOB_OFFER_MADE:
+      return "Job offer made";
+    case NOTIFICATION_TYPES.JOB_OFFER_ACCEPTED:
+      return "Job offer accepted";
+    case NOTIFICATION_TYPES.JOB_OFFER_REJECTED:
+      return "Job offer rejected";
     default:
       return "New Notification";
   }
