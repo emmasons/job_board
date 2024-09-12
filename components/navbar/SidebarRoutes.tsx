@@ -44,7 +44,7 @@ const guestRoutes = [
   {
     icon: Bell,
     label: "My Job alerts",
-    href: "/notifications",
+    href: "/profile/dashboard/notifications",
   },
   {
     icon: Settings,
