@@ -79,7 +79,6 @@ async function createSectors() {
         { label: "Beauty and wellness" },
         { label: "Engineering & Technical Services" },
         { label: "Finance, Insurance, & Legal" },
-  
       ],
     });
     console.log("Success");
@@ -282,12 +281,46 @@ async function clearTable(tableName) {
   console.log(`Table ${tableName} cleared`);
 }
 
+async function createNotis() {
+  const userId = "80214449-7b1e-4308-9757-5b84dbe9178d";
+  const fromId = "80d6ac6b-ddc0-4200-b227-69854a438f40";
+  const message = "this is a placeholder message";
+  const types = [
+    "NEW_JOB_POSTING",
+    "JOB_APPLICATION_SUBMITTED",
+    "JOB_APPLICATION_ACCEPTED",
+    "JOB_APPLICATION_REJECTED",
+    "INTERVIEW_SCHEDULED",
+    "INTERVIEW_RESCHEDULED",
+    "INTERVIEW_CANCELLED",
+    "JOB_OFFER_MADE",
+    "JOB_OFFER_ACCEPTED",
+    "JOB_OFFER_REJECTED",
+  ];
+
+  for (const type of types) {
+    await database.notification.createMany({
+      data: Array(3)
+        .fill(1)
+        .map((_, i) => ({
+          userId,
+          fromId,
+          message,
+          type,
+        })),
+    });
+  }
+
+  console.log("Success");
+}
+
 async function main() {
   // await createEducationLevels();
   // await createExperienceLevels();
   // await createSectors();
   // await createOccupations();
   // await clearTable("scrapedJob");
+  // await createNotis();
 }
 
 main();

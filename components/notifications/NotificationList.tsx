@@ -1,9 +1,10 @@
 "use client";
 import { getNotificationHeading } from "@/lib/utils";
-import { Notification } from "@prisma/client";
+import { Notification, NOTIFICATION_TYPES } from "@prisma/client";
 import { Circle, Ghost, Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { DeleteNotification } from "./DeleteNotification";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {
   allNotifications: Notification[] | null;
@@ -81,13 +82,15 @@ const NotificationList = ({ allNotifications, userId }: Props) => {
     return (
       <div className="flex flex-col items-center justify-center p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
         <Ghost className="h-8 w-8" />
-        <p>You do not have any notifications at the moment.</p>
+        <p className="text-[0.8rem] text-gray-500">
+          You do not have any notifications at the moment.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-sm bg-slate-50">
       {allNotifications.map((notification) => (
         <div
           key={notification.id}
@@ -103,8 +106,12 @@ const NotificationList = ({ allNotifications, userId }: Props) => {
               <Circle className="h-4 w-4 animate-ping" />
             )}
           </div>
-          <p className="text-sm text-gray-500">{notification.message}</p>
-          <p>{getTimeDifference(notification.createdAt)}</p>
+          <p className="text-[0.8rem] text-gray-500 first-letter:uppercase">
+            {notification.message}
+          </p>
+          <p className="text-[0.7rem] text-gray-500">
+            {getTimeDifference(notification.createdAt)}
+          </p>
         </div>
       ))}
     </div>
