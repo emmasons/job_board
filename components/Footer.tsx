@@ -4,13 +4,15 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Icon } from "@iconify/react";
+import { SubscriptionForm } from "@/components/forms/subscription/SubscriptionForm";
+import { SUBSCRIPTION_TYPE } from "@prisma/client";
 
 type Props = {};
 
 const Footer = (props: Props) => {
   return (
     <footer className="bg-primary/70 py-8">
-      <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="space-y-2 text-white">
           <h2 className="text-xl">
             Jobs connect <br /> Limited Job Portal
@@ -109,6 +111,10 @@ const Footer = (props: Props) => {
               Blog
             </Link>
           </div>
+        </div>
+        <div className="space-y-2 text-white">
+          <h2 className="text-lg font-bold">Subscribe to our newsletter</h2>
+          <SubscriptionForm type={SUBSCRIPTION_TYPE.NEWSLETTER} />
         </div>
       </MaxWidthWrapper>
     </footer>
