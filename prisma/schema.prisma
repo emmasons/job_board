@@ -266,8 +266,8 @@ enum JOBSOURCE {
 
 enum CURRENCY {
   AED
-  OMRv
   OMR
+  QAR
   BHD
   KWD
   SAR

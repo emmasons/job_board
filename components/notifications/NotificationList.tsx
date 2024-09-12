@@ -5,6 +5,7 @@ import { Circle, Ghost, Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { DeleteNotification } from "./DeleteNotification";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 type Props = {
   allNotifications: Notification[] | null;
@@ -112,6 +113,16 @@ const NotificationList = ({ allNotifications, userId }: Props) => {
           <p className="text-[0.7rem] text-gray-500">
             {getTimeDifference(notification.createdAt)}
           </p>
+          {notification.type === NOTIFICATION_TYPES.NEW_JOB_POSTING &&
+            userId &&
+            notification.resourceId && (
+              <Link
+                href={`/jobs/${notification.resourceId}`}
+                className="text-[0.7rem] text-sky-500 hover:underline"
+              >
+                View job posting
+              </Link>
+            )}
         </div>
       ))}
     </div>
