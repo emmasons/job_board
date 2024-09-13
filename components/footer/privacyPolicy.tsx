@@ -22,7 +22,7 @@ const PrivacyPolicy: React.FC = () => {
         </h2>
         <p className="mb-4">
           We collect information that you voluntarily provide to us, including:
-          <ul className="list-disc pl-5" >
+          <ul className="list-disc pl-5">
             <li>
               Personal Information: Name, email address, phone number, and any
               other contact details.

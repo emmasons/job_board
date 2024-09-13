@@ -15,19 +15,19 @@ const Footer = (props: Props) => {
       <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="space-y-2 text-white">
           <h2 className="text-xl">
-            Jobs connect <br /> Limited Job Portal
+            Jobs Connect <br /> Limited Job Portal
           </h2>
           <div className="inline-flex">
             <Logo />
           </div>
           <p className="text-sm">
-            © {new Date().getFullYear()} Jobs connect Limited
+            © {new Date().getFullYear()} Jobs Connect Limited
           </p>
         </div>
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">Contact us</h2>
           <Link href="#" className="inline-flex items-center gap-2">
-            Contact Jobs connect Helpdesk
+            Contact Jobs Connect Helpdesk
             {/* <ChevronRight className="h-4 w-4" /> */}
           </Link>
           <p className="">Follow us</p>
@@ -84,7 +84,7 @@ const Footer = (props: Props) => {
               href="/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
-              About Jobs connect
+              About Jobs Connect
             </Link>
             <Link
               href="/privacy-policy"

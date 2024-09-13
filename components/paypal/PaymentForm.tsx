@@ -134,7 +134,7 @@ export const PaymentForm = ({
             </p>
 
             <div className="text-pes-red mt-6 flex w-full items-center gap-4">
-              <p>&copy; Infinite Talent Limited</p>
+              <p>&copy; Jobs Connect Limited</p>
               <Link href="#">Terms</Link>
               <Link href="#">Privacy</Link>
             </div>

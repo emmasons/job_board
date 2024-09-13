@@ -30,7 +30,7 @@ export const mail = async ({
 
   const htmlTemplate = `<html>
   <head>
-    <title>Infinite Talent Limited</title>
+    <title>Jobs Connect Limited</title>
     <style>
       body {
        font-family: Garamond, sans-serif;
@@ -73,7 +73,7 @@ export const mail = async ({
   </html>`;
   const mailOptions = {
     from: env.SMTP_AUTH_USER,
-    name: "Infinite Talent Limited",
+    name: "Jobs Connect Limited",
     to: to_email,
     subject: subject,
     html: htmlTemplate,
