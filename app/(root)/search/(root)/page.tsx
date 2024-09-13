@@ -39,6 +39,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     occupation: searchParams.title as string,
   };
   let alert = false;
+  const sectorIdsSaved =
+    typeof args.sectorId === "string"
+      ? args.sectorId.split(",").map((id) => id)
+      : args.sectorId;
+
   if (user) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
@@ -47,7 +52,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           country: args.country as string,
 
           educationLevelId: args.educationLevelId as string,
-          sectorId: args.sectorId as string,
+          sectorIds: {
+            hasSome: sectorIdsSaved,
+          },
           workSchedule: args.workSchedule as WorkSchedule,
           occupation: args.occupation as string,
           userId: user.id,
@@ -60,16 +67,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <main className="">
       <MaxWidthWrapper className="mb-12 mt-2 flex h-full flex-col items-center justify-center  text-center sm:mt-4">
-        <div className="w-full space-y-8 pb-12 rounded-lg bg-slate-50 p-6">
+        <div className="w-full space-y-8 rounded-lg bg-slate-50 p-6 pb-12">
           <div className="mb-4">
             <h1 className="py-4 text-2xl font-semibold">
               <span className="text-blue-600">{itemsList.length} Jobs</span>{" "}
               Available Now
             </h1>
-            
-            <p className="text-xs w-max-1/4">
+
+            <p className="w-max-1/4 text-xs">
               Unlock your future with top-tier job opportunities in the Gulf.
-             
             </p>
           </div>
 

@@ -9,7 +9,7 @@ export const getAllJobAlerts = async (userId: string) => {
       include: {
         company: true,
         educationLevel: true,
-        sector: true,
+        // sector: true,
       },
     });
 
