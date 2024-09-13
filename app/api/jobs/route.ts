@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     for (const alert of alerts) {
       if (
         (alert.city?.toLowerCase() === job.city?.toLowerCase() ||
-          alert.country?.toLowerCase() === job.country?.toLowerCase() ||
+          (job.country && alert.countries?.includes(job.country))) ||
           alert.companyId === job.companyId ||
           (job.educationLevelId &&
             alert.educationLevelIds.includes(job.educationLevelId)) ||

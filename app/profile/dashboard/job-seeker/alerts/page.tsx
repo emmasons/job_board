@@ -30,7 +30,7 @@ const page = async (props: Props) => {
       console.log(error);
     }
   };
-
+  console.log(alerts);
   return (
     <div className="p-6">
       <div>
@@ -60,10 +60,10 @@ const page = async (props: Props) => {
                   {alert.city}
                 </p>
               )}
-              {alert.country && (
+              {alert.countries.length > 0 && (
                 <p className="text-sm">
                   <span className="me-1 font-semibold">Country:</span>
-                  {alert.country}
+                  {alert.countries.map((c) => c).join(", ")}
                 </p>
               )}
               {alert.companyId && (
