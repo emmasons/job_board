@@ -39,6 +39,7 @@ export async function createAlert(
             .split(",")
             .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
         : (args.workSchedule as WorkSchedule[]);
+    console.log(sectorList);
     if (args) {
       const previousAlert = await db.jobAlert.findFirst({
         where: {
@@ -47,13 +48,13 @@ export async function createAlert(
             country: args.country as string,
             companyId: args.companyId as string,
             educationLevelIds: {
-              hasSome: educationLevelIdList ? educationLevelIdList : [],
+              hasEvery: educationLevelIdList ? educationLevelIdList : [],
             },
             sectorIds: {
-              hasSome: sectorList ? sectorList : [],
+              hasEvery: sectorList ? sectorList : [],
             },
             workSchedules: {
-              hasSome: workScheduleList ? workScheduleList : [],
+              hasEvery: workScheduleList ? workScheduleList : [],
             },
             contractType: args.contractType as ContractType,
             occupation: args.occupation as string,
@@ -117,13 +118,13 @@ export async function deleteAlert(
           country: args.country as string,
           companyId: args.companyId as string,
           educationLevelIds: {
-            hasSome: educationLevelIdList ? educationLevelIdList : [],
+            hasEvery: educationLevelIdList ? educationLevelIdList : [],
           },
           sectorIds: {
-            hasSome: sectorList ? sectorList : [],
+            hasEvery: sectorList ? sectorList : [],
           },
           workSchedules: {
-            hasSome: workScheduleList ? workScheduleList : [],
+            hasEvery: workScheduleList ? workScheduleList : [],
           },
           contractType: args.contractType as ContractType,
           occupation: args.occupation as string,
