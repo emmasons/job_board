@@ -70,13 +70,13 @@ const NotificationsPage = () => {
           <h1 className="text-2xl font-bold text-primary">
             Notifications ({notifications.length})
           </h1>
-          <Link
+          {/* <Link
             href="/profile/dashboard/notifications/settings"
             className="flex items-center gap-2 text-sm text-sky-500 hover:text-sky-700 hover:underline"
           >
             Settings
             <Cog className="h-4 w-4" />
-          </Link>
+          </Link> */}
         </div>
         <div className="space-y-4 bg-slate-100 p-8">
           <div className="flex flex-wrap gap-2">
