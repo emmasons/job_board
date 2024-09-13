@@ -62,13 +62,13 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           country: args.country as string,
 
           educationLevelIds: {
-            hasSome: educationLevelIdList ? educationLevelIdList : [],
+            hasEvery: educationLevelIdList ? educationLevelIdList : [],
           },
           sectorIds: {
-            hasSome: sectorIdList ? sectorIdList : [],
+            hasEvery: sectorIdList ? sectorIdList : [],
           },
           workSchedules: {
-            hasSome: workScheduleList ? workScheduleList : [],
+            hasEvery: workScheduleList ? workScheduleList : [],
           },
           occupation: args.occupation as string,
           userId: user.id,
