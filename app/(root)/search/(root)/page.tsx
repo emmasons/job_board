@@ -61,13 +61,19 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           .split(",")
           .map((id) => ContractType[id as keyof typeof ContractType])
       : (args.contractType as ContractType[]);
+
+  const contryList =
+    typeof args.country === "string"
+      ? args.country.split(",").map((id) => id)
+      : args.country;
   if (user) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
-          country: args.country as string,
-
+          countries: {
+            hasEvery: contryList ? contryList : [],
+          },
           educationLevelIds: {
             hasEvery: educationLevelIdList ? educationLevelIdList : [],
           },

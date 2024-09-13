@@ -494,7 +494,6 @@ model JobAlert {
   user   User   @relation(fields: [userId], references: [id])
 
   city    String?
-  country String?
 
   companyId String?
   company   Company? @relation(fields: [companyId], references: [id])
@@ -503,6 +502,8 @@ model JobAlert {
   sectorIds String[]
   workSchedules WorkSchedule[]
   contractTypes ContractType[]
+  countries String[]
+
 
   jobType JOBTYPE @default(NORMAL)
 

@@ -39,7 +39,7 @@ export async function PUT(
         where: {
           AND: [
             { city: job.city },
-            { country: job.country },
+            { countries: { hasSome: job.country ? [job.country] : [] } },
             { companyId: job.companyId },
             {
               educationLevelIds: {

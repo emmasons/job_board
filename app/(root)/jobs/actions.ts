@@ -45,13 +45,18 @@ export async function createAlert(
             .split(",")
             .map((id) => ContractType[id as keyof typeof ContractType])
         : (args.contractType as ContractType[]);
-
+    const countryList =
+      typeof args.country === "string"
+        ? args.country.split(",").map((id) => id)
+        : args.country;
     if (args) {
       const previousAlert = await db.jobAlert.findFirst({
         where: {
           ...({
             city: args.city as string,
-            country: args.country as string,
+            countries: {
+              hasEvery: countryList ? countryList : [],
+            },
             companyId: args.companyId as string,
             educationLevelIds: {
               hasEvery: educationLevelIdList ? educationLevelIdList : [],
@@ -79,7 +84,7 @@ export async function createAlert(
       data: {
         userId,
         city: args.city as string,
-        country: args.country as string,
+        countries: countryList ? countryList : [],
         companyId: args.companyId as string,
         educationLevelIds: educationLevelIdList ? educationLevelIdList : [],
         sectorIds: sectorList ? sectorList : [],
@@ -125,11 +130,18 @@ export async function deleteAlert(
             .split(",")
             .map((id) => ContractType[id as keyof typeof ContractType])
         : (args.contractType as ContractType[]);
+    const countryList =
+      typeof args.country === "string"
+        ? args.country.split(",").map((id) => id)
+        : args.country;
+
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
           city: args.city as string,
-          country: args.country as string,
+          countries: {
+            hasEvery: countryList ? countryList : [],
+          },
           companyId: args.companyId as string,
           educationLevelIds: {
             hasEvery: educationLevelIdList ? educationLevelIdList : [],
