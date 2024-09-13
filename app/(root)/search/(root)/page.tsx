@@ -38,6 +38,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     workSchedule: searchParams.workSchedule,
     occupation: searchParams.title as string,
     contractType: searchParams.contractType as string,
+    location: searchParams.location as string,
   };
   let alert = false;
   const sectorIdList =
@@ -62,18 +63,30 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           .map((id) => ContractType[id as keyof typeof ContractType])
       : (args.contractType as ContractType[]);
 
-  const contryList =
+  let countryList: string[] | undefined = [];
+  countryList =
     typeof args.country === "string"
       ? args.country.split(",").map((id) => id)
       : args.country;
+  if (args.location) {
+    if (countryList === undefined) {
+      countryList = [];
+    }
+    if (typeof args.location === "string") {
+      countryList.push(args.location);
+    } else if (Array.isArray(args.location)) {
+      countryList.push(...(args.location as string[]));
+    }
+  }
   if (user) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
           countries: {
-            hasEvery: contryList ? contryList : [],
+            hasEvery: countryList ? countryList : [],
           },
+
           educationLevelIds: {
             hasEvery: educationLevelIdList ? educationLevelIdList : [],
           },
