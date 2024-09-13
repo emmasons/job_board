@@ -48,16 +48,23 @@ export async function createAlert(
     let countryList: string[] | undefined = [];
     countryList =
       typeof args.country === "string"
-        ? args.country.split(",").map((id) => id)
+        ? args.country
+            .split(",")
+            .map((id) => id)
+            .filter((value, index, self) => self.indexOf(value) === index)
         : args.country;
     if (args.location) {
       if (countryList === undefined) {
         countryList = [];
       }
       if (typeof args.location === "string") {
-        countryList.push(args.location);
+        if (!countryList.includes(args.location)) {
+          countryList.push(args.location);
+        }
       } else if (Array.isArray(args.location)) {
-        countryList.push(...args.location);
+        countryList.push(
+          ...args.location.filter((value) => !countryList?.includes(value)),
+        );
       }
     }
 
