@@ -26,6 +26,10 @@ export async function createAlert(
       }
     }
     if (args) {
+      const sectorIdsToSave =
+        typeof args.sectorId === "string"
+          ? args.sectorId.split(",").map((id) => id)
+          : args.sectorId;
       const previousAlert = await db.jobAlert.findFirst({
         where: {
           ...({
@@ -33,7 +37,9 @@ export async function createAlert(
             country: args.country as string,
             companyId: args.companyId as string,
             educationLevelId: args.educationLevelId as string,
-            sectorId: args.sectorId as string,
+            sectorIds: {
+              hasSome: sectorIdsToSave,
+            },
             workSchedule: args.workSchedule as WorkSchedule,
             contractType: args.contractType as ContractType,
             occupation: args.occupation as string,
@@ -46,6 +52,10 @@ export async function createAlert(
         return false;
       }
     }
+    const sectorIdsToSave =
+      typeof args.sectorId === "string"
+        ? args.sectorId.split(",").map((id) => id)
+        : args.sectorId;
     await db.jobAlert.create({
       data: {
         userId,
@@ -53,7 +63,7 @@ export async function createAlert(
         country: args.country as string,
         companyId: args.companyId as string,
         educationLevelId: args.educationLevelId as string,
-        sectorId: args.sectorId as string,
+        sectorIds: sectorIdsToSave,
         workSchedule: args.workSchedule as WorkSchedule,
         contractType: args.contractType as ContractType,
         occupation: args.occupation as string,
@@ -76,6 +86,11 @@ export async function deleteAlert(
       return false;
     }
 
+    const sectorIdsToSave =
+      typeof args.sectorId === "string"
+        ? args.sectorId.split(",").map((id) => id)
+        : args.sectorId;
+
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
@@ -83,7 +98,9 @@ export async function deleteAlert(
           country: args.country as string,
           companyId: args.companyId as string,
           educationLevelId: args.educationLevelId as string,
-          sectorId: args.sectorId as string,
+          sectorIds: {
+            hasSome: sectorIdsToSave,
+          },
           workSchedule: args.workSchedule as WorkSchedule,
           contractType: args.contractType as ContractType,
           occupation: args.occupation as string,
@@ -92,7 +109,7 @@ export async function deleteAlert(
         } as const),
       },
     });
-    console.log(previousAlert, "********");
+
     if (previousAlert) {
       await db.jobAlert.delete({ where: { id: previousAlert.id } });
       return true;
