@@ -41,9 +41,17 @@ export async function PUT(
             { city: job.city },
             { country: job.country },
             { companyId: job.companyId },
-            { educationLevelId: job.educationLevelId },
-            { sectorId: job.sectorId },
-            { workSchedule: job.workSchedule },
+            {
+              educationLevelIds: {
+                hasSome: job.educationLevelId ? [job.educationLevelId] : [],
+              },
+            },
+            { sectorIds: { hasSome: job.sectorId ? [job.sectorId] : [] } },
+            {
+              workSchedules: {
+                hasSome: job.workSchedule ? [job.workSchedule] : [],
+              },
+            },
             { contractType: job.contractType },
             { occupation: job.occupation },
             {

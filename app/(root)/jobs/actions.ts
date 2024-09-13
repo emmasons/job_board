@@ -25,22 +25,36 @@ export async function createAlert(
         return false;
       }
     }
+    const sectorList =
+      typeof args.sectorId === "string"
+        ? args.sectorId.split(",").map((id) => id)
+        : args.sectorId;
+    const educationLevelIdList =
+      typeof args.educationLevelId === "string"
+        ? args.educationLevelId.split(",").map((id) => id)
+        : args.educationLevelId;
+    const workScheduleList =
+      typeof args.workSchedule === "string"
+        ? args.workSchedule
+            .split(",")
+            .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
+        : (args.workSchedule as WorkSchedule[]);
     if (args) {
-      const sectorIdsToSave =
-        typeof args.sectorId === "string"
-          ? args.sectorId.split(",").map((id) => id)
-          : args.sectorId;
       const previousAlert = await db.jobAlert.findFirst({
         where: {
           ...({
             city: args.city as string,
             country: args.country as string,
             companyId: args.companyId as string,
-            educationLevelId: args.educationLevelId as string,
-            sectorIds: {
-              hasSome: sectorIdsToSave,
+            educationLevelIds: {
+              hasSome: educationLevelIdList ? educationLevelIdList : [],
             },
-            workSchedule: args.workSchedule as WorkSchedule,
+            sectorIds: {
+              hasSome: sectorList ? sectorList : [],
+            },
+            workSchedules: {
+              hasSome: workScheduleList ? workScheduleList : [],
+            },
             contractType: args.contractType as ContractType,
             occupation: args.occupation as string,
             jobId: args.jobId as string,
@@ -52,19 +66,15 @@ export async function createAlert(
         return false;
       }
     }
-    const sectorIdsToSave =
-      typeof args.sectorId === "string"
-        ? args.sectorId.split(",").map((id) => id)
-        : args.sectorId;
     await db.jobAlert.create({
       data: {
         userId,
         city: args.city as string,
         country: args.country as string,
         companyId: args.companyId as string,
-        educationLevelId: args.educationLevelId as string,
-        sectorIds: sectorIdsToSave,
-        workSchedule: args.workSchedule as WorkSchedule,
+        educationLevelIds: educationLevelIdList ? educationLevelIdList : [],
+        sectorIds: sectorList ? sectorList : [],
+        workSchedules: workScheduleList ? workScheduleList : [],
         contractType: args.contractType as ContractType,
         occupation: args.occupation as string,
         jobId: args.jobId as string,
@@ -86,22 +96,35 @@ export async function deleteAlert(
       return false;
     }
 
-    const sectorIdsToSave =
+    const sectorList =
       typeof args.sectorId === "string"
         ? args.sectorId.split(",").map((id) => id)
         : args.sectorId;
-
+    const educationLevelIdList =
+      typeof args.educationLevelId === "string"
+        ? args.educationLevelId.split(",").map((id) => id)
+        : args.educationLevelId;
+    const workScheduleList =
+      typeof args.workSchedule === "string"
+        ? args.workSchedule
+            .split(",")
+            .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
+        : (args.workSchedule as WorkSchedule[]);
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
           city: args.city as string,
           country: args.country as string,
           companyId: args.companyId as string,
-          educationLevelId: args.educationLevelId as string,
-          sectorIds: {
-            hasSome: sectorIdsToSave,
+          educationLevelIds: {
+            hasSome: educationLevelIdList ? educationLevelIdList : [],
           },
-          workSchedule: args.workSchedule as WorkSchedule,
+          sectorIds: {
+            hasSome: sectorList ? sectorList : [],
+          },
+          workSchedules: {
+            hasSome: workScheduleList ? workScheduleList : [],
+          },
           contractType: args.contractType as ContractType,
           occupation: args.occupation as string,
           jobId: args.jobId as string,

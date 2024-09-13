@@ -1,4 +1,8 @@
-import { NOTIFICATION_TYPES, SUBSCRIPTION_TYPE } from "@prisma/client";
+import {
+  NOTIFICATION_TYPES,
+  SUBSCRIPTION_TYPE,
+  WorkSchedule,
+} from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -101,5 +105,24 @@ export const getSubscriptionHeading = (type: SUBSCRIPTION_TYPE) => {
       return "Job postings";
     default:
       return "Newsletter";
+  }
+};
+
+export const getWorkScheduleLabel = (workSchedule: WorkSchedule) => {
+  switch (workSchedule) {
+    case WorkSchedule.FULL_TIME:
+      return "Full time";
+    case WorkSchedule.PART_TIME:
+      return "Part time";
+    case WorkSchedule.CONTRACTOR:
+      return "Contractor";
+    case WorkSchedule.TEMPORARY:
+      return "Temporary";
+    case WorkSchedule.SEASONAL:
+      return "Seasonal";
+    case WorkSchedule.NOT_SPECIFIED:
+      return "Not specified";
+    default:
+      return "Not specified";
   }
 };
