@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-
 // Example image import, replace with the actual image paths
 // import leadershipImage from 'index/cv-services/board_production_ckeditor_uploads_images_cvwriting.jpg';
 

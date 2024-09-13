@@ -49,7 +49,7 @@ jobs:
       - setup_service_account
       - setup_env_file
       - run:
-          name: Build Tag and Push Infinite Talent Limited Job Board Docker Image
+          name: Build Tag and Push Jobs Connect Limited Docker Image
           command: |
             docker-build -f deploy/build.config
             docker-push -f deploy/build.config
