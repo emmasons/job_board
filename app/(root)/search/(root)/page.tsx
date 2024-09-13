@@ -39,11 +39,21 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     occupation: searchParams.title as string,
   };
   let alert = false;
-  const sectorIdsSaved =
+  const sectorIdList =
     typeof args.sectorId === "string"
       ? args.sectorId.split(",").map((id) => id)
       : args.sectorId;
 
+  const educationLevelIdList =
+    typeof args.educationLevelId === "string"
+      ? args.educationLevelId.split(",").map((id) => id)
+      : args.educationLevelId;
+  const workScheduleList =
+    typeof args.workSchedule === "string"
+      ? args.workSchedule
+          .split(",")
+          .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
+      : (args.workSchedule as WorkSchedule[]);
   if (user) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
@@ -51,11 +61,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         ...({
           country: args.country as string,
 
-          educationLevelId: args.educationLevelId as string,
-          sectorIds: {
-            hasSome: sectorIdsSaved,
+          educationLevelIds: {
+            hasSome: educationLevelIdList ? educationLevelIdList : [],
           },
-          workSchedule: args.workSchedule as WorkSchedule,
+          sectorIds: {
+            hasSome: sectorIdList ? sectorIdList : [],
+          },
+          workSchedules: {
+            hasSome: workScheduleList ? workScheduleList : [],
+          },
           occupation: args.occupation as string,
           userId: user.id,
         } as const),

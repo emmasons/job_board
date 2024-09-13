@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import DeleteAlertAction from "./DeleteAlertAction";
 import { toast } from "@/components/ui/use-toast";
 import { db } from "@/lib/db";
+import { getWorkScheduleLabel } from "@/lib/utils";
 
 type Props = {};
 
@@ -59,11 +60,13 @@ const page = async (props: Props) => {
               </p>
               <p className="text-sm">
                 <span className="me-1 font-semibold">Education Level:</span>
-                {alert.educationLevelId ? alert.educationLevel?.label : "N/A"}
+                {alert.educationLevelIds
+                  ? alert.educationLevelIds.join(", ")
+                  : "N/A"}
               </p>
               <p className="text-sm">
                 <span className="me-1 font-semibold">Sector:</span>
-                {alert.sectorId ? alert.sector?.label : "N/A"}
+                {alert.sectorIds ? alert.sectorIds.map((s) => s).join(", ") : "N/A"}
               </p>
               <p className="text-sm">
                 <span className="me-1 font-semibold">Job Type:</span>
@@ -71,7 +74,11 @@ const page = async (props: Props) => {
               </p>
               <p className="text-sm">
                 <span className="me-1 font-semibold">Work Schedule:</span>
-                {alert.workSchedule ? alert.workSchedule : "N/A"}
+                {alert.workSchedules
+                  ? alert.workSchedules
+                      .map((w) => getWorkScheduleLabel(w))
+                      .join(", ")
+                  : "N/A"}
               </p>
               <p className="text-sm">
                 <span className="me-1 font-semibold">Contract Type:</span>
