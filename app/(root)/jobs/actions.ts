@@ -45,10 +45,22 @@ export async function createAlert(
             .split(",")
             .map((id) => ContractType[id as keyof typeof ContractType])
         : (args.contractType as ContractType[]);
-    const countryList =
+    let countryList: string[] | undefined = [];
+    countryList =
       typeof args.country === "string"
         ? args.country.split(",").map((id) => id)
         : args.country;
+    if (args.location) {
+      if (countryList === undefined) {
+        countryList = [];
+      }
+      if (typeof args.location === "string") {
+        countryList.push(args.location);
+      } else if (Array.isArray(args.location)) {
+        countryList.push(...args.location);
+      }
+    }
+
     if (args) {
       const previousAlert = await db.jobAlert.findFirst({
         where: {
