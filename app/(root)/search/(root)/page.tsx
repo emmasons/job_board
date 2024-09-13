@@ -12,7 +12,7 @@ import { getUserAlerts } from "@/actions/get-user-alerts";
 import { createAlert, deleteAlert } from "../../jobs/actions";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { WorkSchedule } from "@prisma/client";
+import { ContractType, WorkSchedule } from "@prisma/client";
 interface SearchPageProps {
   searchParams: Record<string, string | string[] | undefined>;
 }
@@ -37,6 +37,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     sectorId: searchParams.sectorFilter as string,
     workSchedule: searchParams.workSchedule,
     occupation: searchParams.title as string,
+    contractType: searchParams.contractType as string,
   };
   let alert = false;
   const sectorIdList =
@@ -54,6 +55,12 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           .split(",")
           .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
       : (args.workSchedule as WorkSchedule[]);
+  const contactTypeList =
+    typeof args.contractType === "string"
+      ? args.contractType
+          .split(",")
+          .map((id) => ContractType[id as keyof typeof ContractType])
+      : (args.contractType as ContractType[]);
   if (user) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
@@ -69,6 +76,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           },
           workSchedules: {
             hasEvery: workScheduleList ? workScheduleList : [],
+          },
+          contractTypes: {
+            hasEvery: contactTypeList ? contactTypeList : [],
           },
           occupation: args.occupation as string,
           userId: user.id,

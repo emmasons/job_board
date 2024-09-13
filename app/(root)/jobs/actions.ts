@@ -39,7 +39,13 @@ export async function createAlert(
             .split(",")
             .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
         : (args.workSchedule as WorkSchedule[]);
-    console.log(sectorList);
+    const contactTypeList =
+      typeof args.contractType === "string"
+        ? args.contractType
+            .split(",")
+            .map((id) => ContractType[id as keyof typeof ContractType])
+        : (args.contractType as ContractType[]);
+
     if (args) {
       const previousAlert = await db.jobAlert.findFirst({
         where: {
@@ -56,7 +62,9 @@ export async function createAlert(
             workSchedules: {
               hasEvery: workScheduleList ? workScheduleList : [],
             },
-            contractType: args.contractType as ContractType,
+            contractTypes: {
+              hasEvery: contactTypeList ? contactTypeList : [],
+            },
             occupation: args.occupation as string,
             jobId: args.jobId as string,
             userId,
@@ -76,7 +84,7 @@ export async function createAlert(
         educationLevelIds: educationLevelIdList ? educationLevelIdList : [],
         sectorIds: sectorList ? sectorList : [],
         workSchedules: workScheduleList ? workScheduleList : [],
-        contractType: args.contractType as ContractType,
+        contractTypes: contactTypeList ? contactTypeList : [],
         occupation: args.occupation as string,
         jobId: args.jobId as string,
       },
@@ -111,6 +119,12 @@ export async function deleteAlert(
             .split(",")
             .map((id) => WorkSchedule[id as keyof typeof WorkSchedule])
         : (args.workSchedule as WorkSchedule[]);
+    const contactTypeList =
+      typeof args.contractType === "string"
+        ? args.contractType
+            .split(",")
+            .map((id) => ContractType[id as keyof typeof ContractType])
+        : (args.contractType as ContractType[]);
     const previousAlert = await db.jobAlert.findFirst({
       where: {
         ...({
@@ -126,7 +140,9 @@ export async function deleteAlert(
           workSchedules: {
             hasEvery: workScheduleList ? workScheduleList : [],
           },
-          contractType: args.contractType as ContractType,
+          contractTypes: {
+            hasEvery: contactTypeList ? contactTypeList : [],
+          },
           occupation: args.occupation as string,
           jobId: args.jobId as string,
           userId,

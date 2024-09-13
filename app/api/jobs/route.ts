@@ -47,10 +47,13 @@ export async function POST(req: Request) {
         (alert.city?.toLowerCase() === job.city?.toLowerCase() ||
           alert.country?.toLowerCase() === job.country?.toLowerCase() ||
           alert.companyId === job.companyId ||
-          alert.educationLevelId === job.educationLevelId ||
-          alert.sectorId === job.sectorId ||
-          alert.contractType === job.contractType ||
-          alert.workSchedule === job.workSchedule ||
+          (job.educationLevelId &&
+            alert.educationLevelIds.includes(job.educationLevelId)) ||
+          (job.sectorId && alert.sectorIds?.includes(job.sectorId)) ||
+          (job.contractType &&
+            alert.contractTypes?.includes(job.contractType)) ||
+          (job.workSchedule &&
+            alert.workSchedules?.includes(job.workSchedule)) ||
           job.occupation
             ?.toLowerCase()
             .includes(alert.occupation?.toLowerCase() ?? "")) &&

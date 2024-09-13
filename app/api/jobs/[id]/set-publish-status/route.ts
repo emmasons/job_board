@@ -52,7 +52,11 @@ export async function PUT(
                 hasSome: job.workSchedule ? [job.workSchedule] : [],
               },
             },
-            { contractType: job.contractType },
+            {
+              contractTypes: {
+                hasSome: job.contractType ? [job.contractType] : [],
+              },
+            },
             { occupation: job.occupation },
             {
               OR: [{ jobId: null }, { jobId: job.id }],

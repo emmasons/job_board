@@ -502,7 +502,7 @@ model JobAlert {
   educationLevelIds String[]
   sectorIds String[]
   workSchedules WorkSchedule[]
-  contractType ContractType @default(NOT_SPECIFIED)
+  contractTypes ContractType[]
 
   jobType JOBTYPE @default(NORMAL)
 
