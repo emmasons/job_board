@@ -44,20 +44,18 @@ export async function POST(req: Request) {
 
     for (const alert of alerts) {
       if (
-        (alert.city?.toLowerCase() === job.city?.toLowerCase() ||
-          (job.country && alert.countries?.includes(job.country))) ||
-          alert.companyId === job.companyId ||
-          (job.educationLevelId &&
-            alert.educationLevelIds.includes(job.educationLevelId)) ||
-          (job.sectorId && alert.sectorIds?.includes(job.sectorId)) ||
-          (job.contractType &&
-            alert.contractTypes?.includes(job.contractType)) ||
-          (job.workSchedule &&
-            alert.workSchedules?.includes(job.workSchedule)) ||
-          job.occupation
-            ?.toLowerCase()
-            .includes(alert.occupation?.toLowerCase() ?? "")) &&
-        alert.userId !== userId
+        alert.city?.toLowerCase() === job.city?.toLowerCase() ||
+        (job.country && alert.countries?.includes(job.country)) ||
+        alert.companyId === job.companyId ||
+        (job.educationLevelId &&
+          alert.educationLevelIds.includes(job.educationLevelId)) ||
+        (job.sectorId && alert.sectorIds?.includes(job.sectorId)) ||
+        (job.contractType && alert.contractTypes?.includes(job.contractType)) ||
+        (job.workSchedule && alert.workSchedules?.includes(job.workSchedule)) ||
+        (job.occupation
+          ?.toLowerCase()
+          .includes(alert.occupation?.toLowerCase() ?? "") &&
+          alert.userId !== userId)
       ) {
         await db.notification.create({
           data: {
