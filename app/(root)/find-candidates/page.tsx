@@ -1,4 +1,3 @@
-
 import { getAllCandidates } from "@/actions/get-all-candidates";
 import { getEmployerCandidatesIds } from "@/actions/get-employer-candidates-ids";
 import CandidateList from "@/components/find-candidates/CandidateList";
@@ -18,7 +17,12 @@ import CandidatesSkeleton from "@/components/find-candidates/CandidatesSkeleton"
 import { Suspense } from "react";
 import CandidateFilters from "@/components/find-candidates/CandidateFilters";
 import RemoveSearchParam from "@/components/search/RemoveSearchParam";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Find Top Candidates for Your Job Openings",
+  description:
+    "Discover and connect with qualified candidates for your job vacancies. Use JobsConnect.net to find the best talent in Kuwait, Dubai.",
+};
 const cvFaqs = [
   {
     title: "How can I find CVs for free?",
@@ -110,7 +114,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
         </div>
         {!hasParams && (
           <div className="mt-4 flex items-center justify-center ">
-            <div className="w-full p-4 m-auto">
+            <div className="m-auto w-full p-4">
               <h2 className="my-6 text-center text-2xl font-semibold">
                 Frequently Asked Questions
               </h2>
@@ -118,18 +122,20 @@ const page = async ({ searchParams }: SearchPageProps) => {
                 type="single"
                 collapsible
                 defaultValue={cvFaqs[0].title}
-                className="w-full m-auto pr-4"
+                className="m-auto w-full pr-4"
               >
                 {cvFaqs.map((faq) => (
                   <AccordionItem
                     value={faq.title}
                     key={faq.title}
-                    className="border rounded-md m-4 px-4 w-full shadow-sm"
+                    className="m-4 w-full rounded-md border px-4 shadow-sm"
                   >
                     <AccordionTrigger className="text-md font-semibold">
                       {faq.title}
                     </AccordionTrigger>
-                    <AccordionContent className="border-t pt-2 text-sm text-slate-600">{faq.description}</AccordionContent>
+                    <AccordionContent className="border-t pt-2 text-sm text-slate-600">
+                      {faq.description}
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>

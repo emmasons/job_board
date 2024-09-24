@@ -3,7 +3,10 @@ import { verifyEmail } from "../actions/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ResendEmail from "@/components/auth/ResendEmail";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Verify your email address",
+};
 type Props = {
   searchParams: Record<"t", string>;
 };

@@ -17,8 +17,10 @@ import { getAllOccupations } from "@/actions/get-all-occupations";
 import FilterByJobType from "@/components/search/filter/FilterByJobType";
 import { getAllJobTypes } from "@/actions/get-all-job-types";
 import { gulfCountries } from "@/lib/utils";
-
-type Props = {};
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Advanced Job Search",
+};
 
 const page = async (props: Props) => {
   const sectors = await getAllSectors();

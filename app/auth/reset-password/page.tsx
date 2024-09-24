@@ -1,7 +1,10 @@
 import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { notFound } from "next/navigation";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Reset Password",
+};
 type Props = {
   searchParams: Record<"email", string>;
 };
