@@ -4,10 +4,6 @@ import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import { notFound } from "next/navigation";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import type { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Services",
-};
 
 interface Props {
   params: {
@@ -21,7 +17,6 @@ export async function generateMetadata({ params }: Props) {
   if (!service) {
     return;
   }
-
 
   return {
     title: service.title,
@@ -53,28 +48,22 @@ const Service = async ({ params }: Props) => {
   const imageMetadata = await getLatestFileMetaData(service.id);
 
   return (
-    <MaxWidthWrapper className="p-4 md:px-0 font-sans bg-slate-100">
-        <div className="max-w-3xl my-9 mx-auto bg-white p-2  shadow-lg rounded-md">
-      <div className="my-10  flex flex-col justify-between gap-[10%]   ">
-        <div className="flex flex-1 flex-col justify-center items-center text-center basis-[60%] mb-2">
-          <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:text-4xl md:mb-0">
-            {service.title}
-          </h1>
-        </div>
-
-
-      </div>
-      <div className="font-sans flex justify-center items-center flex-col gap-[10%]  md:flex-row">
-
-        <div className="basis-[80%]">
-
-          <div className="mb-4 font-mono">
-            <Preview value={service.description || ""} />
+    <MaxWidthWrapper className="bg-slate-100 p-4 font-sans md:px-0">
+      <div className="mx-auto my-9 max-w-3xl rounded-md bg-white  p-2 shadow-lg">
+        <div className="my-10  flex flex-col justify-between gap-[10%]   ">
+          <div className="mb-2 flex flex-1 basis-[60%] flex-col items-center justify-center text-center">
+            <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:mb-0 md:text-4xl">
+              {service.title}
+            </h1>
           </div>
-
-
         </div>
-      </div>
+        <div className="flex flex-col items-center justify-center gap-[10%] font-sans  md:flex-row">
+          <div className="basis-[80%]">
+            <div className="mb-4 font-mono">
+              <Preview value={service.description || ""} />
+            </div>
+          </div>
+        </div>
       </div>
     </MaxWidthWrapper>
   );
