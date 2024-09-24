@@ -13,12 +13,65 @@ import { createAlert, deleteAlert } from "../../jobs/actions";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ContractType, WorkSchedule } from "@prisma/client";
-import type { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Search Jobs",
-};
+// import type { Metadata } from "next";
+// export const metadata: Metadata = {
+//   title: "Search Jobs",
+//   description:
+//     "Search hundreds of jobs in UAE, Qatar, Saudi Arabia, Oman, Bahrain, Kuwait, Jordan and Lebanon. Search jobs by location, job role and industry. Start searching!",
+// };
 interface SearchPageProps {
   searchParams: Record<string, string | string[] | undefined>;
+}
+
+export async function generateMetadata({ searchParams }: SearchPageProps) {
+  const countriesFilter = searchParams.countriesFilter as string | undefined;
+  const titleFilter = searchParams.title as string | undefined;
+  const occupationFilter = searchParams.occupationFilter as string | undefined;
+  const locationFilter = searchParams.location as string | undefined;
+  const titlePlaceholder = [
+    countriesFilter,
+    titleFilter,
+    locationFilter,
+    occupationFilter,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const titlePlaceholderArray = titlePlaceholder.split(" ").map(
+    (word) => `${word} jobs`
+  );
+  return {
+    title: `Search ${titlePlaceholder} jobs in gulf countries and the middle east`,
+    description: `Search hundreds of ${titlePlaceholder} jobs in SPE, Qatar, Saudi Arabia, Oman, Bahrain, Kuwait, Jordan and Lebanon. Search jobs by location, job role and industry. Start searching!`,
+    keywords: [
+      "Jobs",
+      "Kuwait",
+      "Dubai",
+      "Saudi Arabia",
+      "Qatar",
+      "Oman",
+      "jobsconnect.net",
+      "jobs",
+      "career openings",
+      "job",
+      "vacancies",
+      "careers in gulf",
+      "job search",
+      "jobs in gulf",
+      "jobs gulf",
+      "job site",
+      "middle east job sites",
+      "it jobs in Gulf",
+      "jobs gulf",
+      "job search in middle east",
+      "online jobs",
+      "accounting jobs in gulf",
+      "part time jobs gulf",
+      "banking jobs gulf",
+      "finance jobs gulf",
+      "marketing jobs in gulf.",
+      ...titlePlaceholderArray,
+    ],
+  };
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
