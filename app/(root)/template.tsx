@@ -1,14 +1,5 @@
-import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar/Navbar";
-
-export const metadata: Metadata = {
-  title: {
-    default: "Jobs Connect Limited",
-    template: `%s | Jobs Connect Limited`,
-  },
-  description: "Jobs Connect Limited.",
-};
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (

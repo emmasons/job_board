@@ -1,6 +1,9 @@
 import ResendEmailForm from "@/components/auth/ResendEmailForm";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Send Reset Password Link",
+};
 const page = async () => {
   return (
     <MaxWidthWrapper className="flex h-full w-full flex-col items-center justify-center">

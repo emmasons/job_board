@@ -13,9 +13,39 @@ const poppins = Poppins({
 }); // Define Poppins font with weights
 
 export const metadata: Metadata = {
-  title: "Job Board",
+  metadataBase: new URL("https://jobsconnect.net"),
+  title: {
+    default:
+      "Find Jobs in Kuwait, Dubai, Saudi Arabia, Oman, Qatar, and Bahrain",
+    template: `%s | Jobsconnect.net`,
+  },
   description:
-    "A comprehensive authentication and role based authentication template.",
+    "Explore top job search websites and job boards for finding employment across the Gulf region. Discover job vacancies and career opportunities in Kuwait, Dubai, Saudi Arabia.",
+  keywords: [
+    "Jobs",
+    "Kuwait",
+    "Dubai",
+    "Saudi Arabia",
+    "Qatar",
+    "Oman",
+    "Bahrain",
+    "Jobs Connect",
+    "Jobs Connect Limited",
+    "Recruitment Agency",
+    "Job Agency",
+    "jobsconnect.net",
+  ],
+  twitter: {
+    card: "summary_large_image",
+    site: "@InfiniteTalent1",
+  },
+  icons: {
+    shortcut: "/favicon.ico",
+  },
+  openGraph: {
+    siteName: "jobsconnect.net",
+    url: "https://jobsconnect.net",
+  },
 };
 
 export default function RootLayout({

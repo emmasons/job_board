@@ -3,7 +3,10 @@ import EmployerSignup from "@/components/auth/EmployerSignup";
 import { getAllSectors } from "@/actions/get-all-sectors";
 import { Role } from "@prisma/client";
 import SignupMessage from "@/components/auth/SignupMessage";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Sign up as an employer",
+};
 const page = async () => {
   const sectors = await getAllSectors();
 

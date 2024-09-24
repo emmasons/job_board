@@ -2,7 +2,10 @@ import { UnsubscribeForm } from "@/components/forms/subscription/UnsubscribeForm
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { db } from "@/lib/db";
 import React from "react";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Unsubscribe",
+};
 type Props = {
   searchParams: Record<"email", string>;
 };

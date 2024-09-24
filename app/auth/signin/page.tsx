@@ -3,7 +3,10 @@ import SignupMessage from "@/components/auth/SignupMessage";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Sign in",
+};
 type Props = {
   searchParams?: Record<"callbackUrl" | "error", string>;
 };

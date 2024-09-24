@@ -3,7 +3,10 @@ import { HomeIcon, MailWarning } from "lucide-react";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import Link from "next/link";
-
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Verify your email address",
+};
 type Props = {
   searchParams: Record<"u", string>;
 };

@@ -4,6 +4,10 @@ import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import { notFound } from "next/navigation";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import type { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Services",
+};
 
 interface Props {
   params: {
@@ -55,10 +59,10 @@ const Service = async ({ params }: Props) => {
         <div className="flex flex-1 flex-col justify-center items-center text-center basis-[60%] mb-2">
           <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:text-4xl md:mb-0">
             {service.title}
-          </h1> 
+          </h1>
         </div>
-        
-      
+
+
       </div>
       <div className="font-sans flex justify-center items-center flex-col gap-[10%]  md:flex-row">
 
@@ -67,7 +71,7 @@ const Service = async ({ params }: Props) => {
           <div className="mb-4 font-mono">
             <Preview value={service.description || ""} />
           </div>
-          
+
 
         </div>
       </div>
