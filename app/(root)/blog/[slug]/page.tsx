@@ -75,7 +75,7 @@ const Post = async ({ params }: Props) => {
   const imageMetadata = await getLatestFileMetaData(post.id);
 
   return (
-    <MaxWidthWrapper className="px-4 md:px-0 font-serif">
+    <MaxWidthWrapper className="px-4 font-serif md:px-0">
       <div>
         <Image
           src={imageMetadata?.downloadUrl || "/assets/travel.jpg"}
@@ -86,24 +86,19 @@ const Post = async ({ params }: Props) => {
         />
       </div>
       <div className="my-10  flex flex-col justify-between gap-[10%]   ">
-        <div className="flex flex-1 flex-col justify-center items-center text-center basis-[60%] mb-2">
-          <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:text-4xl md:mb-0">
+        <div className="mb-2 flex flex-1 basis-[60%] flex-col items-center justify-center text-center">
+          <h1 className="border-border-color border-b-2 border-zinc-400 text-3xl font-semibold leading-[2rem] tracking-wide md:mb-0 md:text-4xl">
             {post.title}
-          </h1> 
+          </h1>
         </div>
-        
-      
       </div>
-      <div className="font-sans flex justify-center items-center flex-col gap-[10%] md:flex-row">
-
+      <div className="flex flex-col items-center justify-center gap-[10%] font-sans md:flex-row">
         <div className="basis-[60%]">
           <AuthorCard date={formattedDate} author={""} />
 
           <div className="mb-4">
             <Preview value={post.content || ""} />
           </div>
-          
-
         </div>
       </div>
     </MaxWidthWrapper>
