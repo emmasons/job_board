@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -227,6 +228,7 @@ model EducationLevel {
   colegeLocation   String?
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
+  jobAlerts        JobAlert[]
 }
 
 
@@ -243,7 +245,7 @@ model Sector {
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
   Company          Company[]
-
+  jobAlerts        JobAlert[]
 }
 
 enum JOBTYPE {
@@ -473,7 +475,6 @@ enum NOTIFICATION_TYPES {
   JOB_OFFER_MADE
   JOB_OFFER_ACCEPTED
   JOB_OFFER_REJECTED
-  NEW_BLOG_POST
 }
 
 model Notification {
@@ -495,18 +496,22 @@ model JobAlert {
   user   User   @relation(fields: [userId], references: [id])
 
   city    String?
+  country String?
 
   companyId String?
   company   Company? @relation(fields: [companyId], references: [id])
 
-  educationLevelIds String[]
-  sectorIds String[]
-  workSchedules WorkSchedule[]
-  contractTypes ContractType[]
-  countries String[]
+  educationLevelId String?
+  educationLevel   EducationLevel? @relation(fields: [educationLevelId], references: [id])
 
+  sectorId String?
+  sector   Sector? @relation(fields: [sectorId], references: [id])
 
   jobType JOBTYPE @default(NORMAL)
+
+  workSchedule WorkSchedule? @default(NOT_SPECIFIED)
+
+  contractType ContractType @default(NOT_SPECIFIED)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
