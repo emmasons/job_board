@@ -2,7 +2,7 @@ import { Logo } from "@/components/navbar/Logo";
 
 const SignupMessage = () => {
   return (
-    <div className="flex basis-[40%] flex-col justify-center  p-8 text-white">
+    <div className="flex w-auto md:w-1/3 flex-col justify-center text-white">
       <span className="inline-flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white ">
         <Logo />
       </span>

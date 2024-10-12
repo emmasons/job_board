@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 };
 const page = () => {
   return (
-    <MaxWidthWrapper className="flex w-full justify-between">
+    <div className="flex flex-wrap w-full justify-between">
       <SignupMessage />
-      <div className="w-full rounded-md bg-slate-50 shadow md:p-8 basis-1/2">
+      <div className="w-full rounded-md bg-slate-50 shadow my-4 p-8 md:basis-1/2">
         <Signup role={Role.JOB_SEEKER} />
       </div>
-    </MaxWidthWrapper>
+    </div>
   );
 };
 
