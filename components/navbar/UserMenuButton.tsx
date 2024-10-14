@@ -98,14 +98,14 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                     Find a Job
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link
                     href="/profile/dashboard/job-seeker/jobs"
                     className="block w-full hover:cursor-pointer"
                   >
                     My Jobs
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
                   {/*
                     add more dropdown items if needed

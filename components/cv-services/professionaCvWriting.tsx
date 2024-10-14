@@ -281,7 +281,7 @@ const ProfessionalCvWriting: React.FC = () => {
             <div className="text-gray-600">
               <p className="flex gap-4 py-2 text-sm">
                 <Mail className="h-4" />
-                info@infinitetalent.co.ke
+                info@jobsconnect.net
               </p>
               <p className="flex gap-4 py-2 text-sm">
                 <Phone className="h-4" />
@@ -289,7 +289,7 @@ const ProfessionalCvWriting: React.FC = () => {
               </p>
               <p className="flex gap-4 py-2 text-sm">
                 <MapPin className="h-4" />
-                Muthaiga Square, Thika Nairobi, Kenya
+                35W9+P9C Dubai - United Arab Emirates
               </p>
             </div>
           </div>
