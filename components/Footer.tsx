@@ -34,7 +34,7 @@ const Footer = (props: Props) => {
           <ul>
             <li>
               <Link
-                href="https://twitter.com/InfiniteTalent1/"
+                href="https://x.com/job_connects"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -44,7 +44,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://www.linkedin.com//in/infinite-talent-15a732314"
+                href="http://www.linkedin.com/in/job-connect-506024322"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -54,7 +54,17 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://web.facebook.com/profile.php?id=100092599658225"
+                href="https://www.instagram.com/jobsconnect20/"
+                target="_blank"
+                className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+              >
+                <Icon icon="mdi:instagram" className="h-4 w-4" />
+                Instagram
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://www.facebook.com/profile.php?id=61563736538661"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >

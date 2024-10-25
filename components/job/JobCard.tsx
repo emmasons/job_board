@@ -26,9 +26,9 @@ type Props = {
 const JobCard = ({
   id,
   title,
-  url,
+
   createdAt,
-  companyName, 
+  companyName,
   sector,
   city,
   country,
@@ -37,12 +37,14 @@ const JobCard = ({
 }: Props) => {
   const formattedDate = formatDistanceToNow(createdAt, { addSuffix: true });
   const titleToShare = `Check out this amazing job: ${title}`;
+  const shareUrl = process.env.NEXT_PUBLIC_BASE_DOMAIN + "/jobs/" + id;
+
   return (
     <Link href={`/jobs/${id}`} className="group block">
       <div className="h-full overflow-hidden rounded-lg border border-gray-200 bg-slate-50 p-4 transition-shadow duration-200 hover:shadow-lg">
         <div className="mb-2 flex items-start justify-between">
           <div>
-            <h2 className="truncate text-start text-lg text-primary font-semibold group-hover:text-orange-600">
+            <h2 className="truncate text-start text-lg font-semibold text-primary group-hover:text-orange-600">
               {title}
             </h2>
             {companyName && (
@@ -55,7 +57,6 @@ const JobCard = ({
             )}
           </div>
           {/* add company logo if needed */}
-          
         </div>
         <div className="mb-4 text-sm text-gray-600">
           <div className="mb-1 flex items-center gap-1">
@@ -83,28 +84,28 @@ const JobCard = ({
           <p className="text-sm text-gray-400">{formattedDate}</p>
           <div className="flex items-center gap-2">
             {/* Facebook Share Button */}
-            <FacebookShareButton url={url} hashtag={titleToShare}>
+            <FacebookShareButton url={shareUrl} hashtag={titleToShare}>
               <Icon
                 icon="akar-icons:facebook-fill"
                 className="h-4 w-4 text-blue-600"
               />
             </FacebookShareButton>
             {/* Twitter Share Button */}
-            <TwitterShareButton url={url} title={titleToShare}>
+            <TwitterShareButton url={shareUrl} title={titleToShare}>
               <Icon
                 icon="akar-icons:twitter-fill"
                 className="h-4 w-4 text-blue-400"
               />
             </TwitterShareButton>
             {/* LinkedIn Share Button */}
-            <LinkedinShareButton url={url} title={titleToShare}>
+            <LinkedinShareButton url={shareUrl} title={titleToShare}>
               <Icon
                 icon="akar-icons:linkedin-fill"
                 className="h-4 w-4 text-blue-700"
               />
             </LinkedinShareButton>
             {/* WhatsApp Share Button */}
-            <WhatsappShareButton url={url} title={titleToShare}>
+            <WhatsappShareButton url={shareUrl} title={titleToShare}>
               <Icon
                 icon="akar-icons:whatsapp-fill"
                 className="h-4 w-4 text-green-500"
@@ -112,7 +113,7 @@ const JobCard = ({
             </WhatsappShareButton>
             {/* Email Share Button */}
             <EmailShareButton
-              url={url}
+              url={shareUrl}
               subject={titleToShare}
               body={titleToShare}
             >
@@ -139,5 +140,3 @@ const JobCard = ({
 };
 
 export default JobCard;
-
-
