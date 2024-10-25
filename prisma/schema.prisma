@@ -228,7 +228,6 @@ model EducationLevel {
   colegeLocation   String?
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
-  jobAlerts        JobAlert[]
 }
 
 
@@ -245,7 +244,7 @@ model Sector {
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
   Company          Company[]
-  jobAlerts        JobAlert[]
+
 }
 
 enum JOBTYPE {
@@ -496,22 +495,18 @@ model JobAlert {
   user   User   @relation(fields: [userId], references: [id])
 
   city    String?
-  country String?
 
   companyId String?
   company   Company? @relation(fields: [companyId], references: [id])
 
-  educationLevelId String?
-  educationLevel   EducationLevel? @relation(fields: [educationLevelId], references: [id])
+  educationLevelIds String[]
+  sectorIds String[]
+  workSchedules WorkSchedule[]
+  contractTypes ContractType[]
+  countries String[]
 
-  sectorId String?
-  sector   Sector? @relation(fields: [sectorId], references: [id])
 
   jobType JOBTYPE @default(NORMAL)
-
-  workSchedule WorkSchedule? @default(NOT_SPECIFIED)
-
-  contractType ContractType @default(NOT_SPECIFIED)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
