@@ -14,6 +14,7 @@ import {
   Eye,
   FolderOutput,
   FolderInput,
+  Logs,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -110,6 +111,12 @@ const adminRoutes = [
     icon: FolderInput,
     label: "All Jobs",
     href: "/profile/dashboard/admin/all-jobs",
+  },
+
+  {
+    icon: Logs,
+    label: "Log Errors",
+    href: "/profile/dashboard/admin/logs",
   },
 ];
 
