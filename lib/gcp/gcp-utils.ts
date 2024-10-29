@@ -13,24 +13,27 @@ export const DOWNLOAD_EXPIRY_IN_SECONDS = new Date(
 );
 
 export async function uploadFile(
-  file: FormDataEntryValue,
+  file: File,
   fileName: string,
-  isPublic = false,
+  fileType = "",
+  isBuffer = false,
 ) {
-  const contentType: string = getFileExtension(file);
-
+  const contentType: string = fileType || getFileExtension(file);
   const downloadExpiryDate = UPLOAD_EXPIRY_IN_SECONDS;
   const uploader = new FileUploader(
     fileName,
     contentType,
     "PUT",
     downloadExpiryDate,
-    isPublic,
   );
-  const cloudResponse = await uploader.uploadFile(file);
-  return cloudResponse;
+  if (isBuffer) {
+    const cloudResponse = await uploader.uploadFileBuffer(file);
+    return cloudResponse;
+  } else {
+    const cloudResponse = await uploader.uploadFile(file);
+    return cloudResponse;
+  }
 }
-
 // Delete an object
 export async function deleteGCPObject(objectName) {
   try {

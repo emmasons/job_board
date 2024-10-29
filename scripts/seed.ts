@@ -316,10 +316,10 @@ async function createNotis() {
 }
 
 async function main() {
-  // await createEducationLevels();
-  // await createExperienceLevels();
-  // await createSectors();
-  // await createOccupations();
+  await createEducationLevels();
+  await createExperienceLevels();
+  await createSectors();
+  await createOccupations();
   // await clearTable("scrapedJob");
   // await createNotis();
 }

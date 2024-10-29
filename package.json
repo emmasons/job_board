@@ -89,6 +89,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "use-react-countries": "^2.0.0",
+    "winston": "^3.15.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.2"
   },

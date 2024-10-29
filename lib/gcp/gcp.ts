@@ -95,9 +95,7 @@ export class FileUploader {
     });
   }
 
-  async uploadFile(
-    file: FormDataEntryValue,
-  ): Promise<{
+  async uploadFile(file: FormDataEntryValue): Promise<{
     status: number;
     message: string;
     downloadUrl: string;
@@ -128,10 +126,54 @@ export class FileUploader {
           status: 500,
           message: error.message || error,
           downloadUrl: "",
+          blobName: this.fileName,
         });
       }
     });
   }
+
+  async uploadFileBuffer(
+    fileBuffer: Buffer,
+  ): Promise<{ status: number; message: string; downloadUrl: string }> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const writer = this.storage
+          .bucket(this.gsBucketName)
+          .file(this.fileName)
+          .createWriteStream({
+            metadata: {
+              contentType: this.contentType,
+            },
+          });
+
+        writer.end(fileBuffer); // Write the file buffer to the GCS stream
+
+        writer.on("finish", async () => {
+          const downloadUrl = await this.generateSignedDownloadUrl();
+          resolve({
+            status: 200, // Assuming success code on upload completion
+            message: "File uploaded successfully",
+            downloadUrl,
+          });
+        });
+
+        writer.on("error", (error) => {
+          reject({
+            status: 500,
+            message: error.message || error,
+            downloadUrl: "",
+          });
+        });
+      } catch (error) {
+        reject({
+          status: 500,
+          message: error.message || error,
+          downloadUrl: "",
+        });
+      }
+    });
+  }
+
   async getGenerationNumber() {
     const [metadata] = await this.storage
       .bucket(this.gsBucketName)
