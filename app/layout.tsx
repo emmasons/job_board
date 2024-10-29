@@ -5,6 +5,7 @@ import SessionProvider from "@/providers/SessionProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import WhatsAppButton from "@/components/integrations/Whatsapp";
+import Analytics from "@/components/Analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -81,6 +82,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
+      <head>
+        <Analytics />
+      </head>
       <body className={cn(poppins.className, "h-full")}>
         <SessionProvider>
           <Toaster />
