@@ -57,7 +57,7 @@ cron.schedule("*/1 * * * *", () => {
         console.log(`Backup saved as ${backupFile}`);
         const fileLocation =
           process.env.NODE_ENV === "production"
-            ? `/app/db_backups/${formattedName}`
+            ? `/app/${formattedName}`
             : `${appRoot}/${formattedName}`;
         bucket.upload(
           fileLocation,
