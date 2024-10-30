@@ -41,5 +41,5 @@ COPY ./scripts/backup/db_backup.ts .
 COPY ./prisma ./prisma
 # Set permissions for the Node.js user
 # RUN chmod -R u+x /app/node_modules /app/.next
-RUN chmod -R 777 /app/node_modules /app/.next
+RUN chmod -R 755 /app/node_modules /app/.next
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
