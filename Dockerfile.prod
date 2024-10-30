@@ -39,4 +39,6 @@ WORKDIR /app
 COPY ./scripts/entrypoint.prod.sh .
 COPY ./scripts/backup/db_backup.ts .
 COPY ./prisma ./prisma
+RUN mkdir -p /app/logs && chmod 777 /app/logs
+RUN mkdir -p /app/db_backups && chmod 777 /app/db_backups
 ENTRYPOINT ["/app/entrypoint.prod.sh"]

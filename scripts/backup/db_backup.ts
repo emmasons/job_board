@@ -27,12 +27,12 @@ if (!host || !database || !user || !password) {
 
 cron.schedule("*/5 * * * *", () => {
   console.log("Backup cron job executed at:", new Date().toLocaleString());
-  try {
-    fs.mkdirSync("./db_backups");
-  } catch (err) {
-    console.log(err, 'Cant create db_backups folder');
-    if (err.code !== "EEXIST") throw err;
-  }
+  // try {
+  //   fs.mkdirSync("./db_backups");
+  // } catch (err) {
+  //   console.log(err, 'Cant create db_backups folder');
+  //   if (err.code !== "EEXIST") throw err;
+  // }
 
   const formattedDate = new Date()
     .toISOString()
