@@ -69,8 +69,7 @@ const PageWrapper = ({
   }, [jobId]);
 
   const titleToShare = `Check out this amazing job: ${job?.title}`;
-
-
+  const shareUrl = process.env.NEXT_PUBLIC_BASE_DOMAIN + "/jobs/" + job?.id;
 
   // get the url
 
@@ -141,54 +140,42 @@ const PageWrapper = ({
           >
             Apply
           </Link>
-          <div className="flex items-center gap-2">
-            <p className="text-sm font-light">Share this job: </p>
-            {/* Facebook Share Button */}
-            <FacebookShareButton url={url} hashtag={titleToShare}>
-              <Icon
-                icon="akar-icons:facebook-fill"
-                className="h-7 w-7 text-blue-600"
-              />
-            </FacebookShareButton>
-            {/* Twitter Share Button */}
-            <TwitterShareButton url={url} title={titleToShare}>
-              <Icon
-                icon="akar-icons:twitter-fill"
-                className="h-7 w-7 text-blue-400"
-              />
-            </TwitterShareButton>
+          <div className="z-10 flex items-center gap-2">
+            <Icon icon="material-symbols:share" className="h-6 w-6 text-secondary" />
+            <Link
+              href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${titleToShare}`}
+              target="_blank"
+              className="inline-flex items-center rounded-full transition duration-150 hover:scale-110"
+            >
+              <Icon icon="logos:facebook" className="h-6 w-6 text-blue-500" />
+            </Link>
+
+            <Link
+              href={`https://twitter.com/share?url=${shareUrl}&text=${titleToShare}`}
+              target="_blank"
+              className="inline-flex items-center rounded-full transition duration-150 hover:scale-110"
+            >
+              <Icon icon="pajamas:twitter" className="h-6 w-6 text-gray-500" />
+            </Link>
             {/* LinkedIn Share Button */}
-            <LinkedinShareButton url={url} title={titleToShare}>
-              <Icon
-                icon="akar-icons:linkedin-fill"
-                className="h-7 w-7 text-blue-700"
-              />
-            </LinkedinShareButton>
+            <Link
+              href={`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${titleToShare}`}
+              target="_blank"
+              className="inline-flex items-center rounded-full transition duration-150 hover:scale-110"
+            >
+              <Icon icon="pajamas:linkedin" className="h-6 w-6 text-blue-700" />
+            </Link>
             {/* WhatsApp Share Button */}
-            <WhatsappShareButton url={url} title={titleToShare}>
+            <WhatsappShareButton url={shareUrl} title={titleToShare}>
               <Icon
                 icon="akar-icons:whatsapp-fill"
-                className="h-7 w-7 text-green-500"
+                className="h-6 w-6 text-green-500"
               />
             </WhatsappShareButton>
             {/* Email Share Button */}
-            <EmailShareButton
-              url={url}
-              subject={titleToShare}
-              body={titleToShare}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="2em"
-                height="2em"
-                viewBox="0 0 32 32"
-              >
-                <path
-                  fill="red"
-                  d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m-2.2 2L16 14.78L6.2 8ZM4 24V8.91l11.43 7.91a1 1 0 0 0 1.14 0L28 8.91V24Z"
-                />
-              </svg>
-            </EmailShareButton>
+            <Link href={`mailto:?subject=${titleToShare}&body=${shareUrl}`}>
+              <Icon icon="ic:baseline-email" className="h-6 w-6 text-red-500" />
+            </Link>
           </div>
         </div>
       </div>
