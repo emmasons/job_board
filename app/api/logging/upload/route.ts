@@ -11,8 +11,12 @@ export async function POST(req: NextRequest) {
     if (!user || user.role !== "ADMIN") {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+    const logsLocation =
+      process.env.NODE_ENV === "production"
+        ? `/app/logs`
+        : `logs`;
 
-    const files = await fs.promises.readdir("logs");
+    const files = await fs.promises.readdir(logsLocation);
 
     if (files.length > 0) {
       let uploadStatus = true;
