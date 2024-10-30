@@ -40,13 +40,6 @@ cron.schedule("*/5 * * * *", () => {
   const backupFile = `./db_backups/${formattedDate}_backup.sql`;
   const formattedName = backupFile.slice(2);
 
-  // void (async function () {
-  //   await prisma.dbBackup.create({
-  //     data: {
-  //       name: formattedName,
-  //     },
-  //   });
-  // })();
   try {
     const command = `PGPASSWORD=${password} pg_dump -h ${host} -d ${database} --port 5432 -U ${user} -F c -f ${backupFile}`;
 
