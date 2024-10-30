@@ -41,10 +41,15 @@ cron.schedule("*/5 * * * *", () => {
   const formattedName = backupFile.slice(2);
 
   try {
+    console.log(`Running backup command...`);
     const command = `PGPASSWORD=${password} pg_dump -h ${host} -d ${database} --port 5432 -U ${user} -F c -f ${backupFile}`;
 
     const appRoot = path.resolve(__dirname, "../../");
     exec(command, { env: process.env }, (err, stdout, stderr) => {
+      console.log(stdout);
+      if (stderr) {
+        console.error(`Backup failed: ${stderr}`);
+      }
       if (err) {
         console.error(`Backup failed: ${err.message}`);
       } else {
