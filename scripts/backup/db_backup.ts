@@ -25,7 +25,7 @@ if (!host || !database || !user || !password) {
   process.exit(1);
 }
 
-cron.schedule("*/1 * * * *", () => {
+cron.schedule("*/5 * * * *", () => {
   console.log("Backup cron job executed at:", new Date().toLocaleString());
   // try {
   //   fs.mkdirSync("./db_backups");
@@ -60,14 +60,11 @@ cron.schedule("*/1 * * * *", () => {
           process.env.NODE_ENV === "production"
             ? `/app/${formattedName}`
             : `${appRoot}/${formattedName}`;
-        console.log(
-          fileLocation,
-          "fileLocation *******************************",
-        );
+
         bucket.upload(
           fileLocation,
           {
-            destination: `jobs_connect_db_backups/${formattedName}`,
+            destination: `${gsLocation}/jobs_connect_db_backups/${formattedName}`,
           },
           function (err, file) {
             if (err) {
