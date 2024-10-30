@@ -30,6 +30,7 @@ cron.schedule("*/5 * * * *", () => {
   try {
     fs.mkdirSync("./db_backups");
   } catch (err) {
+    console.log(err, 'Cant create db_backups folder');
     if (err.code !== "EEXIST") throw err;
   }
 
