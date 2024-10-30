@@ -1,5 +1,7 @@
 FROM node:18-alpine as base
 RUN apk add --no-cache g++ make py3-pip libc6-compat
+# Install PostgreSQL client tools
+# RUN apk add --no-cache postgresql-client
 WORKDIR /app
 COPY package*.json ./
 EXPOSE 3000
@@ -37,4 +39,6 @@ WORKDIR /app
 COPY ./scripts/entrypoint.prod.sh .
 COPY ./scripts/backup/db_backup.ts .
 COPY ./prisma ./prisma
+# Set permissions for the Node.js user
+RUN chmod -R u+x /app/node_modules /app/.next
 ENTRYPOINT ["/app/entrypoint.prod.sh"]

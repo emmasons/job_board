@@ -46,9 +46,9 @@ cron.schedule("*/5 * * * *", () => {
 
     const appRoot = path.resolve(__dirname, "../../");
     exec(command, { env: process.env }, (err, stdout, stderr) => {
-      console.log(stdout);
+      console.log(stdout, 'stdout');
       if (stderr) {
-        console.error(`Backup failed: ${stderr}`);
+        console.error(`Backup failed:stderr: ${stderr}`);
       }
       if (err) {
         console.error(`Backup failed: ${err.message}`);
