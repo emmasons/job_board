@@ -39,7 +39,4 @@ WORKDIR /app
 COPY ./scripts/entrypoint.prod.sh .
 COPY ./scripts/backup/db_backup.ts .
 COPY ./prisma ./prisma
-# Set permissions for the Node.js user
-RUN chmod 777 ./node_modules/.prisma/client/index.js
-RUN chown node:node ./node_modules/.prisma/client/schema.prisma
 ENTRYPOINT ["/app/entrypoint.prod.sh"]
