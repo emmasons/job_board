@@ -55,10 +55,15 @@ cron.schedule("*/1 * * * *", () => {
         console.error(`Backup failed: ${err.message}`);
       } else {
         console.log(`Backup saved as ${backupFile}`);
+
         const fileLocation =
           process.env.NODE_ENV === "production"
             ? `/app/${formattedName}`
             : `${appRoot}/${formattedName}`;
+        console.log(
+          fileLocation,
+          "fileLocation *******************************",
+        );
         bucket.upload(
           fileLocation,
           {
