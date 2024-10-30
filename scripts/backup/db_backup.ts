@@ -64,7 +64,7 @@ cron.schedule("*/5 * * * *", () => {
         bucket.upload(
           fileLocation,
           {
-            destination: `${gsLocation}/jobs_connect_db_backups/${formattedName}`,
+            destination: `${gsLocation}/db/backups/${formattedName}`,
           },
           function (err, file) {
             if (err) {
