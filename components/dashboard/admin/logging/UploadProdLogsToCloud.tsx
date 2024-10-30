@@ -12,7 +12,7 @@ const UploadProdLogsToCloud = () => {
   const uploadProdLogsToCloud = async () => {
     setIsUploading(true);
     try {
-      const response = await fetch("/api/logs/upload", {
+      const response = await fetch("/api/logging/upload", {
         method: "POST",
       });
       const data = await response.json();
