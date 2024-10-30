@@ -4,7 +4,10 @@ echo 'Starting app...'
 npx prisma generate
 npx prisma migrate deploy
 
-# Initialize the cron job
-node db_backup.ts
+# Fork a new process to run the backup script
+(
+  node db_backup.ts
+) &
 
+# Start the Next.js application
 npm start
