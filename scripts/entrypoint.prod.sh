@@ -5,6 +5,6 @@ npx prisma generate
 npx prisma migrate deploy
 
 # Initialize the cron job
-node scripts/backup/db_backup.ts
+node db_backup.ts
 
 npm start
