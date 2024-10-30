@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
           if (cloudResponse.status !== 200) {
             logError(
-              new Error("Error uploading logs"),
+              new Error(`Error uploading logs: ${cloudResponse.message}`),
               "/api/logs",
               "Error uploading logs",
               new Date().toISOString(),
