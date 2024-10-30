@@ -116,7 +116,7 @@ const adminRoutes = [
   {
     icon: Logs,
     label: "Log Errors",
-    href: "/profile/dashboard/admin/logs",
+    href: "/profile/dashboard/admin/logging",
   },
 ];
 
