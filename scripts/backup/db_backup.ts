@@ -25,7 +25,7 @@ if (!host || !database || !user || !password) {
   process.exit(1);
 }
 
-cron.schedule("*/5 * * * *", () => {
+cron.schedule("0 0 * * *", () => {
   console.log("Backup cron job executed at:", new Date().toLocaleString());
   // try {
   //   fs.mkdirSync("./db_backups");
