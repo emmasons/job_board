@@ -3,11 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import {
-  FacebookShareButton,
-  TwitterShareButton,
   WhatsappShareButton,
-  LinkedinShareButton,
-  EmailShareButton,
 } from "react-share";
 
 import { formatDistanceToNow } from "date-fns";
