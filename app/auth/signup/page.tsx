@@ -1,12 +1,9 @@
-import Login from "@/components/auth/Login";
-import SignupMessage from "@/components/auth/SignupMessage";
-import { Logo } from "@/components/navbar/Logo";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+
 export const metadata: Metadata = {
   title: "Sign up",
 };
@@ -20,11 +17,8 @@ const page = async (props: Props) => {
     return redirect("/profile/settings/");
   }
   return (
-    <MaxWidthWrapper className="md:flex py-[5%] gap-8 h-full max-md:h-auto items-center justify-between max-md:space-y-8">
-      <div className="basis-1/2">
-        <SignupMessage />
-      </div>
-      <div className="flex h-full flex-col justify-center gap-4 rounded-lg basis-1/2 bg-slate-50 p-8 max-md:h-auto">
+    <div className="w-full basis-full">
+      <div className="flex flex-col md:h-full justify-center gap-4 rounded-lg bg-slate-50 p-8">
         <h1 className="my-4 text-2xl font-bold text-secondary">Create an Account</h1>
         <Link
           href="/auth/signup/employer"
@@ -41,7 +35,7 @@ const page = async (props: Props) => {
           <ChevronRight />
         </Link>
       </div>
-    </MaxWidthWrapper>
+    </div>
   );
 };
 
