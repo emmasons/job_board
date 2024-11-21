@@ -48,10 +48,11 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+    const cvFileExists = cvFile?.size > 0;
 
-    if (role === Role.JOB_SEEKER && !cvFile) {
+    if (!cvFileExists) {
       return NextResponse.json(
-        { message: "All fields are required." },
+        { message: "Please upload your CV." },
         { status: 400 },
       );
     }
