@@ -1,3 +1,4 @@
+import { Accept } from "@/types";
 import { Cloud } from "lucide-react";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
@@ -5,9 +6,10 @@ import { useDropzone } from "react-dropzone";
 type Props = {
   setFiles: (files: File[]) => void;
   message?: string;
+  acceptedFileTypes: Accept;
 };
 
-function FileDrop({ setFiles, message }: Props) {
+function FileDrop({ setFiles, message, acceptedFileTypes = {} }: Props) {
   const onDrop = useCallback(
     (acceptedFiles) => {
       // Do something with the files
@@ -18,6 +20,7 @@ function FileDrop({ setFiles, message }: Props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
+    accept: acceptedFileTypes,
   });
 
   return (
