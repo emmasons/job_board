@@ -28,7 +28,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
   return (
     <>
       {user ? (
-        <DropdownMenu>
+        <DropdownMenu >
           <DropdownMenuTrigger
             className={clsx(
               "border-none focus-within:ring-transparent",
@@ -56,7 +56,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <ChevronDown className="h-4 w-4" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="space-y-3">
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
@@ -161,10 +161,10 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             ) : null}
             <Button
               size="sm"
-              variant="default"
+              variant="outline"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
-              <LogOut className="mr-2 h-4 w-4 text-sm" /> Logout
+              <LogOut className="mr-2 h-4 w-4 text-sm" /> 
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -179,9 +179,12 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             LogIn
             <LogInIcon className="h-4 w-4" />
           </Button>
-          <Button variant="outline" className="hover:text-secondary">
+          <Button
+            variant="outline"
+            className="text-primary hover:text-secondary"
+          >
             <Link
-              className="flex items-center gap-2 text-sm text-primary  hover:text-secondary"
+              className="flex items-center gap-2 text-sm   hover:text-secondary"
               href="/auth/signup/"
             >
               Register
