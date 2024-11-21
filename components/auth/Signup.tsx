@@ -185,6 +185,7 @@ const Signup = ({ role }: Props) => {
             <FileDrop
               setFiles={setCvFile}
               message="Upload a PDF only of Your CV/Resumé"
+              acceptedFileTypes={{ "application/pdf": [] }}
             />
           </div>
           {cvError && <p className="font-bold text-red-500">{cvError}</p>}
