@@ -1,6 +1,6 @@
 import Login from "@/components/auth/Login";
-import SignupMessage from "@/components/auth/SignupMessage";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import SignupMessage from "@/components/auth/SignupMessage";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -27,7 +27,7 @@ const page = async (props: Props) => {
           callbackUrl={props.searchParams?.callbackUrl}
         />
       </div>
-    </MaxWidthWrapper>
+    </div>
   );
 };
 
