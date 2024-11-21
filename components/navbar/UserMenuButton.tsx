@@ -12,11 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogIn, LogInIcon, LogOut, UserPlus } from "lucide-react";
+import { ChevronDown, LogInIcon, LogOut, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx"; // Import clsx for condition
-import Signup from "../auth/Signup";
 
 import { Role } from "@prisma/client";
 
@@ -28,7 +27,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
   return (
     <>
       {user ? (
-        <DropdownMenu >
+        <DropdownMenu>
           <DropdownMenuTrigger
             className={clsx(
               "border-none focus-within:ring-transparent",
@@ -56,14 +55,14 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <ChevronDown className="h-4 w-4" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="space-y-3">
+          <DropdownMenuContent className="space-y-1">
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
               <DropdownMenuItem className="">
                 <Link
                   href="/profile/dashboard/admin/users"
-                  className="block w-full hover:cursor-pointer py-1"
+                  className="block w-full py-1 hover:cursor-pointer"
                 >
                   Dashboard
                 </Link>
@@ -97,19 +96,6 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                   >
                     Find a Job
                   </Link>
-                </DropdownMenuItem>
-                {/* <DropdownMenuItem>
-                  <Link
-                    href="/profile/dashboard/job-seeker/jobs"
-                    className="block w-full hover:cursor-pointer"
-                  >
-                    My Jobs
-                  </Link>
-                </DropdownMenuItem> */}
-                <DropdownMenuItem>
-                  {/*
-                    add more dropdown items if needed
-                   */}
                 </DropdownMenuItem>
               </>
             ) : null}
@@ -164,7 +150,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               variant="outline"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
-              <LogOut className="mr-2 h-4 w-4 text-sm" /> 
+              <LogOut className="mr-2 h-4 w-4 text-sm" />
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>
