@@ -139,9 +139,17 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
   }
   return (
     <>
-      <h1 className="my-4 text-2xl font-bold text-secondary">
-        Register as an Employer
-      </h1>
+      <div className="my-4">
+        <h1 className=" text-2xl font-bold text-secondary">
+          {role === "EMPLOYER"
+            ? "Register as an Employer"
+            : "Register as a Job Seeker"}
+        </h1>
+        <p className="text-sm font-bold text-muted-foreground text-red-500">
+          {Object.keys(form.formState.errors).length > 0 &&
+            "Please fix the errors in your form."}
+        </p>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="gap-4 md:flex">
