@@ -95,6 +95,8 @@ const Signup = ({ role }: Props) => {
       if (cvFile?.length === 0) {
         setCVError("Please upload your CV");
         return;
+      } else {
+        setCVError(null);
       }
       const res = await fetch("/api/users/", {
         method: "POST",
