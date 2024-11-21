@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+    const cvFileExists = cvFile?.size > 0;
 
 
     if (role === Role.JOB_SEEKER && (!cvFile || !cvFile.name)) {
