@@ -60,10 +60,10 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
-              <DropdownMenuItem className="py-2">
+              <DropdownMenuItem className="">
                 <Link
                   href="/profile/dashboard/admin/users"
-                  className="block w-full hover:cursor-pointer"
+                  className="block w-full hover:cursor-pointer py-1"
                 >
                   Dashboard
                 </Link>

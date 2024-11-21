@@ -27,6 +27,11 @@ type Props = {
 
 const page = async ({ params, searchParams }: Props) => {
   const user = await getCurrentSessionUser();
+  if (!user || !(user.role === Role.ADMIN)) {
+    return redirect(
+      `/auth/signin?callBack=/profile/dashboard/admin/jobs/${params.id}`,
+    );
+  }
 
   const jobId = params.id;
   const job = await getJob(jobId);
@@ -40,20 +45,10 @@ const page = async ({ params, searchParams }: Props) => {
   const educationLevels = await getEducationLevels();
   const experience = await getExperience();
 
-  const candidates = await getMatchingJobsCvs({
-    jobTitle: job.title,
-    occupation: job.occupation || "",
-  });
 
   const page = searchParams?.page ? searchParams?.page : "1";
   const pageSize = searchParams?.pageSize ? searchParams?.pageSize : "10";
   const start = (Number(page) - 1) * Number(pageSize); // 0, 5, 10 ...
-  const end = start + Number(pageSize); // 5, 10, 15 ...
-  const items = candidates.slice(start, end);
-  const totalPages = Math.ceil(candidates.length / Number(pageSize));
-  const loggedInEmployer = user?.id && user?.role === Role.EMPLOYER;
-  const candidateIds =
-    loggedInEmployer && (await getEmployerCandidatesIds(user.id));
 
   return (
     <div className="space-y-4 p-6">
@@ -67,7 +62,13 @@ const page = async ({ params, searchParams }: Props) => {
         ))}
       <div className="flex items-center justify-between">
         <Link
-          href="/profile/dashboard/employer/jobs"
+          href={
+            user?.role === Role.EMPLOYER
+              ? "/profile/dashboard/employer"
+              : user?.role === Role.ADMIN
+                ? "/profile/dashboard/admin"
+                : "/profile/dashboard/job-seeker"
+          }
           className="text-primary hover:text-sky-500 "
         >
           <ArrowLeft className="h-6 w-6" />
