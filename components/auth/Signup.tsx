@@ -76,6 +76,7 @@ const Signup = ({ role }: Props) => {
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
   const toggleIsConfirmPasswordHidden = () =>
     setIsConfirmPasswordHidden((current) => !current);
+  const [cvError, setCVError] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -85,11 +86,15 @@ const Signup = ({ role }: Props) => {
       formData.append("firstName", values.firstName);
       formData.append("lastName", values.lastName);
       formData.append("phoneNumber", values.phoneNumber);
-      formData.append("occupation", values.occupation);
+
       formData.append("role", role);
       formData.append("cvId", cvId);
       if (cvFile) {
         formData.append("cvFile", cvFile[0]);
+      }
+      if (cvFile?.length === 0) {
+        setCVError("Please upload your CV");
+        return;
       }
       const res = await fetch("/api/users/", {
         method: "POST",
@@ -177,11 +182,13 @@ const Signup = ({ role }: Props) => {
             )}
           />
           <div>
-            <FileDrop setFiles={setCvFile} />
+            <FileDrop
+              setFiles={setCvFile}
+              message="Upload a PDF only of Your CV/Resumé"
+            />
           </div>
-          {/* <p className="text-red-500">
-            {cvFile?.length === 0 && "Please upload your cv"}
-          </p> */}
+          {cvError && <p className="font-bold text-red-500">{cvError}</p>}
+
           {cvFile && cvFile?.length > 0 && (
             <div className="flex justify-between">
               <p className="text-secondary">CV: {cvFile[0]?.name}</p>
