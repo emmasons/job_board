@@ -1,7 +1,7 @@
 import { getJobById } from "@/actions/get-job-by-id";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { CheckCircle, FileText } from "lucide-react";
+import { CheckCircle, FileText, Pencil, PencilLine, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import { getAllSectors } from "@/actions/get-all-sectors";
@@ -13,6 +13,7 @@ import { getUserCv } from "@/actions/get-user-cv";
 import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { getUserApplicationById } from "@/actions/applications/get-user-application-by-id";
 import Apply from "@/components/application/Apply";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -55,11 +56,10 @@ const page = async (props: Props) => {
           <div className="mt-6 flex flex-col gap-12 rounded-md bg-white p-8">
             <h1 className="flex items-center gap-4 text-2xl font-bold text-zinc-700">
               Apply for {job?.title}
-              <FileText className="h-6 w-6 text-primary" />
+              <Plus className="h-6 w-6 text-primary" />
             </h1>
             <div className="space-y-12">
-              <UploadCV cv={cv} cvFile={cvFile} />
-              <JobSeekerProfileUpdate
+              {/* <JobSeekerProfileUpdate
                 profile={jobSeekerProfile}
                 sectorList={sectors.map((sector) => ({
                   label: sector.label,
@@ -73,7 +73,112 @@ const page = async (props: Props) => {
                   label: exp.label,
                   value: exp.id,
                 }))}
-              />
+              /> */}
+
+              <div className="space-y-2 p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="inline-flex items-center gap-4">
+                  <h2>My CV Summary</h2>
+                  <p className="muted">
+                    Please note, this is what prospective employers will see.
+                  </p>
+                  <Link
+                    href="/profile/dashboard/job-seeker"
+                    className="ml-auto"
+                    target="_blank"
+                  >
+                    <PencilLine className="size-4 text-primary" />
+                  </Link>
+                </div>
+                <p className="text-[0.8rem] italic text-muted-foreground">
+                  Please note, this is what prospective employers will see.
+                </p>
+                <div className="space-y-2 p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                  <UploadCV
+                    cv={cv}
+                    cvFile={cvFile}
+                    isJobSeekerComponent={true}
+                  />
+                </div>
+                <div className="p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">
+                    CV Percentage:{" "}
+                    {jobSeekerProfile?.profilePercentage?.percentage || 0}
+                  </h3>
+                  <p className="text-[0.8rem]">
+                    {jobSeekerProfile?.cvHeadLine || "No CV Headline provided"}
+                  </p>
+                </div>
+                <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">About me</h3>
+                  <p className="text-[0.8rem]">
+                    {jobSeekerProfile?.profileSummary ||
+                      "No profile summary provided"}
+                  </p>
+                </div>
+                <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">Key Skills</h3>
+                  <div>
+                    {jobSeekerProfile?.skills?.length ? (
+                      jobSeekerProfile?.skills?.map((skill) => (
+                        <span
+                          className="mr-2 inline-block rounded bg-sky-100 px-2 py-1 text-xs font-medium leading-4 text-sky-700"
+                          key={skill.id}
+                        >
+                          {skill.skill}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="mr-2 inline-block rounded bg-sky-100 px-2 py-1 text-xs font-medium leading-4 text-sky-700">
+                        No skills
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">Professional</h3>
+                  <div>
+                    <p className="text-[0.8rem]">
+                      {jobSeekerProfile?.experience?.label ||
+                        "No experience added"}
+                    </p>
+                    <p className="text-[0.8rem]">
+                      {jobSeekerProfile?.sector?.label || "No sector added"}
+                    </p>
+                    <p className="text-[0.8rem]">
+                      {jobSeekerProfile?.expectedSalary ||
+                        "No salary range added"}
+                    </p>
+                    <p className="text-[0.8rem]">
+                      {jobSeekerProfile?.currentSalary ||
+                        "Current salary not added"}
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">Educational Background</h3>
+
+                  {jobSeekerProfile?.educationDetails &&
+                  jobSeekerProfile.educationDetails.length > 0 ? (
+                    jobSeekerProfile?.educationDetails?.map((edu) => (
+                      <div key={edu.id}>
+                        <p className="text-sm">{edu.level}</p>
+                        <p className="text-sm">{edu.course}</p>
+                        <p className="text-sm">
+                          {edu.college}: {edu.collegeLocation}
+                        </p>
+                        <p className="text-sm">
+                          {edu.startYear} - {edu.endYear}
+                        </p>
+                        {/* <p className="text-sm">{edu.level}</p> */}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-[0.8rem]">
+                      No educational background added
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
             {jobSeekerProfile && <Apply jobId={props.params.jobId} />}
           </div>
