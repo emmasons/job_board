@@ -83,10 +83,11 @@ const page = async (props: Props) => {
                   </p>
                   <Link
                     href="/profile/dashboard/job-seeker"
-                    className="ml-auto"
+                    className="flex items-center gap-1 text-primary"
                     target="_blank"
                   >
-                    <PencilLine className="size-4 text-primary" />
+                    <span className="text-sm">edit</span>
+                    <PencilLine className="size-4" />
                   </Link>
                 </div>
                 <p className="text-[0.8rem] italic text-muted-foreground">
@@ -177,6 +178,29 @@ const page = async (props: Props) => {
                       No educational background added
                     </p>
                   )}
+                </div>
+                <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
+                  <h3 className="font-semibold">Professional Background</h3>
+                  <p className="text-[0.8rem]">
+                    {jobSeekerProfile?.employmentDetails.length === 0 &&
+                      "No professional background added"}
+                  </p>
+
+                  {jobSeekerProfile?.employmentDetails &&
+                    jobSeekerProfile.employmentDetails.length > 0 &&
+                    jobSeekerProfile.employmentDetails.map((emp) => (
+                      <div key={emp.id}>
+                        <p className="text-sm">Company: {emp.company}</p>
+                        <p className="text-sm">Title: {emp.designation}</p>
+                        <p className="text-sm">Location: {emp.location}</p>
+                        <p className="text-sm">
+                          Description: {emp.description}
+                        </p>
+                        <p className="text-sm">
+                          {emp.startYear} - {emp.endYear}
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
