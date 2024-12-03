@@ -74,6 +74,7 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.48.2",
     "react-quill": "^2.0.0",
+    "react-resizable-panels": "^2.1.7",
     "react-share": "^5.1.0",
     "react-share-kit": "^1.1.0",
     "reading-time-estimator": "^1.11.0",

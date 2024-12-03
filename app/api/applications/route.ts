@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const { jobId } = await req.json();
+    const { jobId, coverLetter } = await req.json();
 
     const job = await db.job.findFirst({
       where: {
@@ -30,6 +30,17 @@ export async function POST(req: Request) {
       data: {
         jobId,
         userId: user.id,
+      },
+    });
+
+    if (!application) {
+      return new NextResponse("Failed to create application", { status: 500 });
+    }
+
+    await db.coverLetter.create({
+      data: {
+        content: coverLetter,
+        applicationId: application.id,
       },
     });
 

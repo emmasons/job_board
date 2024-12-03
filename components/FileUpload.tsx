@@ -14,14 +14,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { DropZoneVideoFileTypes } from "@/constants";
 import { cn } from "@/lib/utils";
+import { Accept } from "@/types";
 
 function checkFileType(fileType: string) {
   const videoFileTypes = Object.keys(DropZoneVideoFileTypes);
   return videoFileTypes.includes(fileType);
-}
-
-interface Accept {
-  [key: string]: string[];
 }
 
 interface FileUploadProps {
@@ -183,8 +180,10 @@ const UploadDropzone = ({
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <Cloud className="mb-2 h-6 w-6 text-sky-500" />
                 <p className="mb-2 text-sm text-zinc-700">
-                  <span className="font-semibold text-sky-500">Click to upload</span> or drag
-                  and drop
+                  <span className="font-semibold text-sky-500">
+                    Click to upload
+                  </span>{" "}
+                  or drag and drop
                 </p>
                 <p className="text-xs text-zinc-500">{fileMessage}</p>
               </div>

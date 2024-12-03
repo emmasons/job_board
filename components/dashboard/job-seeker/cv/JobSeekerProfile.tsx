@@ -32,7 +32,7 @@ const JobSeekerProfileUpdate = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between px-6">
-        <h3 className="font-semibold">{title}</h3>
+        <h3 className="font-semibold">My Profile{title}</h3>
         {isJobSeekerComponent && (
           <Button onClick={toggleEdit} variant="ghost" className="">
             {isEditing && <>Cancel</>}
@@ -54,7 +54,12 @@ const JobSeekerProfileUpdate = ({
       {!isEditing &&
         (!profile ? (
           <div className="h-auto rounded-md bg-slate-200">
-            <Profile initialData={profile} {...rest} isEditing={false} profilePercentage={10} />
+            <Profile
+              initialData={profile}
+              {...rest}
+              isEditing={false}
+              profilePercentage={10}
+            />
           </div>
         ) : (
           <div className="relative mt-2">

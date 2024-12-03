@@ -36,9 +36,9 @@ export async function generateMetadata({ searchParams }: SearchPageProps) {
   ]
     .filter(Boolean)
     .join(" ");
-  const titlePlaceholderArray = titlePlaceholder.split(" ").map(
-    (word) => `${word} jobs`
-  );
+  const titlePlaceholderArray = titlePlaceholder
+    .split(" ")
+    .map((word) => `${word} jobs`);
   return {
     title: `Search ${titlePlaceholder} jobs in gulf countries and the middle east`,
     description: `Search hundreds of ${titlePlaceholder} jobs in SPE, Qatar, Saudi Arabia, Oman, Bahrain, Kuwait, Jordan and Lebanon. Search jobs by location, job role and industry. Start searching!`,
@@ -87,7 +87,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   const user = await getCurrentSessionUser();
 
-  console.log(searchParams);
   const args = {
     country: searchParams.countriesFilter as string,
     educationLevelId: searchParams.educationLevelFilter as string,
