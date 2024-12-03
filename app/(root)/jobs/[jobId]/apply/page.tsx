@@ -1,21 +1,14 @@
 import { getJobById } from "@/actions/get-job-by-id";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { CheckCircle, FileText, Pencil, PencilLine, Plus } from "lucide-react";
+import { CheckCircle, PencilLine, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
-import { getAllSectors } from "@/actions/get-all-sectors";
-import { getEducationLevels } from "@/actions/get-education-levels";
-import { getExperience } from "@/actions/get-experience";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
-import JobSeekerProfileUpdate from "@/components/dashboard/job-seeker/cv/JobSeekerProfile";
 import { getUserCv } from "@/actions/get-user-cv";
 import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { getUserApplicationById } from "@/actions/applications/get-user-application-by-id";
-import Apply from "@/components/application/Apply";
 import Link from "next/link";
-import { saveCoverLetter } from "./actions";
-import CreateCoverLetterForm from "@/components/application/CreateCoverLetter";
 import ApplicationWrapper from "@/components/application/ApplicationWrapper";
 
 export const dynamic = "force-dynamic";
@@ -36,14 +29,9 @@ const page = async (props: Props) => {
 
   const cv = await getUserCv(user.id);
   const cvFile = await getLatestFileMetaData(cv?.id);
-  const educationLevels = await getEducationLevels();
-  const experience = await getExperience();
-  const sectors = await getAllSectors();
   const jobSeekerProfile = await getJobSeekerProfile(user.id);
   const application = await getUserApplicationById(user.id, props.params.jobId);
   const job = await getJobById(props.params.jobId);
-
-  const coverLetterContent = "";
 
   return (
     <div className="h-full bg-zinc-100">
@@ -209,7 +197,11 @@ const page = async (props: Props) => {
                 </div>
               </div>
             </div>
-            <ApplicationWrapper jobId={props.params.jobId} />
+            <ApplicationWrapper
+              jobId={props.params.jobId}
+              jobSeekerProfile={jobSeekerProfile}
+              job={job}
+            />
           </div>
         )}
       </MaxWidthWrapper>
