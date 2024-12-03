@@ -7,19 +7,20 @@ import { Loader2 } from "lucide-react";
 
 type Props = {
   jobId: string;
+  coverLetter?: string;
 };
 
 const Apply = (props: Props) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { jobId } = props;
+  const { jobId, coverLetter } = props;
   const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
     setLoading(true);
     try {
       const response = await fetch(`/api/applications/`, {
         method: "POST",
-        body: JSON.stringify({ jobId }),
+        body: JSON.stringify({ jobId, coverLetter }),
       });
       const data = await response.json();
       if (!response.ok) {

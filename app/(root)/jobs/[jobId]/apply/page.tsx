@@ -14,6 +14,9 @@ import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { getUserApplicationById } from "@/actions/applications/get-user-application-by-id";
 import Apply from "@/components/application/Apply";
 import Link from "next/link";
+import { saveCoverLetter } from "./actions";
+import CreateCoverLetterForm from "@/components/application/CreateCoverLetter";
+import ApplicationWrapper from "@/components/application/ApplicationWrapper";
 
 export const dynamic = "force-dynamic";
 
@@ -39,6 +42,8 @@ const page = async (props: Props) => {
   const jobSeekerProfile = await getJobSeekerProfile(user.id);
   const application = await getUserApplicationById(user.id, props.params.jobId);
   const job = await getJobById(props.params.jobId);
+
+  const coverLetterContent = "";
 
   return (
     <div className="h-full bg-zinc-100">
@@ -204,7 +209,7 @@ const page = async (props: Props) => {
                 </div>
               </div>
             </div>
-            {jobSeekerProfile && <Apply jobId={props.params.jobId} />}
+            <ApplicationWrapper jobId={props.params.jobId} />
           </div>
         )}
       </MaxWidthWrapper>
