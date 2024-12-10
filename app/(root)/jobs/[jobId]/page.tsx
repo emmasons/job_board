@@ -11,6 +11,14 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ params }: Props) {
+  const job = await getJobById(params.jobId);
+  return {
+    title: job?.title,
+    description: job?.description,
+  };
+}
+
 const page = async (props: Props) => {
   const job = await getJobById(props.params.jobId);
   const user = await getCurrentSessionUser();
