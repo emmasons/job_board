@@ -5,6 +5,7 @@ import { sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
 import { Role } from "@prisma/client";
 import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
+import { getFileExtension } from "@/lib/files";
 
 export async function POST(req: NextRequest) {
   try {
@@ -48,12 +49,23 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+    const cvFileExists = cvFile?.size > 0;
 
-    if (role === Role.JOB_SEEKER && !cvFile) {
+    if (!cvFileExists) {
       return NextResponse.json(
-        { message: "All fields are required." },
+        { message: "Please upload your CV." },
         { status: 400 },
       );
+    } else {
+      const extension = cvFile.name.split(".").pop();
+      // const extension = getFileExtension(cvFile);
+      // console.log(extension);
+      if (extension && extension !== "pdf") {
+        return NextResponse.json(
+          { message: "Please upload a PDF file." },
+          { status: 400 },
+        );
+      }
     }
 
     const duplicate = await db.user.findUnique({ where: { email: email } });

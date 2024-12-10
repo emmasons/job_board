@@ -1,6 +1,4 @@
 import Login from "@/components/auth/Login";
-import SignupMessage from "@/components/auth/SignupMessage";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
@@ -17,15 +15,14 @@ const page = async (props: Props) => {
     return redirect("/profile/settings/");
   }
   return (
-    <MaxWidthWrapper className="flex flex-wrap justify-between">
-      <SignupMessage />
-      <div className="rounded-md bg-slate-50 md:basis-1/2">
+    <div className="flex flex-wrap justify-between basis-full">
+      <div className="rounded-md bg-slate-50 w-full">
         <Login
           error={props.searchParams?.error}
           callbackUrl={props.searchParams?.callbackUrl}
         />
       </div>
-    </MaxWidthWrapper>
+    </div>
   );
 };
 

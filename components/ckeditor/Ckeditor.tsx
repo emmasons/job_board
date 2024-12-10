@@ -101,6 +101,11 @@ const Ckeditor = ({ uploadUrl, value, onChange }: CkeditorProps) => {
     savePostContent();
   }, [debouncedEditorState, savePostContent]);
 
+  useEffect(() => {
+    if (value === editorState) return;
+    setEditorState(value);
+  }, [editorState, value]);
+
   const handleChange = (changedState: string) => {
     const initialState = editorState;
     if (initialState != changedState) {

@@ -1,6 +1,4 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Signup from "@/components/auth/Signup";
-import SignupMessage from "@/components/auth/SignupMessage";
 import { Role } from "@prisma/client";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
@@ -8,9 +6,8 @@ export const metadata: Metadata = {
 };
 const page = () => {
   return (
-    <div className="flex flex-wrap w-full justify-between">
-      <SignupMessage />
-      <div className="w-full rounded-md bg-slate-50 shadow my-4 p-8 md:basis-1/2">
+    <div className="w-full justify-between basis-full">
+      <div className="my-4 w-full rounded-md bg-slate-50 p-8 shadow">
         <Signup role={Role.JOB_SEEKER} />
       </div>
     </div>

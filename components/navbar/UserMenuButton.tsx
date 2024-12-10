@@ -12,11 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogIn, LogInIcon, LogOut, UserPlus } from "lucide-react";
+import { ChevronDown, LogInIcon, LogOut, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import clsx from "clsx"; // Import clsx for condition
-import Signup from "../auth/Signup";
 
 import { Role } from "@prisma/client";
 
@@ -56,14 +55,14 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               <ChevronDown className="h-4 w-4" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="space-y-1">
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
-              <DropdownMenuItem className="py-2">
+              <DropdownMenuItem className="">
                 <Link
                   href="/profile/dashboard/admin/users"
-                  className="block w-full hover:cursor-pointer"
+                  className="block w-full py-1 hover:cursor-pointer"
                 >
                   Dashboard
                 </Link>
@@ -97,19 +96,6 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                   >
                     Find a Job
                   </Link>
-                </DropdownMenuItem>
-                {/* <DropdownMenuItem>
-                  <Link
-                    href="/profile/dashboard/job-seeker/jobs"
-                    className="block w-full hover:cursor-pointer"
-                  >
-                    My Jobs
-                  </Link>
-                </DropdownMenuItem> */}
-                <DropdownMenuItem>
-                  {/*
-                    add more dropdown items if needed
-                   */}
                 </DropdownMenuItem>
               </>
             ) : null}
@@ -161,10 +147,10 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             ) : null}
             <Button
               size="sm"
-              variant="default"
+              variant="outline"
               onClick={() => signOut({ callbackUrl: "/" })}
             >
-              <LogOut className="mr-2 h-4 w-4 text-sm" /> Logout
+              <LogOut className="mr-2 h-4 w-4 text-sm" />
             </Button>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -179,9 +165,12 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             LogIn
             <LogInIcon className="h-4 w-4" />
           </Button>
-          <Button variant="outline" className="hover:text-secondary">
+          <Button
+            variant="outline"
+            className="text-primary hover:text-secondary"
+          >
             <Link
-              className="flex items-center gap-2 text-sm text-primary  hover:text-secondary"
+              className="flex items-center gap-2 text-sm   hover:text-secondary"
               href="/auth/signup/"
             >
               Register
