@@ -323,19 +323,39 @@ async function createUserWithAdminRole() {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
   const role = Role.ADMIN;
-if (!password) {
-  throw new Error("Password is required");
-}
-const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await database.user.create({
-    data: {
+
+  if (!password) {
+    throw new Error("Password is required");
+  }
+
+  const existingUser = await database.user.findFirst({
+    where: {
       email,
-      password: hashedPassword,
-      role,
     },
   });
 
-  console.log(`Created user with id ${user.id}, email ${user.email} and role ${user.role}`);
+  if (existingUser) {
+    await database.user.update({
+      where: {
+        id: existingUser.id,
+      },
+      data: {
+        isActive: true,
+      },
+    });
+  } else {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await database.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        role,
+        isActive: true,
+      },
+    });
+
+    console.log(`Created user with id ${user.id}, email ${user.email} and role ${user.role}`);
+  }
 }
 
 async function main() {
