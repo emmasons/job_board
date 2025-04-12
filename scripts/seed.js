@@ -1,4 +1,7 @@
-const { PrismaClient } = require("@prisma/client");
+import { Role } from "@prisma/client";
+import bcrypt from "bcrypt";
+
+import { PrismaClient } from "@prisma/client";
 
 const database = new PrismaClient();
 
@@ -315,13 +318,32 @@ async function createNotis() {
   console.log("Success");
 }
 
+
+async function createUserWithAdminRole() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+  const role = Role.ADMIN;
+if (!password) {
+  throw new Error("Password is required");
+}
+const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await database.user.create({
+    data: {
+      email,
+      password: hashedPassword,
+      role,
+    },
+  });
+
+  console.log(`Created user with id ${user.id}, email ${user.email} and role ${user.role}`);
+}
+
 async function main() {
   await createEducationLevels();
   await createExperienceLevels();
   await createSectors();
   await createOccupations();
-  // await clearTable("scrapedJob");
-  // await createNotis();
+  await createUserWithAdminRole();
 }
 
 main();
