@@ -340,7 +340,7 @@ async function createUserWithAdminRole() {
         id: existingUser.id,
       },
       data: {
-        isActive: true,
+        isVerified: true,
       },
     });
   } else {
@@ -350,7 +350,7 @@ async function createUserWithAdminRole() {
         email,
         password: hashedPassword,
         role,
-        isActive: true,
+        isVerified: true,
       },
     });
 
