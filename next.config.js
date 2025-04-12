@@ -9,6 +9,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = nextConfig;
