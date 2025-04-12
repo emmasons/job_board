@@ -15,23 +15,19 @@ const handle = app.getRequestHandler();
 
 async function runPrismaCommands() {
   try {
-    console.log("Building Next.js application...");
-    await execAsync("npx next build");
-    console.log("Next.js build completed.");
-
     console.log("Running Prisma commands...");
     await execAsync("npx prisma generate");
     console.log("Prisma generate completed.");
     await execAsync("npx prisma migrate deploy");
     console.log("Prisma migrate deploy completed.");
   } catch (error) {
-    console.error("Error running Prisma commands or building Next.js:", error);
-    process.exit(1); // Exit the process if any command fails
+    console.error("Error running Prisma commands:", error);
+    process.exit(1); // Exit the process if Prisma commands fail
   }
 }
 
 app.prepare().then(async () => {
-  await runPrismaCommands(); // Run Prisma commands and build Next.js before starting the server
+  await runPrismaCommands(); // Run Prisma commands before starting the server
 
   createServer(async (req, res) => {
     try {
