@@ -6,7 +6,7 @@ const util = require("util");
 
 const execAsync = util.promisify(exec);
 
-const dev = process.env.NODE_ENV !== "production";
+const dev = false; // Always run in production mode
 const hostname = "localhost";
 const port = process.env.PORT || 3000;
 
