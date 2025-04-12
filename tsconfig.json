@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "lib/open_ai.js"  ],
+, "lib/open_ai.js", "scripts/seed.js"  ],
   "exclude": [
     "node_modules"
   ]

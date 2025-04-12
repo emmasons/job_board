@@ -1,21 +1,20 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model JobSeekerProfile {
-  id                String              @id @default(cuid())
-  userId            String              @unique
-  occupation        String?
-  country           String?
-  expectedSalary    String?
-  currentSalary     String?
-  currency          CURRENCY        @default(AED)
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  occupation     String?
+  country        String?
+  expectedSalary String?
+  currentSalary  String?
+  currency       CURRENCY @default(AED)
 
   educationLevelId  String?
   experienceId      String?
@@ -32,8 +31,8 @@ model JobSeekerProfile {
   desiredJob        DesiredJob?
   personalDetails   PersonalDetails?
   educationDetails  EducationDetails[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
 }
 
 model DesiredJob {
@@ -46,7 +45,6 @@ model DesiredJob {
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt
 }
-
 
 model EmploymentDetails {
   id                 String           @id @default(cuid())
@@ -62,6 +60,7 @@ model EmploymentDetails {
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
 }
+
 model EducationDetails {
   id                 String           @id @default(cuid())
   level              String
@@ -72,7 +71,6 @@ model EducationDetails {
   endYear            String?
   jobSeekerProfileId String
   profile            JobSeekerProfile @relation(fields: [jobSeekerProfileId], references: [id], onDelete: Cascade)
-
 }
 
 model PersonalDetails {
@@ -230,7 +228,6 @@ model EducationLevel {
   JobSeekerProfile JobSeekerProfile[]
 }
 
-
 model Experience {
   id               String             @id @default(cuid())
   label            String             @unique
@@ -244,7 +241,6 @@ model Sector {
   Job              Job[]
   JobSeekerProfile JobSeekerProfile[]
   Company          Company[]
-
 }
 
 enum JOBTYPE {
@@ -280,44 +276,44 @@ enum PREFERRED_APPLICANT_GENDER {
 }
 
 model Job {
-  id                String          @id @default(cuid())
-  title             String
-  description       String
-  howToApply        String?
-  workSchedule      WorkSchedule    @default(NOT_SPECIFIED)
-  country           String
-  city              String
-  startDate         String?
-  occupation        String?
-  contractType      ContractType    @default(NOT_SPECIFIED)
-  ownerId           String?
-  companyId         String?
-  companyName       String?
-  published         Boolean         @default(false)
-  confidential      Boolean         @default(true)
-  numberOfPositions Int             @default(1)
+  id                       String                     @id @default(cuid())
+  title                    String
+  description              String
+  howToApply               String?
+  workSchedule             WorkSchedule               @default(NOT_SPECIFIED)
+  country                  String
+  city                     String
+  startDate                String?
+  occupation               String?
+  contractType             ContractType               @default(NOT_SPECIFIED)
+  ownerId                  String?
+  companyId                String?
+  companyName              String?
+  published                Boolean                    @default(false)
+  confidential             Boolean                    @default(true)
+  numberOfPositions        Int                        @default(1)
   preferredApplicantGender PREFERRED_APPLICANT_GENDER @default(ALL)
-  datePosted        DateTime?
-  educationLevelId  String?
-  experienceId      String?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  isFeatured        Boolean         @default(false)
-  isOpen            Boolean         @default(true)
-  salary            String?
-  currency          CURRENCY        @default(AED)
-  salaryPeriod      String          @default("Month")
-  applications      Application[]
-  company           Company?        @relation(fields: [companyId], references: [id])
-  education         EducationLevel? @relation(fields: [educationLevelId], references: [id])
-  experience        Experience?     @relation(fields: [experienceId], references: [id])
-  owner             User?           @relation(fields: [ownerId], references: [id])
-  sectorId          String?
-  sector            Sector?         @relation(fields: [sectorId], references: [id])
-  Purchase          Purchase[]
-  jobType           JOBTYPE         @default(NORMAL)
-  source            JOBSOURCE       @default(COMPANY)
-  metrics           JobMetrics[]
+  datePosted               DateTime?
+  educationLevelId         String?
+  experienceId             String?
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  isFeatured               Boolean                    @default(false)
+  isOpen                   Boolean                    @default(true)
+  salary                   String?
+  currency                 CURRENCY                   @default(AED)
+  salaryPeriod             String                     @default("Month")
+  applications             Application[]
+  company                  Company?                   @relation(fields: [companyId], references: [id])
+  education                EducationLevel?            @relation(fields: [educationLevelId], references: [id])
+  experience               Experience?                @relation(fields: [experienceId], references: [id])
+  owner                    User?                      @relation(fields: [ownerId], references: [id])
+  sectorId                 String?
+  sector                   Sector?                    @relation(fields: [sectorId], references: [id])
+  Purchase                 Purchase[]
+  jobType                  JOBTYPE                    @default(NORMAL)
+  source                   JOBSOURCE                  @default(COMPANY)
+  metrics                  JobMetrics[]
 }
 
 model JobMetrics {
@@ -330,6 +326,7 @@ model JobMetrics {
   jobId             String
   job               Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
   visitorId         String
+
   @@unique([visitorId, jobId])
 }
 
@@ -494,17 +491,17 @@ model JobAlert {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  city    String?
+  city String?
 
   companyId String?
   company   Company? @relation(fields: [companyId], references: [id])
 
-  educationLevelIds String[]
-  sectorIds String[]
-  workSchedules WorkSchedule[]
-  contractTypes ContractType[]
-  countries String[]
-
+  // Refactor lists of primitives into related models
+  educationLevelIds EducationLevelOnJobAlert[]
+  sectorIds         SectorOnJobAlert[]
+  workSchedules     WorkScheduleOnJobAlert[]
+  contractTypes     ContractTypeOnJobAlert[]
+  countries         CountryOnJobAlert[]
 
   jobType JOBTYPE @default(NORMAL)
 
@@ -515,6 +512,41 @@ model JobAlert {
   jobId      String?
 }
 
+// New models for lists of primitives
+model EducationLevelOnJobAlert {
+  id             String   @id @default(cuid())
+  jobAlertId     String
+  jobAlert       JobAlert @relation(fields: [jobAlertId], references: [id], onDelete: Cascade)
+  educationLevel String
+}
+
+model SectorOnJobAlert {
+  id         String   @id @default(cuid())
+  jobAlertId String
+  jobAlert   JobAlert @relation(fields: [jobAlertId], references: [id], onDelete: Cascade)
+  sector     String
+}
+
+model WorkScheduleOnJobAlert {
+  id           String       @id @default(cuid())
+  jobAlertId   String
+  jobAlert     JobAlert     @relation(fields: [jobAlertId], references: [id], onDelete: Cascade)
+  workSchedule WorkSchedule
+}
+
+model ContractTypeOnJobAlert {
+  id           String       @id @default(cuid())
+  jobAlertId   String
+  jobAlert     JobAlert     @relation(fields: [jobAlertId], references: [id], onDelete: Cascade)
+  contractType ContractType
+}
+
+model CountryOnJobAlert {
+  id         String   @id @default(cuid())
+  jobAlertId String
+  jobAlert   JobAlert @relation(fields: [jobAlertId], references: [id], onDelete: Cascade)
+  country    String
+}
 
 enum SUBSCRIPTION_TYPE {
   NEWSLETTER
@@ -522,7 +554,7 @@ enum SUBSCRIPTION_TYPE {
 }
 
 model Subscription {
-  id     String @id @default(cuid())
+  id    String @id @default(cuid())
   email String
 
   type SUBSCRIPTION_TYPE
