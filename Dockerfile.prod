@@ -33,14 +33,14 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.js ./
 
 # copy service account
-COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
+# COPY ./keys/gcloud-service-key.json /tmp/gcloud-service-key.json
 
 WORKDIR /app
 COPY ./scripts/entrypoint.prod.sh .
 COPY ./scripts/backup/db_backup.ts .
 COPY ./prisma ./prisma
 USER 0
-RUN mkdir -p /var/maven
+# RUN mkdir -p /var/maven
 RUN mkdir -p /app/logs && chmod 777 /app/logs
 RUN mkdir -p /app/db_backups && chmod 777 /app/db_backups
 ENTRYPOINT ["/app/entrypoint.prod.sh"]

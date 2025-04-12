@@ -23,7 +23,7 @@ help:
 
 ## create container for development
 dev:
-	docker-compose --env-file .env.test up --build --force-recreate --remove-orphans --detach
+	docker-compose up --build --force-recreate --remove-orphans --detach
 
 ## remove container
 tear-dev:
@@ -35,8 +35,8 @@ prod:
 
 ## Run CI tests.
 test:
-	docker-compose -f docker-compose.test.yml up --build --force-recreate --remove-orphans --detach 
-	docker-compose -f docker-compose.test.yml run microlearn npx prisma migrate dev --name init 
+	docker-compose -f docker-compose.test.yml up --build --force-recreate --remove-orphans --detach
+	docker-compose -f docker-compose.test.yml run microlearn npx prisma migrate dev --name init
 	docker-compose -f docker-compose.test.yml run microlearn npx prisma db push
 	docker-compose -f docker-compose.test.yml run microlearn pnpm test
 

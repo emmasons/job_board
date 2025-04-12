@@ -105,5 +105,13 @@
     "@types/react-dom": "^18.2.14",
     "@types/supertest": "^6.0.2",
     "prisma": "^5.15.1"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "bcrypt"
+    ],
+    "onlyBuiltDependencies": [
+      "bcrypt"
+    ]
   }
 }
