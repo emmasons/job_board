@@ -10,7 +10,7 @@ type Props = {};
 
 const page = async (props: Props) => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.EMPLOYER)) {
+  if (user.role !== Role.EMPLOYER && user.role !== Role.ADMIN) {
     return redirect("/");
   }
   const candidates = await getEmployerCandidates(user.id);

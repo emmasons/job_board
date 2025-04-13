@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
-    if (!user || !(user.role === Role.EMPLOYER)) {
+    if (user.role !== Role.EMPLOYER && user.role !== Role.ADMIN) {
       return NextResponse.json(
         { message: "Unauthorized", status: 401 },
         { status: 401 },

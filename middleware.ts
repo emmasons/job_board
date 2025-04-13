@@ -18,7 +18,10 @@ export default withAuth(
     }
     if (
       req.nextUrl.pathname.includes("/employer") &&
-      !(req.nextauth?.token?.role === Role.EMPLOYER)
+      !(
+        req.nextauth?.token?.role === Role.EMPLOYER ||
+        req.nextauth?.token?.role === Role.ADMIN
+      )
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
