@@ -13,9 +13,14 @@ import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.EMPLOYER)) {
-    return redirect("/");
+  if (!user) {
+    return redirect("/"); // Redirect to home if the user is not logged in
   }
+
+  if (user.role !== Role.EMPLOYER && user.role !== Role.ADMIN) {
+    return redirect("/denied"); // Redirect unauthorized users to a specific page
+  }
+
   const sectors = await getAllSectors();
   const contractTypeList = await getContractTypes();
   const workSchedules = await getWorkSchedules();

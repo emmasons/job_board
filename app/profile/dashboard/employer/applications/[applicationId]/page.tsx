@@ -26,7 +26,7 @@ type Props = {
 
 const page = async ({ params }: Props) => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.EMPLOYER)) {
+  if (user.role !== Role.EMPLOYER && user.role !== Role.ADMIN) {
     return redirect("/");
   }
   const application = await getApplicationById(params.applicationId);

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
 
-    if (!userId || !(user.role === Role.EMPLOYER)) {
+    if (!userId || !(user.role === Role.EMPLOYER || user.role === Role.ADMIN)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 

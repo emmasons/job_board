@@ -29,7 +29,7 @@ type Props = {
 
 const page = async ({ params, searchParams }: Props) => {
   const user = await getCurrentSessionUser();
-  if (!user || !(user.role === Role.EMPLOYER)) {
+  if (user.role !== Role.EMPLOYER && user.role !== Role.ADMIN) {
     return redirect(
       `/auth/signup/employer?callBack=/profile/dashboard/employer/jobs/${params.id}`,
     );

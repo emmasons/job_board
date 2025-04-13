@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const values = await req.json();
     const { numberOfPositions, ...remainingValues } = values;
 
-    if (!userId || !(user.role === Role.EMPLOYER)) {
+    if (!userId || !(user.role === Role.EMPLOYER || user.role === Role.ADMIN)) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
