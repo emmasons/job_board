@@ -8,27 +8,27 @@ const PopularSearches = (props: Props) => {
   const popularSearches = [
     {
       keyword: "Hospitality",
-      label: "Hotel jobs in kuwait",
+      label: "Hospitality jobs",
     },
     {
       keyword: "Sales",
-      label: "Sales jobs in qatar",
+      label: "Sales jobs in Europe",
     },
     {
       keyword: "IT",
-      label: "IT jobs in kuwait",
+      label: "IT jobs in Canada",
     },
     {
       keyword: "Accounting",
-      label: "Accounting jobs in Abu Dhabi",
+      label: "Accounting jobs in the UK",
     },
     {
       keyword: "Nursing",
-      label: "Nursing jobs in UAE",
+      label: "Nursing jobs in Australia",
     },
     {
       keyword: "Construction",
-      label: "Construction jobs in Saudi Arabia",
+      label: "Construction jobs in Germany",
     },
   ];
   return (

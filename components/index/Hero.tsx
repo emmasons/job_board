@@ -13,9 +13,9 @@ import Link from "next/link";
 
 const slideContent = [
   {
-    title: "Welcome to the Gulf Job portal",
-    description: "The place where jobs and skilled applicants match.",
-    bgImage: "/index/carousel/gulf1.webp",
+    title: "Welcome to Talentra Job Portal",
+    description: "Your global portal for visa sponsorship jobs and career growth.",
+    bgImage: "/index/carousel/talentra4.jpg",
     content: (
       <Button
         size="sm"
@@ -28,10 +28,10 @@ const slideContent = [
     ),
   },
   {
-    title: "Find Your Perfect Job Match",
+    title: "Discover Visa-Sponsored Job Opportunities",
     description:
-      "Search for your ideal job opportunity in Dubai and other gulf countries with ease!",
-    bgImage: "/index/carousel/gulf2.avif",
+      "Find job openings around the world that offer visa support—simplifying your relocation journey.",
+    bgImage: "/index/carousel/talentra3.jpg",
     content: (
       <Link className="link" href="/search">
         Start your search here
@@ -40,9 +40,9 @@ const slideContent = [
     ),
   },
   {
-    title: "Find the right skilled candidate",
-    description: "Search for your perfect applicant in the middle east!",
-    bgImage: "/index/carousel/gulf3.jpg",
+    title: "Hire Skilled, Relocation-Ready Talent",
+    description: "Connect with top global candidates open to relocation and sponsorship.",
+    bgImage: "/index/carousel/talentra2.jpg",
     content: (
       <Link className="link" href="/find-candidates">
         Begin your search here
@@ -51,8 +51,8 @@ const slideContent = [
     ),
   },
   {
-    title: "Living and Working conditions",
-    description: "Explore further details about the country of your choice.",
+    title: "Explore Living & Working Abroad",
+    description: "Get insights into life, work culture, and relocation processes in top destinations.",
     bgImage: "/index/carousel/bg4.jpg",
     content: (
       <Link className="link justify-start" href="/blog">

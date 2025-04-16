@@ -1,5 +1,5 @@
 "use client";
-import { Logo } from "./navbar/Logo";
+import { Logo } from "./navbar/Logo2";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
@@ -13,24 +13,17 @@ const Footer = (props: Props) => {
   return (
     <footer className="bg-primary/70 py-8">
       <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="space-y-2 text-white">
-          <h2 className="text-xl">
-            Jobs Connect <br /> Limited Job Portal
-          </h2>
-          <div className="inline-flex">
-            <Logo />
-          </div>
-          <p className="text-sm">
-            © {new Date().getFullYear()} Jobs Connect Limited
-          </p>
+      <div className="space-y-2 text-white">
+         
+        <div className="inline-flex">
+          <Logo />
         </div>
+        <p className="text-sm">
+          © {new Date().getFullYear()} Talentra Limited
+        </p>
+      </div>
         <div className="space-y-2 text-white">
-          <h2 className="text-lg font-bold">Contact us</h2>
-          <Link href="#" className="inline-flex items-center gap-2">
-            Contact Jobs Connect Helpdesk
-            {/* <ChevronRight className="h-4 w-4" /> */}
-          </Link>
-          <p className="">Follow us</p>
+          <h2 className="text-lg font-bold">Follow us</h2>
           <ul>
             <li>
               <Link
@@ -80,7 +73,7 @@ const Footer = (props: Props) => {
               >
                 <Icon
                   icon="akar-icons:whatsapp-fill"
-                  className="h-4 w-4 text-green-500"
+                  className="h-4 w-4 text-white-500"
                 />
                 WhatsApp
               </Link>
@@ -94,7 +87,7 @@ const Footer = (props: Props) => {
               href="/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
-              About Jobs Connect
+              About Talentra
             </Link>
             <Link
               href="/privacy-policy"

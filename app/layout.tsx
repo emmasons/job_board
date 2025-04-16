@@ -14,53 +14,37 @@ const poppins = Poppins({
 }); // Define Poppins font with weights
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jobsconnect.net"),
+  metadataBase: new URL("https://talentra.io"),
   title: {
-    default:
-      "Find Jobs in Kuwait, Dubai, Saudi Arabia, Oman, Qatar, and Bahrain",
-    template: `%s | Jobsconnect.net`,
+    default: "Find Visa Sponsorship Jobs Worldwide | Talentra",
+    template: `%s | Talentra.io`,
   },
   description:
-    "Explore top job search websites and job boards for finding employment across the Gulf region. Discover job vacancies and career opportunities in Kuwait, Dubai, Saudi Arabia.",
+    "Discover global job opportunities that offer visa sponsorship. Talentra connects job seekers with employers around the world who support international relocation.",
   keywords: [
-    "Jobs",
-    "Kuwait jobs",
-    "Dubai jobs",
-    "Saudi Arabia jobs",
-    "Qatar jobs",
-    "Oman jobs",
-    "jobsconnect.net",
-    "jobs",
-    "career openings",
-    "job",
-    "vacancies",
-    "careers in gulf",
-    "job search",
-    "jobs in gulf",
-    "jobs gulf",
-    "job site",
-    "middle east job sites",
-    "it jobs in Gulf",
-    "jobs gulf",
-    "job search in middle east",
-    "jobs in middle east",
-    "online jobs",
-    "accounting jobs in gulf",
-    "part time jobs gulf",
-    "banking jobs gulf",
-    "finance jobs gulf",
-    "marketing jobs in gulf.",
-    "Jobs Connect",
-    "Jobs Connect Limited",
-    "Recruitment Agency",
-    "Job Agency",
-    "jobsconnect.net",
-    "Work in The Gulf",
-    "The Gulf Jobs",
-    "Gulf Region Jobs",
-    "Gulf Jobs",
-    "Gulf Jobs search",
-    "Gulf Jobs salary",
+    "Visa sponsorship jobs",
+    "International jobs",
+    "Relocation jobs",
+    "Jobs abroad",
+    "Skilled migration",
+    "Work overseas",
+    "Sponsorship jobs USA",
+    "Sponsorship jobs UK",
+    "Jobs in Europe with visa sponsorship",
+    "Work in Canada",
+    "Work in Australia",
+    "Job sponsorship",
+    "Global hiring",
+    "Remote jobs with relocation",
+    "Talentra",
+    "talentra.io",
+    "International recruitment",
+    "Job relocation support",
+    "Immigration jobs",
+    "Worldwide job search",
+    "Global career opportunities",
+    "H1B jobs",
+    "Skilled worker visa jobs",
   ],
   twitter: {
     card: "summary_large_image",
@@ -70,8 +54,8 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   openGraph: {
-    siteName: "jobsconnect.net",
-    url: "https://jobsconnect.net",
+    siteName: "talentra.io",
+    url: "https://talentra.io",
   },
 };
 
@@ -92,7 +76,7 @@ export default function RootLayout({
         </SessionProvider>
         <WhatsAppButton
           phoneNumber={"+971503984645"}
-          message={"Hello Jobsconnect!"}
+          message={"Hello Talentra!"}
         />
       </body>
     </html>

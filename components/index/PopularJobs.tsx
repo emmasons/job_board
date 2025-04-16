@@ -18,7 +18,7 @@ const PopularJobs: React.FC = async () => {
           featured Jobs
         </h2>
         <p className="mb-8 text-center">
-          Find your Ideal job in the Gulf states
+          Find your Ideal Visa sponsored jobs
         </p>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
           {jobData.map((job) => (
@@ -31,8 +31,7 @@ const PopularJobs: React.FC = async () => {
               city={job.city}
               country={job.country}
               occupation={job.occupation}
-              workSchedule={job.workSchedule}
-            />
+              workSchedule={job.workSchedule} url={""}            />
           ))}
         </div>
       </div>
