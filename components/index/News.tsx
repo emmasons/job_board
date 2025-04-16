@@ -5,12 +5,13 @@ import Link from "next/link";
 
 const News = async () => {
   const latest = await getFeaturedPosts();
-  if (!latest)
+  if (!latest || latest.length === 0)
     return (
       <div>
         <h1 className="text-2xl font-bold">We are compiling the latest news</h1>
       </div>
     );
+
   return (
     <div className="space-y-6">
       <h1 className="mb-4 text-3xl font-semibold text-gray-900">
