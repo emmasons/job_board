@@ -139,26 +139,67 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     const alerts = await getUserAlerts(user?.id);
     const previousAlert = await db.jobAlert.findFirst({
       where: {
-        ...({
-          countries: {
-            hasEvery: countryList ? countryList : [],
-          },
+        userId: user.id,
+        occupation: args.occupation as string,
+        ...(countryList && countryList.length > 0
+          ? {
+              countries: {
+                some: {
+                  country: {
+                    in: countryList,
+                  },
+                },
+              },
+            }
+          : {}),
 
-          educationLevelIds: {
-            hasEvery: educationLevelIdList ? educationLevelIdList : [],
-          },
-          sectorIds: {
-            hasEvery: sectorIdList ? sectorIdList : [],
-          },
-          workSchedules: {
-            hasEvery: workScheduleList ? workScheduleList : [],
-          },
-          contractTypes: {
-            hasEvery: contactTypeList ? contactTypeList : [],
-          },
-          occupation: args.occupation as string,
-          userId: user.id,
-        } as const),
+        ...(educationLevelIdList && educationLevelIdList.length > 0
+          ? {
+              educationLevelIds: {
+                some: {
+                  educationLevel: {
+                    in: educationLevelIdList,
+                  },
+                },
+              },
+            }
+          : {}),
+
+        ...(sectorIdList && sectorIdList.length > 0
+          ? {
+              sectorIds: {
+                some: {
+                  sector: {
+                    in: sectorIdList,
+                  },
+                },
+              },
+            }
+          : {}),
+
+        ...(workScheduleList && workScheduleList.length > 0
+          ? {
+              workSchedules: {
+                some: {
+                  workSchedule: {
+                    in: workScheduleList,
+                  },
+                },
+              },
+            }
+          : {}),
+
+        ...(contactTypeList && contactTypeList.length > 0
+          ? {
+              contractTypes: {
+                some: {
+                  contractType: {
+                    in: contactTypeList,
+                  },
+                },
+              },
+            }
+          : {}),
       },
     });
     alert = previousAlert ? true : false;
