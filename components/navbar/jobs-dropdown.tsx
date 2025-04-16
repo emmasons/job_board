@@ -41,7 +41,7 @@ const JobsDropdown: React.FC = () => {
                 <ParamLink
                   value={`${gulfCountries.map((country) => country).join(",")}`}
                   searchParamLabel="countriesFilter"
-                  displayText="All gulf countries"
+                  displayText="All countries"
                 />
               </li>
             </ul>

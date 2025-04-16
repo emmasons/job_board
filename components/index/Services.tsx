@@ -6,19 +6,19 @@ const services = [
   {
     icon: "healthicons:factory-worker-outline",
     link: <Link className="font-semibold underline text-secondary" href="/search">Find a job</Link>,
-    description: "Search for your perfect job in the Gulf",
+    description: "Search for international jobs offering visa sponsorship.",
   },
   {
     icon: "fluent:people-search-20-filled",
     link: <Link className="font-semibold underline text-secondary" href="/find-candidates">Find a candidate</Link>,
-    description: "Search for your perfect employee in the Gulf",
+    description: "Discover relocation-ready professionals from around the world.",
   },
   {
     icon: "wpf:worldwide-location",
-    link: <Link className="font-semibold underline text-secondary" href="/blog">Living and working conditions</Link>,
+    link: <Link className="font-semibold underline text-secondary" href="/blog">Living and working abroad</Link>,
     description:
-      "Find out more about living and working conditions in Gulf countries",
-  },
+      "Learn about living conditions, work culture, and relocation in top job destinations.",
+  },  
   //   {
   //     icon: "fluent:people-search-20-filled",
   //     link: <Link className="font-semibold underline text-secondary" href="/search">Find a candidate</Link>,

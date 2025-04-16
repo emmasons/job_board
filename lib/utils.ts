@@ -19,41 +19,41 @@ export function capitalizeFirstLetter(string) {
 }
 
 export const gulfCountries = [
-  "United Arab Emirates",
-  "Oman",
-  "Qatar",
-  "Bahrain",
-  "Kuwait",
-  "Saudi Arabia",
+  "United States",
+  "Canada",
+  "United Kingdom",
+  "Germany",
+  "Australia",
+  "Netherlands",
+
 ];
 
 export const popularCities = [
-  "Dubai",
-  "Sharjah",
-  "Abu Dhabi",
-  "Riyadh",
-  "Ras Al Khaimah",
-  "Fujairah",
-  "Muscat",
-  "Umm Al Quwain",
+  "New York",
+  "Toronto",
+  "London",
+  "Berlin",
+  "Sydney",
+  "Vancouver",
+  "Manchester",
 ];
 
 export const getGulfCountryCurrencyByCurrencyCode = (countryCode: string) => {
   switch (countryCode) {
-    case "United Arab Emirates":
-      return "AED";
-    case "Oman":
-      return "OMR";
-    case "Qatar":
-      return "QAR";
-    case "Bahrain":
-      return "BHD";
-    case "Kuwait":
-      return "KWD";
-    case "Saudi Arabia":
-      return "SAR";
+    case "United States":
+      return "USD";
+    case "Canada":
+      return "CAD";
+    case "United Kingdom":
+      return "GBP";
+    case "Germany":
+      return "EUR";
+    case "Australia":
+      return "AUD";
+    case "Netherlands":
+      return "EUR";
     default:
-      return "AED";
+      return "USD";
   }
 };
 
