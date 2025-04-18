@@ -111,7 +111,7 @@ const Signup = ({ role }: Props) => {
   }
   return (
     <div className="flex h-full w-full flex-col justify-center">
-      <h1 className="my-4 text-2xl font-bold text-secondary">
+      <h1 className="my-4 text-2xl font-bold text-secondary max-md:text-xl">
         {role === "EMPLOYER"
           ? "Register as an Employer"
           : "Register as a Job Seeker"}
@@ -262,7 +262,7 @@ const Signup = ({ role }: Props) => {
         </form>
       </Form>
       <div className="py-4">
-        <p className="text-secondary">
+        <p className="text-secondary max-md:text-sm">
           If you already have an account{" "}
           <Link
             href="/auth/signin"

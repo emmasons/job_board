@@ -7,8 +7,7 @@ import { Role } from "@prisma/client";
 import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
 
 export async function POST(req: NextRequest) {
-  try {
-    const formData = await req.formData();
+   const formData = await req.formData();
     const {
       email,
       password,
@@ -20,7 +19,6 @@ export async function POST(req: NextRequest) {
       city,
       country,
       addressLineOne,
-      addressLineTwo,
       companyName,
       sectorId,
       postalCode,
@@ -37,10 +35,11 @@ export async function POST(req: NextRequest) {
       country: string;
       postalCode: string;
       addressLineOne: string;
-      addressLineTwo: string;
       companyName: string;
       sectorId: string;
     };
+  try {
+
 
     if (!email || !password || !role) {
       return NextResponse.json(
@@ -49,9 +48,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (role === Role.JOB_SEEKER && !cvFile) {
+
+    if (role === Role.JOB_SEEKER && (!cvFile || !cvFile.name)) {
       return NextResponse.json(
-        { message: "All fields are required." },
+        { message: "Please upload your CV." },
         { status: 400 },
       );
     }
@@ -86,7 +86,6 @@ export async function POST(req: NextRequest) {
           country,
           postalCode,
           addressLineOne,
-          addressLineTwo,
           userId: user.id,
         },
       });
@@ -104,7 +103,8 @@ export async function POST(req: NextRequest) {
     if (role === Role.JOB_SEEKER) {
       const cloudResponse = await uploadFile(cvFile, cvFile.name);
       if (cloudResponse.status !== 200) {
-        return NextResponse.json({ message: "Storage Error" }, { status: 500 });
+        await db.user.delete({ where: { id: user.id } });
+        return NextResponse.json({ message: "There was an error uploading your CV. Please try again." }, { status: 500 });
       }
       const cv = await db.cV.create({
         data: {
@@ -144,6 +144,9 @@ export async function POST(req: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
+    await db.user.delete({
+      where: { email: email },
+    });
     console.log(error);
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }
