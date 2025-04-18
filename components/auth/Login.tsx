@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-import { ChevronRight, Eye, EyeOff, Info, Loader2 } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Info } from "lucide-react";
 import Link from "next/link";
 import { toast } from "../ui/use-toast";
 import { Icon } from "@iconify/react";
@@ -62,7 +62,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
     }
   }
   return (
-    <div className="flex h-full  flex-col justify-center p-4">
+    <div className="flex h-full  p-4 flex-col justify-center">
       <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-md:space-y-4">
@@ -122,11 +122,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
             variant="secondary"
             className="bg-[#041631] text-white"
           >
-            {isSubmitting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              "Login"
-            )}
+            Login
           </Button>
           <div></div>
         </form>
