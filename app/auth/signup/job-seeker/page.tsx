@@ -1,5 +1,5 @@
-import Signup from "@/components/auth/Signup";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Signup from "@/components/auth/Signup";
 import SignupMessage from "@/components/auth/SignupMessage";
 import { Role } from "@prisma/client";
 import type { Metadata } from "next";
@@ -20,4 +20,3 @@ const page = () => {
 };
 
 export default page;
-
