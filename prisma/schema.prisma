@@ -179,7 +179,7 @@ model GCPData {
   assetName        String
   assetType        String
   validityDuration Int      @default(7)
-  downloadUrl      String
+  downloadUrl String @db.VarChar(1000) 
 }
 
 model EmployerProfile {

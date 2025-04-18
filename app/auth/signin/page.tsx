@@ -17,9 +17,11 @@ const page = async (props: Props) => {
     return redirect("/profile/settings/");
   }
   return (
-    <MaxWidthWrapper className="flex flex-wrap justify-between">
-      <SignupMessage />
-      <div className="rounded-md bg-slate-50 md:basis-1/2">
+   <MaxWidthWrapper className="flex gap-8 h-full items-center justify-between max-md:flex-col" >
+    <div className="md:basis-1/2">
+      <SignupMessage/>
+    </div>
+    <div className="flex md:basis-1/2 h-full flex-col justify-center gap-4 rounded-md bg-slate-50 p-8 max-md:w-full">
         <Login
           error={props.searchParams?.error}
           callbackUrl={props.searchParams?.callbackUrl}

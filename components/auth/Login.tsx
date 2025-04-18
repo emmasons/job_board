@@ -65,7 +65,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
     <div className="flex h-full  p-4 flex-col justify-center">
       <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-md:space-y-4">
           {!!error && (
             <div className="flex items-center gap-4">
               <Info className="h-4 w-4 font-bold text-red-500" />
@@ -128,7 +128,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
         </form>
       </Form>
       <div className="flex flex-col items-start py-4">
-        <p className="text-secondary">
+        <p className="text-secondary max-md:text-sm">
           <Link
             href="/auth/send-reset-password-link"
             className="font-semibold text-[#1676f9] hover:text-[#2362ba]"
@@ -137,7 +137,7 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
           </Link>
         </p>
 
-        <p className="mt-4 font-semibold text-secondary">
+        <p className="mt-4 font-semibold text-secondary max-md:text-sm">
           Dont have an account? &nbsp;
         </p>
         <Link

@@ -51,7 +51,6 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
       country: z.string().min(1, "Please provide your country"),
       postalCode: z.string().min(1, "Please provide your postal code"),
       addressLineOne: z.string().min(1, "Please provide your address line one"),
-      addressLineTwo: z.string().optional(),
       companyName: z.string().min(1, "Please provide your company name"),
       sectorId: z.string().min(1, "Please provide your sector"),
       terms: z.boolean().refine((val) => val, {
@@ -81,7 +80,6 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
       city: "",
       postalCode: "",
       addressLineOne: "",
-      addressLineTwo: "",
       companyName: "",
       sectorId: "",
     },
@@ -115,7 +113,6 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
       formData.append("city", values.city);
       formData.append("postalCode", values.postalCode);
       formData.append("addressLineOne", values.addressLineOne);
-      formData.append("addressLineTwo", values.addressLineTwo);
       formData.append("companyName", values.companyName);
       formData.append("sectorId", values.sectorId);
 
@@ -139,7 +136,7 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
   }
   return (
     <>
-      <h1 className="my-4 text-2xl font-bold text-secondary">
+      <h1 className="my-4 text-2xl font-bold text-secondary max-md:text-xl">
         Register as an Employer
       </h1>
       <Form {...form}>
@@ -198,20 +195,6 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="e.g xyz@gmail.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g Sharja" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -322,12 +305,12 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
 
               <FormField
                 control={form.control}
-                name="addressLineOne"
+                name="city"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address Line One</FormLabel>
+                    <FormLabel>City</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input placeholder="e.g Sharja" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -336,10 +319,10 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
 
               <FormField
                 control={form.control}
-                name="addressLineTwo"
+                name="addressLineOne"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address Line Two</FormLabel>
+                    <FormLabel>Address</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -347,6 +330,7 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="postalCode"
@@ -408,7 +392,7 @@ const EmployerSignup = ({ role, sectorList }: Props) => {
         </form>
       </Form>
       <div className="py-4">
-        <p className="text-secondary">
+        <p className="text-secondary max-md:text-sm">
           If you already have an account{" "}
           <Link
             href="/auth/signin"
