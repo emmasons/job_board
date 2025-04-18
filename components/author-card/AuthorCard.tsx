@@ -1,4 +1,4 @@
-import me from "@/public/log2.png";
+import me from "@/public/logo2.png";
 import Image from "next/image";
 
 type Props = {
