@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { env } from "../env";
+import { env } from "@/lib/env";
 import { EmailProps } from ".";
 import path from "path";
 import fs from "fs";
@@ -109,7 +109,7 @@ export const mail = async ({
           status: 500,
         });
       } else {
-        const status = info.response.includes("250 OK") ? 200 : 500;
+        const status = info.response.includes("250 2.0.0 Ok") ? 200 : 500;
         resolve({
           message: "Email sent successfully.",
           status: status,
