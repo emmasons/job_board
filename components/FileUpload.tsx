@@ -65,34 +65,53 @@ const UploadDropzone = ({
       }
       const customFileName = `${assetId}/${fileToUpload.name}`;
 
-      // const response = await fetch("/api/files/upload", {
-      //   method: "POST",
-      //   cache: "no-store",
-      //   body: JSON.stringify({
-      //     contentType: contentType,
-      //     fileName: customFileName,
-      //   }),
-      // });
-      // const data = await response.json();
-      // const { url, downloadUrl, downloadExpiry, blobName } = data;
-
       const url = "/api/files/upload";
 
       var xhr = new XMLHttpRequest();
       xhr.open("PUT", url, true);
-      xhr.addEventListener("loadend", function () {
-        setIsUploading(false);
+
+      xhr.addEventListener("readystatechange", function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            setIsError(false);
+            router.refresh();
+            toggleEdit?.();
+            toast({
+              title: "Success",
+              description: "Update success.",
+              variant: "default",
+              className: "bg-green-300 border-0",
+            });
+          } else {
+            setIsError(true);
+            toast({
+              variant: "destructive",
+              title: "Error",
+              description: `Upload failed with status.`,
+            });
+          }
+          setIsUploading(false);
+        }
       });
+
+      xhr.addEventListener("error", function() {
+        setIsUploading(false);
+        setIsError(true);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Network error occurred during upload",
+        });
+      });
+
       xhr.upload.addEventListener("progress", function (event) {
         if (event.lengthComputable) {
           const percentComplete = Math.round(
             (event.loaded / event.total) * 100,
           );
-
           setUploadProgress(percentComplete);
         }
       });
-
 
       const formData = new FormData();
       formData.append("file", fileToUpload);
@@ -100,10 +119,11 @@ const UploadDropzone = ({
       formData.append("contentType", contentType);
       formData.append("customFileName", customFileName);
 
+      xhr.timeout = 30000; // 30 second timeout
       xhr.send(formData);
-                 setIsError(false);
-              router.refresh();
-              toggleEdit();
+      setIsError(false);
+      router.refresh();
+      toggleEdit();
       toast({
         title: "Success",
         description: "Update success.",
@@ -112,7 +132,7 @@ const UploadDropzone = ({
       });
     } catch (error) {
       console.log(error, "#CLIENT ERROR");
-          setIsError(true);
+      setIsError(true);
       setIsUploading(false);
       toast({
         variant: "destructive",
