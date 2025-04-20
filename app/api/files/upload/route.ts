@@ -3,7 +3,7 @@ import path from "path";
 import { writeFile } from "fs/promises";
 import { db } from "@/lib/db";
 import fs from "fs";
-import { getLocalUploadDirectory } from "@/lib/utils";
+import { getLocalUploadDirectory } from "@/lib/server-utils";
 
 export const PUT = async (req, res) => {
   const formData = await req.formData();
