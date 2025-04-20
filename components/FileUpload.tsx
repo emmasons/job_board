@@ -94,7 +94,7 @@ const UploadDropzone = ({
         }
       });
 
-      xhr.addEventListener("error", function() {
+      xhr.addEventListener("error", function () {
         setIsUploading(false);
         setIsError(true);
         toast({
@@ -123,7 +123,6 @@ const UploadDropzone = ({
       xhr.send(formData);
       setIsError(false);
       router.refresh();
-      toggleEdit();
       toast({
         title: "Success",
         description: "Update success.",
