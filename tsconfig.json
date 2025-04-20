@@ -29,7 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "lib/open_ai.js",
-    "scripts/seed.js"
+    "scripts/seed.mjs"
   ],
   "exclude": ["node_modules"]
 }
