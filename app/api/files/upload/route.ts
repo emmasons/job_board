@@ -3,6 +3,7 @@ import path from "path";
 import { writeFile } from "fs/promises";
 import { db } from "@/lib/db";
 import fs from "fs";
+import { getLocalUploadDirectory } from "@/lib/utils";
 
 export const PUT = async (req, res) => {
   const formData = await req.formData();
@@ -12,15 +13,11 @@ export const PUT = async (req, res) => {
     return NextResponse.json({ error: "No files received." }, { status: 400 });
   }
 
-  const uploadsDir = path.join(process.cwd(), "public/uploads");
-  if (!fs.existsSync(uploadsDir)) {
-    await fs.promises.mkdir(uploadsDir);
-  }
+  const uploadsDir = await getLocalUploadDirectory();
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const customFileName = formData.get("customFileName");
-  console.log(customFileName);
 
   // Add directory creation if customFileName contains a path separator
   if (customFileName.includes("/")) {
@@ -31,10 +28,7 @@ export const PUT = async (req, res) => {
   }
 
   try {
-    await writeFile(
-      path.join(uploadsDir, customFileName),
-      buffer,
-    );
+    await writeFile(path.join(uploadsDir, customFileName), buffer);
     const assetId = formData.get("assetId");
     const contentType = formData.get("contentType");
     await db.gCPData.findUnique({
