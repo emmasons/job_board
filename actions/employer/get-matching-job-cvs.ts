@@ -42,35 +42,29 @@ export const getMatchingJobsCvs = async ({
     const candidates = await db.user.findMany({
       where: {
         role: Role.JOB_SEEKER,
-        AND: {
-          jobSeekerProfile: {
-            OR: [
-              {
-                occupation: {
-                  contains: jobTitle ? jobTitle.toLowerCase() : undefined,
-                  mode: "insensitive",
-                },
+        jobSeekerProfile: {
+          OR: [
+            {
+              occupation: {
+                contains: jobTitle ? jobTitle.toLowerCase() : undefined,
               },
-              {
-                occupation: {
-                  contains: occupation ? occupation.toLowerCase() : undefined,
-                  mode: "insensitive",
-                },
+            },
+            {
+              occupation: {
+                contains: occupation ? occupation.toLowerCase() : undefined,
               },
-              {
-                cvHeadLine: {
-                  contains: jobTitle ? jobTitle.toLowerCase() : undefined,
-                  mode: "insensitive",
-                },
+            },
+            {
+              cvHeadLine: {
+                contains: jobTitle ? jobTitle.toLowerCase() : undefined,
               },
-              {
-                cvHeadLine: {
-                  contains: occupation ? occupation.toLowerCase() : undefined,
-                  mode: "insensitive",
-                },
+            },
+            {
+              cvHeadLine: {
+                contains: occupation ? occupation.toLowerCase() : undefined,
               },
-            ],
-          },
+            },
+          ],
         },
       },
       include: {
