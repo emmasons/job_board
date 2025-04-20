@@ -173,14 +173,14 @@ model CV {
 }
 
 model GCPData {
-  id               String   @id @default(cuid())
+  id               String    @id @default(cuid())
   urlExpiryDate    DateTime?
   blobName         String?
-  assetId          String   @unique
+  assetId          String    @unique
   assetName        String
   assetType        String
   validityDuration Int?      @default(7)
-  downloadUrl String? @db.VarChar(1000)
+  downloadUrl      String?   @db.VarChar(1000)
 }
 
 model EmployerProfile {
@@ -404,8 +404,8 @@ model Service {
 model Post {
   id          String   @id @default(cuid())
   title       String   @unique
-  content     String?
-  epigraph    String?
+  content     String?  @db.Text
+  epigraph    String?  @db.Text
   imageUrl    String?
   authorId    String?
   isPublished Boolean  @default(false)
@@ -568,5 +568,3 @@ model Subscription {
 
   type SUBSCRIPTION_TYPE
 }
-
-
