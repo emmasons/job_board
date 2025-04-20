@@ -55,7 +55,6 @@ export async function POST(
   }
 }
 
-
 export async function DELETE(
   req: Request,
   { params }: { params: { profileId: string; skillId: string } },
@@ -76,7 +75,9 @@ export async function DELETE(
     });
 
     if (!skill || skill.jobSeekerProfileId !== params.profileId) {
-      return new NextResponse("Skill not found or not authorized", { status: 404 });
+      return new NextResponse("Skill not found or not authorized", {
+        status: 404,
+      });
     }
 
     // Delete the skill
@@ -116,7 +117,10 @@ export async function DELETE(
       });
     }
 
-    return NextResponse.json({ message: "Skill deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Skill deleted successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     console.log("[DELETE_SKILL]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });

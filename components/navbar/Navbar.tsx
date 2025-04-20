@@ -9,7 +9,7 @@ const Navbar = async () => {
     <header className="flex h-full items-center border-b bg-white p-6 shadow-sm">
       <nav className="flex h-full w-full items-center justify-between sm:p-2">
         <MobileSidebar />
-        
+
         {/* <jobs/> */}
         <NavbarRoutes user={user} />
       </nav>

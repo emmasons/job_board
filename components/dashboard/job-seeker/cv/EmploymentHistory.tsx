@@ -153,7 +153,6 @@ const EmploymentHistory = ({
                 initialData={history}
                 isJobSeekerComponent={isJobSeekerComponent}
               />
-              
             </div>
           ))}
         </div>

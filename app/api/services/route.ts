@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         slug,
       },
     });
-    console.log(service)
+    console.log(service);
     return NextResponse.json({ id: service.id, message: "Service created" });
   } catch (error) {
     console.log("[SERVICE]", error);

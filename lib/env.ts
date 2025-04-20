@@ -6,7 +6,7 @@ const envSchema = zod.object({
     .min(1, "Please provide NODE_ENV")
     .default("development"),
   ADMIN_EMAIL: zod.string().min(1, "Please provide ADMIN_EMAIL"),
-  // auth 
+  // auth
   GITHUB_ID: zod.string().min(1, "Please provide GITHUB_ID"),
   GITHUB_SECRET: zod.string().min(1, "Please provide GITHUB_SECRET"),
   GOOGLE_CLIENT_ID: zod.string().min(1, "Please provide GOOGLE_CLIENT_ID"),
@@ -14,7 +14,7 @@ const envSchema = zod.object({
     .string()
     .min(1, "Please provide GOOGLE_CLIENT_SECRET"),
   BASE_DOMAIN: zod.string().min(1, "Please provide BASE_DOMAIN"),
-  // cloud 
+  // cloud
   GS_BUCKET_URL: zod.string().min(1, "Please provide GS_BUCKET_URL"),
   GS_CREDENTIALS: zod.string().min(1, "Please provide GS_CREDENTIALS"),
   GS_BUCKET_NAME: zod.string().min(1, "Please provide GS_BUCKET_NAME"),

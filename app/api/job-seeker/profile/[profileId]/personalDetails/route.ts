@@ -3,7 +3,10 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
-export async function PATCH(req: Request, { params }: { params: { profileId: string } }) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { profileId: string } },
+) {
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;

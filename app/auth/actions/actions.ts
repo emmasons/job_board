@@ -6,7 +6,7 @@ export const verifyEmail = async (token: string) => {
       verifyToken: token,
     },
   });
-  console.log(token)
+  console.log(token);
   if (!user) {
     return {
       user: null,

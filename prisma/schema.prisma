@@ -174,13 +174,13 @@ model CV {
 
 model GCPData {
   id               String   @id @default(cuid())
-  urlExpiryDate    DateTime
-  blobName         String
+  urlExpiryDate    DateTime?
+  blobName         String?
   assetId          String   @unique
   assetName        String
   assetType        String
-  validityDuration Int      @default(7)
-  downloadUrl String @db.VarChar(1000)
+  validityDuration Int?      @default(7)
+  downloadUrl String? @db.VarChar(1000)
 }
 
 model EmployerProfile {

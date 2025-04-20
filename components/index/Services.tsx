@@ -5,20 +5,36 @@ import Link from "next/link";
 const services = [
   {
     icon: "healthicons:factory-worker-outline",
-    link: <Link className="font-semibold underline text-secondary" href="/search">Find a job</Link>,
+    link: (
+      <Link className="font-semibold text-secondary underline" href="/search">
+        Find a job
+      </Link>
+    ),
     description: "Search for international jobs offering visa sponsorship.",
   },
   {
     icon: "fluent:people-search-20-filled",
-    link: <Link className="font-semibold underline text-secondary" href="/find-candidates">Find a candidate</Link>,
-    description: "Discover relocation-ready professionals from around the world.",
+    link: (
+      <Link
+        className="font-semibold text-secondary underline"
+        href="/find-candidates"
+      >
+        Find a candidate
+      </Link>
+    ),
+    description:
+      "Discover relocation-ready professionals from around the world.",
   },
   {
     icon: "wpf:worldwide-location",
-    link: <Link className="font-semibold underline text-secondary" href="/blog">Living and working abroad</Link>,
+    link: (
+      <Link className="font-semibold text-secondary underline" href="/blog">
+        Living and working abroad
+      </Link>
+    ),
     description:
       "Learn about living conditions, work culture, and relocation in top job destinations.",
-  },  
+  },
   //   {
   //     icon: "fluent:people-search-20-filled",
   //     link: <Link className="font-semibold underline text-secondary" href="/search">Find a candidate</Link>,
@@ -33,11 +49,13 @@ const Services = () => {
       {services.map((service) => (
         <div
           key={service.icon}
-          className="flex flex-col items-center gap-4 p-4 rounded-md   hover:shadow-md"
+          className="flex flex-col items-center gap-4 rounded-md p-4   hover:shadow-md"
         >
           <Icon icon={service.icon} className="h-16 w-16 text-[#1177BC]" />
           {service.link}
-          <p className="text-center text-md text-primary whitespace-normal break-words w-[80%]">{service.description}</p>
+          <p className="text-md w-[80%] whitespace-normal break-words text-center text-primary">
+            {service.description}
+          </p>
         </div>
       ))}
     </div>

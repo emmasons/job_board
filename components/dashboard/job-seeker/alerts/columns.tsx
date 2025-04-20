@@ -7,7 +7,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type JobAlertProp = {
   id: string;
@@ -56,7 +59,7 @@ export const columns: ColumnDef<JobAlertProp>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-           Created At
+          Created At
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

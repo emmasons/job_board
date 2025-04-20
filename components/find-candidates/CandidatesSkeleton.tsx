@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const CandidatesSkeleton = (props: Props) => {
-  return (
-    <div>CandidatesSkeleton</div>
-  )
-}
+  return <div>CandidatesSkeleton</div>;
+};
 
-export default CandidatesSkeleton
+export default CandidatesSkeleton;

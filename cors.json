@@ -2,9 +2,7 @@
   {
     "maxageseconds": 3600,
     "method": ["PUT", "GET", "HEAD", "DELETE", "POST", "OPTIONS"],
-    "origin": [
-      "*"
-    ],
+    "origin": ["*"],
     "responseHeader": [
       "X-Requested-With",
       "Access-Control-Allow-Origin",

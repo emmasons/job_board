@@ -22,13 +22,11 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getAllJobsApplications } from "@/actions/jobseeker/get-all-applications";
 
 const page = async () => {
-
- 
   const user = await getCurrentSessionUser();
   if (!user || !(user.role === Role.JOB_SEEKER)) {
     return redirect("/");
   }
-  const applications = await getAllJobsApplications(user.id)
+  const applications = await getAllJobsApplications(user.id);
 
   return (
     <MaxWidthWrapper>
@@ -36,7 +34,6 @@ const page = async () => {
         <h2 className="text-xl font-light">Applied jobs</h2>
       </div>
 
-   
       <DataTable columns={columns} data={applications} />
     </MaxWidthWrapper>
   );

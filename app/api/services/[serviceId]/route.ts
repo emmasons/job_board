@@ -5,10 +5,7 @@ import { getCurrentSessionUser } from "@/lib/auth";
 import { Service, Role } from "@prisma/client";
 import slugify from "slugify";
 
-async function performTransactionWithRetry(
-  serviceId: string,
-  values: Service,
-) {
+async function performTransactionWithRetry(serviceId: string, values: Service) {
   const maxRetries = 3;
   let currentRetry = 0;
 

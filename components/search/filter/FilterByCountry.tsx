@@ -12,7 +12,6 @@ type Props = {
 };
 
 const FilterByCountry = ({ countryList = [] }: Props) => {
-
   const { getParam } = useQueryParams();
   const countriesFilter = getParam("countriesFilter");
 

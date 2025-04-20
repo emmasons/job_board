@@ -14,9 +14,13 @@ const page = async (props: Props) => {
   if (!props.searchParams.email) {
     return (
       <MaxWidthWrapper className="flex h-full items-center justify-center">
-        <div className="text-center space-y-4">
-          <h1 className="text-3xl font-bold text-secondary">Oops, something went wrong!</h1>
-          <p className="text-lg font-semibold text-secondary/80">Please try again later.</p>
+        <div className="space-y-4 text-center">
+          <h1 className="text-3xl font-bold text-secondary">
+            Oops, something went wrong!
+          </h1>
+          <p className="text-lg font-semibold text-secondary/80">
+            Please try again later.
+          </p>
         </div>
       </MaxWidthWrapper>
     );

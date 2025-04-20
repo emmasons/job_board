@@ -13,15 +13,14 @@ const Footer = (props: Props) => {
   return (
     <footer className="bg-primary/70 py-8">
       <MaxWidthWrapper className="grid grid-cols-1 gap-4 md:grid-cols-4">
-      <div className="space-y-2 text-white">
-         
-        <div className="inline-flex">
-          <Logo />
+        <div className="space-y-2 text-white">
+          <div className="inline-flex">
+            <Logo />
+          </div>
+          <p className="text-sm">
+            © {new Date().getFullYear()} Talentra Limited
+          </p>
         </div>
-        <p className="text-sm">
-          © {new Date().getFullYear()} Talentra Limited
-        </p>
-      </div>
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">Follow us</h2>
           <ul>
@@ -73,7 +72,7 @@ const Footer = (props: Props) => {
               >
                 <Icon
                   icon="akar-icons:whatsapp-fill"
-                  className="h-4 w-4 text-white-500"
+                  className="text-white-500 h-4 w-4"
                 />
                 WhatsApp
               </Link>

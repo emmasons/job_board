@@ -132,11 +132,7 @@ const Dashboard = async (props: Props) => {
                   </div>
                 </div>
                 <div className="relative text-primary">
-                  
-                          <Link href={`/jobs/${application.job.id}`}>
-                            View
-                          </Link>
-                        
+                  <Link href={`/jobs/${application.job.id}`}>View</Link>
                 </div>
               </div>
             ))}

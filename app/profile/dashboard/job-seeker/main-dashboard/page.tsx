@@ -10,15 +10,10 @@ const page = async () => {
   if (!user || !(user.role === Role.JOB_SEEKER)) {
     return redirect("/auth/signin?callbackUrl=/profile/dashboard/job-seeker");
   }
-  
-
-
 
   return (
     <>
-
-       <Dashboard/>
-   
+      <Dashboard />
     </>
   );
 };

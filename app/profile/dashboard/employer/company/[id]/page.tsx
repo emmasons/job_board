@@ -25,7 +25,7 @@ const page = async ({ params }: Props) => {
 
   return (
     <div className="space-y-4 p-6">
-      <div className="md:w-2/3 space-y-4">
+      <div className="space-y-4 md:w-2/3">
         <Link
           href="/profile/dashboard/employer"
           className="inline-flex items-center gap-2"

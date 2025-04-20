@@ -58,7 +58,8 @@
   --background-color: #e91e63;
   padding: 1.2em 2em;
   border: 1px solid var(--background-color);
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       var(--background-color) 0%,
       var(--background-color) var(--background-size),

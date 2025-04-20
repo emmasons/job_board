@@ -44,7 +44,7 @@ const page = async (props: Props) => {
         <CandidateActions candidateId={props.params.candidateId} />
       </div>
       <div className=" px-2 md:px-12">
-        <div className="rounded-md bg-sky-100 p-4 space-y-4">
+        <div className="space-y-4 rounded-md bg-sky-100 p-4">
           <a
             href={cvFile?.downloadUrl}
             download

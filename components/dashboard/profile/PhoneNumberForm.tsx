@@ -78,7 +78,7 @@ const PhoneNumberForm = ({ userId, initialData }: FormProps) => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col justify-start rounded-md border bg-pes-light-blue p-4">
+    <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
         Your phone number
         <Button onClick={toggleEdit} variant="ghost">

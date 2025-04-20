@@ -49,7 +49,7 @@ export const SearchByLocation = () => {
         options={locations}
         onChange={handleComboboxChange}
         value={value}
-        className="mr-6 w-full hover:bg-white border-0 py-6 pl-12 focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
+        className="mr-6 w-full border-0 py-6 pl-12 hover:bg-white focus-visible:ring-slate-200 md:w-full md:rounded-br-none md:rounded-tr-none"
         defaultText="All countries"
       />
 

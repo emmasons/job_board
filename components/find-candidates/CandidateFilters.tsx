@@ -30,7 +30,10 @@ const CandidateFilters = async ({
 
   return (
     <div
-      className={cn("space-y-4 rounded-md border bg-slate-100/20 p-4 text-sm", className)}
+      className={cn(
+        "space-y-4 rounded-md border bg-slate-100/20 p-4 text-sm",
+        className,
+      )}
     >
       <div className={cn("space-y-2 ", formClasses)}>
         <KeywordSearch />

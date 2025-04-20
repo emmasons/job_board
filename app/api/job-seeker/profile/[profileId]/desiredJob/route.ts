@@ -4,7 +4,10 @@ import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
 // PATCH handler for updating or creating employment details
-export async function PATCH(req: Request, { params }: { params: { profileId: string } }) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: { profileId: string } },
+) {
   try {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
@@ -57,12 +60,9 @@ export async function PATCH(req: Request, { params }: { params: { profileId: str
       });
     }
 
-
     return NextResponse.json(desiredJob, { status: 200 });
   } catch (error) {
     console.log("[PROFILE_ID]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
-
-

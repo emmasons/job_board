@@ -321,14 +321,14 @@ const PersonalDetailsForm = ({
               name="dateOfBirth"
               render={({ field }) => (
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium text-gray-700 pb-2">
+                  <label className="block pb-2 text-sm font-medium text-gray-700">
                     Date of Birth
                   </label>
                   <div className="flex space-x-8 pb-2">
                     <div className="flex flex-col">
                       <label className="text-xs text-gray-500">Month</label>
                       <select
-                        className="rounded border px-2 py-1 bg-white"
+                        className="rounded border bg-white px-2 py-1"
                         value={currentMonth}
                         onChange={(e) =>
                           updateDateOfBirth(
@@ -350,7 +350,7 @@ const PersonalDetailsForm = ({
                       <label className="text-xs text-gray-500">Day</label>
 
                       <select
-                        className="rounded border px-2 py-1 bg-white"
+                        className="rounded border bg-white px-2 py-1"
                         value={currentDay}
                         onChange={(e) =>
                           updateDateOfBirth(
@@ -371,7 +371,7 @@ const PersonalDetailsForm = ({
                     <div className="flex flex-col">
                       <label className="text-xs text-gray-500">Year</label>
                       <select
-                        className="rounded border px-2 py-1 bg-white"
+                        className="rounded border bg-white px-2 py-1"
                         value={currentYear}
                         onChange={(e) =>
                           updateDateOfBirth(
@@ -523,7 +523,10 @@ const PersonalDetailsForm = ({
                   <FormControl>
                     <label className="flex w-80 flex-col gap-2 text-sm">
                       Languages known
-                      <Input {...field} placeholder="Eg. English, Arabic, Spanish"/>
+                      <Input
+                        {...field}
+                        placeholder="Eg. English, Arabic, Spanish"
+                      />
                     </label>
                   </FormControl>
                   <FormMessage />

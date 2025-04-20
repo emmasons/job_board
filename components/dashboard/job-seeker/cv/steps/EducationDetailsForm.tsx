@@ -139,9 +139,8 @@ const EducationDetailsForm = ({
           </p>
         </div>
       </div>
-      
-      {isEditing &&(
-        
+
+      {isEditing && (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             {/* Education level */}
@@ -162,7 +161,9 @@ const EducationDetailsForm = ({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="pre-primary">Pre primary</SelectItem>
-                      <SelectItem value="primary school">Primary School</SelectItem>
+                      <SelectItem value="primary school">
+                        Primary School
+                      </SelectItem>
                       <SelectItem value="junior secondary">
                         Junior Secondary School
                       </SelectItem>

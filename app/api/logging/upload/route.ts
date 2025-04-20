@@ -12,9 +12,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     const logsLocation =
-      process.env.NODE_ENV === "production"
-        ? `/app/logs`
-        : `logs`;
+      process.env.NODE_ENV === "production" ? `/app/logs` : `logs`;
 
     const files = await fs.promises.readdir(logsLocation);
 

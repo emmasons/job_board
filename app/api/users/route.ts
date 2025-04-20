@@ -8,40 +8,38 @@ import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
 import { getFileExtension } from "@/lib/files";
 
 export async function POST(req: NextRequest) {
-   const formData = await req.formData();
-    const {
-      email,
-      password,
-      role,
-      firstName,
-      lastName,
-      phoneNumber,
-      cvFile,
-      city,
-      country,
-      addressLineOne,
-      companyName,
-      sectorId,
-      postalCode,
-    } = Object.fromEntries(formData) as {
-      email: string;
-      password: string;
-      role: Role;
-      firstName: string;
-      lastName: string;
-      phoneNumber: string;
-      cvId: string;
-      cvFile: File;
-      city: string;
-      country: string;
-      postalCode: string;
-      addressLineOne: string;
-      companyName: string;
-      sectorId: string;
-    };
+  const formData = await req.formData();
+  const {
+    email,
+    password,
+    role,
+    firstName,
+    lastName,
+    phoneNumber,
+    cvFile,
+    city,
+    country,
+    addressLineOne,
+    companyName,
+    sectorId,
+    postalCode,
+  } = Object.fromEntries(formData) as {
+    email: string;
+    password: string;
+    role: Role;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    cvId: string;
+    cvFile: File;
+    city: string;
+    country: string;
+    postalCode: string;
+    addressLineOne: string;
+    companyName: string;
+    sectorId: string;
+  };
   try {
-
-
     if (!email || !password || !role) {
       return NextResponse.json(
         { message: "All fields are required." },
@@ -49,7 +47,6 @@ export async function POST(req: NextRequest) {
       );
     }
     const cvFileExists = cvFile?.size > 0;
-
 
     if (role === Role.JOB_SEEKER && (!cvFile || !cvFile.name)) {
       return NextResponse.json(
@@ -116,7 +113,12 @@ export async function POST(req: NextRequest) {
       const cloudResponse = await uploadFile(cvFile, cvFile.name);
       if (cloudResponse.status !== 200) {
         await db.user.delete({ where: { id: user.id } });
-        return NextResponse.json({ message: "There was an error uploading your CV. Please try again." }, { status: 500 });
+        return NextResponse.json(
+          {
+            message: "There was an error uploading your CV. Please try again.",
+          },
+          { status: 500 },
+        );
       }
       const cv = await db.cV.create({
         data: {

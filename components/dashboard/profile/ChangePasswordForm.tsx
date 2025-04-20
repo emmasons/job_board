@@ -75,7 +75,6 @@ const ChangePasswordForm = ({ userId }: FormProps) => {
         // router.refresh();
         signOut();
       }
-
     } catch (error: any) {
       console.log(error, errors);
       toast({
@@ -87,7 +86,7 @@ const ChangePasswordForm = ({ userId }: FormProps) => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col justify-start rounded-md border bg-pes-light-blue p-4">
+    <div className="bg-pes-light-blue flex h-full w-full flex-col justify-start rounded-md border p-4">
       <div className="flex items-center justify-between font-medium">
         Password
         <Button onClick={toggleEdit} variant="ghost">

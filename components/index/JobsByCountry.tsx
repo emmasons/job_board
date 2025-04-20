@@ -8,7 +8,7 @@ const JobsByCountry = () => {
 
   return (
     <div className="space-y-6 px-4 py-4 md:px-8 lg:px-16">
-      <h1 className="mb-4 text-3xl text-center font-semibold text-gray-900">
+      <h1 className="mb-4 text-center text-3xl font-semibold text-gray-900">
         Find Jobs in Popular Countries
       </h1>
       <div className="flex flex-wrap justify-center gap-8">

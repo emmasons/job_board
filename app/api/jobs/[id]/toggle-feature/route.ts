@@ -10,10 +10,10 @@ export async function PATCH(
   try {
     const user = await getCurrentSessionUser();
 
-    if (!user || (user.role !== Role.ADMIN)) {
+    if (!user || user.role !== Role.ADMIN) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
- 
+
     const { id } = params;
     const values = await req.json();
 

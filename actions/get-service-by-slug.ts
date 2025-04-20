@@ -1,4 +1,4 @@
-import {  Service } from "@prisma/client";
+import { Service } from "@prisma/client";
 import { db } from "@/lib/db";
 type ReturnProps = Service | null;
 export const getServiceBySlug = async (
@@ -9,7 +9,6 @@ export const getServiceBySlug = async (
       where: {
         slug,
       },
-
     });
 
     return service;

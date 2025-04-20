@@ -51,9 +51,11 @@ const JobList = async ({
         </Link>
       </div>
       <div className="basis-2/3">
-        <div className="flex items-center justify-between border-b py-2 mb-4">
+        <div className="mb-4 flex items-center justify-between border-b py-2">
           <p className="text-xs">
-            Showing page {page} - <span className="text-bold">{totalPages}</span> of <span className="text-semibold">{totalItems}</span> jobs
+            Showing page {page} -{" "}
+            <span className="text-bold">{totalPages}</span> of{" "}
+            <span className="text-semibold">{totalItems}</span> jobs
           </p>
           <Link
             href="/search/advanced/"

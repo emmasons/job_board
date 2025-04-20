@@ -40,4 +40,3 @@ export async function getProfileViews() {
     }, 1000); // Simulate network delay
   });
 }
-

@@ -2,8 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { sandboxURLs } from "./constants";
 import { generateAccessToken } from "./token/generateAccessToken";
 import { db } from "@/lib/db";
-import { getCurrentSessionUser } from "@/lib/auth";   
-    
+import { getCurrentSessionUser } from "@/lib/auth";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const { ORDERS_API_URL } = sandboxURLs;

@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
-
 // PUT handler for updating employment details
 export async function PATCH(
   req: Request,
@@ -33,32 +32,31 @@ export async function PATCH(
   }
 }
 
-
 // DELETE handler for deleting employment details
 export async function DELETE(
-    req: Request,
-    { params }: { params: { profileId: string, employmentId: string } },
-  ) {
-    try {
-      const user = await getCurrentSessionUser();
-      const userId = user?.id;
-  
-      if (!userId || !(user.role === Role.JOB_SEEKER)) {
-        return new NextResponse("Unauthorized", { status: 401 });
-      }
-  
-      const employmentId = params.employmentId;
-      const deleteResult = await db.employmentDetails.delete({
-        where: {
-          id: employmentId,
-        },
-      });
-  
-      if (!deleteResult) {
-        return new NextResponse("Not Found", { status: 404 });
-      }
-      
-      // Count the remaining employemnts
+  req: Request,
+  { params }: { params: { profileId: string; employmentId: string } },
+) {
+  try {
+    const user = await getCurrentSessionUser();
+    const userId = user?.id;
+
+    if (!userId || !(user.role === Role.JOB_SEEKER)) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const employmentId = params.employmentId;
+    const deleteResult = await db.employmentDetails.delete({
+      where: {
+        id: employmentId,
+      },
+    });
+
+    if (!deleteResult) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+
+    // Count the remaining employemnts
     const employmentCount = await db.employmentDetails.count({
       where: { jobSeekerProfileId: params.profileId },
     });
@@ -89,10 +87,13 @@ export async function DELETE(
         },
       });
     }
-      return NextResponse.json({ message: "Employment deleted successfully" }, { status: 200 });
-    } catch (error) {
-      console.log("[PROFILE_ID]", error);
-      console.log(error);
-      return NextResponse.json({ message: "Internal Error" }, { status: 500 });
-    }
+    return NextResponse.json(
+      { message: "Employment deleted successfully" },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("[PROFILE_ID]", error);
+    console.log(error);
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
+}

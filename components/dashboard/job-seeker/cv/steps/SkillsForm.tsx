@@ -119,7 +119,7 @@ const SkillsForm = ({
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       const isJson = res.headers

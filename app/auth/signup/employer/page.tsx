@@ -11,11 +11,11 @@ const page = async () => {
   const sectors = await getAllSectors();
 
   return (
-    <MaxWidthWrapper className="flex gap-8 h-full items-center justify-between max-md:flex-col" >
-     <div className="md:basis-[40%]">
-        <SignupMessage/>
+    <MaxWidthWrapper className="flex h-full items-center justify-between gap-8 max-md:flex-col">
+      <div className="md:basis-[40%]">
+        <SignupMessage />
       </div>
-      <div className="flex md:basis-[60%] h-full flex-col justify-center gap-4 rounded-md bg-slate-50 p-8">
+      <div className="flex h-full flex-col justify-center gap-4 rounded-md bg-slate-50 p-8 md:basis-[60%]">
         <EmployerSignup
           role={Role.EMPLOYER}
           sectorList={sectors.map((sector) => ({

@@ -6,7 +6,7 @@ const PopularJobs: React.FC = async () => {
   const jobData = await getFeaturedJobs();
   if (!jobData || jobData.length === 0) {
     return (
-      <div className="py-4 bg-slate-50">
+      <div className="bg-slate-50 py-4">
         <NoDataWrapper dataTitle="Featured jobs" />
       </div>
     );
@@ -17,9 +17,7 @@ const PopularJobs: React.FC = async () => {
         <h2 className="mb-4 mt-12 text-center text-3xl font-semibold text-gray-900">
           featured Jobs
         </h2>
-        <p className="mb-8 text-center">
-          Find your Ideal Visa sponsored jobs
-        </p>
+        <p className="mb-8 text-center">Find your Ideal Visa sponsored jobs</p>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
           {jobData.map((job) => (
             <JobCard
@@ -31,7 +29,9 @@ const PopularJobs: React.FC = async () => {
               city={job.city}
               country={job.country}
               occupation={job.occupation}
-              workSchedule={job.workSchedule} url={""}            />
+              workSchedule={job.workSchedule}
+              url={""}
+            />
           ))}
         </div>
       </div>
