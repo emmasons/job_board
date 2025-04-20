@@ -91,8 +91,6 @@ const JobsDropdown: React.FC = () => {
               </li>
             </ul>
           </div>
-
-
         </div>
       </div>
     </div>

@@ -13,14 +13,14 @@ import PostImageForm from "@/components/dashboard/admin/post/PostImageForm";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import ContentForm from "@/components/dashboard/admin/service/ContentForm";
 
-interface ServiceProps{
+interface ServiceProps {
   params: {
     serviceId: string;
-  }
+  };
 }
 
-const Service = async ({params}: ServiceProps) => {
-  const {serviceId} = params;
+const Service = async ({ params }: ServiceProps) => {
+  const { serviceId } = params;
   const user = await getCurrentSessionUser();
 
   if (!user) {
@@ -37,11 +37,7 @@ const Service = async ({params}: ServiceProps) => {
     return redirect("/admin/dashboard/");
   }
   const gcpData = await getLatestFileMetaData(service.id);
-  const requiredFields = [
-    service.title,
-    service.description,
-   
-  ];
+  const requiredFields = [service.title, service.description];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
 
@@ -59,7 +55,6 @@ const Service = async ({params}: ServiceProps) => {
               Complete all fields {completionText}
             </span>
           </div>
-
         </div>
         <div className="mt-16 ">
           <div>

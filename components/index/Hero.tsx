@@ -14,7 +14,8 @@ import Link from "next/link";
 const slideContent = [
   {
     title: "Welcome to Talentra Job Portal",
-    description: "Your global portal for visa sponsorship jobs and career growth.",
+    description:
+      "Your global portal for visa sponsorship jobs and career growth.",
     bgImage: "/index/carousel/talentra4.jpg",
     content: (
       <Button
@@ -41,7 +42,8 @@ const slideContent = [
   },
   {
     title: "Hire Skilled, Relocation-Ready Talent",
-    description: "Connect with top global candidates open to relocation and sponsorship.",
+    description:
+      "Connect with top global candidates open to relocation and sponsorship.",
     bgImage: "/index/carousel/talentra2.jpg",
     content: (
       <Link className="link" href="/find-candidates">
@@ -52,7 +54,8 @@ const slideContent = [
   },
   {
     title: "Explore Living & Working Abroad",
-    description: "Get insights into life, work culture, and relocation processes in top destinations.",
+    description:
+      "Get insights into life, work culture, and relocation processes in top destinations.",
     bgImage: "/index/carousel/bg4.jpg",
     content: (
       <Link className="link justify-start" href="/blog">
@@ -96,12 +99,14 @@ export default function Hero() {
               className="h-screen  w-full bg-cover bg-center bg-no-repeat"
             >
               <div className="swiper-slide-content grid h-full w-full flex-col bg-[rgba(0,0,0,0.6)] text-white">
-                <div className="md:w-2/5 space-y-8 md:ml-72">
+                <div className="space-y-8 md:ml-72 md:w-2/5">
                   <div className="rounded-md px-4 text-left">
                     <h1 className="md:text-left">{slide.title}</h1>
                     <p className="text-md font-light">{slide.description}</p>
                   </div>
-                  <div className="w-full flex justify-start">{slide.content}</div>
+                  <div className="flex w-full justify-start">
+                    {slide.content}
+                  </div>
                 </div>
               </div>
             </div>

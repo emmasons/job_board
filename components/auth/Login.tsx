@@ -62,10 +62,13 @@ const Login = ({ callbackUrl, error }: LoginProps) => {
     }
   }
   return (
-    <div className="flex h-full  p-4 flex-col justify-center">
+    <div className="flex h-full  flex-col justify-center p-4">
       <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-md:space-y-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 max-md:space-y-4"
+        >
           {!!error && (
             <div className="flex items-center gap-4">
               <Info className="h-4 w-4 font-bold text-red-500" />

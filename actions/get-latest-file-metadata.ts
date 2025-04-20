@@ -31,26 +31,26 @@ export async function getLatestFileMetaData(assetId: string) {
     ); // Calculate 2 days from now
 
     // if (targetDate <= twoDaysFromNow || urlExpiryDate <= 2) {
-      console.log("The target date is 2 days or less from today's date.");
-      const uploader = new FileUploader(
-        metaData.blobName,
-        metaData.assetType,
-        "PUT",
-        DOWNLOAD_EXPIRY_IN_SECONDS,
-      );
-      const url = await uploader.generateSignedDownloadUrl();
-      if (url) {
-        const updatedStorageMetaData = db.gCPData.update({
-          where: {
-            id: metaData.id,
-          },
-          data: {
-            downloadUrl: url,
-            urlExpiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-          },
-        });
-        return updatedStorageMetaData;
-      }
+    console.log("The target date is 2 days or less from today's date.");
+    const uploader = new FileUploader(
+      metaData.blobName,
+      metaData.assetType,
+      "PUT",
+      DOWNLOAD_EXPIRY_IN_SECONDS,
+    );
+    const url = await uploader.generateSignedDownloadUrl();
+    if (url) {
+      const updatedStorageMetaData = db.gCPData.update({
+        where: {
+          id: metaData.id,
+        },
+        data: {
+          downloadUrl: url,
+          urlExpiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
+      return updatedStorageMetaData;
+    }
     // }
   }
 

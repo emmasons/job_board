@@ -21,7 +21,13 @@ import { EducationDetails as EducationDetailsType } from "@prisma/client";
 import EducationDetailsForm from "./steps/EducationDetailsForm";
 import { Combobox } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = {
   title: string;
@@ -35,7 +41,7 @@ const EducationDetails = ({
   title,
   profilePercentage,
   profileId,
-  initialData, 
+  initialData,
   isJobSeekerComponent = true,
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -249,7 +255,6 @@ const EducationDetails = ({
               </form>
             </Form>
           )}
-        
         </div>
       )}
     </div>

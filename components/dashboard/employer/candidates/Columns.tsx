@@ -21,7 +21,6 @@ type CandidateProps = {
   country: string;
   cvHeadLine: string;
   phoneNumber: string;
- 
 };
 export const columns: ColumnDef<CandidateProps>[] = [
   {

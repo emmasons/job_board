@@ -5,7 +5,6 @@ import { db } from "@/lib/db";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 
-
 export async function POST(
   req: Request,
   { params }: { params: { profileId: string } },
@@ -76,7 +75,9 @@ export async function DELETE(
     });
 
     if (!skill || skill.jobSeekerProfileId !== params.profileId) {
-      return new NextResponse("Skill not found or unauthorized", { status: 404 });
+      return new NextResponse("Skill not found or unauthorized", {
+        status: 404,
+      });
     }
 
     // Delete the skill
@@ -116,8 +117,12 @@ export async function DELETE(
       });
     }
 
-    return NextResponse.json({ message: "Skill deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Skill deleted successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     console.log("[DELETE_SKILL]", error);
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
-  }}
+  }
+}

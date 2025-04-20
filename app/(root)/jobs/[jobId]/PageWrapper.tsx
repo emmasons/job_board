@@ -141,7 +141,10 @@ const PageWrapper = ({
             Apply
           </Link>
           <div className="z-10 flex items-center gap-2">
-            <Icon icon="material-symbols:share" className="h-6 w-6 text-secondary" />
+            <Icon
+              icon="material-symbols:share"
+              className="h-6 w-6 text-secondary"
+            />
             <Link
               href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${titleToShare}`}
               target="_blank"

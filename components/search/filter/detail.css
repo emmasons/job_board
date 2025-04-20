@@ -16,7 +16,6 @@ details[open] summary::before {
   content: "-";
   font-size: 1.5rem;
   margin-left: 5px;
-
 }
 
 details[open] summary {

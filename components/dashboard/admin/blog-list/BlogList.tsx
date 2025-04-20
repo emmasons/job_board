@@ -8,7 +8,7 @@ interface BlogListProps {
 
 const BlogList = async ({ posts }: BlogListProps) => {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 w-full md:grid-cols-2">
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-2">
       <CreateBlogDialog />
       {posts.map((post) => (
         <Blog

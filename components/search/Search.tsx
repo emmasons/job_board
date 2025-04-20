@@ -4,7 +4,6 @@ import { SearchByLocation } from "./SearchByLocation";
 import { Button } from "../ui/button";
 import { Icon } from "@iconify/react";
 
-
 type Props = {};
 
 const Search = (props: Props) => {
@@ -17,10 +16,7 @@ const Search = (props: Props) => {
         <SearchByProperty />
       </div>
       <div className="flex items-start justify-start p-4">
-        <Button className="m-2 p-4 text-sm md:my-0">
-          
-          Search
-        </Button>
+        <Button className="m-2 p-4 text-sm md:my-0">Search</Button>
       </div>
     </div>
   );

@@ -12,8 +12,10 @@ const SignupMessage = () => {
         </h1>
         <p className="text-sm">No credit card required.</p>
       </div>
-      <h2 className="text-xl max-md:text-[1rem] font-semibold">Our hiring platform helps you to:</h2>
-      <ul className="mt-2 list-inside list-disc space-y-2 max-md:text-sm max-md:space-y-1">
+      <h2 className="text-xl font-semibold max-md:text-[1rem]">
+        Our hiring platform helps you to:
+      </h2>
+      <ul className="mt-2 list-inside list-disc space-y-2 max-md:space-y-1 max-md:text-sm">
         <li>Post jobs easily across locations.</li>
         <li>Reach 10 million+ monthly visitors.</li>
         <li>Hire faster with AI-powered screening.</li>

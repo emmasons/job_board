@@ -27,11 +27,9 @@ const CreateServiceForm = () => {
   const toggleEdit = () => setIsEditing((current) => !current);
 
   const formSchema = z.object({
-    title: z
-      .string()
-      .min(2, {
-        message: "Title is required",
-      })
+    title: z.string().min(2, {
+      message: "Title is required",
+    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -91,9 +89,7 @@ const CreateServiceForm = () => {
               <FormControl>
                 <Input placeholder="Service title" {...field} />
               </FormControl>
-              <FormDescription>
-                What service are you offering?
-              </FormDescription>
+              <FormDescription>What service are you offering?</FormDescription>
               <FormMessage />
             </FormItem>
           )}

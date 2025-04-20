@@ -111,7 +111,9 @@ export function ChangeApplicationStatusForm({
           name="status"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-lg">Set the application status</FormLabel>
+              <FormLabel className="text-lg">
+                Set the application status
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}

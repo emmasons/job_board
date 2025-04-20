@@ -4,7 +4,7 @@ import React from "react";
 
 const loading = () => {
   return (
-    <div className="flex gap-4 h-screen w-full items-center justify-center bg-slate-100 flex-col">
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-slate-100">
       <Logo />
       <p className="text-secondary">Where talent and jobs meet.</p>
       <Loader2 className="h-16 w-16 animate-spin text-primary" />

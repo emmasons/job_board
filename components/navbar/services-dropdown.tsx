@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 const ServicesDropdown: React.FC = () => {
-  const [services, setServices] = useState<{ title: string; slug: string }[]>([]);
-
- 
+  const [services, setServices] = useState<{ title: string; slug: string }[]>(
+    [],
+  );
 
   return (
     <div className="group relative">

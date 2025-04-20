@@ -21,7 +21,7 @@ interface ContentFormProps {
 }
 
 const formSchema = z.object({
-    description: z.string().min(1, {
+  description: z.string().min(1, {
     message: "Content is required",
   }),
 });

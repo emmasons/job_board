@@ -18,5 +18,3 @@ export const siteMetadata = {
   dribbble: "https://www.dribbble.com",
   locale: "en-US",
 };
-
-

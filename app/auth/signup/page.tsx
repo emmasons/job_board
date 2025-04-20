@@ -20,11 +20,11 @@ const page = async (props: Props) => {
     return redirect("/profile/settings/");
   }
   return (
-    <MaxWidthWrapper className="flex gap-8 h-full items-center justify-between" >
+    <MaxWidthWrapper className="flex h-full items-center justify-between gap-8">
       <div className="md:basis-1/2">
-        <SignupMessage/>
+        <SignupMessage />
       </div>
-      <div className="flex md:basis-1/2 h-full flex-col justify-center gap-4 rounded-md bg-slate-50 p-8">
+      <div className="flex h-full flex-col justify-center gap-4 rounded-md bg-slate-50 p-8 md:basis-1/2">
         <h1 className="my-4 text-2xl font-bold text-secondary">Job Board</h1>
         <Link
           href="/auth/signup/employer"

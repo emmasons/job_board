@@ -33,7 +33,7 @@ const page = async (props: Props) => {
   }
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
-      <div className="flex flex-col items-center bg-slate-50 justify-center gap-2 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
+      <div className="flex flex-col items-center justify-center gap-2 bg-slate-50 p-8 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <span className="p-2">
           <CheckCircle2 className="h-16 w-16 text-green-400" />
         </span>

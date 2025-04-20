@@ -3,10 +3,7 @@ import { db } from "@/lib/db";
 
 type ReturnProps = Service | null;
 
-
-export const getAllServices = async (): Promise<
-  ReturnProps[]
-> => {
+export const getAllServices = async (): Promise<ReturnProps[]> => {
   try {
     const services = await db.service.findMany();
     if (services.length === 0) {

@@ -318,7 +318,6 @@ async function createNotis() {
   console.log("Success");
 }
 
-
 async function createUserWithAdminRole() {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
@@ -354,7 +353,9 @@ async function createUserWithAdminRole() {
       },
     });
 
-    console.log(`Created user with id ${user.id}, email ${user.email} and role ${user.role}`);
+    console.log(
+      `Created user with id ${user.id}, email ${user.email} and role ${user.role}`,
+    );
   }
 }
 

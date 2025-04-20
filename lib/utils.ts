@@ -25,7 +25,6 @@ export const gulfCountries = [
   "Germany",
   "Australia",
   "Netherlands",
-
 ];
 
 export const popularCities = [

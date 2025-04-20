@@ -140,16 +140,15 @@ const CVHeadlineForm = ({
                 </FormItem>
               )}
             />
-          {isJobSeekerComponent && (
-
-            <Button type="submit" disabled={!isValid || isSubmitting}>
-              {isSubmitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Update Profile"
-              )}
-            </Button>
-          )}
+            {isJobSeekerComponent && (
+              <Button type="submit" disabled={!isValid || isSubmitting}>
+                {isSubmitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Update Profile"
+                )}
+              </Button>
+            )}
           </form>
         </Form>
       )}
