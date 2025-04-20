@@ -43,3 +43,4 @@ logs/
 keys/
 db_backups/
 .qodo
+public/uploads
