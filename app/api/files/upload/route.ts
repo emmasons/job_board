@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
 import { db } from "@/lib/db";
+import fs from "fs";
 
 export const PUT = async (req, res) => {
   const formData = await req.formData();
@@ -11,41 +12,55 @@ export const PUT = async (req, res) => {
     return NextResponse.json({ error: "No files received." }, { status: 400 });
   }
 
+  const uploadsDir = path.join(process.cwd(), "public/uploads");
+  if (!fs.existsSync(uploadsDir)) {
+    await fs.promises.mkdir(uploadsDir);
+  }
+
+  console.log(uploadsDir);
+
   const buffer = Buffer.from(await file.arrayBuffer());
-  const filename = file.name.replaceAll(" ", "_");
-  console.log(filename);
+
+  const customFileName = formData.get("customFileName");
+  console.log(customFileName);
+
+  // Add directory creation if customFileName contains a path separator
+  if (customFileName.includes('/')) {
+    const dirPath = path.join(uploadsDir, path.dirname(customFileName));
+    if (!fs.existsSync(dirPath)) {
+      await fs.promises.mkdir(dirPath, { recursive: true });
+    }
+  }
+
   try {
     await writeFile(
-      path.join(process.cwd(), "public/assets/" + filename),
+      path.join(uploadsDir, customFileName), // Remove process.cwd() and the leading slash
       buffer,
     );
     const assetId = formData.get("assetId");
-      const contentType = formData.get("contentType");
-       await db.gCPData.findUnique({
+    const contentType = formData.get("contentType");
+    await db.gCPData.findUnique({
       where: {
         assetId: assetId,
       },
     });
-    console.log("assetId", assetId, "contentType", contentType, file);
-        await db.gCPData.upsert({
-          where: { assetId: assetId },
-          create: {
-            assetId: assetId,
-            assetName: filename,
-            assetType: contentType,
-
-          },
-          update: {
-
-            assetName: filename,
-            assetType: contentType,
-
-          },
-        });
+    await db.gCPData.upsert({
+      where: { assetId: assetId },
+      create: {
+        assetId: assetId,
+        assetName: file.name,
+        downloadUrl: "/uploads/" + customFileName,
+        assetType: contentType,
+      },
+      update: {
+        assetName: file.name,
+        downloadUrl: "/uploads/" + customFileName,
+        assetType: contentType,
+      },
+    });
 
     return NextResponse.json({ Message: "Success", status: 201 });
   } catch (error) {
-    console.log("Error occured ", error);
     return NextResponse.json({ Message: "Failed", status: 500 });
   }
 };

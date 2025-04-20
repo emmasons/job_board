@@ -63,7 +63,7 @@ const UploadDropzone = ({
           return;
         }
       }
-      const customFileName = `${bucketFileDirectory}/${fileToUpload.name}`;
+      const customFileName = `${assetId}/${fileToUpload.name}`;
 
       // const response = await fetch("/api/files/upload", {
       //   method: "POST",
@@ -80,7 +80,6 @@ const UploadDropzone = ({
 
       var xhr = new XMLHttpRequest();
       xhr.open("PUT", url, true);
-      // xhr.setRequestHeader("Content-Type", contentType);
       xhr.addEventListener("loadend", function () {
         setIsUploading(false);
       });
@@ -94,63 +93,17 @@ const UploadDropzone = ({
         }
       });
 
-      // xhr.addEventListener("readystatechange", async function () {
-      //   if (xhr.readyState === 4 && xhr.status == 200) {
-      //     try {
-      //       const response = await fetch("/api/gcp/asset", {
-      //         method: "PUT",
-      //         body: JSON.stringify({
-      //           fileName: fileToUpload.name,
-      //           contentType: contentType,
-      //           blobName: customFileName,
-      //           downloadUrl: downloadUrl,
-      //           downloadExpiry: downloadExpiry,
-      //           assetId: assetId,
-      //           assetName: fileToUpload.name,
-      //         }),
-      //       });
-      //       const data = await response.json();
-      //       if (response.status === 200) {
-      //         toast({
-      //           title: "Success",
-      //           description: "Update success.",
-      //           variant: "default",
-      //           className: "bg-green-300 border-0",
-      //         });
-      //         setIsError(false);
-      //         router.refresh();
-      //         toggleEdit();
-      //       } else {
-      //         toast({
-      //           variant: "destructive",
-      //           title: "Error",
-      //           description: data.message,
-      //         });
-      //       }
-      //     } catch (error) {
-      //       console.log(error, "#SERVER ERROR");
-      //       toast({
-      //         variant: "destructive",
-      //         title: "Error",
-      //         description: "Something went wrong when uploading your file!",
-      //       });
-      //     }
-      //   } else if (xhr.readyState === 4 && xhr.status != 200) {
-      //     console.log("errred", xhr.status, xhr.responseText);
-      //     toast({
-      //       variant: "destructive",
-      //       title: "Error",
-      //       description: xhr.responseText || "Something went wrong!",
-      //     });
-      //     setIsError(true);
-      //   }
-      // });
+
       const formData = new FormData();
       formData.append("file", fileToUpload);
       formData.append("assetId", assetId);
       formData.append("contentType", contentType);
+      formData.append("customFileName", customFileName);
 
       xhr.send(formData);
+                 setIsError(false);
+              router.refresh();
+              toggleEdit();
       toast({
         title: "Success",
         description: "Update success.",
@@ -159,6 +112,8 @@ const UploadDropzone = ({
       });
     } catch (error) {
       console.log(error, "#CLIENT ERROR");
+          setIsError(true);
+      setIsUploading(false);
       toast({
         variant: "destructive",
         title: "Error",
