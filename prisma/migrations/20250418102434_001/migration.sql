@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `GCPData` MODIFY `downloadUrl` VARCHAR(1000) NOT NULL;
