@@ -17,15 +17,13 @@ export const PUT = async (req, res) => {
     await fs.promises.mkdir(uploadsDir);
   }
 
-  console.log(uploadsDir);
-
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const customFileName = formData.get("customFileName");
   console.log(customFileName);
 
   // Add directory creation if customFileName contains a path separator
-  if (customFileName.includes('/')) {
+  if (customFileName.includes("/")) {
     const dirPath = path.join(uploadsDir, path.dirname(customFileName));
     if (!fs.existsSync(dirPath)) {
       await fs.promises.mkdir(dirPath, { recursive: true });
@@ -34,7 +32,7 @@ export const PUT = async (req, res) => {
 
   try {
     await writeFile(
-      path.join(uploadsDir, customFileName), // Remove process.cwd() and the leading slash
+      path.join(uploadsDir, customFileName),
       buffer,
     );
     const assetId = formData.get("assetId");

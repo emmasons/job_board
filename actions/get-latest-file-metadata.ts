@@ -20,6 +20,5 @@ export async function getLatestFileMetaData(assetId: string) {
       assetId: assetId,
     },
   });
-  console.log("MetaData", metaData);
   return metaData;
 }
