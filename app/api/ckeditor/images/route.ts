@@ -21,33 +21,26 @@ export async function POST(req: Request) {
       return new NextResponse("Invalid file", { status: 400 });
     }
 
-    // upload image
-    const ROOT_DIR = `editor/assets`;
-  
-
-    const customFileName = `${ROOT_DIR}/${file.name}`;
+    const ROOT_DIR = "editor/assets";
+    const customFileName = path.join(ROOT_DIR, file.name);
     const uploadsDir = await getLocalUploadDirectory();
 
     // Create the full directory path
-    const fullDirPath = `${uploadsDir}/${ROOT_DIR}/`.replace(
-      /\/{2,}/g,
-      "/",
-    );
+    const fullDirPath = path.join(uploadsDir, ROOT_DIR);
 
     // Create directories recursively
     await fs.promises.mkdir(fullDirPath, { recursive: true });
 
     // Convert the file to a Buffer
     const buffer = Buffer.from(await file.arrayBuffer());
-    const fullFilePath = `${uploadsDir}/${customFileName}`.replace(
-      /\/{2,}/g,
-      "/",
-    );
+    const fullFilePath = path.join(uploadsDir, customFileName);
 
     await writeFile(fullFilePath, buffer);
 
     console.log("File uploaded successfully to:", fullFilePath);
-    return NextResponse.json({ url: `/uploads/${customFileName}` });
+    // Use forward slashes for URL paths regardless of OS
+    const urlPath = `/uploads/${customFileName.split(path.sep).join("/")}`;
+    return NextResponse.json({ url: urlPath });
   } catch (error) {
     console.log("[POST IMAGES]", error);
     return new Response(JSON.stringify({ error: "Failed to upload image" }), {
