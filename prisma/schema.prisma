@@ -180,7 +180,7 @@ model GCPData {
   assetName        String
   assetType        String
   validityDuration Int      @default(7)
-  downloadUrl String @db.VarChar(1000) 
+  downloadUrl String @db.VarChar(1000)
 }
 
 model EmployerProfile {
@@ -302,7 +302,7 @@ model Job {
   isFeatured               Boolean                    @default(false)
   isOpen                   Boolean                    @default(true)
   salary                   String?
-  currency                 CURRENCY                   @default(AED)
+  currency                 String?
   salaryPeriod             String                     @default("Month")
   applications             Application[]
   company                  Company?                   @relation(fields: [companyId], references: [id])
