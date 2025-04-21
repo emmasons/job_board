@@ -29,11 +29,9 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
   const hasPromptData = !!(
     job?.title &&
     job?.city &&
-    jobSeekerProfile?.yearsOfExperience &&
-    jobSeekerProfile?.skills.length > 0
+    (jobSeekerProfile?.profilePercentage?.percentage ?? 0) > 50 &&
+    (jobSeekerProfile?.skills ?? []).length > 0
   );
-
-  console.log(hasPromptData, "prompt data**************");
 
   const handleGenerateCoverLetter = async () => {
     // handleCoverLetterChange("Life sucks sometimes");
@@ -103,17 +101,30 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
             <ul className="list-disc pl-5 text-[0.6rem] text-muted-foreground">
               {!job?.title && <li>Job Title</li>}
               {!job?.city && <li>City</li>}
-              {!jobSeekerProfile?.yearsOfExperience && (
+              {/* {!jobSeekerProfile?.yearsOfExperience && (
                 <li>Years of Experience</li>
-              )}
+              )} */}
               {!jobSeekerProfile?.skills.length && <li>Skills</li>}
+              {(jobSeekerProfile?.profilePercentage?.percentage ?? 0) < 50 && (
+                <li>Update your profile up to 50%</li>
+              )}
             </ul>
           </div>
         )}
       </div>
 
-      {jobSeekerProfile && (
+      {jobSeekerProfile &&
+      (jobSeekerProfile?.profilePercentage?.percentage ?? 0) > 50 ? (
         <Apply jobId={jobId} coverLetter={coverLetterContent} />
+      ) : (
+        <div className="my-2 space-y-2 rounded-md border border-dashed border-gray-300 p-4">
+          <p className="text-[0.7rem] text-muted-foreground">
+            Please complete your profile to apply for this job.
+          </p>
+          <ul className="list-disc pl-5 text-[0.6rem] text-muted-foreground">
+            <li>Update your profile up to 50%</li>
+          </ul>
+        </div>
       )}
     </div>
   );
