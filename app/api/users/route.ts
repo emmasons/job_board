@@ -132,17 +132,6 @@ export async function POST(req: NextRequest) {
           { status: 500 },
         );
       }
-
-      // await db.gCPData.create({
-      //   data: {
-      //     assetId: cv.id,
-      //     blobName: cloudResponse.blobName,
-      //     assetType: cvFile.type,
-      //     urlExpiryDate: DOWNLOAD_EXPIRY_IN_SECONDS,
-      //     assetName: cvFile.name,
-      //     downloadUrl: cloudResponse.downloadUrl,
-      //   },
-      // });
     }
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
