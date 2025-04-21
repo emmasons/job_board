@@ -2,7 +2,6 @@
 import { Logo } from "./navbar/Logo2";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import { Icon } from "@iconify/react";
 import { SubscriptionForm } from "@/components/forms/subscription/SubscriptionForm";
 import { SUBSCRIPTION_TYPE } from "@prisma/client";
