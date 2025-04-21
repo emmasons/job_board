@@ -1,9 +1,10 @@
-import { CheckCircle2, MailOpen } from "lucide-react";
+import { CheckCircle2, LogIn, MailOpen } from "lucide-react";
 import { verifyEmail } from "../actions/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ResendEmail from "@/components/auth/ResendEmail";
 import type { Metadata } from "next";
+import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Verify your email address",
 };
@@ -19,7 +20,7 @@ const page = async (props: Props) => {
   if (!isVerified) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center gap-2 p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ">
+        <div className="flex flex-col items-center justify-center gap-2 bg-white p-8 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] ">
           <span className=" bg-white p-2">
             <MailOpen className="h-16 w-16 text-green-400" />
           </span>
@@ -40,12 +41,14 @@ const page = async (props: Props) => {
         <h2 className="text-2xl font-bold text-secondary">
           Congratulations, you email has been verified
         </h2>
-        <p className="flex items-center">
-          <Link href="/auth/signin" className="font-semibold text-secondary">
-            Click here
-          </Link>
-          &nbsp; to login
-        </p>
+        <Link
+          href="/auth/signin"
+          className="flex items-center gap-1 font-semibold text-primary"
+        >
+          <Button variant="outline">
+            Login <LogIn className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </div>
     </div>
   );
