@@ -6,6 +6,7 @@ import { env } from "@/lib/env";
 import { Role } from "@prisma/client";
 import { DOWNLOAD_EXPIRY_IN_SECONDS, uploadFile } from "@/lib/gcp/gcp-utils";
 import { getFileExtension } from "@/lib/files";
+import { uploadFileToLocalStorage } from "@/lib/files/local-files";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -110,7 +111,18 @@ export async function POST(req: NextRequest) {
       data: { userId: user.id, firstName, lastName, phoneNumber },
     });
     if (role === Role.JOB_SEEKER) {
-      const cloudResponse = await uploadFile(cvFile, cvFile.name);
+      const cv = await db.cV.create({
+        data: {
+          userId: user.id,
+        },
+      });
+      const props = {
+        file: cvFile,
+        assetId: cv.id,
+        contentType: cvFile.type,
+        customFileName: `cv/${user.id}/${cvFile.name}`,
+      };
+      const cloudResponse = await uploadFileToLocalStorage(props);
       if (cloudResponse.status !== 200) {
         await db.user.delete({ where: { id: user.id } });
         return NextResponse.json(
@@ -120,21 +132,17 @@ export async function POST(req: NextRequest) {
           { status: 500 },
         );
       }
-      const cv = await db.cV.create({
-        data: {
-          userId: user.id,
-        },
-      });
-      await db.gCPData.create({
-        data: {
-          assetId: cv.id,
-          blobName: cloudResponse.blobName,
-          assetType: cvFile.type,
-          urlExpiryDate: DOWNLOAD_EXPIRY_IN_SECONDS,
-          assetName: cvFile.name,
-          downloadUrl: cloudResponse.downloadUrl,
-        },
-      });
+
+      // await db.gCPData.create({
+      //   data: {
+      //     assetId: cv.id,
+      //     blobName: cloudResponse.blobName,
+      //     assetType: cvFile.type,
+      //     urlExpiryDate: DOWNLOAD_EXPIRY_IN_SECONDS,
+      //     assetName: cvFile.name,
+      //     downloadUrl: cloudResponse.downloadUrl,
+      //   },
+      // });
     }
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
@@ -158,8 +166,17 @@ export async function POST(req: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    await db.user.delete({
+    const user = await db.user.findUnique({
       where: { email: email },
+    });
+    if (!user) {
+      return NextResponse.json({ message: "Error", error }, { status: 500 });
+    }
+    await db.user.delete({
+      where: { id: user.id },
+    });
+    await db.cv.deleteMany({
+      where: { userId: user.id },
     });
     console.log(error);
     return NextResponse.json({ message: "Error", error }, { status: 500 });
