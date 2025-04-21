@@ -279,7 +279,7 @@ enum PREFERRED_APPLICANT_GENDER {
 model Job {
   id                       String                     @id @default(cuid())
   title                    String
-  description              String
+  description              String                     @db.Text
   howToApply               String?
   workSchedule             WorkSchedule               @default(NOT_SPECIFIED)
   country                  String
