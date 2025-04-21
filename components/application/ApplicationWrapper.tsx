@@ -5,12 +5,15 @@ import Apply from "./Apply";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
-import { Job } from "@prisma/client";
+import { Company, Job, User } from "@prisma/client";
 
 type Props = {
   jobId: string;
   jobSeekerProfile: JobSeekerProfileProps | null;
-  job: Job | null;
+  job: Job & {
+    company: Company;
+    owner: User;
+  };
 };
 
 const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
@@ -22,6 +25,16 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
     setCoverLetterContent(content);
   };
   const [loading, setLoading] = useState(false);
+
+  const hasPromptData = !!(
+    job?.title &&
+    job?.city &&
+    jobSeekerProfile?.yearsOfExperience &&
+    jobSeekerProfile?.skills.length > 0
+  );
+
+  console.log(hasPromptData, "prompt data**************");
+
   const handleGenerateCoverLetter = async () => {
     // handleCoverLetterChange("Life sucks sometimes");
     setLoading(true);
@@ -29,7 +42,7 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
     try {
       const promptContent = {
         jobTitle: job?.title,
-        companyName: "your organization",
+        companyName: job?.company.companyName ?? "Company Name",
         location: job?.city,
         yearsOfExperience: jobSeekerProfile?.yearsOfExperience,
         keySkills: jobSeekerProfile?.skills
@@ -58,20 +71,45 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job }: Props) => {
         <p className="text-[0.7rem] text-muted-foreground">
           Make your CV standout!
         </p>
-        <Button onClick={handleGenerateCoverLetter}>
-          {loading ? (
-            <Zap className="mr-2 h-4 w-4 animate-ping" />
-          ) : (
-            <>
-              Generate Professional Cover Letter
-              <Zap className="ml-2 h-4 w-4" />
-            </>
-          )}
-        </Button>
-        <CreateCoverLetterForm
-          content={coverLetterContent}
-          handleCoverLetterChange={handleCoverLetterChange}
-        />
+        {hasPromptData ? (
+          <>
+            <Button onClick={handleGenerateCoverLetter}>
+              {loading ? (
+                <Zap className="mr-2 h-4 w-4 animate-ping" />
+              ) : (
+                <>
+                  Generate Professional Cover Letter
+                  <Zap className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+            <CreateCoverLetterForm
+              content={coverLetterContent}
+              handleCoverLetterChange={handleCoverLetterChange}
+            />
+          </>
+        ) : (
+          <div className="my-2 space-y-2 rounded-md border border-dashed border-gray-300 p-4">
+            <div className="flex items-center gap-1">
+              <p className="text-[0.7rem] text-muted-foreground">
+                Please complete your profile to generate a professional cover
+                letter with our service.
+              </p>
+              <Zap className="ml-2 h-2 w-2" />
+            </div>
+            <p className="text-[0.7rem] text-muted-foreground">
+              You are missing
+            </p>
+            <ul className="list-disc pl-5 text-[0.6rem] text-muted-foreground">
+              {!job?.title && <li>Job Title</li>}
+              {!job?.city && <li>City</li>}
+              {!jobSeekerProfile?.yearsOfExperience && (
+                <li>Years of Experience</li>
+              )}
+              {!jobSeekerProfile?.skills.length && <li>Skills</li>}
+            </ul>
+          </div>
+        )}
       </div>
 
       {jobSeekerProfile && (

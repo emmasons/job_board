@@ -16,7 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface CreateCoverLetterFormProps {
   content: string;
-
   isEditing?: boolean;
   handleCoverLetterChange: (content: string | undefined) => void;
 }
