@@ -8,6 +8,7 @@ export const getJobById = async (jobId: string) => {
       },
       include: {
         company: true,
+        owner: true,
       },
     });
     return job;
