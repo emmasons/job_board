@@ -79,6 +79,7 @@
     "react-share": "^5.1.0",
     "react-share-kit": "^1.1.0",
     "reading-time-estimator": "^1.11.0",
+    "sharp": "^0.34.1",
     "slugify": "^1.6.6",
     "smtp-server": "^3.13.3",
     "string-similarity": "^4.0.4",

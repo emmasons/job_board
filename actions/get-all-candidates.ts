@@ -42,127 +42,125 @@ export const getAllCandidates = async ({
   city,
   skills,
 }: Params): Promise<candidate[]> => {
-  const countries = [];
-  if (countriesFilter) {
-    const formattedCountries = countriesFilter?.split(",");
-    countries.push(...formattedCountries);
-  }
-  const skillsList = skills ? skills.split(",") : [];
-
   try {
+    // Parse countries filter
+    const countries = countriesFilter ? countriesFilter.split(",") : [];
+    const skillsList = skills ? skills.split(",") : [];
+
+    // Build country condition
     const countryCondition = location
-      ? { country: location } // If location is provided, use it for the query
+      ? { country: location }
       : countries.length > 0
-        ? { country: { in: countries } } // If the country list exists and is not empty, use it
-        : {}; // Otherwise, do not apply any country filter
+        ? { country: { in: countries } }
+        : {};
+
     const candidates = await db.user.findMany({
       where: {
-        ...countryCondition, // Use the determined country condition
+        ...countryCondition,
         role: Role.JOB_SEEKER,
         OR: [
+          // Title/occupation search
           {
             jobSeekerProfile: {
-              occupation: {
-                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                mode: "insensitive",
-              },
+              occupation: cvTitle || occupation
+                ? {
+                    contains: (cvTitle || occupation)?.toLowerCase(),
+                    mode: "insensitive",
+                  }
+                : undefined,
             },
           },
+          // Country search
           {
-            jobSeekerProfile: {
-              occupation: {
-                contains: occupation ? occupation.toLowerCase() : undefined,
-                mode: "insensitive",
-              },
-            },
-          },
-          {
-            jobSeekerProfile: {
-              country: {
-                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                mode: "insensitive",
-              },
-            },
-          },
-          {
-            jobSeekerProfile: {
-              cvHeadLine: {
-                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                mode: "insensitive",
-              },
-            },
-          },
-          {
-            jobSeekerProfile: {
-              profileSummary: {
-                contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                mode: "insensitive",
-              },
-            },
-          },
-          {
-            jobSeekerProfile: {
-              sector: {
-                label: {
-                  contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-                  mode: "insensitive",
-                },
-              },
-            },
-          },
-          {
-            jobSeekerProfile: {
-              skills: {
-                some: {
-                  skill: {
-                    contains: cvTitle ? cvTitle.toLowerCase() : undefined,
+            jobSeekerProfile: cvTitle
+              ? {
+                  country: {
+                    contains: cvTitle.toLowerCase(),
                     mode: "insensitive",
                   },
-                },
-              },
-            },
+                }
+              : undefined,
           },
+          // CV headline search
           {
-            jobSeekerProfile: {
-              skills: {
-                some: {
-                  skill: {
-                    in: skillsList ? skillsList : undefined,
+            jobSeekerProfile: cvTitle
+              ? {
+                  cvHeadLine: {
+                    contains: cvTitle.toLowerCase(),
                     mode: "insensitive",
                   },
-                },
-              },
-            },
+                }
+              : undefined,
           },
-          // {
-          //   jobSeekerProfile: {
-          //     desiredJob: {
-          //       some: {
-          //         designation: {
-          //           contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-          //           mode: "insensitive",
-          //         },
-          //         industry: {
-          //           contains: cvTitle ? cvTitle.toLowerCase() : undefined,
-          //           mode: "insensitive",
-          //         },
-          //       },
-          //     },
-          //   },
-          // },
+          // Profile summary search
           {
-            jobSeekerProfile: {
-              employmentDetails: {
-                some: {
-                  location: {
-                    contains: city ? city.toLowerCase() : undefined,
+            jobSeekerProfile: cvTitle
+              ? {
+                  profileSummary: {
+                    contains: cvTitle.toLowerCase(),
                     mode: "insensitive",
                   },
-                },
-              },
-            },
+                }
+              : undefined,
           },
-        ],
+          // Sector search
+          {
+            jobSeekerProfile: cvTitle
+              ? {
+                  sector: {
+                    label: {
+                      contains: cvTitle.toLowerCase(),
+                      mode: "insensitive",
+                    },
+                  },
+                }
+              : undefined,
+          },
+          // Skills search by title
+          {
+            jobSeekerProfile: cvTitle
+              ? {
+                  skills: {
+                    some: {
+                      skill: {
+                        contains: cvTitle.toLowerCase(),
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                }
+              : undefined,
+          },
+          // Skills list search
+          {
+            jobSeekerProfile: skillsList.length > 0
+              ? {
+                  skills: {
+                    some: {
+                      skill: {
+                        in: skillsList,
+                      },
+                    },
+                  },
+                }
+              : undefined,
+          },
+          // City search
+          {
+            jobSeekerProfile: city
+              ? {
+                  employmentDetails: {
+                    some: {
+                      location: {
+                        contains: city.toLowerCase(),
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                }
+              : undefined,
+          },
+        ].filter(Boolean), // Remove any undefined conditions
       },
       include: {
         profile: true,
