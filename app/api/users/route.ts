@@ -155,30 +155,42 @@ export async function POST(req: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    const user = await db.user.findUnique({
-      where: { email: email },
-    });
-    if (!user) {
-      return NextResponse.json({ message: "Error", error }, { status: 500 });
+    console.log("Registration error:", error);
+
+    try {
+      // Only attempt cleanup if we have an email to work with
+      if (email) {
+        const user = await db.user.findUnique({
+          where: { email: email },
+        });
+
+        // Only proceed with cleanup if the user exists
+        if (user) {
+          // First check and delete any CVs associated with this user
+          const existingCVs = await db.cV.findMany({
+            where: { userId: user.id },
+          });
+
+          if (existingCVs.length === 1) {
+            await db.cV.delete({
+              where: { id: existingCVs[0].id },
+            });
+          } else if (existingCVs.length > 1) {
+            await db.cV.deleteMany({
+              where: { userId: user.id },
+            });
+          }
+
+          // Then delete the user
+          await db.user.delete({
+            where: { id: user.id },
+          });
+        }
+      }
+    } catch (cleanupError) {
+      console.log("Error during cleanup:", cleanupError);
     }
 
-
-
-    const existingCVs = await db.cv.findMany({
-      where: { userId: user.id },
-    });
-    if (existingCVs.length > 0) {
-      await db.cv.deleteMany({
-        where: { userId: user.id },
-      });
-    }
-
-    if (user) {
-      await db.user.delete({
-        where: { id: user.id },
-      });
-    }
-    console.log(error);
-    return NextResponse.json({ message: "Error", error }, { status: 500 });
+    return NextResponse.json({ message: "Registration failed", error: error.message }, { status: 500 });
   }
 }
