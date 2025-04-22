@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, PlanType, FeatureType } from "@prisma/client";
 
 const database = new PrismaClient();
 
@@ -359,12 +359,113 @@ async function createUserWithAdminRole() {
   }
 }
 
+async function createPlans() {
+  const plans = await database.plan.findMany();
+  if (plans.length > 0) return;
+  try {
+    await database.plan.createMany({
+      data: [
+        { name: PlanType.FREE, price: 0, userType: Role.JOB_SEEKER },
+        { name: PlanType.BASIC, price: 500, userType: Role.JOB_SEEKER },
+        { name: PlanType.STANDARD, price: 1500, userType: Role.JOB_SEEKER },
+        { name: PlanType.PREMIUM, price: 2500, userType: Role.JOB_SEEKER },
+        { name: PlanType.FREE, price: 0, userType: Role.EMPLOYER },
+        { name: PlanType.BASIC, price: 500, userType: Role.EMPLOYER },
+        { name: PlanType.STANDARD, price: 1500, userType: Role.EMPLOYER },
+        { name: PlanType.PREMIUM, price: 2500, userType: Role.EMPLOYER },
+      ],
+    });
+    console.log("Success");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await database.$disconnect();
+  }
+}
+
+async function createFeatures() {
+  const features = await database.feature.findMany();
+  if (features.length > 0) return;
+  try {
+    await database.feature.createMany({
+      data: [
+        {
+          displayName: "Unlimited job postings",
+          type: FeatureType.UNLIMITED_JOB_POSTING,
+        },
+        {
+          displayName: "Unlimited job applications",
+          type: FeatureType.UNLIMITED_JOB_APPLICATION,
+        },
+        {
+          displayName: "Unlimited CV downloads",
+          type: FeatureType.UNLIMITED_CV_DOWNLOAD,
+        },
+        {
+          displayName: "CV downloads",
+          type: FeatureType.CV_DOWNLOAD,
+        },
+        {
+          displayName: "Unlimited company profile views",
+          type: FeatureType.UNLIMITED_COMPANY_PROFILE_VIEWS,
+        },
+        {
+          displayName: "Unlimited job alerts",
+          type: FeatureType.UNLIMITED_JOB_ALERTS,
+        },
+        {
+          displayName: "Cover letter generation",
+          type: FeatureType.COVER_LETTER_GENERATION,
+        },
+        {
+          displayName: "CV generation",
+          type: FeatureType.CV_GENERATION,
+        },
+      ],
+    });
+    console.log("Success");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await database.$disconnect();
+  }
+}
+
+async function createPlanFeatures() {
+  const features = await database.planFeature.findMany();
+  if (features.length > 0) return;
+  try {
+    const plans = await database.plan.findMany();
+    const features = await database.feature.findMany();
+
+    for (const plan of plans) {
+      for (const feature of features) {
+        await database.planFeature.create({
+          data: {
+            planId: plan.id,
+            featureId: feature.id,
+          },
+        });
+      }
+    }
+    console.log("Success");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await database.$disconnect();
+  }
+}
+
 async function main() {
   await createEducationLevels();
   await createExperienceLevels();
   await createSectors();
   await createOccupations();
   await createUserWithAdminRole();
+
+  await createPlans();
+  await createFeatures();
+  await createPlanFeatures();
 }
 
 main();
