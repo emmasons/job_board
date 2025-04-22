@@ -162,11 +162,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Error", error }, { status: 500 });
     }
 
-    if (user) {
-      await db.user.delete({
-        where: { id: user.id },
-      });
-    }
+
 
     const existingCVs = await db.cv.findMany({
       where: { userId: user.id },
@@ -174,6 +170,12 @@ export async function POST(req: NextRequest) {
     if (existingCVs.length > 0) {
       await db.cv.deleteMany({
         where: { userId: user.id },
+      });
+    }
+
+    if (user) {
+      await db.user.delete({
+        where: { id: user.id },
       });
     }
     console.log(error);
