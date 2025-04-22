@@ -14,7 +14,7 @@ model JobSeekerProfile {
   country        String?
   expectedSalary String?
   currentSalary  String?
-  currency       CURRENCY @default(AED)
+  currency       String?
 
   educationLevelId  String?
   experienceId      String?
