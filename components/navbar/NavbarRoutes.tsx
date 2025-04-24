@@ -33,6 +33,16 @@ export default function NavbarRoutes({ user }: Props) {
             <div className="group relative">
               <ServicesDropdown />
             </div>
+            <ul className="py-2">
+              <li>
+                <Link
+                  href="/subscription/plans"
+                  className="block px-4 py-2 uppercase text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+                >
+                  Pricing
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
