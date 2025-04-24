@@ -47,15 +47,14 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
-    const cvFileExists = cvFile?.size > 0;
 
-    if (role === Role.JOB_SEEKER && (!cvFile || !cvFile.name)) {
+    if (role === Role.JOB_SEEKER && (!cvFile || !cvFile?.name)) {
       return NextResponse.json(
         { message: "Please upload your CV." },
         { status: 400 },
       );
     } else {
-      const extension = cvFile.name.split(".").pop();
+      const extension = cvFile?.name.split(".").pop();
       // const extension = getFileExtension(cvFile);
       // console.log(extension);
       if (extension && extension !== "pdf") {
