@@ -56,7 +56,7 @@ export default function CreateCoverLetterForm({
                 <FormItem>
                   <FormControl>
                     {/* <RichTextEditor {...field} /> */}
-                    <Textarea {...field} />
+                    <Textarea {...field} placeholder="Cover letter" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
