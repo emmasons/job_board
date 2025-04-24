@@ -11,7 +11,9 @@ const Pricing = () => {
       title: "Basic",
       summary: "A starter package for individual use.",
       features: [
-        "Up to 10GB of storage",
+        "Unlimited job applications",
+        "Upto 10 cover letter generations",
+        "Upto 10 CV Generations",
         "Basic support",
         "Access to community forums",
       ],
@@ -22,9 +24,13 @@ const Pricing = () => {
       title: "Professional",
       summary: "For professionals looking for more capabilities.",
       features: [
-        "Up to 100GB of storage",
+        "Unlimited job applications",
+        "Unlimited cover letter generations",
+        "CV Generation",
+        "CV optimization",
+        "Profile optimization",
         "Priority support",
-        "Access to analytics tools",
+        "Unlimited cover letter generation",
       ],
       buttonText: "Choose Professional",
       link: "/plans/professional-monthly",
@@ -34,6 +40,11 @@ const Pricing = () => {
       title: "Enterprise",
       summary: "Our most comprehensive plan for large teams.",
       features: [
+        "Unlimited job applications",
+        "Unlimited cover letter generations",
+        "CV Generation",
+        "CV optimization",
+        "Profile optimization",
         "Unlimited storage",
         "24/7 dedicated support",
         "Custom integrations and analytics",
@@ -48,9 +59,12 @@ const Pricing = () => {
       title: "Basic",
       summary: "A starter package for individual use, billed annually.",
       features: [
-        "Up to 10GB of storage",
+        "Unlimited job applications",
+        "Upto 10 cover letter generations",
+        "Upto 10 CV Generations",
         "Basic support",
         "Access to community forums",
+        "10% discount on yearly plan",
       ],
       buttonText: "Choose Basic",
       link: "/plans/basic-yearly",
@@ -60,9 +74,14 @@ const Pricing = () => {
       summary:
         "For professionals looking for more capabilities, billed annually.",
       features: [
-        "Up to 100GB of storage",
+        "Unlimited job applications",
+        "Unlimited cover letter generations",
+        "CV Generation",
+        "CV optimization",
+        "Profile optimization",
         "Priority support",
-        "Access to analytics tools",
+        "Unlimited cover letter generation",
+        "15% discount on yearly plan",
       ],
       buttonText: "Choose Professional",
       link: "/plans/professional-yearly",
@@ -72,9 +91,15 @@ const Pricing = () => {
       title: "Enterprise",
       summary: "Our most comprehensive plan for large teams, billed annually.",
       features: [
+        "Unlimited job applications",
+        "Unlimited cover letter generations",
+        "CV Generation",
+        "CV optimization",
+        "Profile optimization",
         "Unlimited storage",
         "24/7 dedicated support",
         "Custom integrations and analytics",
+        "20% discount on yearly plan",
       ],
       buttonText: "Choose Enterprise",
       link: "/plans/enterprise-yearly",
@@ -85,8 +110,10 @@ const Pricing = () => {
     <section className="py-12">
       <div className="">
         <div className="flex flex-col items-center gap-4">
-          <h2 className="text-2xl font-bold text-slate-700">Plans for all sizes</h2>
-          <p className="my-4 text-md text-slate-600">
+          <h2 className="text-2xl font-bold text-slate-700">
+            Plans for all sizes
+          </h2>
+          <p className="text-md my-4 text-slate-600">
             Simple, transparent pricing that scales with your needs.
           </p>
         </div>
@@ -104,18 +131,24 @@ const Pricing = () => {
             Yearly
           </button>
         </div>
-        <div className="grid gap-10 md:grid-cols-3 bg-slate-100 p-6">
+        <div className="grid gap-10 bg-slate-100 p-6 md:grid-cols-3">
           {(isMonthly ? monthlyPlans : yearlyPlans).map((plan, index) => (
             <div
               key={index}
-              className={`overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-500 ease-in-out ${plan.isPopular ? "scale-105" : ""} hover:scale-[1.06]`}
+              className={`group overflow-hidden rounded-lg bg-white shadow-lg 
+                transition-all duration-300 ease-out
+                ${plan.isPopular ? "scale-105" : ""} 
+                hover:-translate-y-2 hover:scale-[1.02]
+                hover:shadow-2xl`}
             >
               <div className="p-6">
-                <h3 className="mb-2 text-lg font-bold">{plan.title}</h3>
+                <h3 className="mb-2 text-md font-bold transition-colors duration-300 group-hover:text-primary">
+                  {plan.title}
+                </h3>
                 <p className="mb-4 text-gray-700">{plan.summary}</p>
                 <ul>
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-600">
+                    <li key={index} className="flex items-center text-gray-600 text-[0.8rem]">
                       <Check className="mr-2 h-5 w-5 text-green-500" />
                       {feature}
                     </li>
