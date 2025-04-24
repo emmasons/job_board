@@ -41,6 +41,28 @@ export default withAuth(
       authorized: ({ token }) => !!token,
     },
   },
+
+  //   // Check if the path requires a specific feature
+  //   for (const [path, feature] of Object.entries(protectedFeatures)) {
+  //     if (request.nextUrl.pathname.startsWith(path)) {
+  //       // Make API call to check feature access
+  //       // Note: In real middleware this would need a different approach since
+  //       // you can't directly query your database from Edge middleware
+  //       const hasAccess = await checkFeatureAccessSomehow(token.sub, feature);
+
+  //       if (!hasAccess) {
+  //         return NextResponse.redirect(new URL('/subscription/plans', request.url));
+  //       }
+  //     }
+  //   }
+
+  //   return NextResponse.next();
+  // }
+
+  //   // For real implementation, you'd need a different approach to check access in middleware
+  //   async function checkFeatureAccessSomehow(userId: string, feature: string) {
+  //     // Implementation depends on your setup - could use Redis, external API, etc.
+  //   }
 );
 
 export const config = {

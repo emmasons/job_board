@@ -201,6 +201,7 @@ const page = async (props: Props) => {
               jobId={props.params.jobId}
               jobSeekerProfile={jobSeekerProfile}
               job={job}
+              user={user}
             />
           </div>
         )}
