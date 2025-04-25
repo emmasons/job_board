@@ -8,7 +8,7 @@ const SignupMessage = () => {
       </span>
       <div className="mb-8">
         <h1 className="text-[2rem] font-bold max-md:text-[1.5rem]">
-          Join 40,000+ companies hiring on jobsconnect.com
+          Join 40,000+ companies hiring on talentra.io
         </h1>
         <p className="text-sm">No credit card required.</p>
       </div>

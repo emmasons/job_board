@@ -18,7 +18,7 @@ type Props = {
   totalPages: number;
 };
 
-const URL: string = "https://jobsconnect.net/";
+const URL: string = "https://talentra.io/";
 
 const JobList = async ({
   items,
