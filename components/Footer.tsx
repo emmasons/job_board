@@ -25,7 +25,7 @@ const Footer = (props: Props) => {
           <ul>
             <li>
               <Link
-                href="https://x.com/job_connects"
+                href="https://x.com/talentra1"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -35,7 +35,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="http://www.linkedin.com/in/job-connect-506024322"
+                href="https://www.linkedin.com/company/talentra1/"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -45,7 +45,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://www.instagram.com/jobsconnect20/"
+                href="https://www.instagram.com/talentra1"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
@@ -55,12 +55,22 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://www.facebook.com/profile.php?id=61563736538661"
+                href="https://www.facebook.com/people/Talentra/61574976399379/"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >
                 <Icon icon="ic:baseline-facebook" className="h-4 w-4" />
                 Facebook
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="https://www.tiktok.com/@talentra1"
+                target="_blank"
+                className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+              >
+                <Icon icon="ic:baseline-tiktok" className="h-4 w-4" />
+                Tiktok
               </Link>
             </li>
             <li>

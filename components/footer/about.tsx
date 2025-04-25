@@ -2,47 +2,43 @@ import React from "react";
 
 const About: React.FC = () => {
   return (
-    <div className="bg-slate-50 pb-8">
-      <div className="rounded-bl-3xl bg-primary/50">
-        <h2 className="mx-auto max-w-3xl p-4 py-12 text-4xl font-semibold text-white ">
-          About-Us
+    <div className="bg-slate-50 pb-12">
+      <div className="rounded-bl-3xl bg-primary/50 shadow-md">
+        <h2 className="mx-auto max-w-4xl px-6 py-16 text-5xl font-bold text-white drop-shadow-md">
+          About Talentra.io
         </h2>
       </div>
-      <div className="container mx-auto  max-w-3xl bg-white p-8 text-base shadow-lg">
-        <p className="mb-4">
-          Welcome to Jobs Connect, your premier job placement expert
-          specializing in connecting talented professionals with top
-          opportunities in the Gulf countries, including UAE, Saudi Arabia,
-          Kuwait, Oman, and Qatar. As a leading job placement company, we are
-          dedicated to providing professional job placement services that cater
-          to the unique needs of both job seekers and employers.
+
+      <div className="container mx-auto max-w-4xl bg-white -mt-12 p-8 rounded-xl shadow-xl">
+        <p className="mb-6 text-gray-700 leading-relaxed text-lg">
+          <strong>Talentra.io</strong> is a global job board built to empower skilled professionals
+          seeking life-changing, <span className="text-primary font-semibold">visa-sponsored job opportunities</span> worldwide.
+          We bridge the gap between international talent and companies ready to hire globally—offering a trusted platform where careers and dreams align.
         </p>
 
-        <h2 className="mb-4 text-lg font-semibold">Our Offerings</h2>
-        <p className="mb-4">
-          At Jobs Connect, our comprehensive job placement solutions cover a
-          wide range of industries, ensuring that we meet the diverse needs of
-          our clients. Whether you are seeking expert job placement advice,
-          custom job placement services, or comprehensive job placement support,
-          Jobs Connect is here to help.
+        <h3 className="text-xl font-semibold mb-4 text-primary">Why Talentra.io?</h3>
+        <p className="mb-6 text-gray-700 leading-relaxed">
+          Whether you're a healthcare worker aiming for a role in Europe, a software engineer eyeing opportunities in North America, or a tradesperson ready to relocate to the Middle East, we make international job searching easier and more efficient. Every job listed on Talentra.io includes <span className="font-medium">visa sponsorship information upfront</span>, saving you time and uncertainty.
         </p>
 
-        <p>
-          We pride ourselves on being a trusted job placement partner, offering
-          top-rated job placement services that are both affordable and of the
-          highest quality. Our commitment to job placement service excellence is
-          evident in our client-focused approach, ensuring that both employers
-          and job seekers receive the best possible outcomes. As a premier job
-          placement solutions provider, Jobs Connect is dedicated to driving job
-          placement innovation and development. We utilize cutting-edge job
-          placement strategies and project management techniques to ensure the
-          success of our placements. Our team is always available to provide
-          personalized support and consulting, making the job placement process
-          seamless and efficient. Join us at Jobs Connect and experience the
-          difference of working with a leading job placement company. Let us
-          help you navigate the job market in the Gulf countries with confidence
-          and ease.
+        <h3 className="text-xl font-semibold mb-4 text-primary">What We Offer</h3>
+        <ul className="list-disc list-inside mb-6 text-gray-700 leading-relaxed">
+          <li>Verified listings from employers actively sponsoring work visas</li>
+          <li>Guides and resources to help you with visa processes and relocation</li>
+          <li>Custom job alerts for roles that match your skills and location preferences</li>
+          <li>A streamlined application process tailored for international candidates</li>
+        </ul>
+
+        <h3 className="text-xl font-semibold mb-4 text-primary">Built for Global Talent</h3>
+        <p className="mb-6 text-gray-700 leading-relaxed">
+          At Talentra.io, we believe talent has no borders. That’s why we’re committed to transparency, accessibility, and providing meaningful support for those pursuing global careers. Our platform is more than just a job board—it’s a launchpad for your international journey.
         </p>
+
+        <div className="bg-primary/10 border-l-4 border-primary px-6 py-4 rounded-md shadow-sm">
+          <p className="text-primary font-medium">
+            Join thousands of global job seekers who trust Talentra.io to connect them with life-changing, visa-sponsored opportunities. Your next career move is just a few clicks away.
+          </p>
+        </div>
       </div>
     </div>
   );

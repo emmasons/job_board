@@ -34,14 +34,14 @@ const ProfessionalCvWriting: React.FC = () => {
             Professional CV writing
           </h2>
           <p className="mb-16 text-center text-gray-600">
-            At Jobs Connect, we understand the importance of a well-crafted CV,
+            At Talentra.io, we understand the importance of a well-crafted CV,
             and we’re here to help you present your best self to potential
             employers.
           </p>
           <div className="flex flex-wrap gap-16 rounded-2xl bg-amber-50 p-4 md:p-12 lg:flex-nowrap">
             <div className="w-full max-w-2xl">
               <p className="mt-4 py-4 text-2xl text-gray-800">
-                Jobs Connect Your Gateway to <br /> A Successful Career in the
+                Talentra Your Gateway to <br /> A Successful Career in the
                 Gulf
               </p>
 
@@ -55,7 +55,7 @@ const ProfessionalCvWriting: React.FC = () => {
             </div>
             <div className="w-full max-w-lg rounded-md bg-white p-4 shadow-md  md:p-9">
               <h3 className="mb-3 p-2 text-xl">
-                Why Choose <br /> Jobs Connect&apos;s <br /> Professional CV
+                Why Choose <br /> Talentra&apos;s <br /> Professional CV
                 Writing Service
               </h3>
               <ul className="mb-5 list-none space-y-2  text-gray-800">
@@ -160,7 +160,7 @@ const ProfessionalCvWriting: React.FC = () => {
           </h2>
           <p className="mb-4 text-sm">
             Don’t let an unpolished CV hold you back from your dream job. With
-            Jobs Connect’s Professional CV Writing Service, you can stand out
+            Talentra’s Professional CV Writing Service, you can stand out
             from the crowd and make a lasting impression on recruiters.
           </p>
           <ul className="list-none space-y-2 text-base">
@@ -281,7 +281,7 @@ const ProfessionalCvWriting: React.FC = () => {
             <div className="text-gray-600">
               <p className="flex gap-4 py-2 text-sm">
                 <Mail className="h-4" />
-                info@jobsconnect.net
+                info@talentra.io
               </p>
               <p className="flex gap-4 py-2 text-sm">
                 <Phone className="h-4" />
