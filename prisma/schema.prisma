@@ -8,8 +8,8 @@ datasource db {
 }
 
 model JobSeekerProfile {
-  id             String   @id @default(cuid())
-  userId         String   @unique
+  id             String  @id @default(cuid())
+  userId         String  @unique
   occupation     String?
   country        String?
   expectedSalary String?
@@ -316,6 +316,9 @@ model Job {
   jobType                  JOBTYPE                    @default(NORMAL)
   source                   JOBSOURCE                  @default(COMPANY)
   metrics                  JobMetrics[]
+
+  isExternal   Boolean @default(false)
+  externalLink String?
 }
 
 model JobMetrics {
