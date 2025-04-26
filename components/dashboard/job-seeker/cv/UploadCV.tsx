@@ -65,9 +65,11 @@ const UploadCV = ({ cv, cvFile, isJobSeekerComponent = true }: Props) => {
                     <DialogHeader>
                       <DialogTitle>CV</DialogTitle>
                     </DialogHeader>
-                    <div>
+
+                    {cvFile && cvFile.downloadUrl && (
                       <PDFViewer pdfUrl={cvFile.downloadUrl} />
-                    </div>
+                    )}
+
                     <DialogFooter className="sm:justify-start">
                       <DialogClose asChild>
                         <Button type="button" variant="secondary">
