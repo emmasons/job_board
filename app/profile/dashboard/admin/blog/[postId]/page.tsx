@@ -34,7 +34,7 @@ const Post = async ({ params }: PostProps) => {
   });
 
   if (!post) {
-    return redirect("/admin/dashboard/");
+    return redirect("/profile/dashboard/admin/blog");
   }
   const gcpData = await getLatestFileMetaData(post.id);
   const requiredFields = [
