@@ -18,7 +18,7 @@ const Pricing = () => {
         "Access to community forums",
       ],
       buttonText: "Choose Basic",
-      link: "/plans/basic-monthly",
+      link: "/subscription/plans/basic-monthly",
     },
     {
       title: "Professional",
@@ -33,7 +33,7 @@ const Pricing = () => {
         "Unlimited cover letter generation",
       ],
       buttonText: "Choose Professional",
-      link: "/plans/professional-monthly",
+      link: "/subscription/plans/professional-monthly",
       isPopular: true,
     },
     {
@@ -50,7 +50,7 @@ const Pricing = () => {
         "Custom integrations and analytics",
       ],
       buttonText: "Choose Enterprise",
-      link: "/plans/enterprise-monthly",
+      link: "/subscription/plans/enterprise-monthly",
     },
   ];
 
@@ -67,7 +67,7 @@ const Pricing = () => {
         "10% discount on yearly plan",
       ],
       buttonText: "Choose Basic",
-      link: "/plans/basic-yearly",
+      link: "/subscription/plans/basic-yearly",
     },
     {
       title: "Professional",
@@ -84,7 +84,7 @@ const Pricing = () => {
         "15% discount on yearly plan",
       ],
       buttonText: "Choose Professional",
-      link: "/plans/professional-yearly",
+      link: "/subscription/plans/professional-yearly",
       isPopular: true,
     },
     {
@@ -102,7 +102,7 @@ const Pricing = () => {
         "20% discount on yearly plan",
       ],
       buttonText: "Choose Enterprise",
-      link: "/plans/enterprise-yearly",
+      link: "/subscription/plans/enterprise-yearly",
     },
   ];
 
