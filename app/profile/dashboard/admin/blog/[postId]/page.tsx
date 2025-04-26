@@ -12,6 +12,7 @@ import IsPublishedForm from "@/components/dashboard/admin/post/IsPublished";
 import PostImageForm from "@/components/dashboard/admin/post/PostImageForm";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import ContentForm from "@/components/dashboard/admin/post/ContentForm";
+import { Post } from "@prisma/client";
 
 interface PostProps {
   params: {
@@ -19,7 +20,7 @@ interface PostProps {
   };
 }
 
-const Post = async ({ params }: PostProps) => {
+const PostPage = async ({ params }: PostProps) => {
   const { postId } = params;
   const user = await getCurrentSessionUser();
 
@@ -27,11 +28,25 @@ const Post = async ({ params }: PostProps) => {
     return redirect("/");
   }
 
-  const post = await db.post.findUnique({
-    where: {
-      id: postId,
-    },
-  });
+  let post: Post | null = null;
+  let attempts = 0;
+  const maxAttempts = 3;
+
+  while (!post && attempts < maxAttempts) {
+    try {
+      post = await db.post.findUnique({
+        where: {
+          id: postId,
+        },
+      });
+      if (post) break;
+    } catch (error) {
+      console.error(`Attempt ${attempts + 1} failed:`, error);
+    }
+    attempts++;
+    // Add a small delay between retries
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
 
   if (!post) {
     return redirect("/profile/dashboard/admin/blog");
@@ -97,4 +112,4 @@ const Post = async ({ params }: PostProps) => {
   );
 };
 
-export default Post;
+export default PostPage;
