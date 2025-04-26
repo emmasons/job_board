@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 
 export async function hasFeatureAccess(
   userId: string,
-  featureName: string,
+  featureName: string
 ): Promise<boolean> {
   // Find user's active subscription
   const activeSubscription = await db.subscription.findFirst({
@@ -31,6 +31,6 @@ export async function hasFeatureAccess(
 
   // Check if the feature exists in the user's plan
   return activeSubscription.plan.planFeatures.some(
-    (planFeature) => planFeature.feature.name === featureName,
+    (planFeature) => planFeature.feature.name === featureName
   );
 }
