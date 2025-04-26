@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Preview } from "@/components/ckeditor/RichTextRenderer";
 import Link from "next/link";
-import { Eye, Trash } from "lucide-react";
+import { Eye, FilePenLine, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/ConfirmModal";
 import { cn } from "@/lib/utils";
@@ -71,7 +71,7 @@ const Blog = ({ title, content, id }: BlogProps) => {
               />
             </ConfirmModal>
             <Link href={`/profile/dashboard/admin/blog/${id}`}>
-              <Eye className="h-5 w-5" />
+              <FilePenLine className="h-5 w-5" />
             </Link>
           </div>
         </div>
