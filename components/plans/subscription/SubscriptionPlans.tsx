@@ -13,7 +13,7 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
 
   const cycleMultiplier = {
     MONTHLY: 1,
-    ANNUALLY: 10, // ~16% discount for annual
+    ANNUALLY: 10,
   };
 
   const handleSubscribe = async (planId) => {
@@ -58,7 +58,7 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
         </div>
 
         <div className="mb-8 flex justify-center gap-4">
-          {["MONTHLY", "QUARTERLY", "ANNUALLY"].map((cycle) => (
+          {["MONTHLY", "ANNUALLY"].map((cycle) => (
             <button
               key={cycle}
               onClick={() => setSelectedCycle(cycle)}
@@ -80,7 +80,14 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
           {plans.map((plan) => {
             const features = plan.planFeatures.map((pf) => pf.feature);
             const isCurrentUserPlan = isCurrentPlan(plan.id);
-            const adjustedPrice = (plan.price * (selectedCycle === "ANNUALLY" ? 10 : selectedCycle === "QUARTERLY" ? 3 : 1)).toFixed(2);
+            const adjustedPrice = (
+              plan.price *
+              (selectedCycle === "ANNUALLY"
+                ? 10
+                : selectedCycle === "QUARTERLY"
+                  ? 3
+                  : 1)
+            ).toFixed(2);
 
             return (
               <div
@@ -104,13 +111,20 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
                   <div className="mb-4">
                     <span className="text-3xl font-bold">${adjustedPrice}</span>
                     <span className="text-gray-500">
-                      /{selectedCycle.toLowerCase() === "monthly" ? "mo" : 
-                         selectedCycle.toLowerCase() === "quarterly" ? "quarter" : "year"}
+                      /
+                      {selectedCycle.toLowerCase() === "monthly"
+                        ? "mo"
+                        : selectedCycle.toLowerCase() === "quarterly"
+                          ? "quarter"
+                          : "year"}
                     </span>
                   </div>
                   <ul className="space-y-3 mb-6">
                     {features.map((feature) => (
-                      <li key={feature.id} className="flex items-center text-gray-600 text-[0.8rem]">
+                      <li
+                        key={feature.id}
+                        className="flex items-center text-gray-600 text-[0.8rem]"
+                      >
                         <Check className="mr-2 h-5 w-5 text-green-500" />
                         {feature.displayName}
                       </li>
@@ -120,9 +134,10 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
                     onClick={() => handleSubscribe(plan.id)}
                     disabled={isSubmitting || isCurrentUserPlan}
                     className={`inline-flex items-center rounded-lg px-4 py-2 w-full justify-center
-                      ${isCurrentUserPlan
-                        ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-                        : "bg-primary text-white hover:bg-[#46bba2] transition-colors duration-200 ease-in-out"
+                      ${
+                        isCurrentUserPlan
+                          ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+                          : "bg-primary text-white hover:bg-[#46bba2] transition-colors duration-200 ease-in-out"
                       }`}
                   >
                     {isCurrentUserPlan
