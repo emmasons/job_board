@@ -5,7 +5,11 @@ import { subscribeToPlan } from "@/actions/subscriptions";
 import { Check, X, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function SubscriptionPlans({ plans, currentSubscription }) {
+export default function SubscriptionPlans({
+  plans,
+  currentSubscription,
+  isLoggedIn,
+}) {
   const [selectedCycle, setSelectedCycle] = useState("MONTHLY");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -17,6 +21,11 @@ export default function SubscriptionPlans({ plans, currentSubscription }) {
   };
 
   const handleSubscribe = async (planId) => {
+    if (!isLoggedIn) {
+      // Redirect to login with return URL
+      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent("/subscription/plans")}`;
+      return;
+    }
     setIsSubmitting(true);
     setError("");
 

@@ -5,21 +5,15 @@ import {
 } from "@/actions/subscriptions";
 import SubscriptionPlans from "@/components/plans/subscription/SubscriptionPlans";
 import CurrentSubscription from "@/components/plans/subscription/CurrentSubscription";
-
-import { redirect } from "next/navigation";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 
 export default async function SubscriptionPage() {
   const user = await getCurrentSessionUser();
 
-  if (!user) {
-    redirect("/auth/signin?callbackUrl=/subscription/plans/");
-  }
+  const plans = await getAvailablePlans(user?.role || "JOB_SEEKER");
 
-  const plans = await getAvailablePlans(user.role || "JOB_SEEKER");
-  console.log("Plans: ", plans);
-  const currentSubscription = await getUserSubscription();
+  const currentSubscription = user ? await getUserSubscription() : null;
 
   return (
     <MaxWidthWrapper className="py-8">
@@ -32,7 +26,7 @@ export default async function SubscriptionPage() {
         </p>
       </div>
 
-      {currentSubscription && (
+      {user && currentSubscription && (
         <div className="mb-10">
           <Suspense fallback={<div>Loading your subscription...</div>}>
             <CurrentSubscription subscription={currentSubscription} />
@@ -44,6 +38,7 @@ export default async function SubscriptionPage() {
         <SubscriptionPlans
           plans={plans}
           currentSubscription={currentSubscription}
+          isLoggedIn={!!user}
         />
       </Suspense>
     </MaxWidthWrapper>
