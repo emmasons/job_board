@@ -12,18 +12,13 @@ import { getCurrentSessionUser } from "@/lib/auth";
 
 export default async function SubscriptionPage() {
   const user = await getCurrentSessionUser();
-  if (!user) {
-    return {
-      success: false,
-      error: "You must be logged in to cancel your subscription",
-    };
-  }
 
   if (!user) {
-    redirect("/login?callbackUrl=/plans/subscription");
+    redirect("/auth/signin?callbackUrl=/subscription/plans/");
   }
 
   const plans = await getAvailablePlans(user.role || "JOBSEEKER");
+  console.log("Plans: ", plans);
   const currentSubscription = await getUserSubscription();
 
   return (
