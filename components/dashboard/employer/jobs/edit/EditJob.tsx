@@ -15,6 +15,7 @@ import {
   FormItem,
   FormMessage,
   FormLabel,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,8 @@ interface EditJobFormProps {
     currency: CURRENCY;
     salaryPeriod: string;
     preferredApplicantGender: PREFERRED_APPLICANT_GENDER;
+    isExternal: boolean;
+    externalLink: string;
   };
   sectorList: ComboProps;
   contractTypeList: ComboProps;
@@ -124,6 +127,8 @@ const formSchema = z.object({
   }),
   salaryPeriod: z.string().optional(),
   preferredApplicantGender: z.string().optional(),
+  isExternal: z.boolean().optional(),
+  externalLink: z.string().optional(),
 });
 
 const jobTypes = Object.values(JOBTYPE).map((type) => ({
@@ -155,7 +160,7 @@ export default function EditJobForm({
   });
 
   const preferredApplicantGenderList = Object.values(
-    PREFERRED_APPLICANT_GENDER,
+    PREFERRED_APPLICANT_GENDER
   ).map((gender) => ({
     value: gender,
     label: gender.toLowerCase().replace("_", " "),
@@ -372,7 +377,7 @@ export default function EditJobForm({
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value && field.value.toString() !== "N/A" ? (
@@ -541,6 +546,45 @@ export default function EditJobForm({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="isExternal"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormDescription>
+                        Check this box if you want this job will be applied
+                        externally.
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="externalLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>External Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isSubmitting}
+                        placeholder="e.g. 'https://example.com'"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <div className="flex items-center gap-x-2">
                 <Button disabled={isSubmitting} type="submit">
                   {isSubmitting ? (

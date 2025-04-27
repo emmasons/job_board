@@ -176,7 +176,12 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job, user }: Props) => {
         >
           {jobSeekerProfile &&
           (jobSeekerProfile?.profilePercentage?.percentage ?? 0) > 50 ? (
-            <Apply jobId={jobId} coverLetter={coverLetterContent} />
+            <Apply
+              jobId={jobId}
+              coverLetter={coverLetterContent}
+              isExternal={job.isExternal}
+              externalLink={job.externalLink as string}
+            />
           ) : (
             <div className="my-2 space-y-2 rounded-md border border-dashed border-gray-300 p-4">
               <p className="text-[0.7rem] text-muted-foreground">
