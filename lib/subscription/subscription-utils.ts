@@ -31,6 +31,6 @@ export async function hasFeatureAccess(
 
   // Check if the feature exists in the user's plan
   return activeSubscription.plan.planFeatures.some(
-    (planFeature) => planFeature.feature.name === featureName
+    (planFeature) => planFeature.feature.type === featureName
   );
 }
