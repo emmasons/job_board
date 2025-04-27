@@ -11,7 +11,24 @@ export async function POST(req: Request) {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
     const values = await req.json();
-    const { numberOfPositions, ...remainingValues } = values;
+    const {
+      numberOfPositions,
+      title,
+      description,
+      country,
+      city,
+      workSchedule,
+      contractType,
+      educationLevelId,
+      experienceId,
+      sectorId,
+      salary,
+      currency,
+      salaryPeriod,
+      occupation,
+      startDate,
+      // ... other expected fields
+    } = values;
 
     if (!userId || !(user.role === Role.EMPLOYER || user.role === Role.ADMIN)) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -36,7 +53,20 @@ export async function POST(req: Request) {
         companyId: employerProfile.company.id,
         numberOfPositions: parseInt(numberOfPositions),
         published: true,
-        ...remainingValues,
+        title,
+        description,
+        country,
+        city,
+        workSchedule,
+        contractType,
+        educationLevelId,
+        experienceId,
+        sectorId,
+        salary,
+        currency,
+        salaryPeriod,
+        occupation,
+        startDate,
       },
     });
 
