@@ -5,7 +5,7 @@ export async function hasFeatureAccess(
   featureName: string
 ): Promise<boolean> {
   // Find user's active subscription
-  const activeSubscription = await db.subscription.findFirst({
+  const activeSubscription = await db.subscriptionPlan.findFirst({
     where: {
       userId,
       status: "ACTIVE",
