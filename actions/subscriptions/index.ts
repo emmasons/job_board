@@ -11,7 +11,11 @@ const subscriptionSchema = z.object({
   billingCycle: z.enum(["MONTHLY", "ANNUALLY"]),
 });
 
-export async function getAvailablePlans(userType = "JOBSEEKER") {
+export async function getAvailablePlans(userType = "JOB_SEEKER") {
+  if (userType !== "JOB_SEEKER" && userType !== "EMPLOYER") {
+    userType = "JOB_SEEKER";
+  }
+  
   const plans = await db.plan.findMany({
     where: {
       userType,
