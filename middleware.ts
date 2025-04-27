@@ -1,6 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
+import type { NextRequest } from "next/server";
 
 export default withAuth(
   function middleware(req) {
@@ -35,36 +36,42 @@ export default withAuth(
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
+
+    // Get the headers
+    const headers = new Headers(req.headers);
+    const forwardedHost = headers.get("x-forwarded-host");
+
+    // Clean up x-forwarded-host if it contains duplicates
+    if (forwardedHost && forwardedHost.includes(",")) {
+      headers.set("x-forwarded-host", forwardedHost.split(",")[0].trim());
+    }
+
+    // Create new response with modified headers
+    const response = NextResponse.next({
+      request: {
+        headers: headers,
+      },
+    });
+
+    return response;
   },
   {
     callbacks: {
       authorized: ({ token }) => !!token,
     },
-  },
-
-  //   // Check if the path requires a specific feature
-  //   for (const [path, feature] of Object.entries(protectedFeatures)) {
-  //     if (request.nextUrl.pathname.startsWith(path)) {
-  //       // Make API call to check feature access
-  //       // Note: In real middleware this would need a different approach since
-  //       // you can't directly query your database from Edge middleware
-  //       const hasAccess = await checkFeatureAccessSomehow(token.sub, feature);
-
-  //       if (!hasAccess) {
-  //         return NextResponse.redirect(new URL('/subscription/plans', request.url));
-  //       }
-  //     }
-  //   }
-
-  //   return NextResponse.next();
-  // }
-
-  //   // For real implementation, you'd need a different approach to check access in middleware
-  //   async function checkFeatureAccessSomehow(userId: string, feature: string) {
-  //     // Implementation depends on your setup - could use Redis, external API, etc.
-  //   }
+  }
 );
 
 export const config = {
-  matcher: ["/admin", "/profile/:path*"],
+  matcher: [
+    "/admin",
+    "/profile/:path*",
+    /*
+     * Match all request paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+  ],
 };

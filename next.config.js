@@ -11,6 +11,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   productionBrowserSourceMaps: true,
+  experimental: {
+    serverActions: {
+      allowedForwardedHosts: ["talentra.io"],
+      allowedOrigins: ["talentra.io"],
+    },
+  },
 };
 
 module.exports = nextConfig;
