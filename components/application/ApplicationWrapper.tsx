@@ -83,7 +83,7 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job, user }: Props) => {
               }
             >
               <FeatureGuard
-                featureName="cover_letter_generation"
+                featureName={FeatureType.COVER_LETTER_GENERATION}
                 userId={user.id}
                 fallback={
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
