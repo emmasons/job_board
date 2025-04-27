@@ -5,7 +5,7 @@ import Apply from "./Apply";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Button } from "@/components/ui/button";
 import { Loader2, Zap } from "lucide-react";
-import { Company, Job, User } from "@prisma/client";
+import { Company, FeatureType, Job, User } from "@prisma/client";
 import { FeatureGuard } from "../FeatureGuard";
 import { SessionUser } from "@/lib/auth";
 
@@ -157,7 +157,7 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job, user }: Props) => {
         }
       >
         <FeatureGuard
-          featureName="cover_letter_generation"
+          featureName={FeatureType.UNLIMITED_JOB_APPLICATION}
           userId={user.id}
           fallback={
             <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
