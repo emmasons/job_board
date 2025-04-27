@@ -17,7 +17,7 @@ export default async function SubscriptionPage() {
     redirect("/auth/signin?callbackUrl=/subscription/plans/");
   }
 
-  const plans = await getAvailablePlans(user.role || "JOBSEEKER");
+  const plans = await getAvailablePlans(user.role || "JOB_SEEKER");
   console.log("Plans: ", plans);
   const currentSubscription = await getUserSubscription();
 
