@@ -11,24 +11,7 @@ export async function POST(req: Request) {
     const user = await getCurrentSessionUser();
     const userId = user?.id;
     const values = await req.json();
-    const {
-      numberOfPositions,
-      title,
-      description,
-      country,
-      city,
-      workSchedule,
-      contractType,
-      educationLevelId,
-      experienceId,
-      sectorId,
-      salary,
-      currency,
-      salaryPeriod,
-      occupation,
-      startDate,
-      // ... other expected fields
-    } = values;
+    const { numberOfPositions, ...remainingValues } = values;
 
     if (!userId || !(user.role === Role.EMPLOYER || user.role === Role.ADMIN)) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -53,20 +36,7 @@ export async function POST(req: Request) {
         companyId: employerProfile.company.id,
         numberOfPositions: parseInt(numberOfPositions),
         published: true,
-        title,
-        description,
-        country,
-        city,
-        workSchedule,
-        contractType,
-        educationLevelId,
-        experienceId,
-        sectorId,
-        salary,
-        currency,
-        salaryPeriod,
-        occupation,
-        startDate,
+        ...remainingValues,
       },
     });
 
@@ -107,7 +77,7 @@ export async function POST(req: Request) {
           // send email
           const message = `A new job posting for your alerts was created. Check it out here: ${env.BASE_DOMAIN}/jobs/${job.id}`;
           const subject = getNotificationHeading(
-            NOTIFICATION_TYPES.NEW_JOB_POSTING,
+            NOTIFICATION_TYPES.NEW_JOB_POSTING
           );
           const status = await sendEmail({
             to_email: notified.email,

@@ -2,18 +2,20 @@
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
 type Props = {
   jobId: string;
   coverLetter?: string;
+  isExternal?: boolean;
+  externalLink?: string;
 };
 
 const Apply = (props: Props) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { jobId, coverLetter } = props;
+  const { jobId, coverLetter, isExternal, externalLink } = props;
   const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
     setLoading(true);
@@ -49,7 +51,13 @@ const Apply = (props: Props) => {
       setLoading(false);
     }
   };
-  return (
+  return isExternal ? (
+    <Button>
+      <a href={externalLink} target="_blank" rel="noopener noreferrer">
+        Apply Now
+      </a>
+    </Button>
+  ) : (
     <Button onClick={onSubmit} className="w-fit bg-primary font-semibold">
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
     </Button>
