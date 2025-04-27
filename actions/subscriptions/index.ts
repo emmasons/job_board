@@ -12,7 +12,6 @@ const subscriptionSchema = z.object({
 });
 
 export async function getAvailablePlans(userType = "JOB_SEEKER") {
-  "use server";
   if (userType !== "JOB_SEEKER" && userType !== "EMPLOYER") {
     userType = "JOB_SEEKER";
   }
@@ -38,7 +37,6 @@ export async function getAvailablePlans(userType = "JOB_SEEKER") {
 }
 
 export async function getUserSubscription() {
-  "use server";
   const user = await getCurrentSessionUser();
   if (!user) {
     return null;
@@ -71,8 +69,14 @@ export async function getUserSubscription() {
   return subscription;
 }
 
-export async function subscribeToPlan(formData: FormData) {
-  "use server";
+type SubscriptionResponse = {
+  success: boolean;
+  error?: string;
+  subscription?: any; // Replace 'any' with your subscription type
+  validationErrors?: z.ZodError["errors"];
+};
+
+export async function subscribeToPlan(formData: FormData): Promise<SubscriptionResponse> {
   const user = await getCurrentSessionUser();
   if (!user) {
     return {
@@ -82,8 +86,16 @@ export async function subscribeToPlan(formData: FormData) {
   }
 
   try {
-    const planId = formData.get("planId") as string;
-    const billingCycle = formData.get("billingCycle") as string;
+    // Get form data with type checking
+    const planId = formData.get("planId")?.toString();
+    const billingCycle = formData.get("billingCycle")?.toString();
+
+    if (!planId || !billingCycle) {
+      return {
+        success: false,
+        error: "Missing required fields",
+      };
+    }
 
     // Validate
     const validatedData = subscriptionSchema.parse({
