@@ -12,10 +12,11 @@ const subscriptionSchema = z.object({
 });
 
 export async function getAvailablePlans(userType = "JOB_SEEKER") {
+  "use server";
   if (userType !== "JOB_SEEKER" && userType !== "EMPLOYER") {
     userType = "JOB_SEEKER";
   }
-  
+
   const plans = await db.plan.findMany({
     where: {
       userType,
@@ -37,6 +38,7 @@ export async function getAvailablePlans(userType = "JOB_SEEKER") {
 }
 
 export async function getUserSubscription() {
+  "use server";
   const user = await getCurrentSessionUser();
   if (!user) {
     return null;
@@ -70,6 +72,7 @@ export async function getUserSubscription() {
 }
 
 export async function subscribeToPlan(formData: FormData) {
+  "use server";
   const user = await getCurrentSessionUser();
   if (!user) {
     return {
@@ -169,6 +172,7 @@ export async function subscribeToPlan(formData: FormData) {
 }
 
 export async function cancelSubscription() {
+  "use server";
   const user = await getCurrentSessionUser();
   if (!user) {
     return {
