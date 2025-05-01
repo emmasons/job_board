@@ -2,9 +2,21 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      { hostname: "lh3.googleusercontent.com" },
-      { hostname: "storage.googleapis.com" },
-      { hostname: "talentra.io" },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'talentra.io',
+        pathname: '**',
+      },
     ],
   },
   typescript: {
