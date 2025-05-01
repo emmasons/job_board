@@ -55,9 +55,14 @@ export default function PostImageForm({
           </div>
         ) : (
           <div className="relative mt-2 aspect-video">
-            <Image
+            {/* <Image
               alt="Upload"
               fill
+              className="rounded-md object-cover"
+              src={gcpData.downloadUrl}
+            /> */}
+            <img
+              alt="Upload"
               className="rounded-md object-cover"
               src={gcpData.downloadUrl}
             />
