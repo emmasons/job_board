@@ -44,9 +44,7 @@ interface CreateJobFormProps {
     workSchedule: string;
     country: string;
     startDate: any;
-    occupation: string;
     educationLevelId: string;
-    contractType: string;
     numberOfPositions: number;
     experienceId: string;
     sectorId: string;
@@ -57,7 +55,6 @@ interface CreateJobFormProps {
     externalLink: string;
   };
   sectorList: ComboProps;
-  contractTypeList: ComboProps;
   workScheduleList: ComboProps;
   educationLevelList: ComboProps;
   experienceList: ComboProps;
@@ -74,9 +71,6 @@ const formSchema = z.object({
   city: z.string().min(1, {
     message: "City is required",
   }),
-  workSchedule: z.string().min(1, {
-    message: "Work schedule is required",
-  }),
   country: z.string().min(1, {
     message: "Country is required",
   }),
@@ -85,14 +79,8 @@ const formSchema = z.object({
     (val) => (val ? new Date(val) : null),
     z.union([z.date(), z.literal(null)])
   ),
-  occupation: z.string().min(1, {
-    message: "Occupation is required",
-  }),
   educationLevelId: z.string().min(1, {
     message: "Education level is required",
-  }),
-  contractType: z.string().min(1, {
-    message: "Contract type is required",
   }),
   numberOfPositions: z.preprocess((val) => Number(val), z.number()),
   experienceId: z.string().min(1, {
@@ -101,11 +89,11 @@ const formSchema = z.object({
   sectorId: z.string().min(1, {
     message: "Sector is required",
   }),
+  workSchedule: z.string().min(1, {
+    message: "Work schedule is required",
+  }),
   salary: z.string().min(1, {
     message: "Salary is required",
-  }),
-  jobType: z.string().min(1, {
-    message: "Job type is required",
   }),
   currency: z.string().min(1, {
     message: "Currency is required",
@@ -116,15 +104,10 @@ const formSchema = z.object({
   externalLink: z.string().optional(),
 });
 
-const jobTypes = Object.values(JOBTYPE).map((type) => ({
-  value: type,
-  label: type,
-}));
 
 export default function CreateJobForm({
   initialData,
   sectorList,
-  contractTypeList,
   workScheduleList,
   educationLevelList,
   experienceList,
@@ -144,8 +127,8 @@ export default function CreateJobForm({
 
   const periodList = [
     {
-      value: "Day",
-      label: "Per day",
+      value: "Hour",
+      label: "Per hour",
     },
     {
       value: "Week",
@@ -241,23 +224,6 @@ export default function CreateJobForm({
 
             <FormField
               control={form.control}
-              name="occupation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="Occupation: e.g. 'Sales'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -298,7 +264,7 @@ export default function CreateJobForm({
                     <FormControl>
                       <Input
                         disabled={isSubmitting}
-                        placeholder="e.g. 'AED2500'"
+                        placeholder="e.g. 'USD 2500'"
                         {...field}
                         type="number"
                       />
@@ -376,19 +342,6 @@ export default function CreateJobForm({
 
             <FormField
               control={form.control}
-              name="jobType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type of Job</FormLabel>
-                  <FormControl>
-                    <Combobox options={jobTypes} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
@@ -425,19 +378,6 @@ export default function CreateJobForm({
                   <FormLabel>Sector</FormLabel>
                   <FormControl>
                     <Combobox options={sectorList} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="contractType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contract Type</FormLabel>
-                  <FormControl>
-                    <Combobox options={contractTypeList} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -511,7 +451,7 @@ export default function CreateJobForm({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormDescription>
-                      Check this box if you want this job will be applied
+                      Check this box if you want this job to be applied
                       externally.
                     </FormDescription>
                   </div>
