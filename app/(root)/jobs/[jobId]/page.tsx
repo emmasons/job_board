@@ -34,7 +34,7 @@ const page = async (props: Props) => {
     <PageWrapper
       job={job}
       jobId={props.params.jobId}
-      url={`https://jobsconnect.net//jobs/${props.params.jobId}`}
+      url={`https://talentra.io/jobs/${props.params.jobId}`}
       createAlert={createAlert}
       deleteAlert={deleteAlert}
       userId={user?.id}
