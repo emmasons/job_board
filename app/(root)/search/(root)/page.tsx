@@ -15,9 +15,9 @@ import { db } from "@/lib/db";
 import { ContractType, WorkSchedule } from "@prisma/client";
 // import type { Metadata } from "next";
 // export const metadata: Metadata = {
-//   title: "Search Jobs",
+//   title: "Search Visa-Sponsored Jobs in Europe",
 //   description:
-//     "Search hundreds of jobs in UAE, Qatar, Saudi Arabia, Oman, Bahrain, Kuwait, Jordan and Lebanon. Search jobs by location, job role and industry. Start searching!",
+//     "Find hundreds of visa-sponsored jobs across Germany, Netherlands, Sweden, Norway, Finland, France, Ireland, and more. Search jobs by country, job role, and industry. Start your European career journey today!",
 // };
 interface SearchPageProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -39,39 +39,35 @@ export async function generateMetadata({ searchParams }: SearchPageProps) {
   const titlePlaceholderArray = titlePlaceholder
     .split(" ")
     .map((word) => `${word} jobs`);
-  return {
-    title: `Search ${titlePlaceholder} jobs in gulf countries and the middle east`,
-    description: `Search hundreds of ${titlePlaceholder} jobs in SPE, Qatar, Saudi Arabia, Oman, Bahrain, Kuwait, Jordan and Lebanon. Search jobs by location, job role and industry. Start searching!`,
-    keywords: [
-      "Jobs",
-      "Kuwait",
-      "Dubai",
-      "Saudi Arabia",
-      "Qatar",
-      "Oman",
-      "jobsconnect.net",
-      "jobs",
-      "career openings",
-      "job",
-      "vacancies",
-      "careers in gulf",
-      "job search",
-      "jobs in gulf",
-      "jobs gulf",
-      "job site",
-      "middle east job sites",
-      "it jobs in Gulf",
-      "jobs gulf",
-      "job search in middle east",
-      "online jobs",
-      "accounting jobs in gulf",
-      "part time jobs gulf",
-      "banking jobs gulf",
-      "finance jobs gulf",
-      "marketing jobs in gulf.",
-      ...titlePlaceholderArray,
-    ],
-  };
+    return {
+      title: `Search ${titlePlaceholder} visa-sponsored jobs in Europe`,
+      description: `Find hundreds of ${titlePlaceholder} visa-sponsored job opportunities across Germany, Netherlands, Sweden, Norway, Finland, France, Ireland, and other European countries. Browse by location, role, and industry. Start your European career journey today!`,
+      keywords: [
+        "Visa sponsored jobs",
+        "Jobs in Europe",
+        "Germany jobs",
+        "Netherlands jobs",
+        "France jobs",
+        "Sweden jobs",
+        "Norway jobs",
+        "Ireland jobs",
+        "talentra.io",
+        "European careers",
+        "jobs abroad",
+        "relocation jobs",
+        "international jobs",
+        "job site Europe",
+        "tech jobs Europe",
+        "healthcare jobs Europe",
+        "engineering jobs Europe",
+        "visa jobs Europe",
+        "european job search",
+        "EU jobs",
+        "sponsored work visas",
+        "skilled jobs in Europe",
+        ...titlePlaceholderArray,
+      ],
+    };    
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
@@ -215,7 +211,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </h1>
 
             <p className="w-max-1/4 text-xs">
-              Unlock your future with top-tier job opportunities in the Gulf.
+              Unlock your future with Visa-sponsored job opportunities in Europe.
             </p>
           </div>
 
