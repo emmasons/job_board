@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog: Career Tips, Job Market Insights",
   description:
-    "Stay updated with the latest job market trends, career advice, and industry news on the JobsConnect.net blog. Explore tips and insights to enhance your job",
+    "Stay updated with the latest job market trends, career advice, and industry news on the talentra.io blog. Explore tips and insights to enhance your job",
   keywords: ["Career", "Tips", "Job", "Market Insights"],
 };
 

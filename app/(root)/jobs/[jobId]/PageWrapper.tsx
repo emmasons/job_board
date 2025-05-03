@@ -104,14 +104,11 @@ const PageWrapper = ({
           </span>
         </p>
         <p className="text-lg">
-          <span className="font-semibold">Occupation:</span> {job?.occupation}
-        </p>
-        <p className="text-lg">
           <span className="font-semibold">Contract Type:</span>{" "}
           <span className="capitalize">{job?.contractType.toLowerCase()}</span>
         </p>
         <p className="text-lg ">
-          <span className="font-semibold">Preferred candidate:</span>{" "}
+          <span className="font-semibold">Preferred Gender:</span>{" "}
           <span className="capitalize">
             {job?.preferredApplicantGender.toLocaleLowerCase()}
           </span>

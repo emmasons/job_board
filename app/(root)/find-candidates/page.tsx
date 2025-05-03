@@ -19,30 +19,31 @@ import CandidateFilters from "@/components/find-candidates/CandidateFilters";
 import RemoveSearchParam from "@/components/search/RemoveSearchParam";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Find Top Candidates for Your Job Openings",
+  title: "Find Visa-Sponsored Talent for Your Job Openings in Europe",
   description:
-    "Discover and connect with qualified candidates for your job vacancies. Use JobsConnect.net to find the best talent in Kuwait, Dubai.",
+    "Discover and connect with qualified, visa-ready candidates for your job vacancies across Europe. Use Talentra.io to hire top international talent quickly and efficiently.",
 };
+
 const cvFaqs = [
   {
     title: "How can I find CVs for free?",
     description:
-      "JobsConnect's free CV search tool gives an instant preview of profiles you can hire immediately. Alternatively, you may request a free demo to see CVs of relevant candidates specific to your vacancy. For a customized and affordable recruitment solution within your budget, speak to a JobsConnect consultant on +971 4 561 1500.",
+      "Talentra.io's free CV search tool offers instant previews of visa-sponsored candidates ready to relocate to Europe. You can also request a free demo tailored to your hiring needs. For a personalized recruitment solution, talk to a Talentra consultant today.",
   },
   {
     title: "How do I contact candidates?",
     description:
-      "Once you've found relevant candidates, you can contact them directly through our platform. Simply click on the More details button on the candidate's profile page.",
+      "Once you've found a suitable candidate, simply click on the profile to access contact options or request direct outreach through our platform.",
   },
   {
-    title: "How do I search CVs on JobsConnect?",
+    title: "How do I search CVs on Talentra.io?",
     description:
-      "On JobsConnect CV search, you can filter candidates by over 20 different criteria - including education, experience, industry, location, nationality, age and salary expectation. See JobsConnect’s free CV search tool for a preview of how this works.",
+      "Talentra’s CV search lets you filter candidates by relocation readiness, visa eligibility, experience, industry, language, nationality, and more. Our tools make it easy to shortlist candidates who match your European job requirements.",
   },
   {
-    title: "What type of candidates can I find on JobsConnect?",
+    title: "What type of candidates can I find on Talentra.io?",
     description:
-      "JobsConnect is one of the most popular recruitment platforms in the Middle East. It has a database of over 10 million professionals, both local as well as expatriate talent, covering all industries and job categories. Over 86% of the candidates hold a university degree, while their experience level ranges from fresh graduates to top management.",
+      "Talentra.io connects you to a growing pool of skilled professionals seeking visa-sponsored jobs in Europe. From IT and healthcare to engineering and hospitality, our platform attracts top global talent with verified qualifications and relocation potential.",
   },
 ];
 

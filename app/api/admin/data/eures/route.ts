@@ -9,7 +9,7 @@ function prepareWorkSchedule(scrapedSchedule) {
   if (scrapedSchedule === "Full-time") return WorkSchedule.FULL_TIME;
   if (scrapedSchedule === "Part-time") return WorkSchedule.PART_TIME;
   if (scrapedSchedule === "Not specified") return WorkSchedule.NOT_SPECIFIED;
-  if (scrapedSchedule === "Contractor") return WorkSchedule.CONTRACTOR;
+  if (scrapedSchedule === "Contract") return WorkSchedule.CONTRACTOR;
   if (scrapedSchedule === "Seasonal") return WorkSchedule.SEASONAL;
 }
 
