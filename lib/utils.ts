@@ -113,7 +113,7 @@ export const getWorkScheduleLabel = (workSchedule: WorkSchedule) => {
       return "Full time";
     case WorkSchedule.PART_TIME:
       return "Part time";
-    case WorkSchedule.CONTRACTOR:
+    case WorkSchedule.CONTRACT:
       return "Contract";
     case WorkSchedule.TEMPORARY:
       return "Temporary";
