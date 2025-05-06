@@ -69,7 +69,7 @@ export const getAllJobs = async ({
       where: {
         isOpen: true,
         published: true,
-        ...countryCondition, // Use the determined country condition
+        ...countryCondition,
         ...(formattedTitle
           ? {
               OR: [
@@ -82,9 +82,6 @@ export const getAllJobs = async ({
         ...workScheduleCondition,
         ...sectorCondition,
         ...jobTypeCondition,
-        // createdAt: {
-        //   gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
-        // },
       },
       include: {
         company: true,
