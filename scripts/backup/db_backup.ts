@@ -1,84 +1,61 @@
 const exec = require("child_process").exec;
 const fs = require("fs");
+const path = require("path"); // Add this line
 const { dirname } = require("path");
 const cron = require("node-cron");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const { Storage } = require("@google-cloud/storage");
-const path = require("path");
-const gsBucketName = process.env.GS_BUCKET_NAME;
-const gsLocation = process.env.GS_LOCATION;
-// Initialize storage
-const gcpStorage = new Storage({ keyFilename: process.env.GS_CREDENTIALS });
-const bucket = gcpStorage.bucket(gsBucketName);
-
-const {
-  POSTGRES_HOST: host,
-  POSTGRES_DB: database,
-  POSTGRES_USER: user,
-  POSTGRES_PASSWORD: password,
-} = process.env;
+// Correct way to destructure environment variables
+const host = process.env.MYSQL_HOST;
+const database = process.env.MYSQL_DATABASE;
+const user = process.env.MYSQL_USER;
+const password = process.env.MYSQL_PASSWORD;
+const port = process.env.MYSQL_PORT || 3306;
 
 if (!host || !database || !user || !password) {
   console.error("Missing required environment variables");
   process.exit(1);
 }
 
-cron.schedule("0 0 * * *", () => {
-  console.log("Backup cron job executed at:", new Date().toLocaleString());
-  // try {
-  //   fs.mkdirSync("./db_backups");
-  // } catch (err) {
-  //   console.log(err, 'Cant create db_backups folder');
-  //   if (err.code !== "EEXIST") throw err;
-  // }
+// cron.schedule("0 0 * * *", () => {
+console.log("Backup cron job executed at:", new Date().toLocaleString());
 
-  const formattedDate = new Date()
-    .toISOString()
-    .replace(/:/g, "-")
-    .replace(/\..+/, "");
-  const backupFile = `./db_backups/${formattedDate}_backup.sql`;
-  const formattedName = backupFile.slice(2);
+const formattedDate = new Date()
+  .toISOString()
+  .replace(/:/g, "-")
+  .replace(/\..+/, "");
+const backupFile = `./db_backups/${formattedDate}_backup.sql`;
+const formattedName = backupFile.slice(2);
 
-  try {
-    console.log(`Running backup command...`);
-    const command = `PGPASSWORD=${password} pg_dump -h ${host} -d ${database} --port 5432 -U ${user} -F c -f ${backupFile}`;
+try {
+  console.log(`Running backup command...`);
+  // MySQL backup command using mysqldump
+  const command = `mysqldump -h ${host} -P ${port} -u ${user} -p${password} ${database} > ${backupFile}`;
 
-    const appRoot = path.resolve(__dirname, "../../");
-    exec(command, { env: process.env }, (err, stdout, stderr) => {
-      console.log(stdout, "stdout");
-      if (stderr) {
-        console.error(`Backup failed:stderr: ${stderr}`);
-      }
-      if (err) {
-        console.error(`Backup failed: ${err.message}`);
-      } else {
-        console.log(`Backup saved as ${backupFile}`);
+  const appRoot = path.resolve(__dirname, "../../");
 
-        const fileLocation =
-          process.env.NODE_ENV === "production"
-            ? `/app/${formattedName}`
-            : `${appRoot}/${formattedName}`;
-
-        bucket.upload(
-          fileLocation,
-          {
-            destination: `${gsLocation}/db/backups/${formattedName}`,
-          },
-          function (err, file) {
-            if (err) {
-              console.error(`❌ Error uploading backup: ${err}`);
-            } else {
-              console.log(`Backup successfully uploaded to ${gsBucketName}.`);
-              // delete local file ********************
-            }
-          },
-        );
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    console.log("❌ BACKUP FAILED");
+  // Ensure backup directory exists
+  const backupDir = path.dirname(backupFile);
+  if (!fs.existsSync(backupDir)) {
+    fs.mkdirSync(backupDir, { recursive: true });
   }
-});
+
+  exec(command, { env: process.env }, (err, stdout, stderr) => {
+    if (stderr && !stderr.includes("Warning")) {
+      // Ignore MySQL warnings
+      console.error(`Backup failed: ${stderr}`);
+      return;
+    }
+    if (err) {
+      console.error(`Backup failed: ${err.message}`);
+      return;
+    }
+
+    console.log(`Backup successfully saved as ${backupFile}`);
+  });
+} catch (error) {
+  console.log(error);
+  console.log("❌ BACKUP FAILED");
+}
+// });
