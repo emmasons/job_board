@@ -29,7 +29,6 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const [loading, setLoading] = useState(false);
 
   const pathname = usePathname();
-  console.log(pathname, "*****");
 
   const handleNext = () => {
     router.push(`${pathname}/?page=${Number(page) + 1}&pageSize=${pageSize}`);
