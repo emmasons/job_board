@@ -33,35 +33,35 @@ export async function generateMetadata({ searchParams }: SearchPageProps) {
   const titlePlaceholderArray = titlePlaceholder
     .split(" ")
     .map((word) => `${word} jobs`);
-    return {
-      title: `Search ${titlePlaceholder} visa-sponsored jobs in Europe`,
-      description: `Find hundreds of ${titlePlaceholder} visa-sponsored job opportunities across Germany, Netherlands, Sweden, Norway, Finland, France, Ireland, and other European countries. Browse by location, role, and industry. Start your European career journey today!`,
-      keywords: [
-        "Visa sponsored jobs",
-        "Jobs in Europe",
-        "Germany jobs",
-        "Netherlands jobs",
-        "France jobs",
-        "Sweden jobs",
-        "Norway jobs",
-        "Ireland jobs",
-        "talentra.io",
-        "European careers",
-        "jobs abroad",
-        "relocation jobs",
-        "international jobs",
-        "job site Europe",
-        "tech jobs Europe",
-        "healthcare jobs Europe",
-        "engineering jobs Europe",
-        "visa jobs Europe",
-        "european job search",
-        "EU jobs",
-        "sponsored work visas",
-        "skilled jobs in Europe",
-        ...titlePlaceholderArray,
-      ],
-    };    
+  return {
+    title: `Search ${titlePlaceholder} visa-sponsored jobs in Europe`,
+    description: `Find hundreds of ${titlePlaceholder} visa-sponsored job opportunities across Germany, Netherlands, Sweden, Norway, Finland, France, Ireland, and other European countries. Browse by location, role, and industry. Start your European career journey today!`,
+    keywords: [
+      "Visa sponsored jobs",
+      "Jobs in Europe",
+      "Germany jobs",
+      "Netherlands jobs",
+      "France jobs",
+      "Sweden jobs",
+      "Norway jobs",
+      "Ireland jobs",
+      "talentra.io",
+      "European careers",
+      "jobs abroad",
+      "relocation jobs",
+      "international jobs",
+      "job site Europe",
+      "tech jobs Europe",
+      "healthcare jobs Europe",
+      "engineering jobs Europe",
+      "visa jobs Europe",
+      "european job search",
+      "EU jobs",
+      "sponsored work visas",
+      "skilled jobs in Europe",
+      ...titlePlaceholderArray,
+    ],
+  };
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
@@ -205,7 +205,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </h1>
 
             <p className="w-max-1/4 text-xs">
-              Unlock your future with Visa-sponsored job opportunities in Europe.
+              Unlock your future with Visa-sponsored job opportunities in
+              Europe.
             </p>
           </div>
 
