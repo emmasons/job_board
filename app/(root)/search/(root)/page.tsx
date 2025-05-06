@@ -13,12 +13,6 @@ import { createAlert, deleteAlert } from "../../jobs/actions";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ContractType, WorkSchedule } from "@prisma/client";
-// import type { Metadata } from "next";
-// export const metadata: Metadata = {
-//   title: "Search Visa-Sponsored Jobs in Europe",
-//   description:
-//     "Find hundreds of visa-sponsored jobs across Germany, Netherlands, Sweden, Norway, Finland, France, Ireland, and more. Search jobs by country, job role, and industry. Start your European career journey today!",
-// };
 interface SearchPageProps {
   searchParams: Record<string, string | string[] | undefined>;
 }

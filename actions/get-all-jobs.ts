@@ -22,19 +22,19 @@ export const getAllJobs = async ({
   jobTypeFilter,
 }: Params): Promise<JobsWithCompany[]> => {
   const formattedTitle = title?.replace(/\s/g, "");
-  const countries = [];
+  const countries: string[] = [];
   if (countriesFilter) {
     const formattedCountries = countriesFilter?.split(",");
     countries.push(...formattedCountries);
   }
 
-  const workSchedules = [];
+  const workSchedules: string[] = [];
   if (workSchedule) {
     const formatted = workSchedule?.split(",");
     workSchedules.push(...formatted);
   }
 
-  const sectors = [];
+  const sectors: string[] = [];
   if (sectorFilter) {
     const formatted = sectorFilter?.split(",");
     sectors.push(...formatted);
