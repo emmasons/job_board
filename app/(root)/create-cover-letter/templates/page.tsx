@@ -21,12 +21,87 @@ interface Template {
 const templates: Template[] = [
   {
     id: 1,
-    name: "Nursing",
-    preview: "/templates/professional.png",
+    name: "Construction Manager",
+    preview: "/templates/construction.png",
     content: (
-      <div>
-        <h2>Professional Template</h2>
-        <p>This template is designed for a professional look.</p>
+      <div className="p-8">
+        <div className="space-y-8">
+          <div className="space-y-2 text-left">
+            <h1 className="text-2xl font-bold">Peter Hawsley</h1>
+            <p className="text-gray-600 uppercase text-sm">
+              CONSTRUCTION MANAGER
+            </p>
+          </div>
+
+          <div className="space-y-1 text-left">
+            <p>To: Jeremy Matthews</p>
+            <p className="text-sm">POWER'S CONSTRUCTION LLC</p>
+            <p>February 2, 2022</p>
+          </div>
+
+          <div className="flex gap-8">
+            <div className="space-y-4 text-[0.95rem] basis-2/3 text-left">
+              <p>Dear Mr. Matthews,</p>
+
+              <p>
+                As the construction manager for Jenkins, I led integrated teams
+                of 30+ employees including supervisors, bricklayers,
+                electricians, plumbers, steel workers and wall and floor
+                specialists. Managing budgets between 25M and 50M%, I ensured
+                100% compliance with critical paths and maintained a customer
+                satisfaction rate of 98%.
+              </p>
+
+              <p>
+                I understand that the open position at Bows includes developing
+                new safety protocols. At Jenkins, I rewrote our internal
+                training course that brought us fully into line with OSHA
+                regulations that every contractor had to pass, resulting in a
+                25% reduction in incidents.
+              </p>
+
+              <p>
+                I am adept at leading a construction team with a combination of
+                practical insight and interpersonal motivation. Bottlenecks are
+                a common part of construction work, so my ability to get the
+                most out of often shorthour project timelines and makes for a
+                more productive site. I am always ready to resolve disputes and
+                challenge suppliers on behalf of my team – they need the
+                materials for the job without the frustration of delays.
+              </p>
+
+              <p>
+                I enclose a portfolio of my recent work in your sector and have
+                over 20 client recommendations that testify to my expertise. I
+                would welcome the opportunity of an interview to discuss how my
+                experience might add value to your operations.
+              </p>
+
+              <div className="mt-8 space-y-1">
+                <p>Sincerely,</p>
+                <p>Peter Hawsley</p>
+              </div>
+            </div>
+
+            <div className="text-left text-sm mb-6 basis-1/3">
+              <div className="space-y-3">
+                <div className="space-y-1">
+                  <p className="text-muted-foreground">Address</p>
+                  <p>1002 Grant Street Longview, TX</p>
+                  <p>75601</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-muted-foreground">Email</p>
+                  <p>p.hawsley17@gmail.com</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-muted-foreground">Phone Number</p>
+                  <p>070-654-0000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     ),
   },
