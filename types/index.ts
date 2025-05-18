@@ -94,4 +94,13 @@ export interface Accept {
   [key: string]: string[];
 }
 
-
+export interface CoverLetterTemplateDetailsValidation {
+  name: string;
+  jobTitle: string;
+  address: string;
+  email: string;
+  phoneNumber: string;
+  coverLetter: string;
+  companyName: string;
+  hiringManager: string;
+}
