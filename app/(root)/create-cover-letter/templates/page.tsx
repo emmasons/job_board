@@ -32,12 +32,114 @@ const templates: Template[] = [
   },
   {
     id: 2,
-    name: "Modern",
+    name: "IT Manager",
     preview: "/templates/modern.png",
     content: (
-      <div>
-        <h2>Modern Template</h2>
-        <p>This template is designed for a modern look.</p>
+      <div className="p-8">
+        <div className="space-y-8">
+          {/* Header */}
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl font-bold">Jackie Elliot</h1>
+            <p className="text-gray-600 uppercase text-sm">IT Manager</p>
+          </div>
+
+          {/* Contact Info */}
+          <div className="flex justify-between text-sm gap-8 text-gray-600 border-b pb-4">
+            <div className="space-y-1 flex basis-1/2 justify-between">
+              <p className="font-bold">Address</p>
+              <div className="text-left">
+                <p>200 Fort Hill Rd, Scarsdale, NY 10583,</p>
+                <p>United States</p>
+              </div>
+            </div>
+            <div className="space-y-1 basis-1/2 text-left">
+              <div className="flex gap-4 justify-between">
+                <span className="font-bold">Phone: </span>
+                <span>(914) 479-6542</span>
+              </div>
+              <div className="gap-4 flex justify-between">
+                <span className="font-bold">Email: </span>
+                <span>Elliot77@gmail.com</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Letter Content */}
+          <div className="space-y-6 text-left flex basis-1/3 gap-12">
+            <div className="space-y-1 text-sm">
+              <p>TO</p>
+              <p className="font-bold">Mr. Driver</p>
+              <p>Engin Pharma</p>
+            </div>
+
+            <div className="space-y-4 text-[0.9rem] basis-2/3">
+              <p>Dear Mr. Driver,</p>
+
+              <p>
+                Nine years of pharmaceutical IT experience have taught me that
+                scientific advances are intimately connected with the (optimal)
+                performance of cutting-edge technology.
+              </p>
+
+              <p>
+                Whether it is integrating a new logistics system to improve
+                product decision metrics by 28%, working with geneticists on
+                their data science models to speed up their workflow, or
+                implementing new demand planning software, I have worked
+                diligently to translate technical possibilities into practical
+                outcomes which put patients first.
+              </p>
+
+              <p>
+                I understand that you have a number of products that are coming
+                to market this year and that your recent warehousing investment
+                will need to be supported with best-in-class IT solutions. I
+                give regular keynotes on the biotech conference circuit around
+                logistics tech.
+              </p>
+
+              <p>
+                As an avid student of agile development methodologies, I have
+                developed and implemented long-term IT strategies that have had
+                a business-wide impact:
+              </p>
+
+              <ul className="list-disc pl-6 space-y-2">
+                <li>
+                  Designed logistics software for controlled drugs warehouse
+                  ($22m annual revenue)
+                </li>
+                <li>
+                  Sourced demand planning tool to improve forecasting accuracy
+                  by 19%
+                </li>
+                <li>
+                  Managed all aspects of IT provision in pharma manufacturers of
+                  50-120 employees
+                </li>
+              </ul>
+
+              <p>
+                Scientists are very specific with their technology requirements
+                and I am adept at explaining the possibilities and limitations
+                of any given solution to my stakeholders. I leverage close
+                vendor relationships from my conference circuit to develop
+                best-in-class solutions.
+              </p>
+
+              <p>
+                I am passionate about talking about the impact of technology in
+                science and would welcome the chance to discuss further at
+                interview.
+              </p>
+
+              <div className="mt-8 space-y-1">
+                <p>Sincerely,</p>
+                <p>Jackie Elliot</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     ),
   },
