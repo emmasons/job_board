@@ -388,14 +388,12 @@ export const templates: Template[] = [
     content: (
       <div className="p-8">
         <div className="space-y-8">
-          {/* Header */}
           <div className="text-center">
             <h1 className="text-2xl font-bold">Grace Mckenna</h1>
             <p className="text-gray-600">Science Teacher</p>
           </div>
 
-          {/* Contact Info */}
-          <div className="flex justify-between text-sm text-gray-600 border-b pb-4">
+          <div className="flex gap-12 justify-between text-sm text-gray-600 border-b pb-4">
             <div className="flex justify-between basis-1/2">
               <p className="font-bold">ADDRESS</p>
               <div className="text-left">
@@ -404,11 +402,11 @@ export const templates: Template[] = [
               </div>
             </div>
             <div className="flex flex-col justify-between basis-1/2">
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-between">
                 <p className="font-bold">PHONE</p>
                 <p>(718) 874-3155</p>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-between">
                 <p className="font-bold">EMAIL</p>
                 <p>Grace_mckenna@gmail.com</p>
               </div>
@@ -487,7 +485,8 @@ const Page = () => {
       <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
 
       <Swiper
-        slidesPerView={"auto"}
+        slidesPerView={1.5}
+        centeredSlides={true}
         spaceBetween={30}
         navigation={true}
         modules={[Navigation]}
@@ -495,14 +494,17 @@ const Page = () => {
           320: {
             slidesPerView: 1,
             spaceBetween: 20,
+            centeredSlides: true,
           },
           640: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 20,
+            centeredSlides: true,
           },
           968: {
-            slidesPerView: 2,
+            slidesPerView: 1.5,
             spaceBetween: 30,
+            centeredSlides: true,
           },
         }}
         className="mySwiper"
@@ -510,14 +512,10 @@ const Page = () => {
         {templates.map((template) => (
           <SwiperSlide key={template.id}>
             <div
-              className={`relative cursor-pointer rounded-lg transition-all h-full bg-slate-50 w-full ${
-                selectedTemplate?.id === template.id
-                  ? "border-blue-500 scale-105"
-                  : "border-gray-200 hover:border-blue-300"
-              }`}
+              className={`relative cursor-pointer rounded-lg transition-all h-full bg-slate-50 w-full border-gray-200 hover:border-blue-300`}
               // onClick={() => handleTemplateSelect(template)}
             >
-              <div className="h-full overflow-y-auto relative">
+              <div className="h-full overflow-y-auto relative flex items-center">
                 {template.content}
                 <Link
                   href={"/create-cover-letter/templates" + `/${template.id}`}
