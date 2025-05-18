@@ -37,7 +37,7 @@ body {
   object-fit: cover;
 }
 
-.swiper-slide {
+/* .swiper-slide {
   width: 80%;
 }
 
@@ -47,4 +47,4 @@ body {
 
 .swiper-slide:nth-child(3n) {
   width: 40%;
-}
+} */
