@@ -10,17 +10,19 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./swiper.css";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface Template {
-  id: number;
+  id: string;
   name: string;
   preview: string;
   content: React.ReactNode;
 }
 
-const templates: Template[] = [
+export const templates: Template[] = [
   {
-    id: 1,
+    id: "construction-template",
     name: "Construction Manager",
     preview: "/templates/construction.png",
     content: (
@@ -106,19 +108,17 @@ const templates: Template[] = [
     ),
   },
   {
-    id: 2,
+    id: "manager-template",
     name: "IT Manager",
     preview: "/templates/modern.png",
     content: (
       <div className="p-8">
         <div className="space-y-8">
-          {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold">Jackie Elliot</h1>
             <p className="text-gray-600 uppercase text-sm">IT Manager</p>
           </div>
 
-          {/* Contact Info */}
           <div className="flex justify-between text-sm gap-8 text-gray-600 border-b pb-4">
             <div className="space-y-1 flex basis-1/2 justify-between">
               <p className="font-bold">Address</p>
@@ -139,7 +139,6 @@ const templates: Template[] = [
             </div>
           </div>
 
-          {/* Letter Content */}
           <div className="space-y-6 text-left flex basis-1/3 gap-12">
             <div className="space-y-1 text-sm">
               <p>TO</p>
@@ -219,19 +218,17 @@ const templates: Template[] = [
     ),
   },
   {
-    id: 3,
+    id: "driver-template",
     name: "Driver",
     preview: "/templates/driver.png",
     content: (
       <div className="p-8">
         <div className="space-y-8">
-          {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold">Max Leewood</h1>
             <p className="text-gray-600 uppercase text-sm">Driver</p>
           </div>
 
-          {/* Contact Details */}
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2 justify-between w-full">
               <span>leewood.max@gmail.com</span>
@@ -244,7 +241,6 @@ const templates: Template[] = [
             </div>
           </div>
 
-          {/* Letter Content */}
           <div className="space-y-6 text-left text-[0.9rem]">
             <div className="space-y-1">
               <p>To: Mr. Harman</p>
@@ -324,7 +320,7 @@ const templates: Template[] = [
     ),
   },
   {
-    id: 4,
+    id: "nursing-template",
     name: "Professional Nurse",
     preview: "/templates/nurse.png",
     content: (
@@ -386,7 +382,7 @@ const templates: Template[] = [
     ),
   },
   {
-    id: 5,
+    id: "teacher-template",
     name: "Science Teacher",
     preview: "/templates/science-teacher.png",
     content: (
@@ -486,17 +482,6 @@ const templates: Template[] = [
 ];
 
 const Page = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
-    null
-  );
-
-  const router = useRouter();
-
-  const handleTemplateSelect = (template: Template) => {
-    setSelectedTemplate(template);
-    router.push(`/create-cover-letter/templates/${template.id}`);
-  };
-
   return (
     <div className="p-6 flex-1 h-screen flex flex-col">
       <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
@@ -504,11 +489,8 @@ const Page = () => {
       <Swiper
         slidesPerView={"auto"}
         spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
         navigation={true}
-        modules={[Pagination, Navigation]}
+        modules={[Navigation]}
         breakpoints={{
           320: {
             slidesPerView: 1,
@@ -533,22 +515,23 @@ const Page = () => {
                   ? "border-blue-500 scale-105"
                   : "border-gray-200 hover:border-blue-300"
               }`}
-              onClick={() => handleTemplateSelect(template)}
+              // onClick={() => handleTemplateSelect(template)}
             >
-              <div className="h-full overflow-y-auto">{template.content}</div>
+              <div className="h-full overflow-y-auto relative">
+                {template.content}
+                <Link
+                  href={"/create-cover-letter/templates" + `/${template.id}`}
+                  className="text-sm text-gray-500 hover:text-gray-600 hover:underline absolute top-1/2 right-1/2"
+                >
+                  <Button variant="default" className="px-4 py-2">
+                    Use template
+                  </Button>
+                </Link>
+              </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {selectedTemplate && (
-        <div className="mt-6">
-          <p className="text-lg">
-            Selected template:{" "}
-            <span className="font-medium">{selectedTemplate.name}</span>
-          </p>
-        </div>
-      )}
     </div>
   );
 };

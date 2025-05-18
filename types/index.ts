@@ -93,3 +93,5 @@ export interface Experience {
 export interface Accept {
   [key: string]: string[];
 }
+
+
