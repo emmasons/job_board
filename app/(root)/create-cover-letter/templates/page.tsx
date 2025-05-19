@@ -1,10 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
-
-// Import Swiper styles
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -12,7 +9,26 @@ import "./swiper.css";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { templates } from "../../../../components/cover-letter/cover-letter-templates";
+import { templates, TemplateContent } from "@/components/cover-letter/cover-letter-templates";
+
+// Sample data for preview
+const sampleData: TemplateContent = {
+  name: "John Smith",
+  jobTitle: "Senior Developer",
+  address: "123 Tech Street, Silicon Valley, CA 94025",
+  email: "john.smith@email.com",
+  phoneNumber: "(555) 123-4567",
+  companyName: "Tech Solutions Inc.",
+  hiringManager: "Mrs. Jane Wilson",
+  coverLetter: `
+    <p>I am writing to express my strong interest in the Senior Developer position at Tech Solutions Inc. With over 8 years of experience in software development and a proven track record of delivering high-quality solutions, I believe I would be a valuable addition to your team.</p>
+    
+    <p>Throughout my career, I have demonstrated expertise in full-stack development, team leadership, and project management. I have successfully led teams of 5-10 developers, delivered projects on time and within budget, and implemented best practices that improved code quality and team productivity.</p>
+    
+    <p>I am particularly impressed with Tech Solutions' commitment to innovation and your recent work in AI integration. I would welcome the opportunity to contribute to your future projects and help drive technological advancement.</p>
+  `,
+  date: new Date().toLocaleDateString(),
+};
 
 const Page = () => {
   return (
@@ -47,14 +63,13 @@ const Page = () => {
         {templates.map((template) => (
           <SwiperSlide key={template.id}>
             <div
-              className={`relative cursor-pointer rounded-lg transition-all h-full bg-slate-50 w-full border-gray-200 hover:border-blue-300`}
-              // onClick={() => handleTemplateSelect(template)}
+              className={`relative cursor-pointer rounded-lg transition-all h-[800px] w-full`}
             >
-              <div className="h-full overflow-y-auto relative flex items-center">
-                {template.content}
+              <div className="h-full overflow-y-auto relative">
+                {template.content(sampleData)}
                 <Link
                   href={"/create-cover-letter/templates" + `/${template.id}`}
-                  className="text-sm text-gray-500 hover:text-gray-600 hover:underline absolute top-1/2 right-1/2"
+                  className="absolute bottom-4 left-1/2 -translate-x-1/2"
                 >
                   <Button variant="default" className="px-4 py-2">
                     Use template
