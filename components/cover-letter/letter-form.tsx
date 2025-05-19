@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -28,19 +29,19 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Cover letter content is required" }),
   companyName: z.string().min(1, { message: "Company name is required" }),
-  hiringManager: z
-    .string()
-    .min(1, { message: "Hiring manager name is required" }),
+  hiringManager: z.string().optional(),
 });
 
 interface CoverLetterFormProps {
   initialData?: z.infer<typeof formSchema>;
   templateId: string;
+  onDataChange?: (data: z.infer<typeof formSchema>) => void;
 }
 
 export default function CoverLetterForm({
   initialData,
   templateId,
+  onDataChange,
 }: CoverLetterFormProps) {
   const router = useRouter();
 
@@ -60,6 +61,9 @@ export default function CoverLetterForm({
 
   const { isSubmitting } = form.formState;
 
+  form.watch((data) => {
+    onDataChange?.(data);
+  });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await fetch(`/api/cover-letter/${templateId}`, {
@@ -177,44 +181,41 @@ export default function CoverLetterForm({
           </div>
 
           <div className="flex gap-4">
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Your phone number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-
-          <FormField
-            control={form.control}
-            name="phoneNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={isSubmitting}
-                    placeholder="Your phone number"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="companyName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company Name</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={isSubmitting}
-                    placeholder="Company name"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
+            <FormField
+              control={form.control}
+              name="companyName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Company Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="Company name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <FormField

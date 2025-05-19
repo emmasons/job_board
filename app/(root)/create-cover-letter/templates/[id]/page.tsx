@@ -1,10 +1,17 @@
-"use client";
-import React from "react";
-import { getTemplateById, TemplateContent } from "@/components/cover-letter/cover-letter-templates";
-import CoverLetterForm from "@/components/cover-letter/letter-form";
+import { TemplateContent } from "@/components/cover-letter/cover-letter-templates";
+import CoverLetterTemplate from "./cover-letter-wrapper";
+import { getCurrentSessionUser } from "@/lib/auth";
+import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
+import { getJobById } from "@/actions/get-job-by-id";
+import { getUserById } from "@/actions/get-user";
+import { redirect } from "next/navigation";
+
 type Props = {
   params: {
     id: string;
+  };
+  searchParams: {
+    jobId: string;
   };
 };
 
@@ -26,35 +33,37 @@ const sampleData: TemplateContent = {
   date: new Date().toLocaleDateString(),
 };
 
-const Page = ({ params }: Props) => {
+const Page = async ({ params, searchParams }: Props) => {
   const { id } = params;
-  const template = getTemplateById(id);
-  console.log("Template ID:", id);
-  console.log("Template Data:", template);
-  if (!template) {
-    return <div>Template not found</div>;
+  const { jobId } = searchParams;
+
+  const user = await getCurrentSessionUser();
+
+  if (!user) {
+    return redirect(
+      `/auth/signin?callbackUrl=/create-cover-letter/templates/${id}?jobId=${jobId}`
+    );
   }
 
-  return (
-    <div className="flex p-4">
-      <div className="basis-1/2">
-        <CoverLetterForm
-          templateId={id}
-          initialData={{
-            name: "",
-            jobTitle: "",
-            companyName: "",
-            email: "",
-            phoneNumber: "",
-            address: "",
-            coverLetter: "",
-            hiringManager: "",
-          }}
-        />
-      </div>
-      <div className="basis-1/2">{template.content(sampleData)}</div>
-    </div>
-  );
+  const jobSeekerProfile = await getJobSeekerProfile(user.id);
+  const job = await getJobById(jobId);
+
+  const savedUser = await getUserById(user.id);
+
+  const address = `${savedUser?.address?.postalCode} - ${savedUser?.address?.addressLineOne}`;
+  const userName = user.firstName + " " + user.lastName;
+  const modifiedSampleData: TemplateContent = {
+    ...sampleData,
+    name: userName || sampleData.name,
+    jobTitle: jobSeekerProfile?.cvHeadLine || sampleData.jobTitle,
+    companyName: job?.companyName || sampleData.companyName,
+    email: savedUser?.email || sampleData.email,
+    phoneNumber: savedUser?.profile?.phoneNumber || sampleData.phoneNumber,
+    address: address || sampleData.address,
+    hiringManager: job?.companyName || sampleData.hiringManager,
+  };
+
+  return <CoverLetterTemplate id={id} sampleData={modifiedSampleData} />;
 };
 
 export default Page;
