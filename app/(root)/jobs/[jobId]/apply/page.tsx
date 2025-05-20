@@ -1,7 +1,7 @@
 import { getJobById } from "@/actions/get-job-by-id";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
-import { CheckCircle, PencilLine, Plus } from "lucide-react";
+import { CheckCircle, FilePen, PencilLine, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
@@ -10,6 +10,7 @@ import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { getUserApplicationById } from "@/actions/applications/get-user-application-by-id";
 import Link from "next/link";
 import ApplicationWrapper from "@/components/application/ApplicationWrapper";
+import ApplyFeature from "@/components/application/ApplyFeature";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ const page = async (props: Props) => {
   const user = await getCurrentSessionUser();
   if (!user) {
     return redirect(
-      `/auth/signin?callbackUrl=/jobs/${props.params.jobId}/apply`,
+      `/auth/signin?callbackUrl=/jobs/${props.params.jobId}/apply`
     );
   }
 
@@ -197,11 +198,26 @@ const page = async (props: Props) => {
                 </div>
               </div>
             </div>
-            <ApplicationWrapper
+            {/* <ApplicationWrapper
               jobId={props.params.jobId}
               jobSeekerProfile={jobSeekerProfile}
               job={job}
               user={user}
+            /> */}
+            <Link
+              href={`/create-cover-letter/templates?jobId=${props.params.jobId}`}
+              className="text-sky-500"
+              target="_blank"
+            >
+              Create a professional cover letter
+              <FilePen className="ml-2 inline-block" />
+            </Link>
+            <ApplyFeature
+              jobId={props.params.jobId}
+              jobSeekerProfile={jobSeekerProfile}
+              job={job}
+              user={user}
+              coverLetterContent={application?.coverLetterContent}
             />
           </div>
         )}
