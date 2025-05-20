@@ -92,6 +92,12 @@ const Footer = (props: Props) => {
           <h2 className="text-lg font-bold">About us</h2>
           <div className="flex flex-col">
             <Link
+              href="/cv-services"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              AI CV Builder
+            </Link>
+            <Link
               href="/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >

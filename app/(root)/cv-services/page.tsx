@@ -1,5 +1,8 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import ProfessionalCvWriting from "@/components/cv-services/professionaCvWriting";
+import Categories from "@/components/CvLandingCategories";
+import CvLandingInfo from "@/components/CvLandingInfo";
+import CvLandingTestimonial from "@/components/CvLandingTestimonial";
+import CvLandingCta from "@/components/CvLandingCta";
+import Hero from "@/components/CvLandingHome";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "CV Services",
@@ -9,8 +12,12 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="w-full">
-      <ProfessionalCvWriting />
+    <div className="w-full flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
+      <Hero />
+      <CvLandingInfo />
+      <Categories />
+      <CvLandingTestimonial />
+      <CvLandingCta />
     </div>
   );
 }
