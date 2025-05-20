@@ -6,10 +6,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./swiper.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { templates, TemplateContent } from "@/components/cover-letter/cover-letter-templates";
+import {
+  templates,
+  TemplateContent,
+} from "@/components/cover-letter/cover-letter-templates";
 
 // Sample data for preview
 const sampleData: TemplateContent = {
@@ -31,6 +34,8 @@ const sampleData: TemplateContent = {
 };
 
 const Page = () => {
+  const jobId = useSearchParams().get("jobId");
+
   return (
     <div className="p-6 flex-1 h-screen flex flex-col">
       <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
@@ -68,7 +73,7 @@ const Page = () => {
               <div className="h-full overflow-y-auto relative">
                 {template.content(sampleData)}
                 <Link
-                  href={"/create-cover-letter/templates" + `/${template.id}`}
+                  href={"/create-cover-letter/templates" + `/${template.id}?jobId=${jobId}`}
                   className="absolute bottom-4 left-1/2 -translate-x-1/2"
                 >
                   <Button variant="default" className="px-4 py-2">

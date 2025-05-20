@@ -10,7 +10,6 @@ import { FeatureGuard } from "../FeatureGuard";
 import { SessionUser } from "@/lib/auth";
 
 type Props = {
-  jobId: string;
   jobSeekerProfile: JobSeekerProfileProps | null;
   job: Job & {
     company: Company;
@@ -19,7 +18,7 @@ type Props = {
   user: SessionUser;
 };
 
-const ApplicationWrapper = ({ jobId, jobSeekerProfile, job, user }: Props) => {
+const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
   const [coverLetterContent, setCoverLetterContent] = useState("");
 
   const handleCoverLetterChange = (content: string) => {
@@ -147,53 +146,6 @@ const ApplicationWrapper = ({ jobId, jobSeekerProfile, job, user }: Props) => {
           </div>
         )}
       </div>
-
-      <Suspense
-        fallback={
-          <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <Loader2 className="h-8 w-8 animate-spin" /> Loading cover letter
-            generator...
-          </div>
-        }
-      >
-        <FeatureGuard
-          featureName={FeatureType.UNLIMITED_JOB_APPLICATION}
-          userId={user.id}
-          fallback={
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="font-medium">Job Application</h3>
-              <p className="mt-2 text-gray-600">
-                Upgrade to Basic plan to apply for this job.
-              </p>
-              <a
-                href="/subscription/plans"
-                className="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-white"
-              >
-                Upgrade Plan
-              </a>
-            </div>
-          }
-        >
-          {jobSeekerProfile &&
-          (jobSeekerProfile?.profilePercentage?.percentage ?? 0) > 50 ? (
-            <Apply
-              jobId={jobId}
-              coverLetter={coverLetterContent}
-              isExternal={job.isExternal}
-              externalLink={job.externalLink as string}
-            />
-          ) : (
-            <div className="my-2 space-y-2 rounded-md border border-dashed border-gray-300 p-4">
-              <p className="text-[0.7rem] text-muted-foreground">
-                Please complete your profile to apply for this job.
-              </p>
-              <ul className="list-disc pl-5 text-[0.6rem] text-muted-foreground">
-                <li>Update your profile up to 50%</li>
-              </ul>
-            </div>
-          )}
-        </FeatureGuard>
-      </Suspense>
     </div>
   );
 };

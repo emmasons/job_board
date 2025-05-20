@@ -97,7 +97,7 @@ export default function CoverLetterForm({
   };
 
   return (
-    <div className="mt-6 rounded-md border bg-slate-100 p-4">
+    <div className="mt-6 rounded-md border bg-slate-100">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

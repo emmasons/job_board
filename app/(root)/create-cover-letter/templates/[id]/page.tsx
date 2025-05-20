@@ -1,10 +1,11 @@
 import { TemplateContent } from "@/components/cover-letter/cover-letter-templates";
-import CoverLetterTemplate from "./cover-letter-wrapper";
+import CoverLetterTemplate from "@/components/cover-letter/cover-letter-wrapper";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
 import { getJobById } from "@/actions/get-job-by-id";
 import { getUserById } from "@/actions/get-user";
 import { redirect } from "next/navigation";
+import ApplicationWrapper from "@/components/application/ApplicationWrapper";
 
 type Props = {
   params: {
@@ -63,7 +64,17 @@ const Page = async ({ params, searchParams }: Props) => {
     hiringManager: job?.companyName || sampleData.hiringManager,
   };
 
-  return <CoverLetterTemplate id={id} sampleData={modifiedSampleData} />;
+  return (
+    <div className="p-4 space-y-4">
+      <CoverLetterTemplate id={id} sampleData={modifiedSampleData} />
+      {/* <ApplicationWrapper
+        jobId={jobId}
+        jobSeekerProfile={jobSeekerProfile}
+        job={job}
+        user={user}
+      /> */}
+    </div>
+  );
 };
 
 export default Page;

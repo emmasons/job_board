@@ -27,7 +27,7 @@ const CoverLetterTemplate = ({ id, sampleData }: Props) => {
   };
 
   return (
-    <div className="flex p-4">
+    <div className="flex">
       <div className="basis-1/2">
         <CoverLetterForm
           templateId={id}
