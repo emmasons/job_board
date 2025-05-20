@@ -6,6 +6,7 @@ import PopularJobs from "@/components/index/PopularJobs";
 import PopularSearches from "@/components/index/PopularSearches";
 import Services from "@/components/index/Services";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import CvLandingCta from "@/components/CvLandingCta";
 
 export default function Home() {
   return (
@@ -16,6 +17,9 @@ export default function Home() {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="py-24">
         <Services />
+      </MaxWidthWrapper>
+      <MaxWidthWrapper className="py-24">
+        <CvLandingCta />
       </MaxWidthWrapper>
       <div className="bg-slate-100">
         <MaxWidthWrapper className="py-14">

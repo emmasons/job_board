@@ -1,4 +1,4 @@
-import Footer from "@/components/Footer";
+import FooterSwitcher from "@/components/FooterSwitcher";
 import Navbar from "@/components/navbar/Navbar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -8,7 +8,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Navbar />
       </div>
       <main className="flex-1 pt-[80px]">{children}</main>
-      <Footer />
+      <FooterSwitcher />
     </div>
   );
 };
