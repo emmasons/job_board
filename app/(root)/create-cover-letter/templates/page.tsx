@@ -70,11 +70,14 @@ const Page = () => {
             <div
               className={`relative cursor-pointer rounded-lg transition-all h-[800px] w-full`}
             >
-              <div className="h-full overflow-y-auto relative">
-                {template.content(sampleData)}
+              <div className="h-full overflow-y-auto">
+                <div className="relative">{template.content(sampleData)}</div>
                 <Link
-                  href={"/create-cover-letter/templates" + `/${template.id}?jobId=${jobId}`}
-                  className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                  href={
+                    "/create-cover-letter/templates" +
+                    `/${template.id}?jobId=${jobId}`
+                  }
+                  className="absolute -translate-x-1/2 top-1/2"
                 >
                   <Button variant="default" className="px-4 py-2">
                     Use template
