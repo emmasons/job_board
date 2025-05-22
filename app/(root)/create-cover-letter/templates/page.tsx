@@ -45,11 +45,9 @@ const Page = () => {
         {templates.map((template) => (
           <div
             key={template.id}
-            className="md:basis-1/2 lg:basis-1/3 relative shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            className="md:basis-1/2 lg:basis-1/3 relative shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-transform duration-300 hover:scale-[1.02]"
           >
-            <div
-              className={`cursor-pointer rounded-lg transition-all h-[700px] w-full`}
-            >
+            <div className={`cursor-pointer rounded-lg h-[700px] w-full`}>
               <div className="h-full overflow-y-auto">
                 <div className="">{template.content(sampleData)}</div>
                 <Link
