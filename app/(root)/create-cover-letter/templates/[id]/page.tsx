@@ -21,7 +21,7 @@ const sampleData: TemplateContent = {
   jobTitle: "Senior Developer",
   address: "123 Tech Street, Silicon Valley, CA 94025",
   email: "john.smith@email.com",
-  phoneNumber: "(555) 123-4567",
+  phoneNumber: "(+254) 712345678",
   companyName: "Tech Solutions Inc.",
   hiringManager: "Mrs. Jane Wilson",
   coverLetter: `
@@ -51,11 +51,15 @@ const Page = async ({ params, searchParams }: Props) => {
 
   const savedUser = await getUserById(user.id);
 
-  const address = `${savedUser?.address?.postalCode} - ${savedUser?.address?.addressLineOne}`;
-  const userName = user.firstName + " " + user.lastName;
+  const address = `${savedUser?.address?.postalCode || ""} - ${
+    savedUser?.address?.addressLineOne || ""
+  } - ${savedUser?.address?.city || ""} - ${
+    savedUser?.address?.country || ""
+  }`.trim();
+  const userName = `${user?.firstName || "John"} ${user?.lastName || "Smith"}`;
   const modifiedSampleData: TemplateContent = {
     ...sampleData,
-    name: userName || sampleData.name,
+    name: userName,
     jobTitle: jobSeekerProfile?.cvHeadLine || sampleData.jobTitle,
     companyName: job?.companyName || sampleData.companyName,
     email: savedUser?.email || sampleData.email,
