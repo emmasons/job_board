@@ -65,14 +65,14 @@ const Page = async ({ params, searchParams }: Props) => {
   };
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="space-y-4 p-6">
       <CoverLetterTemplate id={id} sampleData={modifiedSampleData} />
-      {/* <ApplicationWrapper
+      <ApplicationWrapper
         jobId={jobId}
         jobSeekerProfile={jobSeekerProfile}
         job={job}
         user={user}
-      /> */}
+      />
     </div>
   );
 };
