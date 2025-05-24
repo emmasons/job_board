@@ -97,7 +97,7 @@ export default function CoverLetterForm({
   };
 
   return (
-    <div className="mt-6 rounded-md border bg-slate-100">
+    <div className="mt-6 rounded-md border p-4 bg-slate-100">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -243,22 +243,12 @@ export default function CoverLetterForm({
               <FormItem>
                 <FormLabel>Cover Letter Content</FormLabel>
                 <FormControl>
-                  <RichTextEditor {...field} />
+                  <RichTextEditor {...field} showPreview={false} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="flex items-center gap-x-2">
-            <Button disabled={isSubmitting} type="submit">
-              {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <span>Generate Cover Letter</span>
-              )}
-            </Button>
-          </div>
         </form>
       </Form>
     </div>
