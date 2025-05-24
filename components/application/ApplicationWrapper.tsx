@@ -81,7 +81,7 @@ const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
                 </div>
               }
             >
-              <FeatureGuard
+              {/* <FeatureGuard
                 featureName={FeatureType.COVER_LETTER_GENERATION}
                 userId={user.id}
                 fallback={
@@ -101,7 +101,7 @@ const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
                     </a>
                   </div>
                 }
-              >
+              > */}
                 <Button onClick={handleGenerateCoverLetter}>
                   {loading ? (
                     <Zap className="mr-2 h-4 w-4 animate-ping" />
@@ -117,7 +117,7 @@ const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
                   content={coverLetterContent}
                   handleCoverLetterChange={handleCoverLetterChange}
                 />
-              </FeatureGuard>
+              {/* </FeatureGuard> */}
             </Suspense>
           </div>
         ) : (
