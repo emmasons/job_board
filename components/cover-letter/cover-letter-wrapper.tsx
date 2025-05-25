@@ -1,19 +1,48 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   getTemplateById,
   TemplateContent,
 } from "@/components/cover-letter/cover-letter-templates";
 import CoverLetterForm from "@/components/cover-letter/letter-form";
+import ApplicationWrapper from "@/components/application/ApplicationWrapper";
+
+import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
+import { Company, Job, User } from "@prisma/client";
+import { SessionUser } from "@/lib/auth";
 
 type Props = {
   id: string;
   sampleData: TemplateContent;
+
+  jobSeekerProfile: JobSeekerProfileProps | null;
+  job: Job & {
+    company: Company;
+    owner: User;
+  };
+  user: SessionUser;
+  jobId: string;
 };
 
-const CoverLetterTemplate = ({ id, sampleData }: Props) => {
+const CoverLetterTemplate = ({
+  id,
+  sampleData,
+  jobSeekerProfile,
+  job,
+  user,
+  jobId,
+}: Props) => {
   const [data, setData] = React.useState<TemplateContent>(sampleData);
   const template = getTemplateById(id);
+
+  // const [coverLetterContent, setCoverLetterContent] = useState("");
+
+  const setCoverLetterContent = (content: string) => {
+    setData((prevData) => ({
+      ...prevData,
+      coverLetter: content,
+    }));
+  };
 
   if (!template) {
     return <div>Template not found</div>;
@@ -38,10 +67,17 @@ const CoverLetterTemplate = ({ id, sampleData }: Props) => {
             email: data.email,
             phoneNumber: data.phoneNumber,
             address: data.address,
-            coverLetter: data.coverLetter,
+            // coverLetter: data.coverLetter,
             hiringManager: data.hiringManager,
           }}
           onDataChange={handleDataChange}
+        />
+        <ApplicationWrapper
+          jobSeekerProfile={jobSeekerProfile}
+          job={job}
+          user={user}
+          setCoverLetterContent={setCoverLetterContent}
+          coverLetterContent={data.coverLetter}
         />
       </div>
       <div className="basis-1/2">{template.content(data)}</div>

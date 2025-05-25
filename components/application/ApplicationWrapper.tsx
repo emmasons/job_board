@@ -16,11 +16,17 @@ type Props = {
     owner: User;
   };
   user: SessionUser;
+  setCoverLetterContent: (content: string) => void;
+  coverLetterContent?: string;
 };
 
-const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
-  const [coverLetterContent, setCoverLetterContent] = useState("");
-
+const ApplicationWrapper = ({
+  jobSeekerProfile,
+  job,
+  user,
+  setCoverLetterContent,
+  coverLetterContent = "",
+}: Props) => {
   const handleCoverLetterChange = (content: string) => {
     console.log(content);
 
@@ -102,21 +108,21 @@ const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
                   </div>
                 }
               > */}
-                <Button onClick={handleGenerateCoverLetter}>
-                  {loading ? (
-                    <Zap className="mr-2 h-4 w-4 animate-ping" />
-                  ) : (
-                    <>
-                      Generate Professional Cover Letter
-                      <Zap className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+              <Button onClick={handleGenerateCoverLetter}>
+                {loading ? (
+                  <Zap className="mr-2 h-4 w-4 animate-ping" />
+                ) : (
+                  <>
+                    Generate Professional Cover Letter
+                    <Zap className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
 
-                <CreateCoverLetterForm
-                  content={coverLetterContent}
-                  handleCoverLetterChange={handleCoverLetterChange}
-                />
+              <CreateCoverLetterForm
+                content={coverLetterContent}
+                handleCoverLetterChange={handleCoverLetterChange}
+              />
               {/* </FeatureGuard> */}
             </Suspense>
           </div>
@@ -138,7 +144,7 @@ const ApplicationWrapper = ({ jobSeekerProfile, job, user }: Props) => {
               {/* {!jobSeekerProfile?.yearsOfExperience && (
                 <li>Years of Experience</li>
               )} */}
-              {!jobSeekerProfile?.skills.length && <li>Skills</li>}
+              {!jobSeekerProfile?.skills?.length && <li>Skills</li>}
               {(jobSeekerProfile?.profilePercentage?.percentage ?? 0) < 50 && (
                 <li>Update your profile up to 50%</li>
               )}
