@@ -11,8 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
-import { useEffect, useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect } from "react";
 
 interface CreateCoverLetterFormProps {
   content: string;
@@ -45,26 +44,23 @@ export default function CreateCoverLetterForm({
   });
 
   return (
-    <div className="mt-6 rounded-md border bg-slate-100 p-4">
-      <div className="flex items-center justify-between font-medium">
-        <Form {...form}>
-          <form className="mt-4 w-full space-y-4">
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    {/* <RichTextEditor {...field} /> */}
-                    <Textarea {...field} placeholder="Cover letter" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-      </div>
+    <div className="w-full max-w-full rounded-md border bg-slate-100 p-4">
+      <Form {...form}>
+        <form className="mt-4 space-y-4 w-full">
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <RichTextEditor {...field} showPreview={false} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
     </div>
   );
 }

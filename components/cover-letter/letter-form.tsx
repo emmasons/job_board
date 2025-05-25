@@ -14,10 +14,6 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import RichTextEditor from "@/components/ckeditor/RichTextEditor";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -25,9 +21,6 @@ const formSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(1, { message: "Phone number is required" }),
-  coverLetter: z
-    .string()
-    .min(1, { message: "Cover letter content is required" }),
   companyName: z.string().min(1, { message: "Company name is required" }),
   hiringManager: z.string().optional(),
 });
@@ -53,7 +46,6 @@ export default function CoverLetterForm({
       address: "",
       email: "",
       phoneNumber: "",
-      coverLetter: "",
       companyName: "",
       hiringManager: "",
     },
@@ -97,7 +89,7 @@ export default function CoverLetterForm({
   };
 
   return (
-    <div className="mt-6 rounded-md border bg-slate-100">
+    <div className="mt-6 rounded-md border p-4 bg-slate-100">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -235,30 +227,6 @@ export default function CoverLetterForm({
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="coverLetter"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cover Letter Content</FormLabel>
-                <FormControl>
-                  <RichTextEditor {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex items-center gap-x-2">
-            <Button disabled={isSubmitting} type="submit">
-              {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <span>Generate Cover Letter</span>
-              )}
-            </Button>
-          </div>
         </form>
       </Form>
     </div>

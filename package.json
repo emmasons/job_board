@@ -59,6 +59,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.2.6",
     "form-data": "^4.0.0",
+    "html2pdf.js": "^0.10.3",
     "jest": "^29.7.0",
     "lucide-react": "^0.417.0",
     "mammoth": "^1.9.0",

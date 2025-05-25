@@ -37,47 +37,25 @@ const Page = () => {
   const jobId = useSearchParams().get("jobId");
 
   return (
-    <div className="p-6 flex-1 h-screen flex flex-col">
-      <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
-
-      <Swiper
-        slidesPerView={1.5}
-        centeredSlides={true}
-        spaceBetween={30}
-        navigation={true}
-        modules={[Navigation]}
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            centeredSlides: true,
-          },
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            centeredSlides: true,
-          },
-          968: {
-            slidesPerView: 1.5,
-            spaceBetween: 30,
-            centeredSlides: true,
-          },
-        }}
-        className="mySwiper"
-      >
+    <div className="bg-white">
+      <div className="flex items-center justify-between bg-sky-300 p-6">
+        <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
+      </div>
+      <div className="p-6 flex-1 md:grid grid-cols-2 gap-4">
         {templates.map((template) => (
-          <SwiperSlide key={template.id}>
-            <div
-              className={`relative cursor-pointer rounded-lg transition-all h-[800px] w-full`}
-            >
+          <div
+            key={template.id}
+            className="md:basis-1/2 lg:basis-1/3 relative shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-transform duration-300 hover:scale-[1.02]"
+          >
+            <div className={`cursor-pointer rounded-lg h-[700px] w-full`}>
               <div className="h-full overflow-y-auto">
-                <div className="relative">{template.content(sampleData)}</div>
+                <div className="">{template.content(sampleData)}</div>
                 <Link
                   href={
                     "/create-cover-letter/templates" +
                     `/${template.id}?jobId=${jobId}`
                   }
-                  className="absolute -translate-x-1/2 top-1/2"
+                  className="absolute left-1/2 top-1/2"
                 >
                   <Button variant="default" className="px-4 py-2">
                     Use template
@@ -85,9 +63,9 @@ const Page = () => {
                 </Link>
               </div>
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </div>
     </div>
   );
 };

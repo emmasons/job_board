@@ -7,9 +7,10 @@ interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
   url?: string;
+  showPreview?: boolean;
 }
 
-const RichTextEditor = ({ url, value, onChange }: RichTextEditorProps) => {
+const RichTextEditor = ({ url, value, onChange, showPreview }: RichTextEditorProps) => {
   const CustomCkeditor = useMemo(
     () => dynamic(() => import("./Ckeditor"), { ssr: false }),
     [],
@@ -21,6 +22,7 @@ const RichTextEditor = ({ url, value, onChange }: RichTextEditorProps) => {
         uploadUrl="/api/editor/assets/"
         value={value}
         onChange={onChange}
+        showPreview={showPreview}
       />
     </>
   );

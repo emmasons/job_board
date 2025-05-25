@@ -83,9 +83,15 @@ interface CkeditorProps {
   uploadUrl: string;
   value: string;
   onChange: (value: string) => void;
+  showPreview?: boolean;
 }
 
-const Ckeditor = ({ uploadUrl, value, onChange }: CkeditorProps) => {
+const Ckeditor = ({
+  uploadUrl,
+  value,
+  onChange,
+  showPreview = true,
+}: CkeditorProps) => {
   const [editorState, setEditorState] = useState(value || "");
 
   const [editorInstance, setEditorInstance] = useState(null);
@@ -418,7 +424,7 @@ const Ckeditor = ({ uploadUrl, value, onChange }: CkeditorProps) => {
             console.log("Editor is ready to use!", editor);
 
             editor.plugins.get("FileRepository").createUploadAdapter = (
-              loader: any,
+              loader: any
             ) => {
               // Initialize the upload adapter with the loader instance
               return new UploadAdapter(loader, uploadUrl);
@@ -437,7 +443,7 @@ const Ckeditor = ({ uploadUrl, value, onChange }: CkeditorProps) => {
         />
       </div>
 
-      <Preview value={editorState} />
+      {showPreview && <Preview value={editorState} />}
     </div>
   );
 };
