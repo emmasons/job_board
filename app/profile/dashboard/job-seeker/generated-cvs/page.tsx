@@ -84,6 +84,13 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                   </a>
 
                   <Link
+                    href={`/cv/tailor/${cv.id}`}
+                    className="px-3 py-1 text-sm flex items-center gap-1 bg-primary text-white rounded  hover:bg-primary/80"
+                  >
+                    <Pencil size={16} /> Tailor to job
+                  </Link>
+
+                  <Link
                     href={`/cv/edit/${cv.id}`}
                     className="px-3 py-1 text-sm flex items-center gap-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200"
                   >
