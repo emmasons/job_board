@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { bucket } from "@/lib/gcs";
 
+export const runtime = "nodejs";
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
 
