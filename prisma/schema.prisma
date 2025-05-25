@@ -153,6 +153,7 @@ model User {
   verifyTokenExpiry         DateTime?
   applications              Application[]
   cv                        CV?
+  generatedCvs              GeneratedCv[] // one-to-many relationship with GeneratedCv
   candidates                Candidate[]
   Job                       Job[]
   jobSeekerProfile          JobSeekerProfile?
@@ -667,4 +668,66 @@ model Subscription {
   email String
 
   type SUBSCRIPTION_TYPE
+}
+
+model GeneratedCv {
+  id              String      @id @default(cuid())
+  userId          String
+  name            String?
+  title           String?
+  profile         String?     @db.Text
+  contactInfo     Json?       // Stored as array of strings
+  skills          Json?       // Stored as array of strings
+  achievements    Json?       // Stored as array of strings
+  photoUrl        String?     // Photo URL
+  fileName        String?     // Name of the generated file
+  fileUrl         String?     // Link to the file
+  createdAt       DateTime    @default(now())
+  template        String?     // Name of the template file
+  fileFormat      FileFormat?
+  previewImageUrl String?
+  paymentStatus   PaymentStatus @default(unpaid)
+  user            User        @relation(fields: [userId], references: [id])
+  education       Education[]
+  experience      Experiencecv[]
+  referees        Referee[]
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  course      String?
+  school      String?
+  date        String?
+  description String?
+  cvId        String
+  cv          GeneratedCv @relation(fields: [cvId], references: [id])
+}
+
+model Experiencecv {
+  id               String   @id @default(cuid())
+  role             String?
+  placeOfWork      String?
+  date             String?
+  responsibilities Json?    // Stored as array of strings
+  cvId             String
+  cv               GeneratedCv @relation(fields: [cvId], references: [id])
+}
+
+model Referee {
+  id       String   @id @default(cuid())
+  refname  String?
+  role     String?
+  contact  String?
+  cvId     String
+  cv       GeneratedCv @relation(fields: [cvId], references: [id])
+}
+
+enum PaymentStatus {
+  paid
+  unpaid
+}
+
+enum FileFormat {
+  pdf
+  word
 }

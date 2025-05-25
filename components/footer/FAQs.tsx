@@ -111,8 +111,8 @@ const FAQs: React.FC = () => {
             <AccordionContent>
               You can reach us through:
               <ul className="list-disc pl-5 mt-2">
-                <li>Email: support@talentra.io</li>
-                <li>Phone: +971 50 398 4645</li>
+                <li>Email: notify@talentra.io</li>
+                <li>Phone: +971 50 709 2468</li>
                 <li>Location: Dubai, UAE</li>
               </ul>
               Our support team is here to assist you Monday to Friday.

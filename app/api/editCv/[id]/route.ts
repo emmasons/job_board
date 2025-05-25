@@ -5,32 +5,39 @@ import { uploadBufferToGCS } from "@/lib/uploadToGCS";
 import { extractFirstPageImageFromBuffer } from "@/lib/extractFirstPageImage";
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
-  try {
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  try {    
     const user = await getCurrentSessionUser();
 
     if (!user || !user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = user.id;
+    const cvId = params.id;
+    const existingCv = await db.generatedCv.findUnique({
+      where: { id: cvId },
+    });
+
+    if (!existingCv || existingCv.userId !== user.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
 
     const body = await req.json();
-    const {
-    name,
-    title,
-    profile,
-    contact_info,
-    skills = [],
-    achievements = [],
-    education_list = [],
-    experience_list = [],
-    referees_list = [],
-    photo,
-    template = "basic",
-    format = "docx",
-  } = body;
 
+    const {
+      name,
+      title,
+      profile,
+      contact_info,
+      skills = [],
+      achievements = [],
+      education_list = [],
+      experience_list = [],
+      referees_list = [],
+      photo,
+      template = "basic",
+      format = "docx",
+    } = body;
 
     const buffer = await generateCVBuffer(body, format);
 
@@ -43,7 +50,6 @@ export async function POST(req: Request) {
       name
     );
 
-    // Generate first-page preview image
     let previewImageUrl: string | null = null;
     try {
       const previewBuffer = await extractFirstPageImageFromBuffer(buffer, format, name);
@@ -54,12 +60,12 @@ export async function POST(req: Request) {
         name
       );
     } catch (error) {
-      console.error("Failed to generate preview image:", error);
+      console.error("⚠️ Failed to generate preview image:", error);
     }
 
-    const generatedCv = await db.generatedCv.create({
+    const updatedCv = await db.generatedCv.update({
+      where: { id: cvId },
       data: {
-        userId,
         name,
         title,
         profile,
@@ -74,6 +80,7 @@ export async function POST(req: Request) {
         fileFormat: format === "pdf" ? "pdf" : "word",
         paymentStatus: "unpaid",
         education: {
+          deleteMany: { cvId },
           create: education_list.map((edu: any) => ({
             course: edu.course,
             school: edu.school,
@@ -82,6 +89,7 @@ export async function POST(req: Request) {
           })),
         },
         experience: {
+          deleteMany: { cvId },
           create: experience_list.map((exp: any) => ({
             role: exp.role,
             placeOfWork: exp.place_of_work,
@@ -90,6 +98,7 @@ export async function POST(req: Request) {
           })),
         },
         referees: {
+          deleteMany: { cvId },
           create: referees_list.map((ref: any) => ({
             refname: ref.refname,
             role: ref.role,
@@ -97,11 +106,26 @@ export async function POST(req: Request) {
           })),
         },
       },
+      include: {
+        education: true,
+        experience: true,
+        referees: true,
+      },
     });
 
-    return NextResponse.json({ fileUrl, previewImageUrl, cvId: generatedCv.id }, { status: 200 });
+    return NextResponse.json(
+      {
+        message: "CV updated successfully",
+        cv: updatedCv,
+        fileUrl, previewImageUrl,
+      },
+      { status: 200 }
+    );
   } catch (err: any) {
-    console.error("Error generating CV:", err);
-    return NextResponse.json({ error: err.message || "Failed to generate CV" }, { status: 500 });
+    console.error("Error updating CV:", err);
+    return NextResponse.json(
+      { error: err.message || "Failed to update CV" },
+      { status: 500 }
+    );
   }
 }

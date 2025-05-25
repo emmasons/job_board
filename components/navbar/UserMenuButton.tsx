@@ -1,8 +1,7 @@
 "use client";
 
 import profilePicPlaceholder from "@/public/assets/profile-pic-placeholder.png";
-import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -15,18 +14,18 @@ import {
 import { ChevronDown, LogInIcon, LogOut, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import clsx from "clsx"; // Import clsx for condition
-
+import clsx from "clsx";
 import { Role } from "@prisma/client";
 
-interface UserMenuButtonProps {
-  user: Session["user"] | undefined;
-}
+export default function UserMenuButton() {
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
-export default function UserMenuButton({ user }: UserMenuButtonProps) {
   return (
     <>
-      {user ? (
+      {status === "loading" ? (
+        <div>Loading...</div>
+      ) : user ? (
         <DropdownMenu>
           <DropdownMenuTrigger
             className={clsx(
@@ -59,7 +58,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             <DropdownMenuLabel>Hi, {user?.lastName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {user?.role === Role.ADMIN ? (
-              <DropdownMenuItem className="">
+              <DropdownMenuItem>
                 <Link
                   href="/profile/dashboard/admin/users"
                   className="block w-full py-1 hover:cursor-pointer"
@@ -78,36 +77,23 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
               </DropdownMenuItem>
             )}
 
-            {/* job seeker options */}
-            {user?.role === Role.JOB_SEEKER ? (
-              <>
-                {/* <DropdownMenuItem>
-                  <Link
-                    href="/profile/main-dashboard"
-                    className="h-full w-full hover:cursor-pointer"
-                  >
-                    Dashboard
-                  </Link>
-                </DropdownMenuItem> */}
-                <DropdownMenuItem>
-                  <Link
-                    href="/search"
-                    className="block w-full hover:cursor-pointer"
-                  >
-                    Find a Job
-                  </Link>
-                </DropdownMenuItem>
-              </>
-            ) : null}
+            {user?.role === Role.JOB_SEEKER && (
+              <DropdownMenuItem>
+                <Link
+                  href="/search"
+                  className="block w-full hover:cursor-pointer"
+                >
+                  Find a Job
+                </Link>
+              </DropdownMenuItem>
+            )}
 
-            {/* employer options */}
-
-            {user?.role === Role.EMPLOYER ? (
+            {user?.role === Role.EMPLOYER && (
               <>
                 <DropdownMenuItem>
                   <Link
                     href="/profile/dashboard/employer/jobs"
-                    className="block w-full hover:cursor-pointer "
+                    className="block w-full hover:cursor-pointer"
                   >
                     Advertise
                   </Link>
@@ -128,23 +114,18 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
                     My candidates
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  {/*
-                    add more dropdown items if needed
-                   */}
-                </DropdownMenuItem>
               </>
-            ) : null}
+            )}
 
-            {/* STAFF OPTIONS */}
-            {user?.role === Role.STAFF ? (
+            {user?.role === Role.STAFF && (
               <Link href="/profile/dashboard">
                 <Button size="sm" variant="ghost">
                   <LogOut className="mr-2 h-4 w-4" />
                   Exit
                 </Button>
               </Link>
-            ) : null}
+            )}
+
             <Button
               size="sm"
               variant="outline"
@@ -161,7 +142,6 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             className="flex items-center gap-2 border-0 p-2 text-sm text-secondary hover:scale-95 hover:bg-slate-50"
             onClick={() => signIn()}
           >
-            {/* <LogIn className="mr-2 h-4 w-4" /> */}
             LogIn
             <LogInIcon className="h-4 w-4" />
           </Button>
@@ -170,7 +150,7 @@ export default function UserMenuButton({ user }: UserMenuButtonProps) {
             className="text-primary hover:text-secondary"
           >
             <Link
-              className="flex items-center gap-2 text-sm   hover:text-secondary"
+              className="flex items-center gap-2 text-sm hover:text-secondary"
               href="/auth/signup/"
             >
               Register

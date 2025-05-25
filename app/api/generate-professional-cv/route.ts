@@ -63,7 +63,6 @@ export async function POST(req: Request) {
     if (fileType === 'application/pdf') {
       // Try iLovePDF extraction instead of local pdf-parse
       extractedText = await extractTextFromPDFWithILovePDF(buffer, 'upload.pdf');
-      console.log('Extracted via iLovePDF:\n', extractedText);
 
     } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       const result = await mammoth.extractRawText({ buffer });

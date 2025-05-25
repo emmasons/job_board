@@ -5,6 +5,7 @@ import { useCountries } from "use-react-countries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Combobox } from "@/components/ui/combobox";
+import { Combobox2 } from "@/components/ui/combobox2";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import {
@@ -114,11 +115,62 @@ export default function CreateJobForm({
   isEditingJob = false,
 }: CreateJobFormProps) {
   const router = useRouter();
+
+ const allowedCountries = [
+    "United States",
+    "United Kingdom",
+    "Canada",
+    "Australia",
+    "New Zealand",
+    "United Arab Emirates",
+    "Saudi Arabia",
+    "Qatar",
+    "Japan",
+    "Singapore",
+    "South Korea",
+    "Hong Kong",
+    "Brazil",
+    "Malaysia",
+    "Austria",
+    "Belgium",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Estonia",
+    "Finland",
+    "France",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Ireland",
+    "Italy",
+    "Latvia",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Netherlands",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Sweden",
+    "Norway",
+    "Switzerland",
+    "Turkey",
+  ];
+
   const { countries } = useCountries();
-  const countryList = countries.map((country) => ({
-    label: country.name,
-    value: country.name,
-  }));
+
+  const countryList = countries
+    .filter((country) => allowedCountries.includes(country.name))
+    .map((country) => ({
+      label: country.name,
+      value: country.name,
+    }));
 
   const currencyList = gulfCountries.map((country) => ({
     label: `${getGulfCountryCurrencyByCurrencyCode(country)}(${country})`,
@@ -347,7 +399,7 @@ export default function CreateJobForm({
                 <FormItem>
                   <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <Combobox options={countryList} {...field} />
+                    <Combobox2 options={countryList} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
