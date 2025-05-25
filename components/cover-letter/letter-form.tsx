@@ -25,9 +25,9 @@ const formSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(1, { message: "Phone number is required" }),
-  coverLetter: z
-    .string()
-    .min(1, { message: "Cover letter content is required" }),
+  // coverLetter: z
+  //   .string()
+  //   .min(1, { message: "Cover letter content is required" }),
   companyName: z.string().min(1, { message: "Company name is required" }),
   hiringManager: z.string().optional(),
 });
@@ -53,7 +53,7 @@ export default function CoverLetterForm({
       address: "",
       email: "",
       phoneNumber: "",
-      coverLetter: "",
+      // coverLetter: "",
       companyName: "",
       hiringManager: "",
     },
@@ -236,7 +236,7 @@ export default function CoverLetterForm({
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="coverLetter"
             render={({ field }) => (
@@ -248,7 +248,7 @@ export default function CoverLetterForm({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </form>
       </Form>
     </div>

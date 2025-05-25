@@ -70,13 +70,20 @@ const Page = async ({ params, searchParams }: Props) => {
 
   return (
     <div className="space-y-4 p-6">
-      <CoverLetterTemplate id={id} sampleData={modifiedSampleData} />
-      <ApplicationWrapper
+      <CoverLetterTemplate
+        id={id}
+        sampleData={modifiedSampleData}
+        jobSeekerProfile={jobSeekerProfile}
+        job={job}
+        user={user}
+        jobId={jobId}
+      />
+      {/* <ApplicationWrapper
         jobId={jobId}
         jobSeekerProfile={jobSeekerProfile}
         job={job}
         user={user}
-      />
+      /> */}
     </div>
   );
 };
