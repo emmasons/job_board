@@ -14,10 +14,6 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import RichTextEditor from "@/components/ckeditor/RichTextEditor";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -25,9 +21,6 @@ const formSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(1, { message: "Phone number is required" }),
-  // coverLetter: z
-  //   .string()
-  //   .min(1, { message: "Cover letter content is required" }),
   companyName: z.string().min(1, { message: "Company name is required" }),
   hiringManager: z.string().optional(),
 });
@@ -53,7 +46,6 @@ export default function CoverLetterForm({
       address: "",
       email: "",
       phoneNumber: "",
-      // coverLetter: "",
       companyName: "",
       hiringManager: "",
     },
@@ -235,20 +227,6 @@ export default function CoverLetterForm({
               </FormItem>
             )}
           />
-
-          {/* <FormField
-            control={form.control}
-            name="coverLetter"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cover Letter Content</FormLabel>
-                <FormControl>
-                  <RichTextEditor {...field} showPreview={false} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
         </form>
       </Form>
     </div>
