@@ -119,10 +119,12 @@ const ApplicationWrapper = ({
                 )}
               </Button>
 
-              <CreateCoverLetterForm
-                content={coverLetterContent}
-                handleCoverLetterChange={handleCoverLetterChange}
-              />
+              <div className="w-full max-w-full">
+                <CreateCoverLetterForm
+                  content={coverLetterContent}
+                  handleCoverLetterChange={handleCoverLetterChange}
+                />
+              </div>
               {/* </FeatureGuard> */}
             </Suspense>
           </div>

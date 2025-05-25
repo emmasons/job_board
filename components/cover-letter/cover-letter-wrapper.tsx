@@ -67,7 +67,7 @@ const CoverLetterTemplate = ({
             email: data.email,
             phoneNumber: data.phoneNumber,
             address: data.address,
-            // coverLetter: data.coverLetter,
+
             hiringManager: data.hiringManager,
           }}
           onDataChange={handleDataChange}
