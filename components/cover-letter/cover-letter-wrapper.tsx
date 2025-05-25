@@ -10,6 +10,7 @@ import ApplicationWrapper from "@/components/application/ApplicationWrapper";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
 import { Company, Job, User } from "@prisma/client";
 import { SessionUser } from "@/lib/auth";
+import { PdfGenerator } from "./download-coverletter";
 
 type Props = {
   id: string;
@@ -54,8 +55,8 @@ const CoverLetterTemplate = ({
   };
 
   return (
-    <div className="flex">
-      <div className="basis-1/2 w-1/2 relative">
+    <div className="md:flex">
+      <div className="basis-1/2 md:w-1/2 relative">
         <CoverLetterForm
           templateId={id}
           initialData={{
@@ -77,7 +78,15 @@ const CoverLetterTemplate = ({
           coverLetterContent={data.coverLetter}
         />
       </div>
-      <div className="basis-1/2">{template.content(data)}</div>
+      <div className="basis-1/2">
+        <div id="cover-letter-content">{template.content(data)}</div>
+        <div className="px-8">
+          <PdfGenerator
+            contentId="cover-letter-content"
+            fileName={`cover-letter-${template.id}`}
+          />
+        </div>
+      </div>
     </div>
   );
 };
