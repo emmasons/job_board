@@ -78,12 +78,6 @@ const Page = async ({ params, searchParams }: Props) => {
         user={user}
         jobId={jobId}
       />
-      {/* <ApplicationWrapper
-        jobId={jobId}
-        jobSeekerProfile={jobSeekerProfile}
-        job={job}
-        user={user}
-      /> */}
     </div>
   );
 };
