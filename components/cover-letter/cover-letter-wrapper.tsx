@@ -35,8 +35,6 @@ const CoverLetterTemplate = ({
   const [data, setData] = React.useState<TemplateContent>(sampleData);
   const template = getTemplateById(id);
 
-  // const [coverLetterContent, setCoverLetterContent] = useState("");
-
   const setCoverLetterContent = (content: string) => {
     setData((prevData) => ({
       ...prevData,
@@ -57,7 +55,7 @@ const CoverLetterTemplate = ({
 
   return (
     <div className="flex">
-      <div className="basis-1/2">
+      <div className="basis-1/2 w-1/2 relative">
         <CoverLetterForm
           templateId={id}
           initialData={{
@@ -67,7 +65,6 @@ const CoverLetterTemplate = ({
             email: data.email,
             phoneNumber: data.phoneNumber,
             address: data.address,
-
             hiringManager: data.hiringManager,
           }}
           onDataChange={handleDataChange}
