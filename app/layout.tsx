@@ -75,7 +75,7 @@ export default function RootLayout({
           {children}
         </SessionProvider>
         <WhatsAppButton
-          phoneNumber={"+971503984645"}
+          phoneNumber={"+971507092468"}
           message={"Hello Talentra!"}
         />
       </body>

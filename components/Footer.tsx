@@ -75,7 +75,7 @@ const Footer = (props: Props) => {
             </li>
             <li>
               <Link
-                href="https://wa.me/+971503984645"
+                href="https://wa.me/+971507092468"
                 target="_blank"
                 className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
               >

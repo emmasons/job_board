@@ -1,10 +1,8 @@
 'use client';
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
-import axios from 'axios';
-import CvModal from '@/components/CvModal';
-import AuthModal from '@/components/AuthModal';
+import { useRouter, useParams } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 const templates = [
   { name: "basic", image: "/templates/basic.jpg" },
@@ -81,7 +79,7 @@ return (
 
 export default function CVPage() {
   const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     title: "",
@@ -94,47 +92,77 @@ export default function CVPage() {
     referees_list: [{ refname: "", role: "", contact: "" }],
     template: "basic",
     photo: "",
+    previewImageUrl: "",
     format: "pdf",
   });
 
-  const handleAutofill = (data) => {
-    setFormData({
-      name: (data.Name || '').toUpperCase(),
-      title: (data.Profession || '').toUpperCase(),
-      profile: data.Summary || '',
-      contact_info: `PHONE: ${data.Contact?.Phone || ''}\nEMAIL: ${data.Contact?.Email || ''}`,
-      skills: data.Skills?.length ? data.Skills : [''],
-      achievements: data.Achievements?.length ? data.Achievements : [''],
-      experience_list: (data.WorkExperience || []).map(item => ({
-        role: item.Position || '',
-        place_of_work: item.Company || '',
-        date: item.Duration || '',
-        responsibilities: item.Responsibilities?.length ? item.Responsibilities : ['']
-      })),
-      education_list: (data.Education || []).map(item => ({
-        course: item.Course || '',
-        school: item.Institution || '',
-        date: item.Duration || '',
-        description: ''
-      })),
-      referees_list: (data.Referees || []).map(item => ({
-        refname: item.Name || '',
-        role: item.Role || '',
-        contact: item.Contact || ''
-      })),
-      template: 'basic',
-      photo: '',
-      format: 'pdf',
-    });
-  };
-
-  const searchParams = useSearchParams();
-  const template = searchParams.get("template");
+  const params = useParams();
+  const router = useRouter();
+  const cvId = params?.id as string;
   useEffect(() => {
-    if (template) {
-      handleTemplateSelect(template);
-    }
-  }, [template]);
+    const fetchCV = async () => {
+        setInitialLoading(true); // Show spinner
+        const session = await getSession();
+        // 1. Redirect to homepage if not logged in
+        if (!session) {
+          router.push("/");
+          return;
+        }
+
+        try {
+         const res = await fetch(`/api/cv/${cvId}`);
+ 
+        if (res.status === 401 || res.status === 403) {
+          // 2. Redirect if unauthorized or CV doesn't belong to user
+          router.push("/");
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch CV: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setFormData({
+            name: data.name || "",
+            title: data.title || "",
+            profile: data.profile || "",
+            contact_info: typeof data.contactInfo === 'string' ? data.contactInfo : (data.contactInfo || []).join("\n") || "PHONE: \nEMAIL: ",
+            skills: data.skills || [""],
+            achievements: data.achievements || [""],
+            photo: data.photoUrl || "",
+            template: data.template || "basic",
+            format: data.fileFormat?.toLowerCase() || "pdf",
+            previewImageUrl: data.previewImageUrl || "",
+            experience_list: (data.experience || []).map(exp => ({
+            role: exp.role || "",
+            place_of_work: exp.placeOfWork || "",
+            date: exp.date || "",
+            responsibilities: exp.responsibilities || [""],
+            })) || [{ role: "", place_of_work: "", date: "", responsibilities: [""] }],
+
+            education_list: (data.education || []).map(edu => ({
+            course: edu.course || "",
+            school: edu.school || "",
+            date: edu.date || "",
+            description: edu.description || "",
+            })) || [{ course: "", school: "", date: "", description: "" }],
+
+            referees_list: (data.referees || []).map(ref => ({
+            refname: ref.refname || "",
+            role: ref.role || "",
+            contact: ref.contact || "",
+            })) || [{ refname: "", role: "", contact: "" }],
+        });
+        } catch (err) {
+          console.error("Failed to fetch CV:", err);
+        } finally {
+          setInitialLoading(false); // Hide spinner
+        }
+    };
+
+    fetchCV();
+    }, []);
 
 
   const [showAchievements, setShowAchievements] = useState(true);
@@ -160,143 +188,6 @@ export default function CVPage() {
 
 
   const inputClass = "w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-300";
-
-
-  // ------------------------ Open AI functions to create cv data ----------------------------------------------------------------
-
-  const typingTimeoutsRef = useRef({});
-  const [loadingIndices, setLoadingIndices] = useState({});
-  const [skillLoading, setSkillLoading] = useState(false);
-  const [summaryLoading, setSummaryLoading] = useState(false);
-  const [achievementLoading, setAchievementLoading] = useState(false);
-
-  const handleRoleInput = (index, role) => {
-    const updatedExperience = [...formData.experience_list];
-    updatedExperience[index].role = role;
-    handleChange("experience_list", updatedExperience);
-
-    if (typingTimeoutsRef.current[index]) {
-      clearTimeout(typingTimeoutsRef.current[index]);
-    }
-
-    typingTimeoutsRef.current[index] = setTimeout(async () => {
-      if (!role.trim()) return;
-
-      setLoadingIndices(prev => ({ ...prev, [index]: true }));
-
-      try {
-        const res = await axios.post('/api/generate-responsibilities', { role });
-        if (res.data.success) {
-          const lines = res.data.content.split('\n');
-          const updated = [...formData.experience_list];
-          updated[index].responsibilities = lines;
-          handleChange("experience_list", updated);
-        }
-      } catch (err) {
-        console.error("Error generating responsibilities:", err);
-      } finally {
-        setLoadingIndices(prev => ({ ...prev, [index]: false }));
-      }
-    }, 1000); // 1 second debounce
-  };
-
-  const handleGenerateSkills = async () => {
-    const profession = formData.title || formData.name;
-    const experienceText = formData.experience_list
-      .map(exp => `${exp.role} at ${exp.place_of_work}\n${exp.responsibilities.join(", ")}`)
-      .join("\n");
-
-    if (!profession.trim() || !experienceText.trim()) {
-      alert("Profession and experiences must not be empty.");
-      return;
-    }
-
-    setSkillLoading(true);
-
-    try {
-      const res = await axios.post("/api/generate-skills", {
-        profession,
-        experiences: experienceText,
-      });
-
-      if (res.data.success) {
-        const skills = res.data.content.split('\n').filter(s => s.trim());
-        handleChange("skills", skills);
-      }
-    } catch (err) {
-      console.error("Skill generation error:", err);
-    } finally {
-      setSkillLoading(false);
-    }
-  };
-
-  const handleGenerateSummary = async () => {
-    const profession = formData.title || formData.name;
-    const experienceText = formData.experience_list
-      .map(exp => `${exp.role} at ${exp.place_of_work}\n${exp.responsibilities.join(", ")}`)
-      .join("\n");
-
-    if (!profession.trim() || !experienceText.trim()) {
-      alert("Profession and experiences must not be empty.");
-      return;
-    }
-
-    setSummaryLoading(true); 
-
-    try {
-      const res = await axios.post("/api/generate-profile-summary", {
-        profession,
-        experiences: experienceText,
-      });
-
-      if (res.data.success) {
-        handleChange("profile", res.data.content);
-      } else {
-        alert(res.data.error || "Failed to generate summary");
-      }
-    } catch (err) {
-      console.error("Summary generation error:", err);
-      alert("Something went wrong!");
-    } finally {
-      setSummaryLoading(false);
-    }
-  };
-
-  const handleGenerateAchievements = async () => {
-    const profession = formData.title || formData.name;
-    const experienceText = formData.experience_list
-      .map(exp => `${exp.role} at ${exp.place_of_work}\n${exp.responsibilities.join(", ")}`)
-      .join("\n");
-
-    if (!profession.trim() || !experienceText.trim()) {
-      alert("Profession and experiences must not be empty.");
-      return;
-    }
-
-    setAchievementLoading(true);
-
-    try {
-      const res = await axios.post("/api/generate-achievements", {
-        profession,
-        experiences: experienceText,
-      });
-
-      if (res.data.success) {
-        const achievements = res.data.content.split('\n').filter(a => a.trim());
-        handleChange("achievements", achievements);
-      } else {
-        alert(res.data.error || "Failed to generate achievements");
-      }
-    } catch (err) {
-      console.error("Achievement generation error:", err);
-      alert("Something went wrong!");
-    } finally {
-      setAchievementLoading(false);
-    }
-  };
-
-// ------------------------ End of Open AI functions to create cv data ----------------------------------------------------------------
-
 
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -346,21 +237,12 @@ export default function CVPage() {
   };
 
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
 
 
   // ------------------------ This is the code handling generation proceses and checks ----------------------------------------------------------------
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const sessionRes = await fetch("/api/auth/session");
-    const session = await sessionRes.json();
-
-    if (!session?.user) {
-      setShowAuthModal(true); // trigger login/register modal
-      return;
-    }
 
     proceedWithCVGeneration();
   };
@@ -381,11 +263,12 @@ export default function CVPage() {
       })),
     };
 
-    const response = await fetch("/api/generate-cv", {
-      method: "POST",
+    const response = await fetch(`/api/editCv/${cvId}`, {
+      method: "PUT",
       body: JSON.stringify(cleanedData),
       headers: { "Content-Type": "application/json" },
     });
+
 
     if (response.ok) {
       const { fileUrl, previewImageUrl } = await response.json();
@@ -402,19 +285,27 @@ export default function CVPage() {
 
   // ------------------------ CV Form Fields and Modals ----------------------------------------------------------------
 
+  if (initialLoading) {
+    return (
+      <div className="fixed inset-0 z-30 flex items-center justify-center bg-white bg-opacity-90">
+        <div className="flex flex-col items-center gap-4">
+          <svg className="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+          </svg>
+          <p className="text-lg font-medium text-gray-800">Loading your CV...</p>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <div className="flex flex-col md:flex-row mx-auto min-h-screen bg-blue-50">
       <SidebarProgress formData={formData} setStep={setStep} />
 
       <div className="flex-1 max-w-4xl px-4 py-10 md:px-8 md:py-14 bg-blue-50 ml-0 md:ml-64">
         <div className="mx-auto bg-white p-8  shadow-lg">
-
-          {showModal && (
-            <CvModal
-              onClose={() => setShowModal(false)}
-              onAutofill={handleAutofill}
-            />
-          )}
         
         <form onSubmit={handleGenerate}>
 
@@ -472,7 +363,6 @@ export default function CVPage() {
                         onChange={(e) => {
                           const newRole = e.target.value;
                           handleArrayChange("experience_list", idx, "role", newRole);
-                          handleRoleInput(idx, newRole); // trigger generation
                         }}
                         className={inputClass}
                       />
@@ -495,33 +385,7 @@ export default function CVPage() {
                         className={inputClass + " w-full"}
                         rows={5}
                         showBullets={true}
-                        disabled={loadingIndices[idx]}
                       />
-
-                      {loadingIndices[idx] && (
-                        <div className="absolute inset-0 bg-white bg-opacity-60 flex items-center justify-center rounded">
-                          <svg
-                            className="animate-spin h-5 w-5 text-blue-600"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
-                            ></path>
-                          </svg>
-                        </div>
-                      )}
                     </div>
 
 
@@ -556,14 +420,6 @@ export default function CVPage() {
 
 
               <Section title="SKILLS" id="skills">
-                <button
-                  type="button"
-                  onClick={handleGenerateSkills}
-                  className="px-4 py-2 border border-green-500 text-green-600 rounded hover:bg-green-100 flex items-center gap-2"
-                  disabled={skillLoading}
-                >
-                  {skillLoading ? "Generating..." : "Generate Skills"}
-                </button>
               <div className="relative py-2">
                 <AutoResizeTextarea
                   placeholder="Enter one skill per line"
@@ -575,7 +431,6 @@ export default function CVPage() {
                   rows={6}
                   showBullets={true}
                 />
-                {skillLoading && <SpinnerOverlay />}
               </div>
             </Section>
 
@@ -585,17 +440,8 @@ export default function CVPage() {
 
           {step === 2 && (
             <Section title="PROFILE SUMMARY" id="profile">
-              <button
-                type="button"
-                onClick={handleGenerateSummary}
-                disabled={summaryLoading}
-                className="px-4 py-2 border border-green-500 text-green-600 rounded hover:bg-green-100 flex items-center gap-2"
-              >
-                {summaryLoading ? 'Generating...' : 'Generate Summary'}
-              </button>
               <div className="relative py-2">
               <AutoResizeTextarea placeholder="Profile Summary" value={formData.profile} onChange={e => handleChange("profile", e.target.value)} className={inputClass} rows={6} />
-                {summaryLoading && <SpinnerOverlay />}
               </div>
             </Section>
           )}
@@ -694,14 +540,6 @@ export default function CVPage() {
               ) : showAchievements || formData.achievements.length > 0 ? (
                 <Section title="ACHIEVEMENTS (optional)" id="achievements">
                   <div className="mb-2 flex justify-between items-center">
-                    <button
-                      type="button"
-                      onClick={handleGenerateAchievements}
-                      disabled={achievementLoading}
-                      className="px-4 py-2 border border-green-500 text-green-600 rounded hover:bg-green-100 flex items-center gap-2"
-                    >
-                      {achievementLoading ? "Generating..." : "Generate"}
-                    </button>
                     <div className="flex gap-4 items-center">
                       <button
                         type="button"
@@ -726,7 +564,6 @@ export default function CVPage() {
                     rows={4}
                     showBullets={true}
                   />
-                  {achievementLoading && <SpinnerOverlay />}
                   </div>
                 </Section>
 
@@ -847,6 +684,7 @@ export default function CVPage() {
                 )}
                 </div>
 
+
               {/* Format Select */}
               <div className="md:w-1/3 mt-4 md:mt-0">
                 <label className="block mb-2 font-semibold text-sm">SELECT FORMAT</label>
@@ -936,6 +774,7 @@ export default function CVPage() {
         <TemplatePreview
           template={formData.template}
           templates={templates}
+          previewImageUrl={formData.previewImageUrl}
           onChange={() => setShowTemplateModal(true)}
         />
       </div>
@@ -956,7 +795,7 @@ export default function CVPage() {
           <div className="bg-white rounded-2xl w-full max-w-3xl p-6 relative flex flex-col md:flex-row gap-6 shadow-2xl">
             {/* Left Section */}
             <div className="flex-1">
-              <h2 className="text-xl font-bold mb-4">CV Generated Successfully</h2>
+              <h2 className="text-xl font-bold mb-4">CV Edited Successfully</h2>
               <p className="mb-4">Your CV is ready. Click below to download.</p>
               <a
                 href={downloadUrl}
@@ -990,8 +829,6 @@ export default function CVPage() {
         </div>
       )}
 
-      
-      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
 
     </div>
     
@@ -1245,12 +1082,35 @@ function TemplatePreview({
   template,
   templates,
   onChange,
+  previewImageUrl,
 }: {
   template: string;
   templates: { name: string; image: string }[];
   onChange: () => void;
+  previewImageUrl?: string | null;
 }) {
+  const initialTemplateRef = useRef(template);
+  const [userChangedTemplate, setUserChangedTemplate] = useState(false);
+
+  useEffect(() => {
+    // Reset if user returns to original template
+    if (template === initialTemplateRef.current) {
+      setUserChangedTemplate(false);
+    } else {
+      setUserChangedTemplate(true);
+    }
+  }, [template]);
+
   const selected = templates.find(t => t.name === template);
+
+  const handleChange = () => {
+    onChange();
+  };
+
+  const imageToShow =
+    !userChangedTemplate && previewImageUrl
+      ? previewImageUrl
+      : selected?.image || null;
 
   return (
     <div className="bg-white shadow-lg w-full max-w-sm mx-auto">
@@ -1258,15 +1118,22 @@ function TemplatePreview({
         Selected Template
       </div>
       <div className="p-4">
-        <img
-          src={selected?.image}
-          alt="Selected Template"
-          className="w-full object-cover rounded-md border"
-        />
+        {imageToShow ? (
+          <img
+            src={imageToShow}
+            alt="Selected Template"
+            className="w-full object-cover rounded-md border"
+          />
+        ) : (
+          <p className="text-gray-500 text-center italic">
+            No preview available
+          </p>
+        )}
+
         <div className="text-center mt-4">
           <button
             type="button"
-            onClick={onChange}
+            onClick={handleChange}
             className="bg-primary/50 text-white px-4 py-2 rounded hover:bg-primary/70"
           >
             Change Template
@@ -1279,30 +1146,3 @@ function TemplatePreview({
     </div>
   );
 }
-
-
-const SpinnerOverlay = () => (
-  <div className="absolute inset-0 bg-white bg-opacity-60 flex items-center justify-center rounded">
-    <svg
-      className="animate-spin h-5 w-5 text-blue-600"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      ></circle>
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
-      ></path>
-    </svg>
-  </div>
-);
-

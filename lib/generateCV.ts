@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import PizZip from "pizzip";
+import axios from "axios";
 import Docxtemplater from "docxtemplater";
 import ImageModule from "docxtemplater-image-module-free";
 import ILovePDFApi from "@ilovepdf/ilovepdf-nodejs";
@@ -35,17 +36,19 @@ type CVData = {
   photo?: string;
 };
 
-function imageToBase64(relativePath: string) {
-  const cleanedPath = relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
-  const fullPath = path.join(process.cwd(), "public", cleanedPath);
-  if (!fs.existsSync(fullPath)) {
-    throw new Error(`Image file not found: ${fullPath}`);
+async function imageUrlToBase64(url: string): Promise<string> {
+  try {
+    const response = await axios.get(url, { responseType: "arraybuffer" });
+    const base64Image = Buffer.from(response.data, "binary").toString("base64");
+    console.log("Image fetched and converted to base64");
+    return base64Image;
+  } catch (error) {
+    console.error(`Failed to fetch image from URL: ${url}`, error);
+    return ""; // return empty string so doc generation doesn't break
   }
-  const image = fs.readFileSync(fullPath);
-  return image.toString("base64");
 }
 
-export function generateCV(data: CVData, templateName = "basic"): Buffer {
+export async function generateCV(data: CVData, templateName = "basic"): Promise<Buffer> {
   const templateFileName = `${templateName}.docx`;
   const templatePath = path.resolve(process.cwd(), "public/templates", templateFileName);
 
@@ -75,11 +78,12 @@ export function generateCV(data: CVData, templateName = "basic"): Buffer {
   let photoBase64 = "";
   if (data.photo) {
     try {
-      photoBase64 = imageToBase64(data.photo);
+      photoBase64 = await imageUrlToBase64(data.photo);
     } catch (err) {
       console.error("Photo not found or unreadable:", data.photo, err);
     }
   }
+
 
   const docData = {
     ...data,
@@ -151,7 +155,7 @@ export async function convertDocxToPDF(docBuffer: Buffer, filename: string): Pro
 // Wrap CV generation and PDF conversion
 export async function generateCVBuffer(data: CVData & { template?: string }, format = "docx"): Promise<Buffer> {
   const templateName = data.template || "basic"; // <- get the template from the request data
-  const docxBuffer = generateCV(data, templateName); // <- pass it here
+  const docxBuffer = await generateCV(data, templateName); // <- pass it here
 
   if (format === "pdf") {
     try {
@@ -164,4 +168,3 @@ export async function generateCVBuffer(data: CVData & { template?: string }, for
 
   return docxBuffer;
 }
-

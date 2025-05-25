@@ -8,7 +8,7 @@ import Footer2 from "@/components/Footer2";
 export default function FooterSwitcher() {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/generate-cv")) {
+  if (pathname.startsWith("/generate-cv") || pathname.startsWith("/cv/edit/")) {
     return <Footer2 />;
   }
 

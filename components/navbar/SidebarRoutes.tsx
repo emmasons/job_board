@@ -12,6 +12,7 @@ import {
   Bell,
   BriefcaseBusiness,
   Eye,
+  FileText,
   FolderOutput,
   FolderInput,
   Logs,
@@ -31,6 +32,11 @@ const guestRoutes = [
     icon: Users2,
     label: "My Profile",
     href: "/profile/dashboard",
+  },
+  {
+    icon: FileText,
+    label: "Generated CVs",
+    href: "/profile/dashboard/job-seeker/generated-cvs",
   },
   {
     icon: Eye,
@@ -83,6 +89,11 @@ const employerRoutes = [
     label: "Applications",
     href: "/profile/dashboard/employer/applications",
   },
+  {
+    icon: FileText,
+    label: "Generated CVs",
+    href: "/profile/dashboard/employer/generated-cvs",
+  },
 ];
 
 const adminRoutes = [
@@ -111,6 +122,11 @@ const adminRoutes = [
     icon: FolderInput,
     label: "All Jobs",
     href: "/profile/dashboard/admin/all-jobs",
+  },
+  {
+    icon: FileText,
+    label: "Generated CVs",
+    href: "/profile/dashboard/admin/generated-cvs",
   },
 
   {

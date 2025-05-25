@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import sharp from "sharp";
-import path from "path";
-import { mkdirSync, existsSync } from "fs";
+import { bucket } from "@/lib/gcs";
 
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
@@ -21,24 +20,28 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const uploadsDir = path.join(process.cwd(), "public/uploads");
-    if (!existsSync(uploadsDir)) {
-      mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const outputFilename = `photo_${Date.now()}.png`;
-    const outputPath = path.join(uploadsDir, outputFilename);
-
-    // Circular SVG mask
     const circleSvg = `<svg width="250" height="250"><circle cx="125" cy="125" r="125" fill="white"/></svg>`;
 
-    await sharp(buffer)
+    const processedImage = await sharp(buffer)
       .resize(250, 250, { fit: "cover", position: "centre" })
       .composite([{ input: Buffer.from(circleSvg), blend: "dest-in" }])
       .png()
-      .toFile(outputPath);
+      .toBuffer();
 
-    return NextResponse.json({ filename: `/uploads/${outputFilename}` }, { status: 200 });
+    const filename = `photo_${Date.now()}.png`;
+    const fileRef = bucket.file(`uploads/${filename}`);
+
+    await fileRef.save(processedImage, {
+      contentType: "image/png",
+      public: true, // optional: allows public access
+      metadata: {
+        cacheControl: "public, max-age=31536000",
+      },
+    });
+
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/uploads/${filename}`;
+
+    return NextResponse.json({ url: publicUrl }, { status: 200 });
   } catch (e) {
     console.error("Upload processing error:", e);
     return NextResponse.json({ error: "Image processing failed" }, { status: 500 });
