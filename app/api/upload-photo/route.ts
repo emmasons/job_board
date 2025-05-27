@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import sharp from "sharp";
 import { bucket } from "@/lib/gcs";
+import * as PImage from "pureimage";
+import { Readable, PassThrough } from "stream";
 
 export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
 
@@ -21,27 +23,56 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const circleSvg = `<svg width="250" height="250"><circle cx="125" cy="125" r="125" fill="white"/></svg>`;
+    const readable = Readable.from(buffer);
+    const img = await PImage.decodeJPEGFromStream(readable);
 
-    const processedImage = await sharp(buffer)
-      .resize(250, 250, { fit: "cover", position: "centre" })
-      .composite([{ input: Buffer.from(circleSvg), blend: "dest-in" }])
-      .png()
-      .toBuffer();
+    const size = 250;
+    const canvas = PImage.make(size, size);
+    const ctx = canvas.getContext("2d");
 
+    // Clear with transparent background
+    ctx.clearRect(0, 0, size, size);
+
+    // Create circular clip
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    // Manually scale and draw
+    ctx.drawImage(
+      img,
+      0, 0, img.width, img.height, // source dimensions
+      0, 0, size, size             // destination dimensions (resizes)
+    );
+
+    // Stream PNG output
+    const stream = new PassThrough();
+    const chunks: Buffer[] = [];
+
+    stream.on("data", (chunk) => chunks.push(chunk));
+    const streamEnd = new Promise<void>((resolve, reject) => {
+      stream.on("end", resolve);
+      stream.on("error", reject);
+    });
+
+    await PImage.encodePNGToStream(canvas, stream);
+    stream.end();
+    await streamEnd;
+
+    const processedBuffer = Buffer.concat(chunks);
     const filename = `photo_${Date.now()}.png`;
     const fileRef = bucket.file(`uploads/${filename}`);
 
-    await fileRef.save(processedImage, {
+    await fileRef.save(processedBuffer, {
       contentType: "image/png",
-      public: true, // optional: allows public access
+      public: true,
       metadata: {
         cacheControl: "public, max-age=31536000",
       },
     });
 
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/uploads/${filename}`;
-
     return NextResponse.json({ url: publicUrl }, { status: 200 });
   } catch (e) {
     console.error("Upload processing error:", e);
