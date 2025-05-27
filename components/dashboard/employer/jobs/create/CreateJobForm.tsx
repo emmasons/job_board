@@ -116,57 +116,10 @@ export default function CreateJobForm({
 }: CreateJobFormProps) {
   const router = useRouter();
 
- const allowedCountries = [
-    "United States",
-    "United Kingdom",
-    "Canada",
-    "Australia",
-    "New Zealand",
-    "United Arab Emirates",
-    "Saudi Arabia",
-    "Qatar",
-    "Japan",
-    "Singapore",
-    "South Korea",
-    "Hong Kong",
-    "Brazil",
-    "Malaysia",
-    "Austria",
-    "Belgium",
-    "Bulgaria",
-    "Croatia",
-    "Cyprus",
-    "Czech Republic",
-    "Denmark",
-    "Estonia",
-    "Finland",
-    "France",
-    "Germany",
-    "Greece",
-    "Hungary",
-    "Ireland",
-    "Italy",
-    "Latvia",
-    "Lithuania",
-    "Luxembourg",
-    "Malta",
-    "Netherlands",
-    "Poland",
-    "Portugal",
-    "Romania",
-    "Slovakia",
-    "Slovenia",
-    "Spain",
-    "Sweden",
-    "Norway",
-    "Switzerland",
-    "Turkey",
-  ];
-
+  
   const { countries } = useCountries();
 
   const countryList = countries
-    .filter((country) => allowedCountries.includes(country.name))
     .map((country) => ({
       label: country.name,
       value: country.name,
