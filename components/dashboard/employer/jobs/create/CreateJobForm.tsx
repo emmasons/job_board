@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useState } from "react";
 import { useCountries } from "use-react-countries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -36,6 +37,7 @@ import { CalendarIcon, Loader2 } from "lucide-react";
 import RichTextEditor from "@/components/ckeditor/RichTextEditor";
 import { JOBTYPE, PREFERRED_APPLICANT_GENDER } from "@prisma/client";
 import { Checkbox } from "@/components/ui/checkbox";
+
 
 interface CreateJobFormProps {
   initialData: {
@@ -162,6 +164,8 @@ export default function CreateJobForm({
   });
 
   const { isSubmitting, isValid, errors } = form.formState;
+
+  const [specifyGender, setSpecifyGender] = useState(false);
 
   const btnText = isEditingJob ? "Save Job" : "Create Job";
   const url = isEditingJob ? `/api/jobs/${initialData.id}` : "/api/jobs";
@@ -427,22 +431,47 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="preferredApplicantGender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Preferred Gender</FormLabel>
-                  <FormControl>
-                    <Combobox
-                      options={preferredApplicantGenderList}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="mb-4">
+              <p className="text-base font-medium">Do you want to specify a preferred gender?</p>
+              <div className="flex gap-4 mt-2">
+                <button
+                  type="button"
+                  onClick={() => setSpecifyGender(true)}
+                  className={`px-4 py-1 rounded border ${specifyGender ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSpecifyGender(false)}
+                  className={`px-4 py-1 rounded border ${!specifyGender ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+
+            {/* Hidden field to keep value as 'ALL' when not specifying */}
+            {!specifyGender && (
+              <input type="hidden" {...form.register("preferredApplicantGender")} value="ALL" />
+            )}
+
+            {/* Show the field only if user chose to specify */}
+            {specifyGender && (
+              <FormField
+                control={form.control}
+                name="preferredApplicantGender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Preferred Gender</FormLabel>
+                    <FormControl>
+                      <Combobox options={preferredApplicantGenderList} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="isExternal"

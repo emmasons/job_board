@@ -70,9 +70,9 @@ export function Combobox2({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex items-center p-2 rounded-md text-sm bg-white hover:bg-gray-100 border",
+                    "flex items-center p-2 rounded-md text-sm bg-white hover:bg-primary/90 border",
                     value === option.value
-                      ? "border-primary bg-primary/10"
+                      ? "border-primary bg-primary/80"
                       : "border-transparent"
                   )}
                 >

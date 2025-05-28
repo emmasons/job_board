@@ -103,16 +103,15 @@ const PageWrapper = ({
             {job?.workSchedule.toLocaleLowerCase().replace("_", " ")}
           </span>
         </p>
-        <p className="text-lg">
-          <span className="font-semibold">Contract Type:</span>{" "}
-          <span className="capitalize">{job?.contractType.toLowerCase()}</span>
-        </p>
-        <p className="text-lg ">
-          <span className="font-semibold">Preferred Gender:</span>{" "}
-          <span className="capitalize">
-            {job?.preferredApplicantGender.toLocaleLowerCase()}
-          </span>
-        </p>
+        {job?.preferredApplicantGender !== 'ALL' && (
+          <p className="text-lg">
+            <span className="font-semibold">Preferred Gender:</span>{" "}
+            <span className="capitalize">
+              {job?.preferredApplicantGender.toLocaleLowerCase()}
+            </span>
+          </p>
+        )}
+
         <h3 className="mb-4 mt-6 text-xl font-semibold text-zinc-700">
           Job Description
         </h3>
