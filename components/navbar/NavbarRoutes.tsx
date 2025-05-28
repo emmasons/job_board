@@ -33,7 +33,7 @@ export default function NavbarRoutes({ user }: Props) {
             <div className="group relative">
               <ServicesDropdown />
             </div>
-            <ul className="py-2">
+            <ul className="py-2 flex">
               <li>
                 <Link
                   href="/subscription/plans"
@@ -42,7 +42,16 @@ export default function NavbarRoutes({ user }: Props) {
                   Pricing
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/create-cover-letter/templates"
+                  className="block px-4 py-2 uppercase text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+                >
+                  Cover Letter
+                </Link>
+              </li>
             </ul>
+            
           </div>
         </div>
       </div>
