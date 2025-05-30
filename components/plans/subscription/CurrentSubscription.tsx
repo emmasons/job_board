@@ -44,7 +44,7 @@ export default function CurrentSubscription({ subscription }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+    <div className="bg-slate-100 border border-gray-200 rounded-lg p-6 mb-8">
       <h2 className="text-xl font-bold mb-4">Your Current Subscription</h2>
 
       <div className="grid md:grid-cols-3 gap-4">
@@ -70,7 +70,7 @@ export default function CurrentSubscription({ subscription }) {
           {subscription.plan.planFeatures.map((pf) => (
             <div
               key={pf.feature.id}
-              className="bg-blue-50 text-blue-800 text-sm rounded px-2 py-1"
+              className="bg-blue-100 text-blue-600 text-sm rounded px-2 py-1"
             >
               {pf.feature.displayName}
             </div>
