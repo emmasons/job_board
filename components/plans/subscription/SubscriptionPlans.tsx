@@ -22,10 +22,10 @@ export default function SubscriptionPlans({
 
   const handleSubscribe = async (planId) => {
     if (!isLoggedIn) {
-      // Redirect to login with return URL
       window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent("/subscription/plans")}`;
       return;
     }
+
     setIsSubmitting(true);
     setError("");
 
@@ -37,13 +37,27 @@ export default function SubscriptionPlans({
       const result = await subscribeToPlan(formData);
 
       if (result.success) {
-        router.push("/subscription/success");
+        if (result.redirectUrl) {
+          window.location.href = result.redirectUrl;
+        } else {
+          window.location.href = "/subscription/plans";
+        }
+      } else if (result.retryRedirect) {
+        alert(result.error || "Payment was declined. Try another method.");
+        window.location.href = result.retryRedirect;
       } else {
         setError(result.error || "Failed to process subscription");
       }
+
     } catch (err) {
-      setError("An unexpected error occurred");
-      console.error(err);
+      console.error("Unexpected subscription error:", err);
+
+      const fallback =
+        err?.response?.data?.details?.[0]?.description ||
+        err?.message ||
+        "An unexpected error occurred";
+
+      setError(fallback);
     } finally {
       setIsSubmitting(false);
     }
@@ -54,16 +68,21 @@ export default function SubscriptionPlans({
     return currentSubscription?.planId === planId;
   };
 
+  // this block shows the free plan as the last option
+  const reorderedPlans = [...plans];
+  if (reorderedPlans.length > 1) {
+    const first = reorderedPlans.shift(); // remove the first element
+    reorderedPlans.push(first!); // add it to the end
+  }
+
+
   return (
-    <section className="py-12">
+    <section className="py-1">
       <div className="">
         <div className="flex flex-col items-center gap-4">
-          <h2 className="text-2xl font-bold text-slate-700">
+          <h2 className="text-2xl font-bold text-slate-700  my-4">
             Choose Your Plan
           </h2>
-          <p className="text-md my-4 text-slate-600">
-            Select the perfect plan for your needs
-          </p>
         </div>
 
         <div className="mb-8 flex justify-center gap-4">
@@ -86,7 +105,7 @@ export default function SubscriptionPlans({
         )}
 
         <div className="grid gap-10 bg-slate-100 p-6 md:grid-cols-3">
-          {plans.map((plan) => {
+          {reorderedPlans.map((plan) => {
             const features = plan.planFeatures.map((pf) => pf.feature);
             const isCurrentUserPlan = isCurrentPlan(plan.id);
             const adjustedPrice = (

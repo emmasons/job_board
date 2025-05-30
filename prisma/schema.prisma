@@ -154,6 +154,7 @@ model User {
   applications              Application[]
   cv                        CV?
   generatedCvs              GeneratedCv[] // one-to-many relationship with GeneratedCv
+  transaction               Transaction[] // one-to-many relationship with Transaction
   candidates                Candidate[]
   Job                       Job[]
   jobSeekerProfile          JobSeekerProfile?
@@ -421,6 +422,7 @@ model Plan {
   updatedAt     DateTime           @updatedAt
   subscriptions SubscriptionPlan[]
   planFeatures  PlanFeature[]
+  transaction   Transaction[] // one-to-many relationship with Transaction
 
   @@map("plans")
 }
@@ -445,6 +447,28 @@ enum FeatureType {
   JOB_APPLICATION_TRACKING
   INTERVIEW_SCHEDULING
   EMPLOYER_PROFILE
+
+  // New features from pricing tiers
+  RESUME_LIMITED_ACCESS
+  COVER_LETTER_LIMITED_ACCESS
+  WATERMARKED_DOWNLOADS
+  BASIC_JOB_LISTINGS_ACCESS
+  PREMIUM_JOB_LISTINGS_ACCESS
+  ATS_SCAN_LIMITED
+  ATS_SCAN_UNLIMITED
+  CAREER_GUIDES_LIMITED
+  CAREER_GUIDES_FULL_ACCESS
+  ELIGIBILITY_CHECKER_ACCESS
+  LINKEDIN_OPTIMIZATION_TOOL
+  ATS_ANALYTICS_DASHBOARD
+  PRIORITY_SUPPORT
+  AI_LINKEDIN_BUILDER
+  AI_JOB_MATCHING_SUGGESTIONS
+  CAREER_ASSESSMENT_AI
+  INTERVIEW_COACHING_ACCESS
+  EARLY_ACCESS_HIGH_PAYING_JOBS
+  TEN_RESUMES_COVERS
+  FIVE_ATS_SCANS
 }
 
 model Feature {
@@ -730,4 +754,26 @@ enum PaymentStatus {
 enum FileFormat {
   pdf
   word
+}
+
+model Transaction {
+  id              String   @id @default(cuid())
+  transactionCode String   @unique
+  amount          Float
+  currency        String
+  status          String   // e.g. "COMPLETED", "PENDING", "FAILED"
+  user            User     @relation(fields: [userId], references: [id])
+  userId          String
+  plan            Plan     @relation(fields: [planId], references: [id])
+  planId          String
+  createdAt       DateTime @default(now())
+}
+
+model PendingSubscription {
+  id         String   @id @default(cuid())
+  orderId    String   @unique
+  userId     String
+  planId     String
+  billingCycle String // "MONTHLY" or "ANNUALLY"
+  createdAt  DateTime @default(now())
 }
