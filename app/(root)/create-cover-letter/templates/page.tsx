@@ -13,6 +13,7 @@ import {
   templates,
   TemplateContent,
 } from "@/components/cover-letter/cover-letter-templates";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
 // Sample data for preview
 const sampleData: TemplateContent = {
@@ -36,36 +37,55 @@ const sampleData: TemplateContent = {
 const Page = () => {
   const jobId = useSearchParams().get("jobId");
 
+  const bgImage = "/index/carousel/talentra4.jpg"; // Background image for the page
+
   return (
     <div className="bg-white">
-      <div className="flex items-center justify-between bg-sky-300 p-6">
-        <h1 className="text-2xl font-bold mb-6">Choose a Template</h1>
+      <div
+        style={{ backgroundImage: `url(${bgImage})` }}
+        className="h-[60vh]  w-full bg-cover bg-center bg-no-repeat"
+      >
+        <MaxWidthWrapper className="bg-white h-full flex flex-col justify-center items-start text-left bg-[rgba(0,0,0,0.6)] text-white">
+          <h1 className="text-2xl font-bold mb-6 flex">
+            Design the perfect cover letter
+          </h1>
+          <p>
+            Choose a template that best fits your style and the job you're
+            applying for.
+            <br />
+            Customize it with your details and make a lasting impression on
+            potential employers.
+          </p>
+        </MaxWidthWrapper>
+        <div></div>
       </div>
-      <div className="p-6 flex-1 md:grid grid-cols-2 gap-4">
-        {templates.map((template) => (
-          <div
-            key={template.id}
-            className="md:basis-1/2 lg:basis-1/3 relative shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-transform duration-300 hover:scale-[1.02]"
-          >
-            <div className={`cursor-pointer rounded-lg h-[700px] w-full`}>
-              <div className="h-full overflow-y-auto">
-                <div className="">{template.content(sampleData)}</div>
-                <Link
-                  href={
-                    "/create-cover-letter/templates" +
-                    `/${template.id}?jobId=${jobId}`
-                  }
-                  className="absolute left-1/2 top-1/2"
-                >
-                  <Button variant="default" className="px-4 py-2">
-                    Use template
-                  </Button>
-                </Link>
+      <MaxWidthWrapper>
+        <div className="py-6 flex-1 md:grid grid-cols-2 gap-4 justify-between">
+          {templates.map((template) => (
+            <div
+              key={template.id}
+              className="md:basis-1/2 lg:basis-1/3 relative shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-transform duration-300 hover:scale-[1.02]"
+            >
+              <div className={`cursor-pointer rounded-lg h-[700px] w-full`}>
+                <div className="h-full overflow-y-auto">
+                  <div className="">{template.content(sampleData)}</div>
+                  <Link
+                    href={
+                      "/create-cover-letter/templates" +
+                      `/${template.id}?jobId=${jobId}`
+                    }
+                    className="absolute left-1/2 top-1/2"
+                  >
+                    <Button variant="default" className="px-4 py-2">
+                      Use template
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </MaxWidthWrapper>
     </div>
   );
 };
