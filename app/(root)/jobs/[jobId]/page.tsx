@@ -1,5 +1,5 @@
 import { getJobById } from "@/actions/get-job-by-id";
-
+import { db } from "@/lib/db";
 import PageWrapper from "./PageWrapper";
 import { createAlert, deleteAlert } from "../actions";
 import { getCurrentSessionUser } from "@/lib/auth";
@@ -30,7 +30,7 @@ const page = async (props: Props) => {
       : false;
   }
 
-  const userSubscription = await prisma.subscriptionPlan.findFirst({
+  const userSubscription = await db.subscriptionPlan.findFirst({
     where: {
       userId: user?.id,
     },

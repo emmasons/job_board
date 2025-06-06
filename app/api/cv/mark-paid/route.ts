@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db"; // your Prisma client
-import { getCurrentSessionUser } from "@/lib/auth"; // helper for session user
+import { db } from "@/lib/db"; 
+import { getCurrentSessionUser } from "@/lib/auth"; 
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentSessionUser();

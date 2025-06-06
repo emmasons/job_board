@@ -36,7 +36,7 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
-  const userSubscription = await prisma.subscriptionPlan.findFirst({
+  const userSubscription = await db.subscriptionPlan.findFirst({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
     include: { plan: true },

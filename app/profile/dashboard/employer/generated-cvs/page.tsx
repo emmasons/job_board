@@ -33,7 +33,7 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
     db.generatedCv.count({ where: { userId: user.id } }),
   ]);
 
-  const userSubscription = await prisma.subscriptionPlan.findFirst({
+  const userSubscription = await db.subscriptionPlan.findFirst({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
     include: { plan: true },
