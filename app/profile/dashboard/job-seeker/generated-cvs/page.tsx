@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { FileText, Pencil, Trash2 } from "lucide-react";
 import DeleteCvButton from "@/components/DeleteCvButton";
 import Link from "next/link";
+import CvLandingCta from "@/components/Cvgeneratecta";
+import CvDownloadButton from "@/components/CvDownloadButton";
 
 export const dynamic = "force-dynamic";
 
@@ -34,9 +36,17 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
+  const userSubscription = await prisma.subscriptionPlan.findFirst({
+    where: { userId: user?.id },
+    orderBy: { createdAt: 'desc' },
+    include: { plan: true },
+  });
+
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-6">My Generated CVs</h1>
+
+      <CvLandingCta />
 
       {cvs.length === 0 ? (
         <p>You haven’t generated any CVs yet.</p>
@@ -75,13 +85,12 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <a
-                    href={cv.fileUrl}
-                    download
-                    className="px-3 py-1 text-sm bg-primary text-white rounded hover:bg-primary/80 transition"
-                  >
-                    Download
-                  </a>
+                  <CvDownloadButton
+                    cvId={cv.id}
+                    fileUrl={cv.fileUrl}
+                    paymentStatus={cv.paymentStatus}
+                    subscription={userSubscription}
+                  />
 
                   <Link
                     href={`/cv/tailor/${cv.id}`}

@@ -52,6 +52,9 @@ interface CreateJobFormProps {
     experienceId: string;
     sectorId: string;
     salary: string;
+    companyName2: string;
+    companyEmail2: string;
+    howToApply2: string;
     preferredApplicantGender: PREFERRED_APPLICANT_GENDER;
     id?: string;
     isExternal: boolean;
@@ -103,6 +106,9 @@ const formSchema = z.object({
   }),
   salaryPeriod: z.string().optional(),
   preferredApplicantGender: z.string().optional(),
+  companyName2: z.string().optional(),
+  companyEmail2: z.string().optional(),
+  howToApply2: z.string().optional(),
   isExternal: z.boolean().optional(),
   externalLink: z.string().optional(),
 });
@@ -166,6 +172,7 @@ export default function CreateJobForm({
   const { isSubmitting, isValid, errors } = form.formState;
 
   const [specifyGender, setSpecifyGender] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
 
   const btnText = isEditingJob ? "Save Job" : "Create Job";
   const url = isEditingJob ? `/api/jobs/${initialData.id}` : "/api/jobs";
@@ -431,6 +438,72 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
+            <div className="mb-4">
+              <p className="text-base font-medium">Is this a premium job?</p>
+              <div className="flex gap-4 mt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPremium(true)}
+                  className={`px-4 py-1 rounded border ${isPremium ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsPremium(false)}
+                  className={`px-4 py-1 rounded border ${!isPremium ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+            {isPremium && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="companyName2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter company name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="companyEmail2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Enter company email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="howToApply2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>How to Apply Instructions</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Send your CV to hr@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
+
+
             <div className="mb-4">
               <p className="text-base font-medium">Do you want to specify a preferred gender?</p>
               <div className="flex gap-4 mt-2">

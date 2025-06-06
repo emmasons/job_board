@@ -29,6 +29,8 @@ import DesiredJobsForm from "./steps/DesiredJobsForm";
 import EducationDetails from "./EducationDetails";
 import EmploymentHistory from "./EmploymentHistory";
 import SkillGenerator from "./steps/SkillGenerator";
+import CvLandingCta from "@/components/Cvgeneratecta";
+
 
 type Props = {
   jobSeekerProfile: JobSeekerProfileProps;
@@ -158,9 +160,8 @@ const StepsWrapper = ({
 
   return (
     <div className="space-y-8 bg-slate-100/30 p-2 md:p-12">
-      <h4 className="scroll-m-20 py-2 text-3xl  tracking-tight first:mt-0">
-        Profile
-      </h4>
+      
+      <CvLandingCta />
       {/* top bar  */}
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-md bg-white p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         {steps.map((step, index) => (
