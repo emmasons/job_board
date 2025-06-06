@@ -240,6 +240,7 @@ useEffect(() => {
 
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
 
   // ------------------------ This is the code handling generation proceses and checks ----------------------------------------------------------------
@@ -250,8 +251,6 @@ useEffect(() => {
   };
 
   const proceedWithCVGeneration = async () => {
-    setLoading(true);
-
     const cleanArray = (arr?: string[]) =>
       (arr || []).map((s) => s.trim()).filter((s) => s.length > 0);
 
@@ -265,24 +264,49 @@ useEffect(() => {
       })),
     };
 
-    const response = await fetch(`/api/tailorCv/${cvId}`, {
-      method: "PUT",
-      body: JSON.stringify(cleanedData),
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      setLoading(true);
+      setDownloadError(null);
 
+      // 1. Generate the CV
+      const response = await fetch("/api/generate-cv", {
+        method: "POST",
+        body: JSON.stringify(cleanedData),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (response.ok) {
-      const { fileUrl, previewImageUrl } = await response.json();
+      if (!response.ok) {
+        alert("Failed to generate CV.");
+        return;
+      }
+
+      const { cvId, fileUrl: unusedFileUrl, previewImageUrl } = await response.json();
+
+      // Show preview
       setPreviewImageUrl(previewImageUrl);
-      setDownloadUrl(fileUrl); // open download modal
-    } else {
-      alert("Failed to generate CV.");
+
+      // 2. Check download permission and get secure file URL
+      const res = await fetch("/api/cv/trigger-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cvId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setDownloadError(data.error || "Something went wrong during download check");
+        return;
+      }
+
+      setDownloadUrl(data.fileUrl); // Download link is valid
+    } catch (err) {
+      console.error("Download handler error:", err);
+      setDownloadError("Unexpected error occurred");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
-
   // ------------------------ End of Handle generate function ----------------------------------------------------------------
 
   // ------------------------ CV Form Fields and Modals ----------------------------------------------------------------
@@ -799,33 +823,52 @@ useEffect(() => {
 
 
       {/* Download Modal */}
-      {downloadUrl && (
+      {(downloadUrl || downloadError) && (
         <div
           className="fixed inset-0 z-30 flex items-center justify-center px-4"
           style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(5px)' }}
         >
           <div className="bg-white rounded-2xl w-full max-w-3xl p-6 relative flex flex-col md:flex-row gap-6 shadow-2xl">
             {/* Left Section */}
-            <div className="flex-1">
-              <h2 className="text-xl font-bold mb-4">CV Edited Successfully</h2>
-              <p className="mb-4">Your CV is ready. Click below to download.</p>
-              <a
-                href={downloadUrl}
-                download
-                className="bg-primary/70 text-white px-4 py-2 rounded hover:bg-primary/80 transition"
-              >
-                Download CV
-              </a>
-              <button
-                onClick={() => {
-                  setDownloadUrl(null);
-                  setPreviewImageUrl(null);
-                }}
-                className="block mt-4 text-sm text-gray-500 hover:underline"
-              >
-                Close
-              </button>
-            </div>
+              <div className="flex-1">
+                <h2 className="text-xl font-bold mb-4">CV Edited Successfully</h2>
+
+                {downloadUrl ? (
+                  <>
+                    <p className="mb-4">Your CV is ready. Click below to download.</p>
+                    <a
+                      href={downloadUrl}
+                      download
+                      className="bg-primary/70 text-white px-4 py-2 rounded hover:bg-primary/80 transition"
+                    >
+                      Download CV
+                    </a>
+                  </>
+                ) : downloadError ? (
+                  <>
+                    <p className="mb-4 text-red-600">{downloadError}</p>
+                    <a
+                      href="/subscription/plans"
+                      className="bg-secondary text-white px-4 py-2 rounded hover:bg-secondary/80 transition"
+                    >
+                      View Subscription Plans
+                    </a>
+                  </>
+                ) : (
+                  <p className="mb-4">Preparing your download...</p>
+                )}
+
+                <button
+                  onClick={() => {
+                    setDownloadUrl(null);
+                    setPreviewImageUrl(null);
+                    setDownloadError(null);
+                  }}
+                  className="block mt-4 text-sm text-gray-500 hover:underline"
+                >
+                  Close
+                </button>
+              </div>
 
             {/* Right Section (Image Preview) */}
             {previewImageUrl && (

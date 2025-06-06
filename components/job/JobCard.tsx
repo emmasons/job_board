@@ -33,6 +33,14 @@ const JobCard = ({
   const formattedDate = formatDistanceToNow(createdAt, { addSuffix: true });
   const titleToShare = `Check out this amazing job: ${title}`;
   const shareUrl = process.env.NEXT_PUBLIC_BASE_DOMAIN + "/jobs/" + id;
+  const formatEnum = (value: string | undefined) => {
+      if (!value) return "";
+      return value
+        .toLowerCase()
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
 
   return (
     <div className="relative rounded-lg border border-gray-200 bg-slate-50">
@@ -75,12 +83,8 @@ const JobCard = ({
             </div>
             <div className="mb-1 flex items-center gap-1">
               <Icon icon="mdi:file-edit-outline" className="text-gray-500" />
-              <span>{workSchedule}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Icon icon="clarity:employee-solid" className="text-gray-500" />
-              <span>{occupation}</span>
-            </div>
+              <span>{formatEnum(workSchedule)}</span>
+            </div>     
           </div>
         </div>
       </Link>

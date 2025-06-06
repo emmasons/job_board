@@ -30,10 +30,24 @@ const page = async (props: Props) => {
       : false;
   }
 
+  const userSubscription = await prisma.subscriptionPlan.findFirst({
+    where: {
+      userId: user?.id,
+    },
+    orderBy: {
+      createdAt: 'desc', 
+    },
+    include: {
+      plan: true, 
+    },
+  });
+
+
   return (
     <PageWrapper
       job={job}
       jobId={props.params.jobId}
+      subscription={userSubscription}
       url={`https://talentra.io/jobs/${props.params.jobId}`}
       createAlert={createAlert}
       deleteAlert={deleteAlert}

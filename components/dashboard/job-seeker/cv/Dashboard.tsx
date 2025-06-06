@@ -4,6 +4,7 @@ import JobCard from "@/components/job/JobCard";
 import { getCurrentSessionUser } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { getUserAlerts } from "@/actions/get-user-alerts";
+import CvLandingCta from "@/components/Cvgeneratecta";
 
 import { Bookmark, Building2, User, Eye, PencilLine } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -42,6 +43,7 @@ const Dashboard = async (props: Props) => {
   return (
     <div className="space-y-8 bg-slate-100 p-6">
       <h1 className="my-6 flex items-center gap-4 text-2xl">Dashboard</h1>
+      <CvLandingCta />
 
       {/* Summary Boxes */}
       <div className="grid grid-cols-2 gap-4 pb-6 md:grid-cols-4">

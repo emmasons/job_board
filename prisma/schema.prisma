@@ -318,6 +318,9 @@ model Job {
   jobType                  JOBTYPE                    @default(NORMAL)
   source                   JOBSOURCE                  @default(COMPANY)
   metrics                  JobMetrics[]
+  companyName2             String?                    // For premium jobs
+  companyEmail2             String?                    // For premium jobs
+  howToApply2               String?                    // For premium jobs
 
   isExternal   Boolean @default(false)
   externalLink String?
@@ -392,6 +395,7 @@ model SubscriptionPlan {
   autoRenew Boolean   @default(true)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  downloadCount Int        @default(0)
 
   @@map("subscriptions")
 }
