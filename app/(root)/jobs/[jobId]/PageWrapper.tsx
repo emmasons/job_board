@@ -161,7 +161,7 @@ const PageWrapper = ({
               {job?.companyEmail2 ? (
                 <>
                   {/* Subscription Logic */}
-                  {!subscription || subscription.status !== 'ACTIVE' || new Date(subscription.endDate) < new Date() ? (
+                  {!subscription || subscription?.status !== 'ACTIVE' || new Date(subscription?.endDate) < new Date() ? (
                     <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
                       <p className="mb-2 font-semibold">
                         This is a Premium Job, You need to subscribe to the <span className="font-bold text-primary">Standard Plan</span> to view employer details and apply directly.
@@ -174,7 +174,7 @@ const PageWrapper = ({
                         View Plans
                       </Link>
                     </div>
-                  ) : subscription.plan.name === 'BASIC' || subscription.plan.name === 'FREE' ? (
+                  ) : subscription?.plan.name === 'BASIC' || subscription?.plan.name === 'FREE' ? (
                     <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
                       <p className="mb-2 font-semibold">
                         You need to upgrade to a higher plan to View the employer details and apply directly.
@@ -203,7 +203,7 @@ const PageWrapper = ({
                             <Icon icon="mdi:office-building-outline" className="text-primary text-xl" />
                             <div>
                               <p className="text-sm text-gray-500">Company Name</p>
-                              <p className="text-base font-medium text-gray-800">{job.companyName2}</p>
+                              <p className="text-base font-medium text-gray-800">{job?.companyName2}</p>
                             </div>
                           </div>
 
@@ -212,7 +212,7 @@ const PageWrapper = ({
                             <div>
                               <p className="text-sm text-gray-500">Company Email</p>
                               <p className="text-base text-blue-600 underline">
-                                <a href={`mailto:${job.companyEmail2}`}>{job.companyEmail2}</a>
+                                <a href={`mailto:${job?.companyEmail2}`}>{job?.companyEmail2}</a>
                               </p>
                             </div>
                           </div>
@@ -222,7 +222,7 @@ const PageWrapper = ({
                             <div>
                               <p className="text-sm text-gray-500">How to Apply</p>
                               <p className="text-base text-gray-700 whitespace-pre-line">
-                                {job.howToApply2}
+                                {job?.howToApply2}
                               </p>
                             </div>
                           </div>
