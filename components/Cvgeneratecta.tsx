@@ -21,10 +21,11 @@ export default function CvLandingCta() {
             </div>
 
             <div className="mt-4 md:mt-0">
-              <Link href="/generate-cv" passHref>
-                <button className="px-5 py-2 bg-primary/70 hover:bg-primary/80 text-white rounded transition">
-                  → Generate cv
-                </button>
+              <Link
+                href="/generate-cv"
+                className="px-5 py-2 bg-primary/70 hover:bg-primary/80 text-white rounded transition"
+                >
+                → Generate CV
               </Link>
             </div>
           </div>
