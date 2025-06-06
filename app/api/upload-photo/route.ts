@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { bucket } from "@/lib/gcs";
 import * as PImage from "pureimage";
+import jpeg from "jpeg-js";
 import { Readable, PassThrough } from "stream";
 
 export const runtime = "nodejs";
+
+// Enable JPEG decoding for PureImage
+(PImage as any).decodeJPEG = jpeg.decode;
 
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
@@ -14,17 +18,24 @@ export async function POST(req: Request) {
 
   try {
     const formData = await req.formData();
-    const file = formData.get("photo") as File;
+    const file = formData.get("photo");
 
-    if (!file) {
+    if (!(file instanceof File)) {
+      console.error("Invalid or missing file in formData");
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
     const readable = Readable.from(buffer);
-    const img = await PImage.decodeJPEGFromStream(readable);
+
+    let img;
+    try {
+      img = await PImage.decodeJPEGFromStream(readable);
+    } catch (decodeError) {
+      console.error("Failed to decode JPEG:", decodeError);
+      return NextResponse.json({ error: "Invalid image format" }, { status: 400 });
+    }
 
     const size = 250;
     const canvas = PImage.make(size, size);
@@ -39,11 +50,11 @@ export async function POST(req: Request) {
     ctx.closePath();
     ctx.clip();
 
-    // Manually scale and draw
+    // Manually scale and draw image
     ctx.drawImage(
       img,
-      0, 0, img.width, img.height, // source dimensions
-      0, 0, size, size             // destination dimensions (resizes)
+      0, 0, img.width, img.height,
+      0, 0, size, size
     );
 
     // Stream PNG output
