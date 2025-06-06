@@ -105,7 +105,7 @@ const PageWrapper = ({
           alert={alert}
         />
       </div>
-      {/* <CvLandingCta /> */}
+      <CvLandingCta />
       <div className="mt-6">
         <h1 className="text-3xl font-bold text-zinc-700">{job?.title}</h1>
         {!job?.companyEmail2 && (
