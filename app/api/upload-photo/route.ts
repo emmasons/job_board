@@ -6,9 +6,10 @@ export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
+  console.log("[DEBUG] Received content-type:", contentType);
 
   if (!contentType.includes("multipart/form-data")) {
-    console.error("Unsupported content type:", contentType);
+    console.error("[DEBUG] Unsupported content type:", contentType);
     return NextResponse.json({ error: "Unsupported content type" }, { status: 400 });
   }
 
@@ -17,48 +18,50 @@ export async function POST(req: Request) {
     const file = formData.get("photo");
 
     if (!(file instanceof File)) {
-      console.error("Invalid or missing file in formData:", file);
+      console.error("[DEBUG] File missing or invalid", file);
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(await file.arrayBuffer());
+    console.log("[DEBUG] buffer.length:", buffer.length);
+    console.log("[DEBUG] file.type:", file.type);
+    console.log("[DEBUG] buffer first 4 bytes:", buffer.toString("hex", 0, 4));
 
-    console.log("Buffer length:", buffer.length);
-    console.log("First bytes (JPEG check):", buffer.toString("hex", 0, 4)); // Should start with ffd8
-    console.log("Content-Type:", file.type);
-
-    // Resize and apply circular mask
     const size = 250;
-
     const circleSvg = Buffer.from(`
       <svg width="${size}" height="${size}">
-        <circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="white"/>
+        <circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="white"/>
       </svg>
     `);
 
-    const processedBuffer = await sharp(buffer)
-      .resize(size, size)
-      .composite([{ input: circleSvg, blend: 'dest-in' }]) // apply circular mask
-      .png()
-      .toBuffer();
+    let processedBuffer: Buffer;
+    try {
+      processedBuffer = await sharp(buffer)
+        .rotate() // normalize orientation
+        .resize(size, size)
+        .composite([{ input: circleSvg, blend: "dest-in" }])
+        .png()
+        .toBuffer();
+      console.log("[DEBUG] sharp processing successful, output size:", processedBuffer.length);
+    } catch (sharpError) {
+      console.error("[DEBUG] Sharp processing error:", sharpError);
+      return NextResponse.json({ error: "Image processing failed", details: sharpError.message }, { status: 500 });
+    }
 
     const filename = `photo_${Date.now()}.png`;
     const fileRef = bucket.file(`uploads/${filename}`);
-
     await fileRef.save(processedBuffer, {
       contentType: "image/png",
       public: true,
-      metadata: {
-        cacheControl: "public, max-age=31536000",
-      },
+      metadata: { cacheControl: "public, max-age=31536000" },
     });
 
     const publicUrl = `https://storage.googleapis.com/${bucket.name}/uploads/${filename}`;
-    console.log("Upload successful. URL:", publicUrl);
+    console.log("[DEBUG] File uploaded:", publicUrl);
     return NextResponse.json({ url: publicUrl }, { status: 200 });
-  } catch (e) {
-    console.error("Upload processing error:", e);
-    return NextResponse.json({ error: "Image processing failed" }, { status: 500 });
+
+  } catch (e: any) {
+    console.error("[DEBUG] Overall handler error:", e, e.stack);
+    return NextResponse.json({ error: "Internal server error", details: e.message }, { status: 500 });
   }
 }
