@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { bucket } from "@/lib/gcs";
 import sharp from "sharp";
 
-export const runtime = "nodejs";
-
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
   console.log("[DEBUG] Received content-type:", contentType);
@@ -65,3 +63,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error", details: e.message }, { status: 500 });
   }
 }
+
