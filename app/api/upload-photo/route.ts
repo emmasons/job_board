@@ -53,8 +53,10 @@ export async function POST(req: Request) {
     try {
       await fileRef.save(processedBuffer, {
         contentType: "image/png",
-        public: true,
-        metadata: { cacheControl: "public, max-age=31536000" },
+        predefinedAcl: "publicRead", // Prevent resumable upload that triggers AbortSignal issues
+        metadata: {
+          cacheControl: "public, max-age=31536000"
+        },
       });
     } catch (uploadError: any) {
       console.error("[DEBUG] Upload error:", uploadError);
@@ -69,4 +71,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error", details: e.message }, { status: 500 });
   }
 }
-
