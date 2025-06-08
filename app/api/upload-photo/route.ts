@@ -1,25 +1,24 @@
 // app/api/upload/route.ts
 import { NextResponse } from "next/server";
-import { bucket } from "@/lib/gcs";
 import sharp from "sharp";
+import { uploadImageBufferToGCS } from "@/lib/uploadImageBufferToGcs"; 
 
-export const runtime = "nodejs"; 
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type") || "";
   console.log("[DEBUG] Received content-type:", contentType);
 
   if (!contentType.includes("multipart/form-data")) {
-    console.error("[DEBUG] Unsupported content type:", contentType);
     return NextResponse.json({ error: "Unsupported content type" }, { status: 400 });
   }
 
   try {
     const formData = await req.formData();
     const file = formData.get("photo");
+    const name = formData.get("name")?.toString(); 
 
     if (!(file instanceof File)) {
-      console.error("[DEBUG] File missing or invalid", file);
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
@@ -34,40 +33,19 @@ export async function POST(req: Request) {
       </svg>
     `);
 
-    let processedBuffer: Buffer;
-    try {
-      processedBuffer = await sharp(buffer)
-        .rotate()
-        .resize(size, size)
-        .composite([{ input: circleSvg, blend: "dest-in" }])
-        .png()
-        .toBuffer();
-    } catch (sharpError: any) {
-      console.error("[DEBUG] Sharp processing error:", sharpError);
-      return NextResponse.json({ error: "Image processing failed", details: sharpError.message }, { status: 500 });
-    }
+    const processedBuffer = await sharp(buffer)
+      .rotate()
+      .resize(size, size)
+      .composite([{ input: circleSvg, blend: "dest-in" }])
+      .png()
+      .toBuffer();
 
-    const filename = `photo_${Date.now()}.png`;
-    const fileRef = bucket.file(`uploads/${filename}`);
+    const url = await uploadImageBufferToGCS(processedBuffer);
 
-    try {
-      await fileRef.save(processedBuffer, {
-        contentType: "image/png",
-        predefinedAcl: "publicRead", // Prevent resumable upload that triggers AbortSignal issues
-        metadata: {
-          cacheControl: "public, max-age=31536000"
-        },
-      });
-    } catch (uploadError: any) {
-      console.error("[DEBUG] Upload error:", uploadError);
-      return NextResponse.json({ error: "Upload failed", details: uploadError.message }, { status: 500 });
-    }
+    return NextResponse.json({ url }, { status: 200 });
 
-    const publicUrl = `https://storage.googleapis.com/${bucket.name}/uploads/${filename}`;
-    return NextResponse.json({ url: publicUrl }, { status: 200 });
-
-  } catch (e: any) {
-    console.error("[DEBUG] Unexpected error:", e);
-    return NextResponse.json({ error: "Internal server error", details: e.message }, { status: 500 });
+  } catch (err: any) {
+    console.error("[DEBUG] Unexpected error:", err);
+    return NextResponse.json({ error: "Internal server error", details: err.message }, { status: 500 });
   }
 }
