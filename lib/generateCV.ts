@@ -52,19 +52,27 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   const templateFileName = `${templateName}.docx`;
   const templatePath = path.resolve(process.cwd(), "public/templates", templateFileName);
 
+  console.log("Template path resolved:", templatePath);
+
   if (!fs.existsSync(templatePath)) {
+    console.error("Template file does not exist at path:", templatePath);
     throw new Error(`Template file not found: ${templatePath}`);
   }
 
   const content = fs.readFileSync(templatePath, "binary");
+  console.log("Template file read successfully. Size (bytes):", content.length);
+
   const zip = new PizZip(content);
+  console.log("PizZip loaded");
 
   const imageModule = new ImageModule({
     centered: true,
     getImage(tagValue) {
+      console.log("getImage called with tagValue (base64 size):", tagValue?.length);
       return Buffer.from(tagValue, "base64");
     },
     getSize() {
+      console.log("getSize called");
       return [150, 150];
     },
   });
@@ -79,11 +87,14 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   if (data.photo) {
     try {
       photoBase64 = await imageUrlToBase64(data.photo);
+      console.log("Photo successfully converted to base64. Length:", photoBase64.length);
+      console.log("Photo base64 preview:", photoBase64.slice(0, 40));
     } catch (err) {
-      console.error("Photo not found or unreadable:", data.photo, err);
+      console.error("Photo conversion failed for URL:", data.photo, err);
     }
+  } else {
+    console.warn("No photo URL provided in data.");
   }
-
 
   const docData = {
     ...data,
@@ -92,15 +103,25 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
     referees_exist: data.referees_list?.length > 0,
   };
 
+  console.log("Prepared data for rendering. Keys:", Object.keys(docData));
+  console.log("Achievements exist?", docData.achievements_exist);
+  console.log("Referees exist?", docData.referees_exist);
+  console.log("Photo tag value length:", docData.photo.length);
+
   try {
     doc.render(docData);
+    console.log("Document rendered successfully.");
   } catch (error: any) {
     console.error("Template rendering failed:", error);
     throw new Error("Template rendering error: " + error.message);
   }
 
-  return doc.getZip().generate({ type: "nodebuffer" });
+  const outputBuffer = doc.getZip().generate({ type: "nodebuffer" });
+  console.log("DOCX buffer generated. Size (bytes):", outputBuffer.length);
+
+  return outputBuffer;
 }
+
 
 // iLovePDF conversion using official SDK style
 export async function convertDocxToPDF(docBuffer: Buffer, filename: string): Promise<Buffer> {
