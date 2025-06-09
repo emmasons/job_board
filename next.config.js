@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: false, // Disable minification to prevent instanceof issues
-
   images: {
     remotePatterns: [
       {
@@ -21,18 +19,31 @@ const nextConfig = {
       },
     ],
   },
-
   typescript: {
     ignoreBuildErrors: true,
   },
-
   productionBrowserSourceMaps: true,
-
   experimental: {
     serverActions: {
       allowedOrigins: ['talentra.io'],
       allowedForwardedHosts: ['talentra.io'],
     },
+  },
+
+  webpack(config) {
+    // Apply Babel to @slosarek/docxtemplater-image-module-free to bypass SWC issues
+    config.module.rules.push({
+      test: /\.js$/,
+      include: /node_modules\/@slosarek\/docxtemplater-image-module-free/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+        },
+      },
+    });
+
+    return config;
   },
 };
 
