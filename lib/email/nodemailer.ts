@@ -14,39 +14,36 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Send the email
 export const mail = async ({
   to_email,
   subject,
   message,
 }: EmailProps): Promise<{ status: number; message: string }> => {
-  // Define the email options
-
-  // Define a simple template for the email
-
-  const logoPath = path.resolve("./public/logo.png");
-
+  const logoPath = path.resolve("./public/logo2.png");
   const logoData = fs.readFileSync(logoPath).toString("base64");
 
   const htmlTemplate = `<html>
   <head>
-    <title>Jobs Connect Limited</title>
+    <title>Talentra.io</title>
     <style>
       body {
-       font-family: Garamond, sans-serif;
+        font-family: Garamond, sans-serif;
         background-color: whitesmoke;
         font-family: 'Google Sans', Garamond;
       }
       div {
-       background-color: white;
+        background-color: white;
         border-radius: 20px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
       }
       h1 {
         color: #F97316;
       }
       p {
         color: #333333;
-        font-size:1rem;
+        font-size: 1rem;
       }
       address {
         font-size: 0.7rem;
@@ -55,33 +52,32 @@ export const mail = async ({
     </style>
   </head>
   <body>
-      <div>
-        <h1>${subject}</h1>
-        <p>${message}</p>
-
-        <p style="margin: 0;">Thank you.</p>
-        <p style="margin: 0;"><i>Jobs Connect Limited Team</i></p><br>
-        <address>
-            <p>1st Floor, Muthaiga Square, Thika road, Nairobi</p>
-            <p>Tel: 0203 151 2410</p>
-            <p>Mobile +254712428640</p>
-        </address>
-        <img src="cid:logo" style="background-color:white; max-height:40px; height:auto; width:auto; object-fit:contain">
-
-      </div>
+    <div>
+      <h1>${subject}</h1>
+      <p>${message}</p>
+      <p style="margin: 0;">Thank you.</p>
+      <p style="margin: 0;"><i>The Talentra.io Team</i></p><br>
+      <address>
+        <p>Dubai, UAE</p>
+        <p>Phone: +971507092468</p>
+        <p>Email: notify@talentra.io</p>
+      </address>
+      <img src="cid:logo" style="background-color:white; max-height:40px; height:auto; width:auto; object-fit:contain">
+    </div>
   </body>
   </html>`;
+
   const mailOptions = {
     from: env.SMTP_AUTH_USER,
-    name: "Jobs Connect Limited",
+    name: "Talentra.io",
     to: to_email,
     subject: subject,
     html: htmlTemplate,
     attachments: [
       {
-        filename: "logo.png",
+        filename: "logo2.png",
         path: logoPath,
-        cid: "logo", // You can give it any unique identifier.
+        cid: "logo",
       },
     ],
   };
