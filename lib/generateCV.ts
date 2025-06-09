@@ -51,28 +51,29 @@ async function imageUrlToBase64(url: string): Promise<string> {
 export async function generateCV(data: CVData, templateName = "basic"): Promise<Buffer> {
   const templateFileName = `${templateName}.docx`;
   const templatePath = path.resolve(process.cwd(), "public/templates", templateFileName);
-
   console.log("Template path resolved:", templatePath);
 
   if (!fs.existsSync(templatePath)) {
-    console.error("Template file does not exist at path:", templatePath);
-    throw new Error(`Template file not found: ${templatePath}`);
+    console.error("Template file missing:", templatePath);
+    throw new Error(`Template not found: ${templatePath}`);
   }
 
   const content = fs.readFileSync(templatePath, "binary");
-  console.log("Template file read successfully. Size (bytes):", content.length);
+  console.log("Template file size:", content.length);
 
   const zip = new PizZip(content);
   console.log("PizZip loaded");
 
   const imageModule = new ImageModule({
     centered: true,
-    getImage(tagValue) {
-      console.log("getImage called with tagValue (base64 size):", tagValue?.length);
-      return Buffer.from(tagValue, "base64");
+    getImage(tagValue: any) {
+      console.log(">> getImage invoked. tagValue type:", typeof tagValue, ", length:", tagValue?.length);
+      const buf = Buffer.from(tagValue, "base64");
+      console.log(">> Buffer size created:", buf.length);
+      return buf;
     },
-    getSize() {
-      console.log("getSize called");
+    getSize(tagValue: any) {
+      console.log(">> getSize called. tagValue length:", tagValue?.length);
       return [150, 150];
     },
   });
@@ -87,39 +88,29 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   if (data.photo) {
     try {
       photoBase64 = await imageUrlToBase64(data.photo);
-      console.log("Photo successfully converted to base64. Length:", photoBase64.length);
-      console.log("Photo base64 preview:", photoBase64.slice(0, 40));
+      console.log("Photo base64 length:", photoBase64.length);
     } catch (err) {
-      console.error("Photo conversion failed for URL:", data.photo, err);
+      console.error("Error converting photo URL:", data.photo, err);
     }
   } else {
-    console.warn("No photo URL provided in data.");
+    console.warn("No photo URL provided");
   }
 
-  const docData = {
-    ...data,
-    photo: photoBase64 || "",
-    achievements_exist: data.achievements?.length > 0,
-    referees_exist: data.referees_list?.length > 0,
-  };
-
-  console.log("Prepared data for rendering. Keys:", Object.keys(docData));
-  console.log("Achievements exist?", docData.achievements_exist);
-  console.log("Referees exist?", docData.referees_exist);
-  console.log("Photo tag value length:", docData.photo.length);
+  const docData = { ...data, photo: photoBase64 || "" };
+  console.log("docData keys:", Object.keys(docData));
+  console.log("docData.photo length:", docData.photo.length);
 
   try {
     doc.render(docData);
-    console.log("Document rendered successfully.");
-  } catch (error: any) {
-    console.error("Template rendering failed:", error);
-    throw new Error("Template rendering error: " + error.message);
+    console.log("doc.render() succeeded");
+  } catch (e: any) {
+    console.error("doc.render() failed:", e);
+    throw new Error("Template rendering error: " + e.message);
   }
 
-  const outputBuffer = doc.getZip().generate({ type: "nodebuffer" });
-  console.log("DOCX buffer generated. Size (bytes):", outputBuffer.length);
-
-  return outputBuffer;
+  const buffer = doc.getZip().generate({ type: "nodebuffer" });
+  console.log("DOCX generated. Buffer size:", buffer.length);
+  return buffer;
 }
 
 
