@@ -3,7 +3,8 @@ import path from "path";
 import PizZip from "pizzip";
 import axios from "axios";
 import Docxtemplater from "docxtemplater";
-const ImageModule = require("docxtemplater-image-module-free").default || require("docxtemplater-image-module-free");
+const ImageModuleRaw = require("docxtemplater-image-module-free");
+const ImageModule = ImageModuleRaw?.default || ImageModuleRaw;
 import ILovePDFApi from "@ilovepdf/ilovepdf-nodejs";
 import ILovePDFFile from "@ilovepdf/ilovepdf-nodejs/ILovePDFFile";
 import os from "os";
@@ -65,9 +66,6 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   const zip = new PizZip(content);
   console.log("PizZip loaded");
 
-  const raw = require("docxtemplater-image-module-free");
-  const ImageModule = raw.default || raw;
-
   const imageModule = new ImageModule({
     centered: true,
     getImage(tagValue) {
@@ -110,8 +108,9 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   console.log("Achievements exist?", docData.achievements_exist);
   console.log("Referees exist?", docData.referees_exist);
   console.log("Photo tag value length:", docData.photo.length);
-  console.log("ImageModule type:", typeof ImageModule); // Should print "function"
-  console.log("Is constructor?", ImageModule.prototype?.constructor?.name); // Should show constructor name
+  console.log("ImageModule type:", typeof ImageModule);
+  console.log("Is constructor?", typeof ImageModule === "function" ? ImageModule.name : "Not a function");
+
 
 
   try {
