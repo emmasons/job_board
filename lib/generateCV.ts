@@ -3,7 +3,7 @@ import path from "path";
 import PizZip from "pizzip";
 import axios from "axios";
 import Docxtemplater from "docxtemplater";
-import ImageModule from "docxtemplater-image-module-free";
+const ImageModule = require("docxtemplater-image-module-free");
 import ILovePDFApi from "@ilovepdf/ilovepdf-nodejs";
 import ILovePDFFile from "@ilovepdf/ilovepdf-nodejs/ILovePDFFile";
 import os from "os";
