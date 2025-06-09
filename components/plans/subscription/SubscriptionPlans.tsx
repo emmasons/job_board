@@ -105,31 +105,39 @@ export default function SubscriptionPlans({
         )}
 
         <div className="grid gap-10 bg-slate-100 p-6 md:grid-cols-3">
-          {reorderedPlans.map((plan) => {
+          {reorderedPlans.map((plan, index) => {
             const features = plan.planFeatures.map((pf) => pf.feature);
             const isCurrentUserPlan = isCurrentPlan(plan.id);
-            const adjustedPrice = (
-              plan.price *
-              (selectedCycle === "ANNUALLY"
-                ? 10
-                : selectedCycle === "QUARTERLY"
-                  ? 3
-                  : 1)
-            ).toFixed(2);
+
+            // Highlight the 2nd plan (index 1) as "Recommended" if there's no current subscription
+            const isRecommendedPlan = !currentSubscription && index === 1;
+
+            // Make the plan after the recommended (index 2) show "Lifetime" instead of the selected cycle
+            const isLifetimePlan = !currentSubscription && index === 2;
+
+            const adjustedPrice = isLifetimePlan
+              ? plan.price.toFixed(2)
+              : (
+                  plan.price *
+                  (selectedCycle === "ANNUALLY"
+                    ? 10
+                    : selectedCycle === "QUARTERLY"
+                    ? 3
+                    : 1)
+                ).toFixed(2);
 
             return (
               <div
                 key={plan.id}
                 className={`group overflow-hidden rounded-lg bg-white shadow-lg 
                   transition-all duration-300 ease-out
-                  ${isCurrentUserPlan ? "scale-105" : ""} 
+                  ${(isCurrentUserPlan || isRecommendedPlan) ? "scale-105 ring-2 ring-primary" : ""} 
                   hover:-translate-y-2 hover:scale-[1.02]
-                  hover:shadow-2xl
-                  ${isCurrentUserPlan ? "ring-2 ring-primary" : ""}`}
+                  hover:shadow-2xl`}
               >
-                {isCurrentUserPlan && (
+                {(isCurrentUserPlan || isRecommendedPlan) && (
                   <div className="bg-primary text-white py-1 px-4 text-center text-sm font-medium">
-                    Current Plan
+                    {isCurrentUserPlan ? "Current Plan" : "Recommended"}
                   </div>
                 )}
                 <div className="p-6">
@@ -139,12 +147,11 @@ export default function SubscriptionPlans({
                   <div className="mb-4">
                     <span className="text-3xl font-bold">${adjustedPrice}</span>
                     <span className="text-gray-500">
-                      /
-                      {selectedCycle.toLowerCase() === "monthly"
+                      /{isLifetimePlan ? "Lifetime" : selectedCycle.toLowerCase() === "monthly"
                         ? "mo"
                         : selectedCycle.toLowerCase() === "quarterly"
-                          ? "quarter"
-                          : "year"}
+                        ? "quarter"
+                        : "year"}
                     </span>
                   </div>
                   <ul className="space-y-3 mb-6">
@@ -171,8 +178,8 @@ export default function SubscriptionPlans({
                     {isCurrentUserPlan
                       ? "Current Plan"
                       : isSubmitting
-                        ? "Processing..."
-                        : `Subscribe to ${plan.name}`}
+                      ? "Processing..."
+                      : `Subscribe to ${plan.name}`}
                     <ChevronRight className="ml-2 h-5 w-5" />
                   </button>
                 </div>
