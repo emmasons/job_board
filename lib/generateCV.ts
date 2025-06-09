@@ -3,7 +3,8 @@ import path from "path";
 import PizZip from "pizzip";
 import axios from "axios";
 import Docxtemplater from "docxtemplater";
-import ImageModule from "docxtemplater-image-module-free";
+const ImageModulePkg = require("@slosarek/docxtemplater-image-module-free");
+const ImageModule = ImageModulePkg.default || ImageModulePkg;
 import ILovePDFApi from "@ilovepdf/ilovepdf-nodejs";
 import ILovePDFFile from "@ilovepdf/ilovepdf-nodejs/ILovePDFFile";
 import os from "os";
@@ -107,6 +108,10 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   console.log("Achievements exist?", docData.achievements_exist);
   console.log("Referees exist?", docData.referees_exist);
   console.log("Photo tag value length:", docData.photo.length);
+  console.log("ImageModule type:", typeof ImageModule);
+  console.log("Is constructor?", typeof ImageModule === "function" ? ImageModule.name : "Not a function");
+  console.log("ImageModule full object:", ImageModule);
+  console.log("ImageModule name:", ImageModule.name);
 
   try {
     doc.render(docData);
