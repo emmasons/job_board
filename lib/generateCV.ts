@@ -3,7 +3,7 @@ import path from "path";
 import PizZip from "pizzip";
 import axios from "axios";
 import Docxtemplater from "docxtemplater";
-const ImageModule = require("docxtemplater-image-module-free");
+import ImageModule from "docxtemplater-image-module-free";
 import ILovePDFApi from "@ilovepdf/ilovepdf-nodejs";
 import ILovePDFFile from "@ilovepdf/ilovepdf-nodejs/ILovePDFFile";
 import os from "os";
@@ -65,27 +65,18 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   const zip = new PizZip(content);
   console.log("PizZip loaded");
 
-  const imageModule = new ImageModule({
-    centered: true,
-    getImage(tagValue) {
-      console.log("getImage called with tagValue (base64 size):", tagValue?.length);
+  const ImageModulePatched = (ImageModule as any).default || ImageModule;
 
-      try {
-        const buffer = Buffer.from(tagValue, "base64");
-        if (!Buffer.isBuffer(buffer)) {
-          throw new Error("Failed to convert to Buffer");
-        }
-        return buffer;
-      } catch (err) {
-        console.error("Failed to convert tagValue to Buffer:", err);
-        throw new Error("Invalid image data provided");
-      }
+  const imageModule = new ImageModulePatched({
+    centered: false,
+    getImage: function (tagValue: any) {
+      return fs.readFileSync(tagValue);  // or return a Buffer directly
     },
-    getSize() {
-      console.log("getSize called");
-      return [150, 150];
+    getSize: function () {
+      return [150, 150]; // Fixed width and height
     },
   });
+
 
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
@@ -131,6 +122,7 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
 
   return outputBuffer;
 }
+
 
 // iLovePDF conversion using official SDK style
 export async function convertDocxToPDF(docBuffer: Buffer, filename: string): Promise<Buffer> {
