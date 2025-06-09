@@ -110,6 +110,8 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   console.log("Photo tag value length:", docData.photo.length);
   console.log("ImageModule type:", typeof ImageModule);
   console.log("Is constructor?", typeof ImageModule === "function" ? ImageModule.name : "Not a function");
+  console.log("ImageModule full object:", ImageModule);
+  console.log("ImageModule name:", ImageModule.name);
 
 
 
