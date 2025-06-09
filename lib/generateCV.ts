@@ -65,18 +65,17 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   const zip = new PizZip(content);
   console.log("PizZip loaded");
 
-  const ImageModulePatched = (ImageModule as any).default || ImageModule;
-
-  const imageModule = new ImageModulePatched({
-    centered: false,
-    getImage: function (tagValue: any) {
-      return fs.readFileSync(tagValue);  // or return a Buffer directly
+  const imageModule = new ImageModule({
+    centered: true,
+    getImage(tagValue) {
+      console.log("getImage called with tagValue (base64 size):", tagValue?.length);
+      return Buffer.from(tagValue, "base64");
     },
-    getSize: function () {
-      return [150, 150]; // Fixed width and height
+    getSize() {
+      console.log("getSize called");
+      return [150, 150];
     },
   });
-
 
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
