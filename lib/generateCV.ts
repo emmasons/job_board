@@ -65,6 +65,9 @@ export async function generateCV(data: CVData, templateName = "basic"): Promise<
   const zip = new PizZip(content);
   console.log("PizZip loaded");
 
+  const raw = require("docxtemplater-image-module-free");
+  const ImageModule = raw.default || raw;
+
   const imageModule = new ImageModule({
     centered: true,
     getImage(tagValue) {
