@@ -1,12 +1,10 @@
 "use client";
-import { Suspense, useState } from "react";
-import CreateCoverLetterForm from "./CreateCoverLetter";
+
+import { Suspense, useEffect, useState } from "react";
 import Apply from "./Apply";
 import { JobSeekerProfileProps } from "@/types/job-seeker-profile";
-import { Button } from "@/components/ui/button";
-import { Loader2, Zap } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Company, Job, User } from "@prisma/client";
-import { FeatureGuard } from "../FeatureGuard";
 import { SessionUser } from "@/lib/auth";
 
 type Props = {
@@ -18,6 +16,13 @@ type Props = {
   };
   user: SessionUser;
   coverLetterContent?: string;
+  userSubscription: {
+    id: string;
+    status: string;
+    plan: {
+      name: string;
+    };
+  } | null;
 };
 
 const ApplyFeature = ({
@@ -26,50 +31,78 @@ const ApplyFeature = ({
   job,
   user,
   coverLetterContent,
+  userSubscription,
 }: Props) => {
-  return (
-    <div className="space-y-4">
-      <Suspense
-        fallback={
-          <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <Loader2 className="h-8 w-8 animate-spin" /> Loading cover letter
-            generator...
-          </div>
-        }
-      >
-        <FeatureGuard
-          featureName="cover_letter_generation"
-          userId={user.id}
-          fallback={
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-              <h3 className="font-medium">Job Application</h3>
-              <p className="mt-2 text-gray-600">
-                Upgrade to Basic plan to apply for this job.
-              </p>
-              <a
-                href="/subscription/plans"
-                className="mt-4 inline-block rounded-md bg-blue-600 px-4 py-2 text-white"
-              >
-                Upgrade Plan
-              </a>
-            </div>
-          }
+  const hasActiveSubscription = userSubscription && userSubscription.status === "ACTIVE";
+
+  const [hasFeatureAccess, setHasFeatureAccess] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkFeatureAccess = async () => {
+      try {
+        const res = await fetch(
+          `/api/subscription/check-access?feature=cover_letter_generation`
+        );
+        const data = await res.json();
+        setHasFeatureAccess(data.hasAccess);
+      } catch (error) {
+        console.error("Error checking feature access:", error);
+        setHasFeatureAccess(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Only check access if no active subscription
+    if (!hasActiveSubscription) {
+      checkFeatureAccess();
+    } else {
+      setHasFeatureAccess(true);
+      setLoading(false);
+    }
+  }, [hasActiveSubscription]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 p-6">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        Loading Access...
+      </div>
+    );
+  }
+
+  if (!hasFeatureAccess) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+        <h3 className="font-medium">Job Application</h3>
+        <p className="mt-2 text-gray-600">
+          You need an active Subscription to apply for this job.
+        </p>
+        <a
+          href="/subscription/plans"
+          className="mt-4 inline-block rounded-md bg-primary/70 px-4 py-2 text-white"
         >
-          {jobSeekerProfile &&
-          (jobSeekerProfile?.profilePercentage?.percentage ?? 0) > 50 ? (
-            <Apply jobId={jobId} coverLetter={coverLetterContent} />
-          ) : (
-            <div className="my-2 space-y-2 rounded-md border border-dashed border-gray-300 p-4">
-              <p className="text-[0.7rem] text-muted-foreground">
-                Please complete your profile to apply for this job.
-              </p>
-              <ul className="list-disc pl-5 text-[0.6rem] text-muted-foreground">
-                <li>Update your profile up to 50%</li>
-              </ul>
-            </div>
-          )}
-        </FeatureGuard>
-      </Suspense>
+          View Plans
+        </a>
+      </div>
+    );
+  }
+
+  const profilePercentage = jobSeekerProfile?.profilePercentage?.percentage ?? 0;
+
+  if (jobSeekerProfile && profilePercentage > 20) {
+    return <Apply jobId={jobId} coverLetter={coverLetterContent} />;
+  }
+
+  return (
+    <div className="rounded-md border border-amber-200 bg-amber-50 p-4">
+      <p className="text-[1rem] text-amber-700">
+        Please complete your profile to apply for this job.
+      </p>
+      <ul className="list-disc pl-5 text-[0.8rem] text-amber-700">
+        <li>Update your profile up to 40%</li>
+      </ul>
     </div>
   );
 };

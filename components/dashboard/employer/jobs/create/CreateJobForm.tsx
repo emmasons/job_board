@@ -25,7 +25,7 @@ import { format } from "date-fns";
 import {
   cn,
   getGulfCountryCurrencyByCurrencyCode,
-  gulfCountries,
+  allCountries,
 } from "@/lib/utils";
 import {
   Popover,
@@ -133,7 +133,7 @@ export default function CreateJobForm({
       value: country.name,
     }));
 
-  const currencyList = gulfCountries.map((country) => ({
+  const currencyList = allCountries.map((country) => ({
     label: `${getGulfCountryCurrencyByCurrencyCode(country)}(${country})`,
     value: getGulfCountryCurrencyByCurrencyCode(country),
   }));

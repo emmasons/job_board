@@ -8,6 +8,7 @@ export type SessionUser = {
   isVerified: boolean;
   firstName?: string;
   lastName?: string;
+  email?: string;
   registeredUser: boolean;
   role: Role;
   image?: string;

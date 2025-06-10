@@ -19,7 +19,8 @@ export const sendEmail = async ({
     };
     const response = await mail(formProps);
     return { ...response };
-  } catch (error) {
-    throw new Error(String(error));
+  } catch (error: any) {
+    console.error("[EMAIL ERROR]", error); // Better logging
+    throw new Error(error.message || "Unknown email sending error");
   }
 };

@@ -59,7 +59,7 @@ const Apply = (props: Props) => {
     </Button>
   ) : (
     <Button onClick={onSubmit} className="w-fit bg-primary font-semibold">
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
+      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply Now"}
     </Button>
   );
 };
