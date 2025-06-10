@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { getLatestFileMetaData } from "@/actions/get-latest-file-metadata";
 import { getJobSeekerProfile } from "@/actions/get-job-seeker-profile";
 import { getUserCv } from "@/actions/get-user-cv";
+import { getUserSubscription } from "@/actions/get-user-subscription";
 import UploadCV from "@/components/dashboard/job-seeker/cv/UploadCV";
 import { getUserApplicationById } from "@/actions/applications/get-user-application-by-id";
 import Link from "next/link";
@@ -33,6 +34,8 @@ const page = async (props: Props) => {
   const jobSeekerProfile = await getJobSeekerProfile(user.id);
   const application = await getUserApplicationById(user.id, props.params.jobId);
   const job = await getJobById(props.params.jobId);
+  const userSubscription = await getUserSubscription(user.id);
+
 
   return (
     <div className="h-full bg-zinc-100">
@@ -69,7 +72,7 @@ const page = async (props: Props) => {
                 }))}
               /> */}
 
-              <div className="space-y-2 p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              <div className="space-y-2 p-4">
                 <div className="inline-flex items-center gap-4">
                   <h2>My CV Summary</h2>
                   <p className="muted">
@@ -87,12 +90,31 @@ const page = async (props: Props) => {
                 <p className="text-[0.8rem] italic text-muted-foreground">
                   Please note, this is what prospective employers will see.
                 </p>
-                <div className="space-y-2 p-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2 p-4 shadow-[0_2px_5px_rgb(0,0,0,0.1)]">
                   <UploadCV
                     cv={cv}
                     cvFile={cvFile}
                     isJobSeekerComponent={true}
                   />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 p-4 shadow-[0_2px_5px_rgb(0,0,0,0.1)]">
+                  <Link
+                    href={`/create-cover-letter/templates?jobId=${props.params.jobId}`}
+                    className="inline-flex items-center justify-center rounded bg-sky-500 px-4 py-2 text-white font-medium hover:bg-sky-600 transition"
+                    target="_blank"
+                  >
+                    Generate Cover Letter
+                    <FilePen className="ml-2 inline-block" />
+                  </Link>
+                  <Link
+                    href={`/generate-cv`}
+                    className="inline-flex items-center justify-center rounded bg-sky-500 px-4 py-2 text-white font-medium hover:bg-sky-600 transition"
+                    target="_blank"
+                  >
+                    Generate CV
+                    <FilePen className="ml-2 inline-block" />
+                  </Link>
                 </div>
                 <div className="p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">
@@ -103,13 +125,14 @@ const page = async (props: Props) => {
                     {jobSeekerProfile?.cvHeadLine || "No CV Headline provided"}
                   </p>
                 </div>
+
                 <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">About me</h3>
                   <p className="text-[0.8rem]">
-                    {jobSeekerProfile?.profileSummary ||
-                      "No profile summary provided"}
+                    {jobSeekerProfile?.profileSummary || "No profile summary provided"}
                   </p>
                 </div>
+
                 <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">Key Skills</h3>
                   <div>
@@ -129,29 +152,27 @@ const page = async (props: Props) => {
                     )}
                   </div>
                 </div>
+
                 <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">Professional</h3>
                   <div>
                     <p className="text-[0.8rem]">
-                      {jobSeekerProfile?.experience?.label ||
-                        "No experience added"}
+                      {jobSeekerProfile?.experience?.label || "No experience added"}
                     </p>
                     <p className="text-[0.8rem]">
                       {jobSeekerProfile?.sector?.label || "No sector added"}
                     </p>
                     <p className="text-[0.8rem]">
-                      {jobSeekerProfile?.expectedSalary ||
-                        "No salary range added"}
+                      {jobSeekerProfile?.expectedSalary || "No salary range added"}
                     </p>
                     <p className="text-[0.8rem]">
-                      {jobSeekerProfile?.currentSalary ||
-                        "Current salary not added"}
+                      {jobSeekerProfile?.currentSalary || "Current salary not added"}
                     </p>
                   </div>
                 </div>
+
                 <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">Educational Background</h3>
-
                   {jobSeekerProfile?.educationDetails &&
                   jobSeekerProfile.educationDetails.length > 0 ? (
                     jobSeekerProfile?.educationDetails?.map((edu) => (
@@ -164,22 +185,19 @@ const page = async (props: Props) => {
                         <p className="text-sm">
                           {edu.startYear} - {edu.endYear}
                         </p>
-                        {/* <p className="text-sm">{edu.level}</p> */}
                       </div>
                     ))
                   ) : (
-                    <p className="text-[0.8rem]">
-                      No educational background added
-                    </p>
+                    <p className="text-[0.8rem]">No educational background added</p>
                   )}
                 </div>
+
                 <div className="space-y-2 p-4 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
                   <h3 className="font-semibold">Professional Background</h3>
                   <p className="text-[0.8rem]">
                     {jobSeekerProfile?.employmentDetails?.length === 0 &&
                       "No professional background added"}
                   </p>
-
                   {jobSeekerProfile?.employmentDetails &&
                     jobSeekerProfile.employmentDetails.length > 0 &&
                     jobSeekerProfile.employmentDetails.map((emp) => (
@@ -187,15 +205,15 @@ const page = async (props: Props) => {
                         <p className="text-sm">Company: {emp.company}</p>
                         <p className="text-sm">Title: {emp.designation}</p>
                         <p className="text-sm">Location: {emp.location}</p>
-                        <p className="text-sm">
-                          Description: {emp.description}
-                        </p>
+                        <p className="text-sm">Description: {emp.description}</p>
                         <p className="text-sm">
                           {emp.startYear} - {emp.endYear}
                         </p>
                       </div>
                     ))}
                 </div>
+              </div>
+
               </div>
             </div>
             {/* <ApplicationWrapper
@@ -204,19 +222,12 @@ const page = async (props: Props) => {
               job={job}
               user={user}
             /> */}
-            <Link
-              href={`/create-cover-letter/templates?jobId=${props.params.jobId}`}
-              className="text-sky-500"
-              target="_blank"
-            >
-              Create a professional cover letter
-              <FilePen className="ml-2 inline-block" />
-            </Link>
             <ApplyFeature
               jobId={props.params.jobId}
               jobSeekerProfile={jobSeekerProfile}
               job={job}
               user={user}
+              userSubscription={userSubscription}
               coverLetterContent={application?.coverLetterContent}
             />
           </div>

@@ -37,8 +37,91 @@ export const popularCities = [
   "Manchester",
 ];
 
+export const allCountries = [
+  // Gulf countries
+  "Saudi Arabia",
+  "United Arab Emirates",
+  "Qatar",
+  "Kuwait",
+  "Bahrain",
+  "Oman",
+
+  // Existing countries
+  "United States",
+  "Canada",
+  "United Kingdom",
+  "Germany",
+  "Australia",
+  "Netherlands",
+
+  // European countries
+  "Albania",
+  "Andorra",
+  "Armenia",
+  "Austria",
+  "Azerbaijan",
+  "Belarus",
+  "Belgium",
+  "Bosnia and Herzegovina",
+  "Bulgaria",
+  "Croatia",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Estonia",
+  "Finland",
+  "France",
+  "Georgia",
+  "Greece",
+  "Hungary",
+  "Iceland",
+  "Ireland",
+  "Italy",
+  "Kazakhstan",
+  "Kosovo",
+  "Latvia",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Malta",
+  "Moldova",
+  "Monaco",
+  "Montenegro",
+  "North Macedonia",
+  "Norway",
+  "Poland",
+  "Portugal",
+  "Romania",
+  "Russia",
+  "San Marino",
+  "Serbia",
+  "Slovakia",
+  "Slovenia",
+  "Spain",
+  "Sweden",
+  "Switzerland",
+  "Turkey",
+  "Ukraine",
+  "Vatican City",
+];
+
 export const getGulfCountryCurrencyByCurrencyCode = (countryCode: string) => {
   switch (countryCode) {
+    // Gulf countries
+    case "Saudi Arabia":
+      return "SAR";
+    case "United Arab Emirates":
+      return "AED";
+    case "Qatar":
+      return "QAR";
+    case "Kuwait":
+      return "KWD";
+    case "Bahrain":
+      return "BHD";
+    case "Oman":
+      return "OMR";
+
+    // Other existing
     case "United States":
       return "USD";
     case "Canada":
@@ -46,11 +129,87 @@ export const getGulfCountryCurrencyByCurrencyCode = (countryCode: string) => {
     case "United Kingdom":
       return "GBP";
     case "Germany":
+    case "Netherlands":
+    case "France":
+    case "Spain":
+    case "Italy":
+    case "Austria":
+    case "Belgium":
+    case "Ireland":
+    case "Finland":
+    case "Portugal":
+    case "Slovakia":
+    case "Slovenia":
+    case "Estonia":
+    case "Greece":
+    case "Cyprus":
+    case "Latvia":
+    case "Lithuania":
+    case "Luxembourg":
+    case "Malta":
       return "EUR";
+
     case "Australia":
       return "AUD";
-    case "Netherlands":
+    case "Switzerland":
+      return "CHF";
+    case "Denmark":
+      return "DKK";
+    case "Sweden":
+      return "SEK";
+    case "Norway":
+      return "NOK";
+    case "Poland":
+      return "PLN";
+    case "Czech Republic":
+      return "CZK";
+    case "Hungary":
+      return "HUF";
+    case "Russia":
+      return "RUB";
+    case "Turkey":
+      return "TRY";
+    case "Ukraine":
+      return "UAH";
+    case "Romania":
+      return "RON";
+    case "Bulgaria":
+      return "BGN";
+    case "Croatia":
+      return "EUR"; // switched to Euro in 2023
+    case "Georgia":
+      return "GEL";
+    case "Iceland":
+      return "ISK";
+    case "Armenia":
+      return "AMD";
+    case "Azerbaijan":
+      return "AZN";
+    case "Belarus":
+      return "BYN";
+    case "Kazakhstan":
+      return "KZT";
+    case "Moldova":
+      return "MDL";
+    case "Serbia":
+      return "RSD";
+    case "Bosnia and Herzegovina":
+      return "BAM";
+    case "Albania":
+      return "ALL";
+    case "Montenegro":
       return "EUR";
+    case "North Macedonia":
+      return "MKD";
+    case "Liechtenstein":
+      return "CHF";
+    case "San Marino":
+    case "Monaco":
+    case "Vatican City":
+      return "EUR";
+    case "Kosovo":
+      return "EUR";
+
     default:
       return "USD";
   }

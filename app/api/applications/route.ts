@@ -11,19 +11,28 @@ export async function POST(req: Request) {
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
     const { jobId, coverLetter } = await req.json();
 
     const job = await db.job.findFirst({
-      where: {
-        id: jobId,
-      },
-      include: {
-        owner: true,
-      },
+      where: { id: jobId },
+      include: { owner: true },
     });
 
     if (!job) {
       return new NextResponse("Job not found", { status: 404 });
+    }
+
+    // Prevent duplicate application
+    const existingApplication = await db.application.findFirst({
+      where: {
+        jobId,
+        userId: user.id,
+      },
+    });
+
+    if (existingApplication) {
+      return new NextResponse("You have already applied to this job.", { status: 400 });
     }
 
     const application = await db.application.create({
@@ -33,21 +42,20 @@ export async function POST(req: Request) {
       },
     });
 
-    if (!application) {
-      return new NextResponse("Failed to create application", { status: 500 });
+    // Only create cover letter if provided
+    if (coverLetter && coverLetter.trim() !== "") {
+      await db.coverLetter.create({
+        data: {
+          content: coverLetter,
+          applicationId: application.id,
+        },
+      });
     }
 
-    await db.coverLetter.create({
-      data: {
-        content: coverLetter,
-        applicationId: application.id,
-      },
-    });
-
     const subject = "New Job Application";
-    const message = `<p>New job application received from ${user.name}.</p>
-    <p>Job title: ${job.title}</p>
-    <p>Please <a href="${env.BASE_DOMAIN}/profile/dashboard/employer/jobs/${job.id}">Login</a> to view and respond.</a></p>`;
+    const message = `<p>New job application received from ${user.firstName}.</p>
+      <p>Job title: ${job.title}</p>
+      <p>Please <a href="${env.BASE_DOMAIN}/profile/dashboard/employer/jobs/${job.id}">Login</a> to view and respond.</p>`;
 
     await sendEmail({
       to_email: job.owner?.email || env.ADMIN_EMAIL,
@@ -56,9 +64,7 @@ export async function POST(req: Request) {
     });
 
     const admin = await db.user.findFirst({
-      where: {
-        email: env.ADMIN_EMAIL,
-      },
+      where: { email: env.ADMIN_EMAIL },
     });
 
     const notificationMessage = `New job application received from ${user.email}. For job title: ${job.title}. Please login to view and respond.`;
