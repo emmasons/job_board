@@ -100,7 +100,7 @@ const page = async (props: Props) => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 p-4 shadow-[0_2px_5px_rgb(0,0,0,0.1)]">
                   <Link
-                    href={`/create-cover-letter/templates?jobId=${props.params.jobId}`}
+                    href={`/generate-cover-letter?jobId=${props.params.jobId}`}
                     className="inline-flex items-center justify-center rounded bg-sky-500 px-4 py-2 text-white font-medium hover:bg-sky-600 transition"
                     target="_blank"
                   >

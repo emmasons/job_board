@@ -1,5 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function JobTuneModal({
@@ -79,7 +80,7 @@ export default function JobTuneModal({
           <div className="space-y-4">
             {!fallbackMode && (
               <div className="flex justify-center mb-4">
-                <img src="/tailorcv.jpg" alt="Tailor CV Illustration" className="h-auto" />
+                <Image src="/tailorcv.jpg" alt="Tailor CV Illustration" className="h-auto" />
               </div>
             )}
             <h2 className="text-lg font-semibold">

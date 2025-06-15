@@ -1,6 +1,7 @@
 import { getCurrentSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { FileText, Pencil } from "lucide-react";
+import Image from "next/image";
 import DeleteCvButton from "@/components/DeleteCvButton";
 import Link from "next/link";
 
@@ -55,7 +56,7 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                   <div className="relative group">
                     {cv.previewImageUrl ? (
                       <>
-                        <img
+                        <Image
                           src={cv.previewImageUrl}
                           alt="CV Preview"
                           className="w-full object-cover rounded-md mb-4"
@@ -135,7 +136,7 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                   <div className="relative group">
                     {cv.previewImageUrl ? (
                       <>
-                        <img
+                        <Image
                           src={cv.previewImageUrl}
                           alt="CV Preview"
                           className="w-full object-cover rounded-md mb-4"
@@ -206,7 +207,7 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                 <div className="relative group">
                   {cv.previewImageUrl ? (
                     <>
-                      <img
+                      <Image
                         src={cv.previewImageUrl}
                         alt="CV Preview"
                         className="w-full object-cover rounded-md mb-4"

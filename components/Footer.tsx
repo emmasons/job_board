@@ -20,6 +20,7 @@ const Footer = (props: Props) => {
             © {new Date().getFullYear()} Talentra Limited
           </p>
         </div>
+
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">Follow us</h2>
           <ul>
@@ -88,6 +89,7 @@ const Footer = (props: Props) => {
             </li>
           </ul>
         </div>
+
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">About us</h2>
           <div className="flex flex-col">
@@ -95,40 +97,54 @@ const Footer = (props: Props) => {
               href="/cv-services"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:file-account-outline" className="h-4 w-4" />
               AI CV Builder
+            </Link>
+            <Link
+              href="/cover-letter-services"
+              className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
+            >
+              <Icon icon="mdi:file-document-edit-outline" className="h-4 w-4" />
+              AI Cover Letter
             </Link>
             <Link
               href="/about"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:information-outline" className="h-4 w-4" />
               About Talentra
             </Link>
             <Link
               href="/privacy-policy"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:lock-outline" className="h-4 w-4" />
               Privacy Policy
             </Link>
             <Link
               href="/terms-and-conditions"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:file-document-outline" className="h-4 w-4" />
               Terms and Conditions
             </Link>
             <Link
               href="/FAQs"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:help-circle-outline" className="h-4 w-4" />
               FAQs
             </Link>
             <Link
               href="/blog"
               className="inline-flex items-center gap-2 hover:text-slate-300 hover:underline"
             >
+              <Icon icon="mdi:book-open-page-variant-outline" className="h-4 w-4" />
               Blog
             </Link>
           </div>
         </div>
+
         <div className="space-y-2 text-white">
           <h2 className="text-lg font-bold">Subscribe to our newsletter</h2>
           <SubscriptionForm type={SUBSCRIPTION_TYPE.NEWSLETTER} />

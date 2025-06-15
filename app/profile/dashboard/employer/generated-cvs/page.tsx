@@ -1,6 +1,9 @@
 import { getCurrentSessionUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { FileText, Pencil, Trash2 } from "lucide-react";
+import Image from "next/image";
+import CoverDownloadButton from "@/components/CoverDownloadButton";
+import DeleteCoverButton from "@/components/DeleteCoverButton";
 import DeleteCvButton from "@/components/DeleteCvButton";
 import CvDownloadButton from "@/components/CvDownloadButton";
 import Link from "next/link";
@@ -33,6 +36,16 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
     db.generatedCv.count({ where: { userId: user.id } }),
   ]);
 
+  const [covers, totalCount2] = await Promise.all([
+      db.generatedCover.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: PAGE_SIZE,
+      }),
+      db.generatedCover.count({ where: { userId: user.id } }),
+    ]);
+
   const userSubscription = await db.subscriptionPlan.findFirst({
     where: { userId: user?.id },
     orderBy: { createdAt: 'desc' },
@@ -58,9 +71,11 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                 <div className="relative group">
                   {cv.previewImageUrl ? (
                     <>
-                      <img
+                      <Image
                         src={cv.previewImageUrl}
                         alt="CV Preview"
+                        width={700}
+                        height={900}
                         className="w-full object-cover rounded-md mb-4"
                       />
                       <Link
@@ -130,6 +145,90 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
           </div>
         </>
       )}
+
+      <h1 className="text-3xl font-bold mb-6 mt-6">My Generated Cover Letters</h1>
+      
+            {covers.length === 0 ? (
+              <p>You haven’t generated any Cover Letters yet.</p>
+            ) : (
+              <>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {covers.map((cover) => (
+                    <div
+                      key={cover.id}
+                      className="bg-white rounded-xl shadow p-4 flex flex-col justify-between"
+                    >
+                      <div className="relative group">
+                        {cover.previewImageUrl ? (
+                          <>
+                            <Image
+                              src={cover.previewImageUrl}
+                              alt="CV Preview"
+                              width={700}
+                              height={900}
+                              className="w-full object-cover rounded-md mb-4"
+                            />
+                            <Link
+                              href={cover.previewImageUrl}
+                              target="_blank"
+                              className="absolute inset-0 flex items-center justify-center bg-black/40 text-white opacity-0 group-hover:opacity-100 transition rounded-md mb-9"
+                            >
+                              Preview
+                            </Link>
+                          </>
+                        ) : (
+                          <div className="h-48 flex items-center justify-center bg-gray-100 rounded-md mb-4">
+                            <FileText className="w-10 h-10 text-gray-400" />
+                          </div>
+                        )}
+                        <p className="text-sm text-gray-500">
+                          Created: {new Date(cover.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+      
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <CoverDownloadButton
+                          cvId={cover.id}
+                          fileUrl={cover.fileUrl}
+                          paymentStatus={cover.paymentStatus}
+                          subscription={userSubscription}
+                        />
+      
+                        <Link
+                          href={`/cover/edit/${cover.id}`}
+                          className="px-3 py-1 text-sm flex items-center gap-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200"
+                        >
+                          <Pencil size={16} /> Edit
+                        </Link>
+      
+                        <DeleteCoverButton cvId={cover.id} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+      
+                {/* Pagination Controls */}
+                <div className="flex justify-center gap-4 mt-10">
+                  {currentPage > 1 && (
+                    <Link
+                      href={`?page=${currentPage - 1}`}
+                      className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      Previous
+                    </Link>
+                  )}
+                  {currentPage < totalPages && (
+                    <Link
+                      href={`?page=${currentPage + 1}`}
+                      className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      Next
+                    </Link>
+                  )}
+                </div>
+              </>
+            )}
+
     </div>
   );
 }

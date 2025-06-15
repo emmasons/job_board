@@ -12,10 +12,10 @@ const Common: React.FC = () => {
         HOME
       </Link>
       <Link
-        href="/find-candidates"
+        href="/generate-cv"
         className="flex items-center rounded-lg p-4 text-sm font-medium uppercase text-gray-700 hover:text-orange-500"
       >
-        Search cv
+        AI CV BUILDER
       </Link>
     </div>
   );

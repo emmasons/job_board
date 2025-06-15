@@ -3,27 +3,19 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Logo01 from "@/public/templates/modern.jpg";
-import Logo02 from "@/public/templates/compact.jpg";
-import Logo03 from "@/public/templates/hybrid.jpg";
-import Logo04 from "@/public/templates/elegant.jpg";
-import Logo05 from "@/public/templates/creative.jpg";
-import Logo06 from "@/public/templates/classic.jpg";
-import Logo07 from "@/public/templates/minimalist.jpg";
-import Logo08 from "@/public/templates/excecutive.jpg";
+import Logo01 from "@/public/templates/polish.jpg";
+import Logo02 from "@/public/templates/aspire.jpg";
+import Logo03 from "@/public/templates/impact.jpg";
+import Logo04 from "@/public/templates/spark.jpg";
 
 const templates = [
-  { src: Logo01, alt: "Modern" },
-  { src: Logo02, alt: "Compact" },
-  { src: Logo03, alt: "Hybrid" },
-  { src: Logo04, alt: "Elegant" },
-  { src: Logo05, alt: "Creative" },
-  { src: Logo06, alt: "Classic" },
-  { src: Logo07, alt: "Minimalist" },
-  { src: Logo08, alt: "Executive" },
+  { src: Logo01, alt: "Polish" },
+  { src: Logo02, alt: "Aspire" },
+  { src: Logo03, alt: "Impact" },
+  { src: Logo04, alt: "Spark" },
 ];
 
-export default function CvLandingCategories() {
+export default function CoverLandingCategories() {
   const [selectedImage, setSelectedImage] = useState<{ src: any; alt: string } | null>(null);
 
   return (
@@ -33,7 +25,7 @@ export default function CvLandingCategories() {
           {templates.map((template, index) => (
             <button
               key={index}
-              className="border rounded bg-white hover:shadow-lg transition"
+              className="border rounded  bg-white hover:shadow-lg transition"
               onClick={() => setSelectedImage(template)}
             >
               <Image
@@ -73,7 +65,7 @@ export default function CvLandingCategories() {
                   {selectedImage.alt} Template
                 </h3>
                 {selectedImage?.alt && (
-                <Link  href={`/generate-cv?template=${selectedImage.alt.toLowerCase()}`}>
+                <Link  href={`/generate-cover-letter?template=${selectedImage.alt.toLowerCase()}`}>
                     <button className="px-4 py-2 bg-primary/70 text-white rounded hover:bg-primary/80 transition">
                     → Use This Template
                     </button>
