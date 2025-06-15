@@ -5,7 +5,7 @@ import CvLandingCta from "@/components/CvLandingCta";
 import Hero from "@/components/CvLandingHome";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "CV Services",
+  title: "AI CV builder",
   description:
     "Enhance your job applications with professional CV services from talentra.io. Get expert help in crafting a standout resume and cover letter to boost your job search.",
 };

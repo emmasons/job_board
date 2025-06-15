@@ -154,6 +154,7 @@ model User {
   applications              Application[]
   cv                        CV?
   generatedCvs              GeneratedCv[] // one-to-many relationship with GeneratedCv
+  generatedCovers           GeneratedCover[] // one-to-many relationship with GeneratedCover
   transaction               Transaction[] // one-to-many relationship with Transaction
   candidates                Candidate[]
   Job                       Job[]
@@ -758,6 +759,28 @@ enum PaymentStatus {
 enum FileFormat {
   pdf
   word
+}
+
+model GeneratedCover {
+  id              String      @id @default(cuid())
+  userId          String
+  full_name       String?
+  job_title       String?
+  address         String?
+  email           String?     
+  phone_number    String?     
+  company_name    String?     
+  job_applied     String?     
+  hiring_manager_name        String?  
+  cover_letter_body        Json? 
+  fileName        String? 
+  fileUrl         String?     
+  createdAt       DateTime    @default(now())
+  template        String?     // Name of the template file
+  fileFormat      FileFormat?
+  paymentStatus   PaymentStatus @default(unpaid)
+  previewImageUrl String?
+  user            User        @relation(fields: [userId], references: [id])
 }
 
 model Transaction {

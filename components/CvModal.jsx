@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import Image from "next/image";
 import { toBase64 } from '@/lib/toBase64';
 
 const CvModal = ({ onClose, onAutofill }) => {
@@ -88,8 +89,16 @@ const CvModal = ({ onClose, onAutofill }) => {
           {step === 1 && (
             <div className="text-center">
               <div className="flex justify-center mb-4">
-                <img src="/cvmakerillustration.png" alt="CV Illustration" className="h-auto" />
+                <Image
+                  src="/cvmakerillustration.png"
+                  alt="CV Illustration"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto"
+                />
               </div>
+
+
               <h2 className="text-xl font-semibold mb-2">Are you Uploading a Current CV?</h2>
               <p className="text-gray-600 mb-6">We’ll personalize your CV in just a few steps.</p>
               <div className="flex justify-center gap-4">
