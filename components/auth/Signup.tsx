@@ -19,16 +19,12 @@ import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Role } from "@prisma/client";
-import { createId } from "@paralleldrive/cuid2";
-import FileDrop from "@/components/FileDrop";
 
 type Props = {
   role: Role;
 };
 
 const Signup = ({ role }: Props) => {
-  const [cvFile, setCvFile] = useState<File[] | null>([]);
-  const cvId = createId();
   const router = useRouter();
   const { toast } = useToast();
   const formSchema = z
@@ -85,12 +81,8 @@ const Signup = ({ role }: Props) => {
       formData.append("firstName", values.firstName);
       formData.append("lastName", values.lastName);
       formData.append("phoneNumber", values.phoneNumber);
-      formData.append("occupation", values.occupation);
       formData.append("role", role);
-      formData.append("cvId", cvId);
-      if (cvFile) {
-        formData.append("cvFile", cvFile[0]);
-      }
+
       const res = await fetch("/api/users/", {
         method: "POST",
         body: formData,
@@ -176,23 +168,6 @@ const Signup = ({ role }: Props) => {
               </FormItem>
             )}
           />
-          <div>
-            <FileDrop setFiles={setCvFile} />
-          </div>
-          {/* <p className="text-red-500">
-            {cvFile?.length === 0 && "Please upload your cv"}
-          </p> */}
-          {cvFile && cvFile?.length > 0 && (
-            <div className="flex justify-between">
-              <p className="text-secondary">CV: {cvFile[0]?.name}</p>
-              <p
-                onClick={() => setCvFile(null)}
-                className="cursor-pointer text-secondary"
-              >
-                Remove &times;
-              </p>
-            </div>
-          )}
           <FormField
             control={form.control}
             name="password"

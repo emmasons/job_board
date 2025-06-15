@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
     firstName,
     lastName,
     phoneNumber,
-    cvFile,
     city,
     country,
     addressLineOne,
@@ -31,8 +30,6 @@ export async function POST(req: NextRequest) {
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    cvId: string;
-    cvFile: File;
     city: string;
     country: string;
     postalCode: string;
@@ -46,23 +43,6 @@ export async function POST(req: NextRequest) {
         { message: "All fields are required." },
         { status: 400 },
       );
-    }
-
-    if (role === Role.JOB_SEEKER && (!cvFile || !cvFile?.name)) {
-      return NextResponse.json(
-        { message: "Please upload your CV." },
-        { status: 400 },
-      );
-    } else {
-      const extension = cvFile?.name.split(".").pop();
-      // const extension = getFileExtension(cvFile);
-      // console.log(extension);
-      if (extension && extension !== "pdf") {
-        return NextResponse.json(
-          { message: "Please upload a PDF file." },
-          { status: 400 },
-        );
-      }
     }
 
     const duplicate = await db.user.findUnique({ where: { email: email } });
@@ -83,12 +63,14 @@ export async function POST(req: NextRequest) {
         role,
       },
     });
+
     if (role === Role.EMPLOYER) {
       const employerProfile = await db.employerProfile.create({
         data: {
           userId: user.id,
         },
       });
+
       await db.address.create({
         data: {
           city,
@@ -98,6 +80,7 @@ export async function POST(req: NextRequest) {
           userId: user.id,
         },
       });
+
       await db.company.create({
         data: {
           companyName,
@@ -106,32 +89,11 @@ export async function POST(req: NextRequest) {
         },
       });
     }
+
     await db.profile.create({
       data: { userId: user.id, firstName, lastName, phoneNumber },
     });
-    if (role === Role.JOB_SEEKER) {
-      const cv = await db.cV.create({
-        data: {
-          userId: user.id,
-        },
-      });
-      const props = {
-        file: cvFile,
-        assetId: cv.id,
-        contentType: cvFile.type,
-        customFileName: `cv/${user.id}/${cvFile.name}`,
-      };
-      const cloudResponse = await uploadFileToLocalStorage(props);
-      if (cloudResponse.status !== 200) {
-        await db.user.delete({ where: { id: user.id } });
-        return NextResponse.json(
-          {
-            message: "There was an error uploading your CV. Please try again.",
-          },
-          { status: 500 },
-        );
-      }
-    }
+
     const hashedToken = await bcrypt.hash(user.id.toString(), 10);
     await db.user.update({
       where: { id: user.id },
@@ -140,9 +102,11 @@ export async function POST(req: NextRequest) {
         verifyTokenExpiry: new Date(Date.now() + 3600000),
       },
     });
+
     const toEmail = user.email;
-    const emailVerificationMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}">here<a/>&nbsp;to verifiy your email. Or copy and paste the email below to your browser <br>${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}</a></p>`;
+    const emailVerificationMessage = `<p>Please click <a href="${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}">here</a> to verify your email. Or copy and paste the link below in your browser:<br>${env.BASE_DOMAIN}/auth/verify-email?t=${hashedToken}</p>`;
     const subject = "Verify your email";
+
     await sendEmail({
       to_email: toEmail,
       subject,
@@ -155,41 +119,11 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.log("Registration error:", error);
-
-    try {
-      // Only attempt cleanup if we have an email to work with
-      if (email) {
-        const user = await db.user.findUnique({
-          where: { email: email },
-        });
-
-        // Only proceed with cleanup if the user exists
-        if (user) {
-          // First check and delete any CVs associated with this user
-          const existingCVs = await db.cV.findMany({
-            where: { userId: user.id },
-          });
-
-          if (existingCVs.length === 1) {
-            await db.cV.delete({
-              where: { id: existingCVs[0].id },
-            });
-          } else if (existingCVs.length > 1) {
-            await db.cV.deleteMany({
-              where: { userId: user.id },
-            });
-          }
-
-          // Then delete the user
-          await db.user.delete({
-            where: { id: user.id },
-          });
-        }
-      }
-    } catch (cleanupError) {
-      console.log("Error during cleanup:", cleanupError);
-    }
-
-    return NextResponse.json({ message: "Registration failed", error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { message: "Something went wrong. Please try again." },
+      { status: 500 },
+    );
   }
+
+
 }
