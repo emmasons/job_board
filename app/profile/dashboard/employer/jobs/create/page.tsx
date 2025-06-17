@@ -54,6 +54,7 @@ const page = async () => {
           occupation: "",
           numberOfPositions: "1",
           workSchedule: "",
+          companyName: "",
           educationLevelId: "",
           experienceId: "",
           sectorId: "",

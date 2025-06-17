@@ -110,11 +110,16 @@ const PageWrapper = ({
         <h1 className="text-3xl font-bold text-zinc-700">{job?.title}</h1>
         {!job?.companyEmail2 && (
           <>
-            {job?.confidential && (
-              <p className="text-xl">Company: {job?.company?.companyName}</p>
+            {job?.companyName ? (
+              <p className="text-xl">Company: {job.companyName}</p>
+            ) : (
+              job?.confidential && (
+                <p className="text-xl">Company: {job?.company?.companyName}</p>
+              )
             )}
           </>
         )}
+
 
       </div>
       <div className="mt-6">
@@ -143,13 +148,14 @@ const PageWrapper = ({
             <span className="font-semibold">Location:</span> {job?.city},{" "}
             {job?.country}
           </p>
-          {!job?.companyEmail2 && (
+        {!job?.companyEmail2 && (
           <>
-            {job?.confidential && (
-              <p className="text-lg">
-                <span className="font-semibold">Employer:</span>{" "}
-                {job?.company?.companyName || job?.companyName || "N/A"}
-              </p>
+            {job?.companyName ? (
+              <p className="text-lg "><span className="font-semibold">Employer: </span>{job.companyName}</p>
+            ) : (
+              job?.confidential && (
+                <p className="text-lg"><span className="font-semibold">Employer: </span> {job?.company?.companyName}</p>
+              )
             )}
           </>
         )}
@@ -157,89 +163,104 @@ const PageWrapper = ({
 
         <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
           {/* Left Section: How to Apply or Apply Button */}
-            <div className="flex flex-col">
-              {job?.companyEmail2 ? (
-                <>
-                  {/* Subscription Logic */}
-                  {!subscription || subscription?.status !== 'ACTIVE' || new Date(subscription?.endDate) < new Date() ? (
-                    <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
-                      <p className="mb-2 font-semibold">
-                        This is a Premium Job, You need to subscribe to the <span className="font-bold text-primary">Standard Plan</span> to view employer details and apply directly.
-                      </p>
-                      <Link
-                        href="/subscription/plans"
-                        className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
-                      >
-                        <Icon icon="mdi:credit-card-outline" className="text-white" />
-                        View Plans
-                      </Link>
-                    </div>
-                  ) : subscription?.plan.name === 'BASIC' || subscription?.plan.name === 'FREE' ? (
-                    <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
-                      <p className="mb-2 font-semibold">
-                        You need to upgrade to a higher plan to View the employer details and apply directly.
-                      </p>
-                      <Link
-                        href="/subscription/plans"
-                        className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
-                      >
-                        <Icon icon="mdi:arrow-up-bold-circle-outline" className="text-white" />
-                        Upgrade Plan
-                      </Link>
-                    </div>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => setShowHowToApply(!showHowToApply)}
-                        className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
-                      >
-                        <Icon icon="mdi:email-send-outline" className="text-white" />
-                        How to Apply
-                      </button>
+           <div className="flex flex-col">
+            {job?.companyEmail2 ? (
+              <>
+                {/* Subscription Logic */}
+                {!subscription || subscription?.status !== 'ACTIVE' || new Date(subscription?.endDate) < new Date() ? (
+                  <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
+                    <p className="mb-2 font-semibold">
+                      This is a Premium Job, You need to subscribe to the <span className="font-bold text-primary">Standard Plan</span> to view employer details and apply directly.
+                    </p>
+                    <Link
+                      href="/subscription/plans"
+                      className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
+                    >
+                      <Icon icon="mdi:credit-card-outline" className="text-white" />
+                      View Plans
+                    </Link>
+                  </div>
+                ) : subscription?.plan.name === 'BASIC' || subscription?.plan.name === 'FREE' ? (
+                  <div className="mt-4 w-full max-w-md rounded-md bg-yellow-50 p-4 border border-yellow-300 text-yellow-800 shadow">
+                    <p className="mb-2 font-semibold">
+                      You need to upgrade to a higher plan to View the employer details and apply directly.
+                    </p>
+                    <Link
+                      href="/subscription/plans"
+                      className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
+                    >
+                      <Icon icon="mdi:arrow-up-bold-circle-outline" className="text-white" />
+                      Upgrade Plan
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setShowHowToApply(!showHowToApply)}
+                      className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
+                    >
+                      <Icon icon="mdi:email-send-outline" className="text-white" />
+                      How to Apply
+                    </button>
 
-                      {showHowToApply && (
-                        <div className="mt-4 w-full max-w-md rounded-lg border border-gray-200 bg-gray-50 p-5 shadow-md space-y-4">
-                          <div className="flex items-start gap-2">
-                            <Icon icon="mdi:office-building-outline" className="text-primary text-xl" />
-                            <div>
-                              <p className="text-sm text-gray-500">Company Name</p>
-                              <p className="text-base font-medium text-gray-800">{job?.companyName2}</p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-start gap-2">
-                            <Icon icon="mdi:email-outline" className="text-primary text-xl" />
-                            <div>
-                              <p className="text-sm text-gray-500">Company Email</p>
-                              <p className="text-base text-blue-600 underline">
-                                <a href={`mailto:${job?.companyEmail2}`}>{job?.companyEmail2}</a>
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-start gap-2">
-                            <Icon icon="mdi:information-outline" className="text-primary text-xl mt-1" />
-                            <div>
-                              <p className="text-sm text-gray-500">How to Apply</p>
-                              <p className="text-base text-gray-700 whitespace-pre-line">
-                                {job?.howToApply2}
-                              </p>
-                            </div>
+                    {showHowToApply && (
+                      <div className="mt-4 w-full max-w-md rounded-lg border border-gray-200 bg-gray-50 p-5 shadow-md space-y-4">
+                        <div className="flex items-start gap-2">
+                          <Icon icon="mdi:office-building-outline" className="text-primary text-xl" />
+                          <div>
+                            <p className="text-sm text-gray-500">Company Name</p>
+                            <p className="text-base font-medium text-gray-800">{job?.companyName2}</p>
                           </div>
                         </div>
-                      )}
-                    </>
-                  )}
-                </>
-              ) : (
-                <Link
-                  href={`/jobs/${job?.id}/apply`}
-                  className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
-                >
-                  Apply
-                </Link>
-              )}
-            </div>
+
+                        <div className="flex items-start gap-2">
+                          <Icon icon="mdi:email-outline" className="text-primary text-xl" />
+                          <div>
+                            <p className="text-sm text-gray-500">Company Email</p>
+                            <p className="text-base text-blue-600 underline">
+                              <a href={`mailto:${job?.companyEmail2}`}>{job?.companyEmail2}</a>
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-2">
+                          <Icon icon="mdi:information-outline" className="text-primary text-xl mt-1" />
+                          <div>
+                            <p className="text-sm text-gray-500">How to Apply</p>
+                            <p className="text-base text-gray-700 whitespace-pre-line">
+                              {job?.howToApply2}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {job?.isExternal ?  (
+                  <a
+                    href={job?.externalLink ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
+                  >
+                    <Icon icon="mdi:open-in-new" className="text-white" />
+                    Apply Externally
+                  </a>
+                ) : (
+                  <Link
+                    href={`/jobs/${job?.id}/apply`}
+                    className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white"
+                  >
+                    <Icon icon="mdi:email-send-outline" className="text-white" />
+                    Apply
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
 
 
 

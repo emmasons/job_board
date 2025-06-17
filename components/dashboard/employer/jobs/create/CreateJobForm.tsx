@@ -52,6 +52,7 @@ interface CreateJobFormProps {
     experienceId: string;
     sectorId: string;
     salary: string;
+    companyName: string;
     companyName2: string;
     companyEmail2: string;
     howToApply2: string;
@@ -107,6 +108,7 @@ const formSchema = z.object({
   salaryPeriod: z.string().optional(),
   preferredApplicantGender: z.string().optional(),
   companyName2: z.string().optional(),
+  companyName: z.string().optional(),
   companyEmail2: z.string().optional(),
   howToApply2: z.string().optional(),
   isExternal: z.boolean().optional(),
@@ -566,23 +568,42 @@ export default function CreateJobForm({
               )}
             />
             {form.watch("isExternal") && (
-              <FormField
-                control={form.control}
-                name="externalLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>External Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="e.g. 'https://example.com'"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <>
+                <FormField
+                  control={form.control}
+                  name="companyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter company name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="externalLink"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>External Link</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="e.g. 'https://example.com'"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
             )}
             <div className="flex items-center gap-x-2">
               <Button disabled={isSubmitting} type="submit">
