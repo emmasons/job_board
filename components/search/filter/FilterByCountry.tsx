@@ -1,39 +1,48 @@
 "use client";
 
-import { CheckboxGroupForm } from "./checkbox-group-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useQueryParams from "@/hooks/useQueryParams";
+import { CheckboxGroupForm } from "./checkbox-group-form";
 
-type Props = {
-  countryList: {
-    id: string;
-    label: string;
-  }[];
-};
-
-const FilterByCountry = ({ countryList = [] }: Props) => {
+const FilterByCountry = () => {
   const { getParam } = useQueryParams();
   const countriesFilter = getParam("countriesFilter");
 
-  const defaultValues = [];
+  const [countryList, setCountryList] = useState<{ id: string; label: string }[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [showAll, setShowAll] = useState<boolean>(false);
-  const [filtersLimit, setFiltersLimit] = useState<number>(5);
+  const [showAll, setShowAll] = useState(false);
+  const [filtersLimit, setFiltersLimit] = useState(5);
 
-  const toggleShowAll = () => setShowAll((current) => !current);
+  const defaultValues: string[] = countriesFilter ? countriesFilter.split(",") : [];
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch("/api/posted-countries");
+        const data: string[] = await res.json();
+        const formatted = data.map((country) => ({
+          id: country,
+          label: country,
+        }));
+        setCountryList(formatted);
+      } catch (error) {
+        console.error("Failed to fetch countries", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const handleChangeFiltersLimit = () => {
-    toggleShowAll();
-    if (filtersLimit !== countryList.length && !showAll) {
-      setFiltersLimit(countryList.length);
-    } else {
-      setFiltersLimit(5);
-    }
+    setShowAll((prev) => !prev);
+    setFiltersLimit(showAll ? 5 : countryList.length);
   };
 
-  if (countriesFilter) {
-    const values = countriesFilter.split(",");
-    defaultValues.push(...values);
+  if (loading) {
+    return <p className="text-sm text-gray-500">Loading countries...</p>;
   }
 
   return (
@@ -44,19 +53,12 @@ const FilterByCountry = ({ countryList = [] }: Props) => {
         defaultValues={defaultValues}
         searchParamLabel="countriesFilter"
       />
-      {!showAll ? (
+      {countryList.length > 5 && (
         <p
           className="mt-2 cursor-pointer text-sky-600 underline hover:text-slate-500"
           onClick={handleChangeFiltersLimit}
         >
-          Show all
-        </p>
-      ) : (
-        <p
-          className="mt-2 cursor-pointer text-sky-600 underline hover:text-slate-500"
-          onClick={handleChangeFiltersLimit}
-        >
-          Collapse
+          {showAll ? "Collapse" : "Show all"}
         </p>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import {
   NOTIFICATION_TYPES,
   SUBSCRIPTION_TYPE,
@@ -26,6 +27,22 @@ export const gulfCountries = [
   "Australia",
   "Netherlands",
 ];
+
+export async function getPostedCountries() {
+  const countries = await db.job.findMany({
+    select: {
+      country: true,
+    },
+    distinct: ["country"],
+    where: {
+      country: {
+        not: null,
+      },
+    },
+  });
+
+  return countries.map((job) => job.country).filter(Boolean);
+}
 
 export const popularCities = [
   "New York",

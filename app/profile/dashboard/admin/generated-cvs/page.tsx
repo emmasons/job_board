@@ -56,9 +56,11 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                   <div className="relative group">
                     {cv.previewImageUrl ? (
                       <>
-                        <Image
+                         <Image
                           src={cv.previewImageUrl}
                           alt="CV Preview"
+                          width={700}
+                          height={900}
                           className="w-full object-cover rounded-md mb-4"
                         />
                         <Link
@@ -138,6 +140,8 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                       <>
                         <Image
                           src={cv.previewImageUrl}
+                          width={700}
+                          height={900}
                           alt="CV Preview"
                           className="w-full object-cover rounded-md mb-4"
                         />
@@ -209,6 +213,8 @@ export default async function MyCVsPage({ searchParams }: { searchParams: { page
                     <>
                       <Image
                         src={cv.previewImageUrl}
+                        width={700}
+                        height={900}
                         alt="CV Preview"
                         className="w-full object-cover rounded-md mb-4"
                       />
