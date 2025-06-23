@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LayoutDashboardIcon,
   Users,
+  BarChart2,
   Bell,
   BriefcaseBusiness,
   Eye,
@@ -101,6 +102,12 @@ const adminRoutes = [
     icon: Users2,
     label: "Users",
     href: "/profile/dashboard/admin/users",
+  },
+
+  {
+    icon: BarChart2,
+    label: "Metrics",
+    href: "/profile/dashboard/admin/metrics",
   },
 
   {
