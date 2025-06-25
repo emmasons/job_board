@@ -44,6 +44,12 @@ const ServicesDropdown: React.FC = () => {
             >
               AI Cover Letter Builder
             </Link>
+            <Link
+              href="/ats-checker"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500"
+            >
+              Resume ATS Checker
+            </Link>
           </li>
         </ul>
       </div>

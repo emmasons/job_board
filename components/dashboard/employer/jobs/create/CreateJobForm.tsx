@@ -99,12 +99,8 @@ const formSchema = z.object({
   workSchedule: z.string().min(1, {
     message: "Work schedule is required",
   }),
-  salary: z.string().min(1, {
-    message: "Salary is required",
-  }),
-  currency: z.string().min(1, {
-    message: "Currency is required",
-  }),
+  salary: z.string().optional(),
+  currency: z.string().optional(),
   salaryPeriod: z.string().optional(),
   preferredApplicantGender: z.string().optional(),
   companyName2: z.string().optional(),
@@ -175,6 +171,7 @@ export default function CreateJobForm({
 
   const [specifyGender, setSpecifyGender] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
+  const [includeSalary, setIncludeSalary] = useState(false);
 
   const btnText = isEditingJob ? "Save Job" : "Create Job";
   const url = isEditingJob ? `/api/jobs/${initialData.id}` : "/api/jobs";
@@ -272,52 +269,79 @@ export default function CreateJobForm({
                 </FormItem>
               )}
             />
-            <div className="gap-4 md:flex">
-              <FormField
-                control={form.control}
-                name="salary"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Salary</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isSubmitting}
-                        placeholder="e.g. 'USD 2500'"
-                        {...field}
-                        type="number"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="currency"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Currency</FormLabel>
-                    <FormControl>
-                      <Combobox options={currencyList} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="salaryPeriod"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Salary Period</FormLabel>
-                    <FormControl>
-                      <Combobox options={periodList} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="mb-4">
+              <p className="text-base font-medium">Include Salary?</p>
+              <div className="flex gap-4 mt-2">
+                <button
+                  type="button"
+                  onClick={() => setIncludeSalary(true)}
+                  className={`px-4 py-1 rounded border ${includeSalary ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIncludeSalary(false)}
+                  className={`px-4 py-1 rounded border ${!includeSalary ? 'bg-primary/70 text-white' : 'bg-white'}`}
+                >
+                  No
+                </button>
+              </div>
             </div>
+
+            {includeSalary && (
+              <div className="gap-4 md:flex">
+                {/* Salary */}
+                <FormField
+                  control={form.control}
+                  name="salary"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isSubmitting}
+                          placeholder="e.g. '2500'"
+                          {...field}
+                          type="number"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Currency */}
+                <FormField
+                  control={form.control}
+                  name="currency"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Currency</FormLabel>
+                      <FormControl>
+                        <Combobox options={currencyList} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Salary Period */}
+                <FormField
+                  control={form.control}
+                  name="salaryPeriod"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary Period</FormLabel>
+                      <FormControl>
+                        <Combobox options={periodList} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
 
             <FormField
               control={form.control}
