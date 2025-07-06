@@ -21,49 +21,44 @@ export const getAllJobs = async ({
   sectorFilter,
   jobTypeFilter,
 }: Params): Promise<JobsWithCompany[]> => {
-  const formattedTitle = title?.replace(/\s/g, "");
-  const countries: string[] = [];
-  if (countriesFilter) {
-    const formattedCountries = countriesFilter?.split(",");
-    countries.push(...formattedCountries);
-  }
+  // ──────────────────────────────────────────────
+  //   1. Normalise the search term
+  //   – trim, collapse whitespace and lower‑case
+  // ──────────────────────────────────────────────
+  const formattedTitle = title
+    ? title
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLowerCase()
+    : undefined;
 
-  const workSchedules: string[] = [];
-  if (workSchedule) {
-    const formatted = workSchedule?.split(",");
-    workSchedules.push(...formatted);
-  }
-
-  const sectors: string[] = [];
-  if (sectorFilter) {
-    const formatted = sectorFilter?.split(",");
-    sectors.push(...formatted);
-  }
+  // ––––– split comma‑separated filters –––––
+  const countries = countriesFilter?.split(",").filter(Boolean) ?? [];
+  const workSchedules = workSchedule?.split(",").filter(Boolean) ?? [];
+  const sectors = sectorFilter?.split(",").filter(Boolean) ?? [];
 
   try {
-    // Define the list of countries
+    // ––––– dynamic where‑clause pieces –––––
+    const countryCondition =
+      location
+        ? { country: location }
+        : countries.length
+          ? { country: { in: countries } }
+          : {};
 
-    // Determine the country condition for the query
-    const countryCondition = location
-      ? { country: location } // If location is provided, use it for the query
-      : countries.length > 0
-        ? { country: { in: countries } } // If the country list exists and is not empty, use it
-        : {}; // Otherwise, do not apply any country filter
-
-    // Determine the country condition for the query
     const workScheduleCondition =
-      workSchedules.length > 0
-        ? { workSchedule: { in: workSchedules } } // If the workSchedule list exists and is not empty, use it
-        : {}; // Otherwise, do not apply any workSchedule filter
+      workSchedules.length
+        ? { workSchedule: { in: workSchedules } }
+        : {};
 
     const sectorCondition =
-      sectors.length > 0
-        ? { sectorId: { in: sectors } } // If the workSchedule list exists and is not empty, use it
-        : {}; // Otherwise, do not apply any workSchedule filter
+      sectors.length
+        ? { sectorId: { in: sectors } }
+        : {};
 
     const jobTypeCondition = jobTypeFilter
-      ? { jobType: jobTypeFilter } // If the jobTypeFilter exists, use it as a condition
-      : {}; // Otherwise, do not apply any jobType filter
+      ? { jobType: jobTypeFilter }
+      : {};
 
     const jobs = await db.job.findMany({
       where: {
@@ -73,9 +68,9 @@ export const getAllJobs = async ({
         ...(formattedTitle
           ? {
               OR: [
-                { title: { contains: title, mode: "insensitive" } },
-                { description: { contains: title, mode: "insensitive" } },
-                { city: { contains: title, mode: "insensitive" } },
+                { title:       { contains: formattedTitle } },
+                { description: { contains: formattedTitle } },
+                { city:        { contains: formattedTitle } },
               ],
             }
           : {}),
