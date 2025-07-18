@@ -3,20 +3,22 @@
 import {
   Files,
   FileBarChart,
-  Settings,
   Users2,
   BriefcaseIcon,
-  LayoutDashboard,
   LayoutDashboardIcon,
   Users,
   BarChart2,
-  Bell,
-  BriefcaseBusiness,
-  Eye,
   FileText,
   FolderOutput,
   FolderInput,
   Logs,
+  Search,
+  FilePlus2,
+  FileSignature,
+  Globe2,
+  Info,
+  ShieldCheck,
+  HelpCircle,
 } from "lucide-react";
 
 import { usePathname } from "next/navigation";
@@ -24,40 +26,39 @@ import { SidebarItem } from "./SidebarItem";
 
 const guestRoutes = [
   {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    href: "/profile/dashboard/job-seeker/main-dashboard",
-  },
-
-  {
-    icon: Users2,
-    label: "My Profile",
-    href: "/profile/dashboard",
+    icon: Search,
+    label: "Job Search",
+    href: "/search",
   },
   {
-    icon: FileText,
-    label: "Generated CVs",
-    href: "/profile/dashboard/job-seeker/generated-cvs",
+    icon: FilePlus2,
+    label: "Create a CV",
+    href: "/generate-cv",
   },
   {
-    icon: Eye,
-    label: "Public Profile view",
-    href: "/profile/dashboard/job-seeker/profile-view",
+    icon: FileSignature,
+    label: "Cover Letter",
+    href: "/cover-letter-services",
   },
   {
-    icon: BriefcaseBusiness,
-    label: "Applied Jobs",
-    href: "/profile/dashboard/job-seeker/applied-jobs",
+    icon: Globe2,
+    label: "Visa Eligibility",
+    href: "/visa-eligibility-checker",
   },
   {
-    icon: Bell,
-    label: "My Job alerts",
-    href: "/profile/dashboard/job-seeker/alerts",
+    icon: Info,
+    label: "About Talentra",
+    href: "/about",
   },
   {
-    icon: Settings,
-    label: "Account Settings",
-    href: "/profile/settings",
+    icon: ShieldCheck,
+    label: "Privacy Policy",
+    href: "/privacy-policy",
+  },
+  {
+    icon: HelpCircle,
+    label: "FAQs",
+    href: "/FAQs",
   },
 ];
 
