@@ -4,6 +4,8 @@ import { useState } from "react";
 import { subscribeToPlan } from "@/actions/subscriptions";
 import { Check, X, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function SubscriptionPlans({
   plans,
@@ -20,48 +22,104 @@ export default function SubscriptionPlans({
     ANNUALLY: 10,
   };
 
-  const handleSubscribe = async (planId) => {
-    if (!isLoggedIn) {
-      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent("/subscription/plans")}`;
-      return;
-    }
+const MySwal = withReactContent(Swal);
 
-    setIsSubmitting(true);
-    setError("");
+const handleSubscribe = async (planId) => {
+  if (!isLoggedIn) {
+    window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent("/subscription/plans")}`;
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("planId", planId);
-    formData.append("billingCycle", selectedCycle);
+  const { value: method } = await MySwal.fire({
+    title: "Choose Payment Method",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "M-Pesa",
+    cancelButtonText: "Card",
+    reverseButtons: true,
+  });
 
-    try {
+  let selectedMethod = method ? "mpesa" : "card"; // Based on confirm/cancel
+
+  if (!["mpesa", "card"].includes(selectedMethod)) {
+    await MySwal.fire("Invalid Method", "Please select a valid payment method.", "error");
+    return;
+  }
+
+  setIsSubmitting(true);
+  setError("");
+
+  const formData = new FormData();
+  formData.append("planId", planId);
+  formData.append("billingCycle", selectedCycle);
+
+  try {
+    if (selectedMethod === "card") {
+      // Existing PayPal/card flow
       const result = await subscribeToPlan(formData);
 
       if (result.success) {
-        if (result.redirectUrl) {
-          window.location.href = result.redirectUrl;
-        } else {
-          window.location.href = "/subscription/plans";
-        }
+        await MySwal.fire("Success", "Subscription successful!", "success");
+        window.location.href = result.redirectUrl || "/subscription/plans";
       } else if (result.retryRedirect) {
-        alert(result.error || "Payment was declined. Try another method.");
+        await MySwal.fire("Payment Declined", result.error || "Try another method.", "warning");
         window.location.href = result.retryRedirect;
       } else {
         setError(result.error || "Failed to process subscription");
+        await MySwal.fire("Error", result.error || "Failed to process subscription", "error");
       }
 
-    } catch (err) {
-      console.error("Unexpected subscription error:", err);
+    } else if (selectedMethod === "mpesa") {
+      const { value: phone } = await MySwal.fire({
+        title: "Enter M-Pesa Phone Number",
+        input: "text",
+        inputLabel: "Format: 2547XXXXXXXX",
+        inputPlaceholder: "e.g. 254712345678",
+        confirmButtonText: "Pay Now",
+        inputValidator: (value) => {
+          if (!/^2547\d{8}$/.test(value)) {
+            return "Invalid phone number format. Use 2547XXXXXXXX.";
+          }
+          return null;
+        },
+      });
 
-      const fallback =
-        err?.response?.data?.details?.[0]?.description ||
-        err?.message ||
-        "An unexpected error occurred";
+      if (!phone) {
+        return;
+      }
 
-      setError(fallback);
-    } finally {
-      setIsSubmitting(false);
+      const response = await fetch("/api/payments/mpesa-initiate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planId,
+          billingCycle: selectedCycle,
+          phone,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        await MySwal.fire("Payment Initiated", "M-Pesa push sent to your phone. Please approve to complete subscription.", "success");
+      } else {
+        setError(result.error || "Failed to initiate M-Pesa payment.");
+        await MySwal.fire("Error", result.error || "Failed to initiate M-Pesa payment.", "error");
+      }
     }
-  };
+
+  } catch (err) {
+    console.error("Unexpected subscription error:", err);
+    const fallback =
+      err?.response?.data?.details?.[0]?.description ||
+      err?.message ||
+      "An unexpected error occurred";
+    setError(fallback);
+    await MySwal.fire("Error", fallback, "error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // Check if the current plan is active
   const isCurrentPlan = (planId) => {

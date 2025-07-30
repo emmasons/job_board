@@ -97,6 +97,8 @@
     "smtp-server": "^3.13.3",
     "string-similarity": "^4.0.4",
     "supertest": "^6.3.4",
+    "sweetalert2": "^11.22.2",
+    "sweetalert2-react-content": "^5.1.0",
     "swiper": "^11.2.6",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.0.0",
