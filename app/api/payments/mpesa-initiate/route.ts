@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         BusinessShortCode: process.env.DARAJA_SHORTCODE,
         Password: password,
         Timestamp: timestamp,
-        TransactionType: "CustomerPayBillOnline",
+        TransactionType: "CustomerBuyGoodsOnline",
         Amount: amount,
         PartyA: normalizedPhone,
         PartyB: process.env.DARAJA_SHORTCODE,
