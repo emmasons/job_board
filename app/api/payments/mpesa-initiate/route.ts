@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         TransactionType: "CustomerBuyGoodsOnline",
         Amount: amount,
         PartyA: normalizedPhone,
-        PartyB: process.env.DARAJA_SHORTCODE,
+        PartyB: process.env.DARAJA_TILL,
         PhoneNumber: normalizedPhone,
         CallBackURL: `${process.env.NEXTAUTH_URL}/api/payments/mpesa-callback`,
         AccountReference: `Plan-${planId}`,
