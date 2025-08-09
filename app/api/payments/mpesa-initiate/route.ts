@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         PartyA: normalizedPhone,
         PartyB: process.env.DARAJA_TILL,
         PhoneNumber: normalizedPhone,
-        CallBackURL: `${process.env.NEXTAUTH_URL2}/api/payments/mpesa-callback`,
+        CallBackURL: `${process.env.NEXTAUTH_URL}/api/payments/mpesa-callback`,
         AccountReference: `Plan-${planId}`,
         TransactionDesc: `Subscription to ${plan.name}`,
     }),
