@@ -107,7 +107,7 @@ const handleSubscribe = async (planId) => {
 
         const orderId = result.checkoutId;
         let attempts = 0;
-        const maxAttempts = 12; // ~1 minute at 5 sec intervals
+        const maxAttempts = 15; // ~1 minute at 3 sec intervals
 
         const interval = setInterval(async () => {
           attempts++;
@@ -122,7 +122,7 @@ const handleSubscribe = async (planId) => {
             clearInterval(interval);
             await MySwal.fire("Error", "Payment not completed in time.", "error");
           }
-        }, 5000);
+        }, 3000);
 
       } else {
         setError(result.error || "Failed to initiate M-Pesa payment.");

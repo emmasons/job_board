@@ -30,7 +30,8 @@ export async function POST(req: Request) {
     ? "254" + phone.slice(1)
     : phone;
 
-  const amount = Math.floor(plan.price);
+  // Convert USD to KES
+  const amount = Math.round(plan.price * 130);
 
   const stkPushRes = await fetch("https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest", {
     method: "POST",
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
         PartyA: normalizedPhone,
         PartyB: process.env.DARAJA_TILL,
         PhoneNumber: normalizedPhone,
-        CallBackURL: `${process.env.NEXTAUTH_URL}/api/payments/mpesa-callback`,
+        CallBackURL: `${process.env.NEXTAUTH_URL2}/api/payments/mpesa-callback`,
         AccountReference: `Plan-${planId}`,
         TransactionDesc: `Subscription to ${plan.name}`,
     }),
