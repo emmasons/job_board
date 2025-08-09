@@ -8,11 +8,10 @@ export async function getOverviewData() {
   const prevStart = startOfMonth(subMonths(now, 1));
   const prevEnd = endOfMonth(subMonths(now, 1));
 
-  // Fetch subscriptions for current and previous month
+  // Fetch ALL subscriptions for current and previous month (remove status filter)
   const currentPlans = await db.SubscriptionPlan.findMany({
     where: {
       startDate: { gte: currentStart, lte: currentEnd },
-      status: "ACTIVE",
     },
     include: { plan: true },
   });
@@ -20,7 +19,6 @@ export async function getOverviewData() {
   const previousPlans = await db.SubscriptionPlan.findMany({
     where: {
       startDate: { gte: prevStart, lte: prevEnd },
-      status: "ACTIVE",
     },
     include: { plan: true },
   });
@@ -31,14 +29,12 @@ export async function getOverviewData() {
   const currentRevenue = sumPrices(currentPlans);
   const previousRevenue = sumPrices(previousPlans);
 
-  // All-time active subscribers (status = ACTIVE)
+  // All-time active subscribers
   const allTimeSubscribers = await db.SubscriptionPlan.count({
-    where: {
-      status: "ACTIVE",
-    },
+    where: { status: "ACTIVE" },
   });
 
-  // Current & previous month active subscribers
+  // Current & previous month subscriber counts (still actual counts of records fetched)
   const currentSubscribers = currentPlans.length;
   const previousSubscribers = previousPlans.length;
 
