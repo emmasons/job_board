@@ -39,7 +39,7 @@ const handleSubscribe = async (planId) => {
     reverseButtons: true,
   });
 
-  let selectedMethod = method ? "mpesa" : "card"; // Based on confirm/cancel
+  let selectedMethod = method ? "mpesa" : "card";
 
   if (!["mpesa", "card"].includes(selectedMethod)) {
     await MySwal.fire("Invalid Method", "Please select a valid payment method.", "error");
@@ -84,9 +84,7 @@ const handleSubscribe = async (planId) => {
         },
       });
 
-      if (!phone) {
-        return;
-      }
+      if (!phone) return;
 
       const response = await fetch("/api/payments/mpesa-initiate", {
         method: "POST",
@@ -101,7 +99,31 @@ const handleSubscribe = async (planId) => {
       const result = await response.json();
 
       if (result.success) {
-        await MySwal.fire("Payment Initiated", "M-Pesa push sent to your phone. Please approve to complete subscription.", "success");
+        await MySwal.fire(
+          "Payment Initiated",
+          "M-Pesa push sent to your phone. Please approve to complete subscription.",
+          "success"
+        );
+
+        const orderId = result.checkoutId;
+        let attempts = 0;
+        const maxAttempts = 12; // ~1 minute at 5 sec intervals
+
+        const interval = setInterval(async () => {
+          attempts++;
+          const statusRes = await fetch(`/api/payments/mpesa-status?orderId=${orderId}`);
+          const statusData = await statusRes.json();
+
+          if (statusData.status === "COMPLETED") {
+            clearInterval(interval);
+            await MySwal.fire("Success", "Subscription activated!", "success");
+            window.location.reload();
+          } else if (statusData.status === "FAILED" || attempts >= maxAttempts) {
+            clearInterval(interval);
+            await MySwal.fire("Error", "Payment not completed in time.", "error");
+          }
+        }, 5000);
+
       } else {
         setError(result.error || "Failed to initiate M-Pesa payment.");
         await MySwal.fire("Error", result.error || "Failed to initiate M-Pesa payment.", "error");
