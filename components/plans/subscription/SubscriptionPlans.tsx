@@ -186,13 +186,13 @@ const handleSubscribe = async (planId) => {
 
         <div className="grid gap-10 bg-slate-100 p-6 md:grid-cols-3">
           {reorderedPlans.map((plan, index) => {
+            // Skip rendering the plan at index 2 (Lifetime Plan)
+            if (index === 2) return null;
+
             const features = plan.planFeatures.map((pf) => pf.feature);
             const isCurrentUserPlan = isCurrentPlan(plan.id);
 
-            // Highlight the 2nd plan (index 1) as "Recommended" if there's no current subscription
             const isRecommendedPlan = !currentSubscription && index === 1;
-
-            // Make the plan after the recommended (index 2) show "Lifetime" instead of the selected cycle
             const isLifetimePlan = !currentSubscription && index === 2;
 
             const adjustedPrice = isLifetimePlan
@@ -211,7 +211,9 @@ const handleSubscribe = async (planId) => {
                 key={plan.id}
                 className={`group overflow-hidden rounded-lg bg-white shadow-lg 
                   transition-all duration-300 ease-out
-                  ${(isCurrentUserPlan || isRecommendedPlan) ? "scale-105 ring-2 ring-primary" : ""} 
+                  ${(isCurrentUserPlan || isRecommendedPlan)
+                    ? "scale-105 ring-2 ring-primary"
+                    : ""} 
                   hover:-translate-y-2 hover:scale-[1.02]
                   hover:shadow-2xl`}
               >
@@ -227,7 +229,9 @@ const handleSubscribe = async (planId) => {
                   <div className="mb-4">
                     <span className="text-3xl font-bold">${adjustedPrice}</span>
                     <span className="text-gray-500">
-                      /{isLifetimePlan ? "Lifetime" : selectedCycle.toLowerCase() === "monthly"
+                      /{isLifetimePlan
+                        ? "Lifetime"
+                        : selectedCycle.toLowerCase() === "monthly"
                         ? "mo"
                         : selectedCycle.toLowerCase() === "quarterly"
                         ? "quarter"
@@ -267,6 +271,7 @@ const handleSubscribe = async (planId) => {
             );
           })}
         </div>
+
       </div>
     </section>
   );
